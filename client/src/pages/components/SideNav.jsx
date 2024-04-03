@@ -17,7 +17,7 @@ const SideNav = () => {
             
             <div className="fix top-0 left-0 w-[180px] border-2 border-l-gray-400 bg-side-nav-bg h-screen">
 
-             <div className="font-inter text-text-primary p-4 mb-3">
+             <div className="font-inter text-text-primary p-4 mb-8">
                  <p className="flex font-bold text-xl justify-center">Kalupahana</p>
                  <p className="flex justify-end font-semibold mr-6">Motors</p>
              </div>

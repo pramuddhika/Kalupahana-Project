@@ -16,6 +16,9 @@ export default {
       },
       fontFamily:{
         'inter' : ["Inter", "sans-serif"]
+      }, 
+      width: {
+        'calc': 'calc(100% - 180px)',
       }
     },
   },

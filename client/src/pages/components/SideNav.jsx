@@ -15,7 +15,7 @@ const SideNav = () => {
     return (
         <div>
             
-            <div className="fix top-0 left-0 w-[180px] border-2 border-l-gray-400 bg-side-nav-bg h-screen">
+            <div className="fix top-0 left-0 w-full border-2 border-l-gray-400 bg-side-nav-bg h-screen">
 
              <div className="font-inter text-text-primary p-4 mb-8">
                  <p className="flex font-bold text-xl justify-center">Kalupahana</p>
@@ -76,7 +76,7 @@ const SideNav = () => {
              </div>
 
              
-             <div className="fixed bottom-8 font-inter text-text-primary w-[180px]">
+             <div className=" font-inter text-text-primary w-[180px]">
                  <Link to='/shop/shopsetting'>
                      <div className='flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer'>
                        <Cog8ToothIcon className='h-6 w-6'/>

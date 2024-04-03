@@ -16,9 +16,13 @@ import ShopSetting from './pages/Shop/ShopSetting'
 
 const ShopLayout = () => {
   return (
-    <div className='flex'>
-      <SideNav/>
-      <Outlet/>
+    <div className='flex h-screen '>
+        <div className='w-[180px]'>
+        <SideNav/>
+        </div>
+        <div className='w-calc'>
+        <Outlet/>
+        </div>
     </div>
   );
 }

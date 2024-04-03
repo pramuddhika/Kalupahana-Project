@@ -3,9 +3,13 @@ import ShopHeader from '../components/ShopHeader'
 const Booking = () => {
     return (
         <div className=''>
-           
-            <ShopHeader/>
-            <p className='bg-pink-500 '>booking</p>
+            <ShopHeader pageName="Booking" />
+
+            {/**start sub navbar */}
+
+            {/**end sub nav bar */}
+            
+            <p className=''>booking</p>
             
            
         </div>

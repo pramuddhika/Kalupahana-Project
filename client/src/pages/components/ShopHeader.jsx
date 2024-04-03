@@ -1,5 +1,6 @@
 
-const WebBooking = () => {
+
+const ShopHeader = () => {
     return (
         <div>
             
@@ -7,4 +8,4 @@ const WebBooking = () => {
     );
 };
 
-export default WebBooking;
+export default ShopHeader;

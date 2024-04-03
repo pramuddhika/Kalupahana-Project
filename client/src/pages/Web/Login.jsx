@@ -3,7 +3,6 @@ import {ChevronLeftIcon} from '@heroicons/react/24/solid';
 import {Link} from 'react-router-dom'
 
 
-
 const Login = () => {
     return (
         <div className="flex w-10/12 mx-auto h-screen">

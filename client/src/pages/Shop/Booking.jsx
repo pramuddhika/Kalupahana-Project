@@ -6,10 +6,10 @@ const Booking = () => {
             <ShopHeader pageName="Booking" />
 
             {/**start sub navbar */}
-
+            
             {/**end sub nav bar */}
             
-            <p className=''>booking</p>
+            
             
            
         </div>

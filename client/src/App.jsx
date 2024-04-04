@@ -30,7 +30,8 @@ const ShopLayout = () => {
 const router = createBrowserRouter([
   { path:'/',                element:<Web/>    },
   { path:'/login' ,          element:<Login/>  },
-  { path: '/shop' ,          element:<ShopLayout/> ,  children:[
+  { path: '/shop' ,          element:<ShopLayout/> ,  
+    children:[
        {path: 'booking',     element:<Booking/>     },
        {path: 'stock',       element:<Stock/>       },
        {path: 'feedbacks',   element:<Feedbacks/>   },

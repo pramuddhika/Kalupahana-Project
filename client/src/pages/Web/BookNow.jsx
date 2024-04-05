@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 const BookNow= () => {
     return (
         <div className="flex justify-center items-center bg-text-primary h-screen">
-
+ 
+ 
           <div className="box-context bg-white rounded-lg w-1/2 h-4/5">
             <div className="flex p-3 ">
               <Link to='/'>

@@ -56,7 +56,7 @@ const Booking = () => {
       <ShopHeader pageName={getPageName()}/>
 
       {/**start sub navbar */}
-      <div className='flex bg-side-nav-bg p-2 pl-3 -10 gap-6 font-inter border-b-2'>
+      <div className='flex bg-side-nav-bg p-2 h-8 pl-3 -10 gap-6 font-inter border-b-2'>
 
         <button className={`${activeTopic === 'DashBoard' ? 'text-text-primary font-bold' : 'text-gray-500'}`}
         onClick={() => handleTopicClick('DashBoard')}>DashBoard</button>

@@ -1,11 +1,13 @@
 import ShopHeader from '../components/ShopHeader'
 import { useState } from 'react';
+import DashBoardBox from '../components/DashBoardBox';
 
 
 {/**dashboard - start */}
 const DashBoard = () => {
     return (
       <div className='mt-6 ml-3'>
+        <DashBoardBox/>
         <p>This is the content for DashBoard.</p>
       </div>
     );
@@ -56,7 +58,7 @@ const Booking = () => {
       <ShopHeader pageName={getPageName()}/>
 
       {/**start sub navbar */}
-      <div className='flex bg-side-nav-bg p-2 h-8 pl-3 -10 gap-6 font-inter border-b-2'>
+      <div className='flex bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>
 
         <button className={`${activeTopic === 'DashBoard' ? 'text-text-primary font-bold' : 'text-gray-500'}`}
         onClick={() => handleTopicClick('DashBoard')}>DashBoard</button>

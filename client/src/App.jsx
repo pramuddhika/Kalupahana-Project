@@ -14,6 +14,12 @@ import Mechanics from './pages/Shop/Mechanics'
 import Stock from './pages/Shop/Stock'
 import ShopSetting from './pages/Shop/ShopSetting'
 
+import Owner from './pages/Admin/Owner'
+import Home from './pages/Admin/Home'
+import Security from './pages/Admin/Security'
+import StockOwner from './pages/Admin/Stock'
+import Summary from './pages/Admin/Summary'
+import FeedbacksOwner from './pages/Admin/Feedbacks'
 
 const ShopLayout = () => {
   return (
@@ -41,8 +47,18 @@ const router = createBrowserRouter([
        {path: 'OpenJob',     element:<OpenJob/>     },
        {path: 'updateJob',   element:<UpdateJob/>   },
        {path: 'records',     element:<Records/>     },
-       {path: 'shopsetting', element:<ShopSetting/> },
-  ]} 
+       {path: 'shopsetting', element:<ShopSetting/> }
+    ]
+  },
+  { path:'/owner/*',           element: <Owner/>,
+       children: [
+         {path: '' ,           element:<Home/>        },
+         {path: 'security',    element:<Security/>    },
+         {path: 'stock',       element:<StockOwner/>  },
+         {path: 'summary' ,    element:<Summary/>     },
+         {path: 'feedbacks' ,  element:<FeedbacksOwner/>}
+       ]
+  },
 ]);
 
 function App() {

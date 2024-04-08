@@ -22,7 +22,7 @@ const SideNav = () => {
     return (
         <div>
             
-            <div className="fix top-0 left-0 w-full border-2 border-l-gray-400 bg-side-nav-bg h-screen">
+            <div className="fixed top-0 left-0 w-[180px] border-2 border-l-gray-400 bg-side-nav-bg h-screen">
 
              <div className="font-inter text-text-primary p-4 mb-8">
                  <p className="flex font-bold text-xl justify-center">Kalupahana</p>
@@ -109,7 +109,7 @@ const SideNav = () => {
                      </div>
                  </Link>
                  <Link to='/'>
-                     <div className='flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer'>
+                     <div className='fixed flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer bottom-10'>
                        <ArrowUturnLeftIcon className='h-6 w-6 '/>
                         <p>Log out</p>                    
                      </div>

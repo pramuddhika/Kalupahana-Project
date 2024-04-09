@@ -100,7 +100,7 @@ const SideNav = () => {
 
              
              <div className=" font-inter text-text-primary w-[180px]">
-                 <Link to='/shop/shopsetting'>
+                 <Link to='/shop/setting'>
                      <div className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
                      ${activeBar === 'shopsetting' ? 'text-white bg-text-primary':''}`} 
                       onClick={() => setActiveBar('shopsetting')}>
@@ -109,7 +109,7 @@ const SideNav = () => {
                      </div>
                  </Link>
                  <Link to='/'>
-                     <div className='fixed flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer bottom-10'>
+                     <div className='fixed flex pl-7 w-[180px] gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer bottom-10'>
                        <ArrowUturnLeftIcon className='h-6 w-6 '/>
                         <p>Log out</p>                    
                      </div>

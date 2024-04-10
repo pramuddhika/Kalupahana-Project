@@ -24,10 +24,10 @@ const Login = () => {
                 </div>
 
                 <input type='text' placeholder='User Name' 
-                className='border-text-primary-600 border-b-2 w-full my-5 text-xl font-inter'/>
+                className='border-text-primary-600 border-b-2 w-full my-5 text-xl font-inter outline-none'/>
 
                 <input type='text' placeholder='Password' 
-                className='border-text-primary-600 border-b-2 w-full my-5 text-xl font-inter'/>
+                className='border-text-primary-600 border-b-2 w-full my-5 text-xl font-inter outline-none'/>
 
                 <p className='flex justify-center font-inter text-red-600 text-lg'>This is the error</p>
 

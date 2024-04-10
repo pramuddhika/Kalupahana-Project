@@ -8,6 +8,7 @@ app.use(cors());
 
 app.use(express.json());
 
+//parths 
 app.use('/api/tablesettings', tableSettingsRoutes);
 
 

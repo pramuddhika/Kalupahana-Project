@@ -1,26 +1,26 @@
 import {ChevronLeftIcon} from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 const BookNow= () => {
 
-  const [selectedDate, setSelectedDate] = useState('');
+  // const [selectedDate, setSelectedDate] = useState('');
 
-  // Generate an array of next three days
-  const getNextThreeDays = () => {
-    const dates = [];
-    for (let i = 1; i < 4; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() + i);
-      dates.push(date.toISOString().slice(0, 10)); // Convert date to YYYY-MM-DD format
-    }
-    return dates;
-  };
+  // // Generate an array of next three days
+  // const getNextThreeDays = () => {
+  //   const dates = [];
+  //   for (let i = 1; i < 4; i++) {
+  //     const date = new Date();
+  //     date.setDate(date.getDate() + i);
+  //     dates.push(date.toISOString().slice(0, 10)); // Convert date to YYYY-MM-DD format
+  //   }
+  //   return dates;
+  // };
 
   // Handler function to update the selected date
-  const handleDateButtonClick = (date) => {
-    setSelectedDate(date);
-  };
+  // const handleDateButtonClick = (date) => {
+  //   setSelectedDate(date);
+  // };
 
     return (
         <div className="flex justify-center items-center bg-text-primary h-screen">
@@ -31,10 +31,10 @@ const BookNow= () => {
               <Link to='/'>
                 <ChevronLeftIcon className='h-9 w-9 text-text-primary ml-0 cursor-pointer'/>
               </Link>
-                <p className="font-inter text-3xl text-text-primary font-medium mx-auto">Kalupahana Motors</p>
+              <p className="font-inter text-3xl text-text-primary font-medium mx-auto">Kalupahana Motors</p>
             </div>
 
-            <form className='font-inter'>
+            {/* <form className='font-inter'>
 
               <label htmlFor='vehicleNumber'>Vehicle Number : </label>
               <input type='text' placeholder='AAA-0001 OR AA-0001' className='outline-none border-b-2' id='vehicleNumber'/>   <br/>
@@ -60,7 +60,7 @@ const BookNow= () => {
               <label htmlFor='Electric'>Electric</label>                        <br/>
 
               <label htmlFor='message'>Message</label>
-              <input type='text' placeholder='please mention identify error' id='message' className='outline-none border-b-2 w-10/12' />
+              <input type='textarea' placeholder='please mention identify error' id='message' className='outline-none border-b-2 w-10/12' />
 
               <div>
       {getNextThreeDays().map((date, index) => (
@@ -74,8 +74,41 @@ const BookNow= () => {
       ))}
       <p>Selected date: {selectedDate}</p>
     </div>
+            </form> */}
 
-            </form>
+
+ 
+          <form className='font-inter'>
+             
+            <div className='flex flex-row justify-center mt-2'>
+              <div className='basis-1/4'>
+                  Vehicle Number :
+              </div>
+              <div className='basis-1/2'>
+                 <input type='text' placeholder='AA-0001 or AAA-0001' className='outline-none border-b-2 w-full pl-2'/>
+              </div>
+            </div>
+
+            <div className='flex flex-row justify-center mt-3'>
+              <div className='basis-1/4'>
+                  Your Name :
+              </div>
+              <div className='basis-1/2'>
+                 <input type='text' placeholder='Name' className='outline-none border-b-2 w-full pl-2'/>
+              </div>
+            </div>
+
+            <div className='flex flex-row justify-center mt-3'>
+              <div className='basis-1/4'>
+                  Contact Number :
+              </div>
+              <div className='basis-1/2'>
+                 <input type='text' placeholder='07........' className='outline-none border-b-2 w-full pl-2'/>
+              </div>
+            </div>
+
+          </form>
+
           </div>
         </div>
     );

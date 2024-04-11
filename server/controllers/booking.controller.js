@@ -12,35 +12,30 @@ export const addBooking = (req, res) => {
         return res.status(400).json({ error: 'Invalid input types.' });
     }
 
-    // Parse the string date into a Date object
-    const parsedDate = new Date(date);
-
-    // Validate parsed date
-    if (isNaN(parsedDate.getTime())) {
-        return res.status(400).json({ error: 'Invalid date format.' });
-    }
-
     const q = `INSERT INTO booking (vehicleNumber, customerName, contactNumber, vehicleCategory, message, date) VALUES (?, ?, ?, ?, ?, ?)`;
 
-    db.query(q, [vehicleNumber, customerName, contactNumber, vehicleCategory, message, parsedDate], (err, data) => {
+    db.query(q, [vehicleNumber, customerName, contactNumber, vehicleCategory, message, date], (err, data) => {
         if (err) {
             if (err.code === 'ER_DUP_ENTRY') {
-                return res.status(409).json({ error: 'Booking already exists for the provided vehicle number.' });
+                return res.status(409).json('Booking already exists for the provided vehicle number!');
             } else {
-                return res.status(500).json(err);
+                return res.status(500).json('Server side error!');
             }
         }
-        return res.status(200).json(data);
+        return res.status(200).json('Your reservation is successful!');
     });
 };
+////////////////////////add booking - end ////////////////////////////////
 
-// Function to check if a given string is a valid date
+//////////// Function to check if a given string is a valid date//////////
 const isValidDate = (dateString) => {
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/; //date format YYYY-MM-DD
+    //date format YYYY-MM-DD
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/; 
     return dateRegex.test(dateString);
 };
+//////////////////////////////////////////////////////////////////////////
 
-////////////////////////add booking - end //////////////////////////////// 
+ 
 
 
 /////////////////////get booking information -start ///////////////////////

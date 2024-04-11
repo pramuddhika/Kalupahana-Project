@@ -96,18 +96,18 @@ const SideNav = () => {
                        <p>Stock</p>
                      </div>
                  </Link>
-             </div>
-
-             
-             <div className=" font-inter text-text-primary w-[180px]">
                  <Link to='/shop/setting'>
                      <div className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
-                     ${activeBar === 'shopsetting' ? 'text-white bg-text-primary':''}`} 
-                      onClick={() => setActiveBar('shopsetting')}>
+                     ${activeBar === 'setting' ? 'text-white bg-text-primary':''}`} 
+                      onClick={() => setActiveBar('setting')}>
                        <Cog8ToothIcon className='h-6 w-6'/>
                        <p className='flex items-center'>Settings</p>
                      </div>
                  </Link>
+             </div>
+
+             
+             <div className=" font-inter text-text-primary w-[180px]">
                  <Link to='/'>
                      <div className='fixed flex pl-7 w-[180px] gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer bottom-10'>
                        <ArrowUturnLeftIcon className='h-6 w-6 '/>

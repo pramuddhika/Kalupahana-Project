@@ -1,6 +1,6 @@
 import {db} from '../.env/db.env.js';
 
-//get data from database
+/////////////////////////// get data from database - start ////////////////////////////////// 
 export const getSpaceData = (req,res) => {
 
     const q="SELECT totalSpace,bookingSpaces FROM settings" ;
@@ -14,13 +14,16 @@ export const getSpaceData = (req,res) => {
         if(!data || data.length === 0){
             return res.status(404).json({ error: 'No data found in settings.' });
         }
-
         return res.status(200).json(data);
-        
     });
 };
+/////////////////////////// get data from database - end //////////////////////////////////
 
+
+
+///////////////////update space details - start ////////////////////////////////////////////
 export const updateSpaceData = (req, res) => {
+
     const { totalSpace, bookingSpaces } = req.body;
 
     // Validate inputs
@@ -40,3 +43,4 @@ export const updateSpaceData = (req, res) => {
         return res.status(200).json(data);
     });
 };
+///////////////////update space details - end ////////////////////////////////////////////

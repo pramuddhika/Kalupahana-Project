@@ -2,14 +2,15 @@ import {ChevronLeftIcon} from '@heroicons/react/24/solid';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const getNextThreeDays = () => {
   const dates = [];
   for (let i = 1; i < 4; i++) {
     const date = new Date();
     date.setDate(date.getDate() + i);
-    const formattedDate = date.toISOString().slice(0, 10);
+    const formattedDate = date.toISOString().split('T')[0];
     dates.push({ date, formattedDate });
   }
   return dates;
@@ -38,10 +39,10 @@ const BookNow= () => {
     e.preventDefault();
     try{
       await axios.post("http://localhost:8000/api/booking/add", booking)
-      window.alert('Your reservation is successful!');
+      window.alert("Booking added successfully");
       Navigate('/');
     }catch(err){
-      window.alert(err.response.data);
+      toast.error(err.response.data);
     }
   }
 
@@ -53,6 +54,8 @@ const BookNow= () => {
 
     return (
         <div className="flex justify-center items-center bg-text-primary h-screen">
+
+        <ToastContainer position='top-center' hideProgressBar={false} closeOnClick theme="colored" transition: Bounce/>
  
           <div className="box-context bg-white rounded-lg w-1/2 h-4/5">
             <div className="flex p-3 mt-4">

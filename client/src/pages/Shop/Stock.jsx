@@ -31,7 +31,7 @@ const NeededList = () => {
 
 const Stock = () => {
 
-    const [activeTopic, setActiveTopic] = useState('AvailableStock')
+    const [activeTopic, setActiveTopic] = useState('AddStock')
 
     const handleTopicClick = (topic) => {
         setActiveTopic(topic);
@@ -43,10 +43,10 @@ const Stock = () => {
             
             {/**start sub navbar */}
             <div className="flex bg-side-nav-bg p-2 h-9 pl-3 gap-6 border-b-2">
+             <button className={`${activeTopic === 'AddStock' ? 'text-text-primary font-bold' : 'text-gray-500'}`}
+               onClick={() => handleTopicClick('AddStock')}>Add Stock</button>
               <button className={`${activeTopic === 'AvailableStock' ? 'text-text-primary font-bold' : 'text-gray-500'}`}
                onClick={() => handleTopicClick('AvailableStock')}>Available Stock</button>
-              <button className={`${activeTopic === 'AddStock' ? 'text-text-primary font-bold' : 'text-gray-500'}`}
-               onClick={() => handleTopicClick('AddStock')}>Add Stock</button>
               <button className={`${activeTopic === 'NeededList' ? 'text-text-primary font-bold' : 'text-gray-500'}`}
                onClick={() => handleTopicClick('NeededList')}>Needed List</button>
             </div>

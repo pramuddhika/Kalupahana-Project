@@ -1,38 +1,8 @@
 import ShopHeader from '../components/ShopHeader'
 import { useState } from 'react';
-import DashBoardBox from '../components/DashBoardBox';
-
-
-{/**dashboard - start */}
-const DashBoard = () => {
-    return (
-      <div className='mt-6 ml-3'>
-        <DashBoardBox/>
-        <p>This is the content for DashBoard.</p>
-      </div>
-    );
-  };
-{/**dashboard - end */}
-
-{/**Cancel Bokking - start */}
-const CancelBooking = () => {
-  return (
-    <div className='mt-6 ml-3'>
-      <p>This is the content for CancelBooking.</p>
-    </div>
-  );
-};
-{/**Cancel Booking - end */}
-
-{/**Today List - start */}
-const TodayList = () => {
-  return (
-    <div className='mt-6 ml-3'>
-      <p>This is the content for TodayList.</p>
-    </div>
-  );
-};
-{/**Today List - end */}
+import BookingDashboard from './BookingDashboard';
+import BookingCancel from './BookingCancel';
+import BookingReserved from './BookingReserved';
 
 const Booking = () => {
 
@@ -65,15 +35,15 @@ const Booking = () => {
         <button className={`${activeTopic === 'CancelBooking' ? 'text-text-primary font-bold' : 'text-gray-500'}`}
         onClick={() => handleTopicClick('CancelBooking')}>Cancel Booking</button>
         <button className={`${activeTopic === 'TodayList' ? 'text-text-primary font-bold' : 'text-gray-500'}`}
-        onClick={() => handleTopicClick('TodayList')}>Today List</button>
+        onClick={() => handleTopicClick('TodayList')}>Reserved List</button>
                     
       </div>            
       {/**end sub nav bar */}
              
       <div>
-        {activeTopic === 'DashBoard' && <DashBoard/>}
-        {activeTopic === 'CancelBooking' && <CancelBooking/>}
-        {activeTopic === 'TodayList' && <TodayList/>}
+        {activeTopic === 'DashBoard' && <BookingDashboard/>}
+        {activeTopic === 'CancelBooking' && <BookingCancel/>}
+        {activeTopic === 'TodayList' && <BookingReserved/>}
       </div>
 
     </div>

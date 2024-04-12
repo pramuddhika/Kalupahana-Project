@@ -1,15 +1,31 @@
 import {db} from '../.env/db.env.js'
 
+//////////// Function to check if a given string is a valid date////////////
+const isValidDate = (dateString) => {
+    //date format YYYY-MM-DD
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/; 
+    return dateRegex.test(dateString);
+};
+////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////// check availble space - start /////////////////////////
+export const checkAvailbility = (req,res) => {
+    
+};
+////////////////////// check availble space - end   /////////////////////////
+
+
 ////////////////////////add booking - start //////////////////////////////// 
 export const addBooking = (req, res) => {
     const { vehicleNumber, customerName, contactNumber, vehicleCategory, message, date } = req.body;
 
     // Validate inputs
     if (!vehicleNumber || !customerName || !contactNumber || !vehicleCategory || !message || !date) {
-        return res.status(400).json({ error: 'All fields are required.' });
+        return res.status(400).json('All fields are required.');
     }
     if (typeof vehicleNumber !== 'string' || typeof customerName !== 'string' || typeof contactNumber !== 'string' || typeof vehicleCategory !== 'string' || typeof message !== 'string' || !isValidDate(date)) {
-        return res.status(400).json({ error: 'Invalid input types.' });
+        return res.status(400).json('Invalid input types.');
     }
 
     const q = `INSERT INTO booking (vehicleNumber, customerName, contactNumber, vehicleCategory, message, date) VALUES (?, ?, ?, ?, ?, ?)`;
@@ -27,18 +43,28 @@ export const addBooking = (req, res) => {
 };
 ////////////////////////add booking - end ////////////////////////////////
 
-//////////// Function to check if a given string is a valid date//////////
-const isValidDate = (dateString) => {
-    //date format YYYY-MM-DD
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/; 
-    return dateRegex.test(dateString);
+
+/////////////////////delete booking - start //////////////////////////////
+export const cancelBooking = (req,res) => {
+
+    const { vehicleNumber } = req.body;
+
+    const q = `DELETE FROM booking WHERE vehicleNumber = ?`;
+
+    db.query( q, [vehicleNumber], (err,data) => {
+        if(err){
+            return res.status(500).json(err)
+        }
+        if( !data || data.length === 0 ){
+            return res.status(404).json('No record found in reservation data!')
+        }
+        return res.status(200).json(data)
+    });
 };
-//////////////////////////////////////////////////////////////////////////
-
- 
+/////////////////////delete booking - end ////////////////////////////////
 
 
-/////////////////////get booking information -start ///////////////////////
+/////////////////////get all booking list -start ///////////////////////
 export const  bookingInfo = (req,res) => {
    
     const q = `SELECT * FROM booking`;
@@ -48,9 +74,10 @@ export const  bookingInfo = (req,res) => {
             return res.status(500).json(err)
         }
         if(!data || data.length === 0){
-            return res.status(404).json({ error: 'No data found in settings.' });
+            return res.status(404).json('No data found in settings.');
         }
+        
         return res.status(200).json(data);
     })
 };
-/////////////////////get booking information -start ///////////////////////
+/////////////////////get all booking list -start ///////////////////////

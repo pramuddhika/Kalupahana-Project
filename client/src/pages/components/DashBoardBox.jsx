@@ -19,8 +19,9 @@ const DashBoardBox = () => {
 
     return (
         <div className="flex gap-16 justify-center my-6 font-inter">
+
             <div className="box-content h-36 w-80 bg-yellow-100 rounded-lg">
-              <p className="text-4xl font-bold text-yellow-600 pl-4 pt-6 italic">Working on</p>
+              <p className="text-4xl font-bold text-yellow-600 pl-4 pt-6 italic">Ongoing Jobs</p>
             </div>
 
             <div className="box-content h-36 w-80 bg-emerald-100 rounded-lg">
@@ -30,7 +31,9 @@ const DashBoardBox = () => {
             </div>
 
             <div className="box-content h-36 w-80 bg-red-200 rounded-lg">
+              <p className="text-4xl font-bold text-red-600 pl-4 pt-6 italic">Free Blocks</p>
             </div>
+
         </div>
     );
 };

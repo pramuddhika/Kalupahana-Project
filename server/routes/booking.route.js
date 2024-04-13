@@ -1,7 +1,8 @@
 import express from 'express';
 import { addBooking, 
          bookingInfo,
-         cancelBooking } from '../controllers/booking.controller.js';
+         cancelBooking, 
+         todayList} from '../controllers/booking.controller.js';
 
 const router = express.Router();
 
@@ -9,8 +10,9 @@ const router = express.Router();
 router.post('/add', addBooking);
 //get booking information from db
 router.get('/showbooking' , bookingInfo);
-//cancelbookinh
+//cancel booking
 router.delete('/cancel', cancelBooking);
-
+//get today list from db
+router.get('/today' , todayList);
 
 export default router;

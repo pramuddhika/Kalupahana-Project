@@ -37,6 +37,21 @@ const BookNow= () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
+    //validate use inputs 
+    if (!/^[A-Z]{2,3}-\d{4}$/.test(booking.vehicleNumber)) {
+      toast.error('Please enter a valid vehicle number in the format XX-0000 or XXX-0000');
+      return;
+    }
+    if (!/^07[0-24-8]\d{7}$/.test(booking.contactNumber)) {
+      toast.error('Please enter a valid contact number.');
+      return;
+    }
+    if (!/^[a-zA-Z\s]*$/.test(booking.customerName)) {
+      toast.error('Customer name can only contain letters and spaces.');
+      return;
+    }
+
     try{
       await axios.post("http://localhost:8000/api/booking/add", booking)
       window.alert("Booking added successfully");
@@ -55,7 +70,7 @@ const BookNow= () => {
     return (
         <div className="flex justify-center items-center bg-text-primary h-screen">
 
-        <ToastContainer position='top-center' hideProgressBar={false} closeOnClick theme="colored" transition: Bounce/>
+        <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="colored" transition: Bounce/>
  
           <div className="box-context bg-white rounded-lg w-1/2 h-4/5">
             <div className="flex p-3 mt-4">

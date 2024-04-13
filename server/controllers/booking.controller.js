@@ -24,9 +24,9 @@ export const addBooking = (req, res) => {
     if (!vehicleNumber || !customerName || !contactNumber || !vehicleCategory || !message || !date) {
         return res.status(400).json('All fields are required.');
     }
-    if (typeof vehicleNumber !== 'string' || typeof customerName !== 'string' || typeof contactNumber !== 'string' || typeof vehicleCategory !== 'string' || typeof message !== 'string' || !isValidDate(date)) {
-        return res.status(400).json('Invalid input types.');
-    }
+    // if (typeof vehicleNumber === 'string' || typeof customerName === 'string' || typeof contactNumber === 'string' || typeof vehicleCategory === 'string' || typeof message === 'string' || typeof date === 'string') {
+    //     return res.status(400).json('Invalid input types.');
+    // }
 
     const q = `INSERT INTO booking (vehicleNumber, customerName, contactNumber, vehicleCategory, message, date) VALUES (?, ?, ?, ?, ?, ?)`;
 
@@ -80,4 +80,17 @@ export const  bookingInfo = (req,res) => {
         return res.status(200).json(data);
     })
 };
-/////////////////////get all booking list -start ///////////////////////
+/////////////////////get all booking list - end  ///////////////////////
+
+
+////////////////////get today list - start /////////////////////////////
+export const todayList = (req,res) => {
+
+    const today = new Date();
+    const dateString = today.toISOString().split('T')[0];
+    
+    const q = `SELECT * FROM booking WHERE date = `;
+
+    res.send(dateString)
+}
+////////////////////get today list - end   /////////////////////////////

@@ -4,10 +4,6 @@ import ShopHeader from "../components/ShopHeader";
 
 const ShopSetting = () => {
 
-   let totalSpace;
-   let onlineBookingSpaces;
-   let emergencyRepairSpaces = totalSpace -  onlineBookingSpaces;
-
     return (
         <div>
             <ShopHeader pageName="Settings" />
@@ -22,17 +18,17 @@ const ShopSetting = () => {
 
                     <div className="flex gap-3">
                       <p>Total Spaces</p>  
-                      <input type="number" className="w-16 rounded-lg border-2 pl-4" value={totalSpace}/>
+                      <input type="number" className="w-16 rounded-lg outline-none border-2 pl-4"/>
                     </div>
 
                     <div className="flex gap-3">
                        <p>Spaces for Online Booking</p>
-                       <input type="number" className="w-16 rounded-lg text-justify border-2 pl-4"/>
+                       <input type="number" className="w-16 rounded-lg outline-none text-justify border-2 pl-4"/>
                     </div>
 
                     <div className="flex gap-3">
                        <p>Spaces for Emergency repairs</p>
-                       <input className="w-16 bg-white rounded-lg border-2 pl-4" value={emergencyRepairSpaces}/>
+                       <input className="w-16 bg-white rounded-lg outline-none border-2 pl-4"/>
                     </div>
                     
                 </div>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const ShopHeader = ({ pageName }) => {
         return (
-                     <div className="bg-side-nav-bg h-12 flex justify-between ">
+                     <div className="bg-side-nav-bg h-12 flex justify-between">
                             <p className="text-text-primary font-inter font-bold text-3xl p-3">{pageName}</p>
                             <div className='flex items-center gap-2 p-3'>
                                 <p className='text-text-primary font-inter text-lg font-medium'>The Shop</p>

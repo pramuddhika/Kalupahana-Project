@@ -31,15 +31,22 @@ const BookingReserved = () => {
                     <th className="w-4/12 border-2 text-left pl-2">Message</th>
                 </tr>
 
-                {details && details.map((detail, index) => (
-                <tr key={index} className="bg-gray-300 pl-1">
-                   <td className="border-2 text-center">{detail.vehicleNumber}</td>
-                   <td className="border-2 pl-1">{detail.customerName}</td>
-                   <td className="border-2 text-center">{detail.contactNumber}</td>
-                   <td className="border-2 text-center">{detail.vehicleCategory}</td>
-                   <td className="border-2">{detail.date}</td>
-                   <td className="border-2 pl-2">{detail.message}</td>
-                </tr> ))}
+                {details == null || details.length === 0 ? (
+                 <tr className="bg-gray-300">
+                     <td colSpan="6" className="text-center border-2 py-2">No data to display</td>
+                 </tr>
+               ) : (
+                details && details.map((detail, index) => (
+                 <tr key={index} className="bg-gray-300 pl-1">
+                      <td className="border-2 text-center">{detail.vehicleNumber}</td>
+                      <td className="border-2 pl-1">{detail.customerName}</td>
+                      <td className="border-2 text-center">{detail.contactNumber}</td>
+                      <td className="border-2 text-center">{detail.vehicleCategory}</td>
+                      <td className="border-2">{detail.date}</td>
+                      <td className="border-2 pl-2">{detail.message}</td>
+                 </tr>
+               )) )}
+
             </table>
             
         </div>

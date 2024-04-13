@@ -2,7 +2,7 @@ import express from 'express';
 import { addBooking, 
          bookingInfo,
          cancelBooking, 
-         todayList} from '../controllers/booking.controller.js';
+         todayList} from '../controllers/booking-controller.js';
 
 const router = express.Router();
 

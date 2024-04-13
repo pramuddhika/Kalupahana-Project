@@ -5,6 +5,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+
 const getNextThreeDays = () => {
   const dates = [];
   for (let i = 1; i < 4; i++) {
@@ -51,11 +53,9 @@ const BookNow= () => {
       toast.error('Customer name can only contain letters and spaces.');
       return;
     }
-
     try{
       await axios.post("http://localhost:8000/api/booking/add", booking)
-      window.alert("Booking added successfully");
-      Navigate('/');
+      Navigate("/");
     }catch(err){
       toast.error(err.response.data);
     }
@@ -65,7 +65,7 @@ const BookNow= () => {
     setSelectedDate(event.target.value);
   };
 
-  console.log(booking);
+  // console.log(booking);
 
     return (
         <div className="flex justify-center items-center bg-text-primary h-screen">
@@ -79,8 +79,7 @@ const BookNow= () => {
               </Link>
               <p className="font-inter text-3xl text-text-primary font-medium mx-auto">Kalupahana Motors</p>
             </div>
-
-            
+  
            <form className='font-inter mt-8'>
              
             <div className='flex flex-row justify-center mt-2'>

@@ -1,4 +1,16 @@
-import {db} from '../.env/db.env.js'
+import {db} from '../.env/db-env.js'
+import { getAllBookings } from '../services/booking-service.js';
+
+//#####################  get all resevation data - start ##################################
+export const bookingInfo = async (req,res) => {
+    try {
+        const data = await getAllBookings();
+        return res.status(200).json(data);
+    }catch (err){
+        return res.status(500).json(err.message);
+    }
+};
+//#####################  get all resevation data - end   ##################################
 
 //////////// Function to check if a given string is a valid date////////////
 const isValidDate = (dateString) => {
@@ -7,14 +19,6 @@ const isValidDate = (dateString) => {
     return dateRegex.test(dateString);
 };
 ////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////// check availble space - start /////////////////////////
-export const checkAvailbility = (req,res) => {
-    
-};
-////////////////////// check availble space - end   /////////////////////////
-
 
 ////////////////////////add booking - start //////////////////////////////// 
 export const addBooking = (req, res) => {
@@ -62,26 +66,6 @@ export const cancelBooking = (req,res) => {
     });
 };
 /////////////////////delete booking - end ////////////////////////////////
-
-
-/////////////////////get all booking list -start ///////////////////////
-export const  bookingInfo = (req,res) => {
-   
-    const q = `SELECT * FROM booking`;
-
-    db.query( q , (err,data) => {
-        if(err){
-            return res.status(500).json(err)
-        }
-        if(!data || data.length === 0){
-            return res.status(404).json('No data found in settings.');
-        }
-        
-        return res.status(200).json(data);
-    })
-};
-/////////////////////get all booking list - end  ///////////////////////
-
 
 ////////////////////get today list - start /////////////////////////////
 export const todayList = (req,res) => {

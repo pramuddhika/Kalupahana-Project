@@ -5,6 +5,7 @@ import Security from './Security';
 import StockOwner from './Stock';
 import Summary from './Summary';
 import FeedbacksOwner from './Feedbacks';
+import Booking from './Booking';
 
 const Owner = () => {
   return (
@@ -16,6 +17,7 @@ const Owner = () => {
         <Route path="stock" element={<StockOwner />} />
         <Route path="summary" element={<Summary />} />
         <Route path="feedbacks" element={<FeedbacksOwner />} />
+        <Route path="booking" element={<Booking/>}/>
       </Routes>
 
     </div>

@@ -20,6 +20,7 @@ import Security from './pages/Admin/Security'
 import StockOwner from './pages/Admin/Stock'
 import Summary from './pages/Admin/Summary'
 import FeedbacksOwner from './pages/Admin/Feedbacks'
+import BookingOwner from './pages/Admin/Booking'
 
 const ShopLayout = () => {
   return (
@@ -56,7 +57,8 @@ const router = createBrowserRouter([
          {path: 'security',    element:<Security/>    },
          {path: 'stock',       element:<StockOwner/>  },
          {path: 'summary' ,    element:<Summary/>     },
-         {path: 'feedbacks' ,  element:<FeedbacksOwner/>}
+         {path: 'feedbacks' ,  element:<FeedbacksOwner/>},
+         {path: 'booking',     element:<BookingOwner/>}
        ]
   },
 ]);

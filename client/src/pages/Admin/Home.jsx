@@ -1,4 +1,4 @@
-import {UserIcon,ShieldCheckIcon,InboxIcon,HandThumbUpIcon,ChartPieIcon} from '@heroicons/react/24/solid';
+import {UserIcon,ShieldCheckIcon,RectangleGroupIcon,CalendarDaysIcon,HandThumbUpIcon,ChartPieIcon} from '@heroicons/react/24/solid';
 import DashBoardBox from '../components/DashBoardBox';
 import {Link} from 'react-router-dom';
  
@@ -15,73 +15,97 @@ const Home = () => {
                 <UserIcon className='h-8 w-8 text-white bg-text-primary rounded-2xl p-1 '/>
              </div>
             </div>
-            {/**6wner header -end */}
+            {/**owner header -end */}
 
             <DashBoardBox/>
 
-            {/**Owner menu- start */}
+            {/**Owner menu - start */}
             <div className='mt-16'>
+ 
+              <div className='flex w-10/12 mx-auto my-5 gap-10'>
 
-                <div className='flex justify-center gap-10 my-8'>
-                  
-                
-                    <div className='flex box-content border-2 hover:border-teal-400 h-28 w-1/3 rounded-lg cursor-pointer'>
-                      <div className='mt-2 ml-4 w-1/3'>
-                         <ShieldCheckIcon className='h-24 text-text-primary'/>
-                      </div>
-                      <div className='font-inter m-2 hover:text-text-primary'>
+                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                 <div className='flex'>
+                   <div className='mt-4 ml-2 w-1/4'>
+                      <ShieldCheckIcon className='text-text-primary'/>
+                   </div>
+                   <div className='w-3/4 p-3 hover:text-text-primary'>
                       <Link to ='/owner/security'>
-                        <p className='font-semibold text-2xl'>Security</p>
-                        <p className='text-sm'>Protect your account and adjust important privacy settings to your preference.</p>
-                        </Link>
-                      </div>
-                    </div>
-                    
-
-                    <div className='flex box-content border-2  hover:border-teal-400 h-28 w-1/3 rounded-lg cursor-pointer'>
-                      <div className='mt-2 ml-4 w-1/3'>
-                         <InboxIcon className='h-24 text-text-primary'/>
-                      </div>
-                      <div className='font-inter m-2 hover:text-text-primary'>
-                        <Link to='/owner/stock'>
-                        <p className='font-semibold text-2xl'>Stock</p>
-                        <p className='text-sm'>Manage your stocks effectively by staying updated on market trends and fluctuations.</p>
-                        </Link>
-                      </div>
-                    </div>
-
+                       <p className='text-2xl font-bold'>Security</p>
+                       <p className='text-sm text-left'>Protect your account and adjust important privacy settings to your preference.</p>
+                      </Link>
+                   </div>
+                 </div>
                 </div>
 
-                <div className='flex justify-center gap-10 my-8'>
 
-                    <div className='flex box-content border-2  hover:border-teal-400 h-28 w-1/3 rounded-lg cursor-pointer'>
-                      <div className='mt-2 ml-4 w-1/3'>
-                         <HandThumbUpIcon className='h-24 text-text-primary'/>
-                      </div>
-                      <div className='font-inter m-2 hover:text-text-primary'>
-                        <Link to='/owner/feedbacks'>
-                        <p className='font-semibold text-2xl'>Feedbacks</p>
-                        <p className='text-sm'>Review client feedback to refine our services and enhance your experience.</p>
-                        </Link>
-                      </div>
-                    </div>
-
-                    <div className='flex box-content border-2  hover:border-teal-400 h-28 w-1/3 rounded-lg cursor-pointer'>
-                    <div className='mt-2 ml-4 w-1/3'>
-                         <ChartPieIcon className='h-24 pr-3 text-text-primary'/>
-                      </div>
-                      <div className='font-inter m-2 hover:text-text-primary'>
-                        <Link to = '/owner/summary'>
-                        <p className='font-semibold text-2xl'>Summary</p>
-                        <p className='text-sm'>Access concise summaries to stay well-informed about your activities and make informed decisions.</p>
-                        </Link>
-                      </div>
-                    </div>
-
+                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                 <div className='flex'>
+                   <div className='mt-4 ml-2 w-1/4'>
+                      <RectangleGroupIcon className='text-text-primary'/>
+                   </div>
+                   <div className='w-3/4 p-3 hover:text-text-primary'>
+                      <Link to ='/owner/stock'>
+                       <p className='text-2xl font-bold'>Stock</p>
+                       <p className='text-sm text-left'>Manage your stocks effectively by staying updated on market trends and fluctuations.</p>
+                      </Link>
+                   </div>
+                 </div>
                 </div>
+
+
+                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                 <div className='flex'>
+                   <div className='mt-4 ml-2 w-1/4'>
+                      <CalendarDaysIcon className='text-text-primary'/>
+                   </div>
+                   <div className='w-3/4 p-3 hover:text-text-primary'>
+                      <Link to ='/owner/booking'>
+                       <p className='text-2xl font-bold'>Booking</p>
+                       <p className='text-sm text-left'>Enabling effortless tracking of upcoming bookings ensures smooth operations.</p>
+                      </Link>
+                   </div>
+                 </div>
+                </div>
+
+              </div>
+
+
+              <div className='flex w-10/12 mx-auto gap-10'>
+
+                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                 <div className='flex'>
+                   <div className='mt-4 ml-2 w-1/4'>
+                      <HandThumbUpIcon className='text-text-primary'/>
+                   </div>
+                   <div className='w-3/4 p-3 hover:text-text-primary'>
+                      <Link to ='/owner/feedbacks'>
+                       <p className='text-2xl font-bold'>Feedbacks</p>
+                       <p className='text-sm text-left'>Review client feedback to refine our services and enhance your experience.</p>
+                      </Link>
+                   </div>
+                 </div>
+                </div>
+
+
+                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                 <div className='flex'>
+                   <div className='mt-4 ml-2 w-1/4'>
+                      <ChartPieIcon className='text-text-primary'/>
+                   </div>
+                   <div className='w-3/4 p-3 hover:text-text-primary'>
+                      <Link to ='/owner/summary'>
+                       <p className='text-2xl font-bold'>Summary</p>
+                       <p className='text-sm text-left'>Access concise summaries to stay well-informed about your activities and make informed decisions.</p>
+                      </Link>
+                   </div>
+                 </div>
+                </div>
+
+              </div>
 
             </div>
-            {/**Owner mwnu - end */}
+            {/**Owner menu - end */}
 
         </div>
     );

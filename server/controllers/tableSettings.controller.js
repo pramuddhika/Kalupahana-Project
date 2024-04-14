@@ -1,4 +1,4 @@
-import {db} from '../.env/db.env.js';
+import {db} from '../.env/db-env.js';
 
 /////////////////////////// get data from database - start ////////////////////////////////// 
 export const getSpaceData = (req,res) => {

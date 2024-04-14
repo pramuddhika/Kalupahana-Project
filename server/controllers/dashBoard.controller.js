@@ -1,4 +1,4 @@
-import {db} from '../.env/db.env.js'
+import {db} from '../.env/db-env.js'
 
 //////////////get booking count- start /////////////
 export const bookingNumber = (req,res) => {

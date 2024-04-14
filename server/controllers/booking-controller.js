@@ -1,5 +1,8 @@
 import {db} from '../.env/db-env.js'
-import { getAllBookings } from '../services/booking-service.js';
+import { addBookingService, 
+         getAllBookings,
+         cancelBookingService,
+         cancelCheckingService } from '../services/booking-service.js';
 
 //#####################  get all resevation data - start ##################################
 export const bookingInfo = async (req,res) => {
@@ -12,69 +15,50 @@ export const bookingInfo = async (req,res) => {
 };
 //#####################  get all resevation data - end   ##################################
 
-//////////// Function to check if a given string is a valid date////////////
-const isValidDate = (dateString) => {
-    //date format YYYY-MM-DD
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/; 
-    return dateRegex.test(dateString);
-};
-////////////////////////////////////////////////////////////////////////////
-
-////////////////////////add booking - start //////////////////////////////// 
-export const addBooking = (req, res) => {
-    const { vehicleNumber, customerName, contactNumber, vehicleCategory, message, date } = req.body;
-
-    // Validate inputs
+//#####################  Add resevation data - Start #######################################
+export const addBooking = async (req,res) => {
+    const {vehicleNumber,customerName,contactNumber,vehicleCategory,message,date} = req.body;
+    
+    //validate inputs
     if (!vehicleNumber || !customerName || !contactNumber || !vehicleCategory || !message || !date) {
         return res.status(400).json('All fields are required.');
     }
-    // if (typeof vehicleNumber === 'string' || typeof customerName === 'string' || typeof contactNumber === 'string' || typeof vehicleCategory === 'string' || typeof message === 'string' || typeof date === 'string') {
-    //     return res.status(400).json('Invalid input types.');
-    // }
 
-    const q = `INSERT INTO booking (vehicleNumber, customerName, contactNumber, vehicleCategory, message, date) VALUES (?, ?, ?, ?, ?, ?)`;
-
-    db.query(q, [vehicleNumber, customerName, contactNumber, vehicleCategory, message, date], (err, data) => {
-        if (err) {
-            if (err.code === 'ER_DUP_ENTRY') {
-                return res.status(409).json('Booking already exists for the provided vehicle number!');
-            } else {
-                return res.status(500).json('Server side error!');
-            }
+    try {
+        const data = await addBookingService(vehicleNumber,customerName,contactNumber,vehicleCategory,message,date);
+        return res.status(200).json(data);
+    } catch (err) {
+        if (err.code == 'ER_DUP_ENTRY') {
+            return res.status(409).json('Booking already exists for the provided vehicle number!');
+        } else {
+            return res.status(500).json('Server side error!');
         }
-        return res.status(200).json('Your reservation is successful!');
-    });
+    }
 };
-////////////////////////add booking - end ////////////////////////////////
+//#####################  Add resevation data - end   #######################################
 
+//##################### Check before cancel - Start  #######################################
+export const cancelChecking = async (req,res) => {
+    const {vehicleNumber} = req.body;
 
-/////////////////////delete booking - start //////////////////////////////
-export const cancelBooking = (req,res) => {
-
-    const { vehicleNumber } = req.body;
-
-    const q = `DELETE FROM booking WHERE vehicleNumber = ?`;
-
-    db.query( q, [vehicleNumber], (err,data) => {
-        if(err){
-            return res.status(500).json(err)
-        }
-        if( !data || data.length === 0 ){
-            return res.status(404).json('No record found in reservation data!')
-        }
-        return res.status(200).json(data)
-    });
-};
-/////////////////////delete booking - end ////////////////////////////////
-
-////////////////////get today list - start /////////////////////////////
-export const todayList = (req,res) => {
-
-    const today = new Date();
-    const dateString = today.toISOString().split('T')[0];
-    
-    const q = `SELECT * FROM booking WHERE date = `;
-
-    res.send(dateString)
+    try{
+        const data = await cancelCheckingService (vehicleNumber);
+        res.json(data);
+    }catch(err){
+        res.status(500).json('Somethimg is broken!');
+    }
 }
-////////////////////get today list - end   /////////////////////////////
+//##################### Check before cancel - End  #########################################
+
+//#####################  Cancel resevation data - Start ####################################
+export const cancelBooking = async (req,res) => {
+    const {vehicleNumber} = req.params;
+
+    try{
+        const data = await cancelBookingService(vehicleNumber);
+        res.json({data});
+    } catch (err){
+        res.status(500).json('Server side error!');
+    }
+}
+//#####################  Cancel resevation data - end   ####################################

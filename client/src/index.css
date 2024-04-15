@@ -1,5 +1,24 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+    .ownerHomeCard{
+        @apply h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl;
+    }
+    
+    .btn{
+        @apply border-2 rounded-lg px-4 py-2 font-inter;
+    }
+    .btn.btn-normal{
+        @apply bg-text-primary text-white font-semibold;
+    }
+    .btn.btn-warning{
+        @apply bg-red-600 text-white font-semibold;
+    }
+
+    .input{
+        @apply outline-none pl-2;
+    }
+}
 

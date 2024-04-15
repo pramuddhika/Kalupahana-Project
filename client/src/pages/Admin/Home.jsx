@@ -24,7 +24,7 @@ const Home = () => {
  
               <div className='flex w-10/12 mx-auto my-5 gap-10'>
 
-                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                <div className='ownerHomeCard'>
                  <div className='flex'>
                    <div className='mt-4 ml-2 w-1/4'>
                       <ShieldCheckIcon className='text-text-primary'/>
@@ -39,7 +39,7 @@ const Home = () => {
                 </div>
 
 
-                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                <div className='ownerHomeCard'>
                  <div className='flex'>
                    <div className='mt-4 ml-2 w-1/4'>
                       <RectangleGroupIcon className='text-text-primary'/>
@@ -54,7 +54,7 @@ const Home = () => {
                 </div>
 
 
-                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                <div className='ownerHomeCard'>
                  <div className='flex'>
                    <div className='mt-4 ml-2 w-1/4'>
                       <CalendarDaysIcon className='text-text-primary'/>
@@ -73,7 +73,7 @@ const Home = () => {
 
               <div className='flex w-10/12 mx-auto gap-10'>
 
-                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                <div className='ownerHomeCard'>
                  <div className='flex'>
                    <div className='mt-4 ml-2 w-1/4'>
                       <HandThumbUpIcon className='text-text-primary'/>
@@ -88,7 +88,7 @@ const Home = () => {
                 </div>
 
 
-                <div className='h-32 w-96 border-2 font-inter hover:border-teal-400 rounded-2xl'>
+                <div className='ownerHomeCard'>
                  <div className='flex'>
                    <div className='mt-4 ml-2 w-1/4'>
                       <ChartPieIcon className='text-text-primary'/>

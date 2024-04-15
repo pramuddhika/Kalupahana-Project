@@ -61,7 +61,7 @@ const BookingCancel = () => {
              (
              <div className='flex items-center gap-12 box-content bg-gray-200 w-2/3 h-32 mt-2 rounded-lg font-inter'>
                <input type='text' placeholder='Enter vehicle number' className='rounded-lg p-2 ml-6 outline-none' />
-               <button onClick={handleSearchClick} className='bg-text-primary text-white px-6 py-2 rounded-lg'>Search</button>
+               <button onClick={handleSearchClick} className='btn btn-normal'>Search</button>
              </div>
             )}
 

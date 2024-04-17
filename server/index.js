@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import {PORT} from './.env/port-env.js';
-import tableSettingsRoutes from './routes/tableSettings.route.js';
+import settingsRoutes from './routes/settings.route.js';
 import bookingRoutes from './routes/booking-route.js';
 import dashBoardRoutes from './routes/dashBoard.route.js';
 
@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 //parths - shop
-app.use('/api/tablesettings', tableSettingsRoutes);
+app.use('/api/settings', settingsRoutes);
 app.use('/api/booking', bookingRoutes);
 
 //parths - dashboard

@@ -1,8 +1,34 @@
 import ShopHeader from "../components/ShopHeader";
-
+import axios from 'axios';
+import { useState,useEffect } from "react";
 
 
 const ShopSetting = () => {
+
+    const [totalSpace,setTotalSpace] = useState(0);
+    const [onlineSpaces,setOnlineSpaces] = useState(0);
+
+    useEffect( ()=> {
+        const spaceDataDetails = async () => {
+          try{
+            const res = await axios.get("http://localhost:8000/api/settings/getspace");
+            console.log(res.data);
+            setTotalSpace(res.data.totalSpace);
+            setOnlineSpaces(res.data.onlineSpaces);
+          }catch(err){
+            console.log(err.message);
+          }
+        };
+        spaceDataDetails()
+    },[]);
+
+    const handleTotalSpacesChange = (e) => {
+        setTotalSpace(e.target.value);
+    };
+
+    const handleOnlineSpacesChange = (e) => {
+        setOnlineSpaces(e.target.value);
+    };
 
     return (
         <div>
@@ -18,12 +44,12 @@ const ShopSetting = () => {
 
                     <div className="flex gap-3">
                       <p>Total Spaces</p>  
-                      <input type="number" className="w-16 rounded-lg outline-none border-2 pl-4"/>
+                      <input type="number" value={totalSpace} onChange={handleTotalSpacesChange} className="w-16 rounded-lg outline-none border-2 pl-4"/>
                     </div>
 
                     <div className="flex gap-3">
                        <p>Spaces for Online Booking</p>
-                       <input type="number" className="w-16 rounded-lg outline-none text-justify border-2 pl-4"/>
+                       <input type="number" value={onlineSpaces} onChange={handleOnlineSpacesChange} className="w-16 rounded-lg outline-none text-justify border-2 pl-4"/>
                     </div>
 
                     <div className="flex gap-3">

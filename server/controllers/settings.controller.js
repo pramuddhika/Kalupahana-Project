@@ -1,4 +1,4 @@
-import {db} from '../.env/db-env.js';
+import {getSpaceDataService} from '../services/settings-services.js';
 
 // /////////////////////////// get data from database - start ////////////////////////////////// 
 // export const getSpaceData = (req,res) => {

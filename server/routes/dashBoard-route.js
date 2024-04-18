@@ -1,5 +1,5 @@
 import express from 'express';
-import { bookingNumber } from '../controllers/dashBoard.controller.js';
+import { bookingNumber } from '../controllers/dashBoard-controller.js';
 
 const router = express.Router();
 

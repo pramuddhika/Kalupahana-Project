@@ -50,7 +50,7 @@ const ShopSetting = () => {
       try {
         await axios.put('http://localhost:8000/api/settings/updatespaces', {totalSpace, onlineSpaces});
         setIsSettingsChanged(false);
-        toast.success('update settings');
+        toast.success('Updated space settings!');
     } catch (err) {
         toast.error(err.response.data);
     }
@@ -74,17 +74,14 @@ const ShopSetting = () => {
                       <p>Total Spaces</p>  
                       <input type="number" min="0" value={totalSpace} onChange={handleTotalSpacesChange} className="w-16 rounded-lg outline-none border-2 pl-4"/>
                     </div>
-
                     <div className="flex gap-3">
                        <p>Spaces for Online Booking</p>
                        <input type="number" min="0" value={onlineSpaces} onChange={handleOnlineSpacesChange} className="w-16 rounded-lg outline-none text-justify border-2 pl-4"/>
                     </div>
-
                     <div className="flex gap-3">
                        <p>Spaces for Emergency repairs</p>
                        <input value={totalSpace - onlineSpaces} min="0" className="w-16 bg-white rounded-lg outline-none border-2 pl-4"/>
-                    </div>
-                    
+                    </div>   
                 </div>
                 <div className="flex justify-end">
                  <button className={`update-button ${isSettingsChanged ? 'btn text-white bg-blue-500' : 'btn bg-gray-400'}`} onClick={handleUpdateClick}>Update</button>

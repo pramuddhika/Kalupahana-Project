@@ -35,6 +35,23 @@ export const addBookingService = (vehicleNumber,customerName,contactNumber,vehic
 };
 //#####################  Add resevation data - end   #######################################
 
+//##################### Checking cancel data  - Start   #######################################
+export const cancelCheckingService = (vehicleNumber) => {
+    return new Promise ( (resolve, reject) => {
+        const q = `SELECT * FROM booking WHERE vehiclenumber = ?`;
+        db.query(q,[vehicleNumber], (err,data) => {
+            if(err){
+                reject(err);
+            }else if ( !data || data.length === 0){
+                reject(new Error ('Data can not be found!'))
+            }else {
+                resolve(data);
+            }
+        })
+    })
+}
+//##################### Checking cancl data  - end      #######################################
+
 //#####################  Cancel resevation data - end   #######################################
 export const cancelBookingService = (vehicleNumber) => {
     return new Promise( (resolve, reject) => {
@@ -49,20 +66,3 @@ export const cancelBookingService = (vehicleNumber) => {
     })
 }
 //#####################  Cancel resevation data - end   #######################################
-
-//##################### Checking cancel data  - Start   #######################################
-export const cancelCheckingService = (vehicleNumber) => {
-    return new Promise ( (resolve, reject) => {
-        const q = `SELECT * FROM booking WHERE vehicleNumber = (?)`;
-        db.query(q,[vehicleNumber], (err,data) => {
-            if(err){
-                reject(err);
-            }else if ( !data || data.length === 0){
-                reject(new Error ('Data can not be found!'))
-            }else {
-                resolve(data);
-            }
-        })
-    })
-}
-//##################### Checking cancl data  - end      #######################################

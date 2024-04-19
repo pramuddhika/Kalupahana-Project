@@ -39,20 +39,20 @@ export const addBooking = async (req,res) => {
 
 //##################### Check before cancel - Start  #######################################
 export const cancelChecking = async (req,res) => {
-    const {vehicleNumber} = req.body;
+    const vehicleNumber = req.params.vehicleNumber;
 
     try{
         const data = await cancelCheckingService (vehicleNumber);
         res.json(data);
     }catch(err){
-        res.status(500).json('Somethimg is broken!');
+        res.status(500).json(err.message);
     }
-}
+};
 //##################### Check before cancel - End  #########################################
 
 //#####################  Cancel resevation data - Start ####################################
 export const cancelBooking = async (req,res) => {
-    const {vehicleNumber} = req.params;
+    const {vehicleNumber} = req.body;
 
     try{
         const data = await cancelBookingService(vehicleNumber);

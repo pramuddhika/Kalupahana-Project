@@ -1,4 +1,3 @@
-import {db} from '../.env/db-env.js'
 import { addBookingService, 
          getAllBookings,
          cancelBookingService,

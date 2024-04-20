@@ -65,8 +65,8 @@ const ShopSetting = () => {
             <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
 
             {/**space change settigns - start */}
-            <div className="bg-gray-100 w-11/12 mx-auto my-5 p-4 rounded-lg font-inter">
-                <p className="text-text-primary text-lg font-bold">Repairing Spaces</p>
+            <div className="card w-11/12 mx-auto my-5 p-4">
+                <p className="topic">Repairing Spaces</p>
 
                 <div className="flex gap-8 mt-3 ml-6">
 
@@ -88,6 +88,18 @@ const ShopSetting = () => {
                 </div>
             </div>
             {/**space change settigns - end */}
+
+            {/**add holidays - start */}
+            <div className="card mt-4 w-11/12 mx-auto p-4">
+              <p className="topic">Add Holidays</p>
+              <div className="flex">
+                <div className="w-1/2 p-4"></div>
+                <div className="w-1/2 p-4">
+                  <p className="font-semibold">Holidays for next 30 days</p>
+                </div>
+              </div>
+            </div>
+            {/**add holidays - end */}
 
 
         </div>

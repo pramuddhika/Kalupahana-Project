@@ -20,5 +20,13 @@
     .input{
         @apply outline-none pl-2;
     }
+
+    .card{
+        @apply  bg-gray-200 rounded-lg font-inter;
+    }
+
+    .topic{
+        @apply text-text-primary font-bold text-lg;
+    }
 }
 

@@ -16,15 +16,15 @@ export const bookingInfo = async (req,res) => {
 
 //#####################  Add resevation data - Start #######################################
 export const addBooking = async (req,res) => {
-    const {vehicleNumber,customerName,contactNumber,vehicleCategory,message,date} = req.body;
+    const {vehicleNumber,contactNumber,message,date} = req.body;
     
     //validate inputs
-    if (!vehicleNumber || !customerName || !contactNumber || !vehicleCategory || !message || !date) {
+    if (!vehicleNumber || !contactNumber || !message || !date) {
         return res.status(400).json('All fields are required.');
     }
 
     try {
-        const data = await addBookingService(vehicleNumber,customerName,contactNumber,vehicleCategory,message,date);
+        const data = await addBookingService(vehicleNumber,contactNumber,message,date);
         return res.status(200).json(data);
     } catch (err) {
         if (err.code == 'ER_DUP_ENTRY') {

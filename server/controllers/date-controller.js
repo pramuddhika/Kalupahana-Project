@@ -1,7 +1,6 @@
-// const dateFromDatabase = new Date('2024-04-17T00:00:00.000Z'); // This would come from your database
-// const dateInLocalTimezone = dateFromDatabase.toISOString().substring(0, 10); // '2024-04-17'
 
 
+//################### send next 3 dates to booking form ##########################################
 export const nextDates = (req, res) => {
     const dates = [];
     for (let i = 1; i < 4; i++) {
@@ -12,3 +11,4 @@ export const nextDates = (req, res) => {
     }
     res.json({ dates: dates });
 };
+//#################################################################################################

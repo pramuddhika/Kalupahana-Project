@@ -20,11 +20,11 @@ export const getAllBookings = () => {
 //#####################  get all resevation data - end   ###################################
 
 //#####################  Add resevation data - Start #######################################
-export const addBookingService = (vehicleNumber,customerName,contactNumber,vehicleCategory,message,date) => {
+export const addBookingService = (vehicleNumber,contactNumber,message,date) => {
     return new Promise( (resolve,reject) => {
-        const q = `INSERT INTO booking (vehicleNumber,customerName,contactNumber,vehicleCategory,message,date) VALUES (?,?,?,?,?,?)`;
+        const q = `INSERT INTO booking (vehicleNumber,contactNumber,message,date) VALUES (?,?,?,?)`;
 
-        db.query(q, [vehicleNumber,customerName,contactNumber,vehicleCategory,message,date], (err,data) => {
+        db.query(q, [vehicleNumber,contactNumber,message,date], (err,data) => {
             if(err){
                 reject(err);
             }else{

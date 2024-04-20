@@ -38,3 +38,20 @@ export const updateSpaceDataService = (totalSpace,onlineSpaces) => {
     });
 };
 //######################### updare spaces - end    ############################
+
+//######################### add holiday - Start ###############################
+export const addHolidayService = (dates) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `INSERT INTO holidays (dates) VALUES (?)`;
+        db.query(q, [dates], (err,data) => {
+            if(err){
+                reject (err);
+            }else if(data && data.lenght === 0){
+                reject(new Error('Data can not be foun!'));
+            }else {
+                resolve("Added!");
+            }
+        })
+    });
+};
+//######################### add holiday - end   ###############################

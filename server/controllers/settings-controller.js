@@ -1,5 +1,6 @@
 import {getSpaceDataService,
-        updateSpaceDataService} from '../services/settings-services.js';
+        updateSpaceDataService,
+        addHolidayService} from '../services/settings-services.js';
 
 //############################ get space data - start ######################################
 export const getSpaceData = async (req,res) => {
@@ -23,3 +24,17 @@ export const updateSpaceData = async (req,res) => {
   }
 };
 //########################### update space data - end   #####################################
+
+//########################### add holiday - start ###########################################
+export const addHoliday = async (req,res) => {
+  const {dates} = req.body;
+  console.log(dates);
+  try{
+    const data = await addHolidayService(dates);
+    return res.status(200).json(data);
+  }catch(err){
+    return res.status(500).json(err.message);
+    
+  }
+};
+//########################### add holiday - end   ###########################################

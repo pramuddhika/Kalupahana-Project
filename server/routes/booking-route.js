@@ -16,7 +16,7 @@ router.get('/checking/:vehicleNumber', cancelChecking);
 //cancel booking
 router.delete('/cancel', cancelBooking);
 //send next-4 days
-router.get('/next-dates', nextDates);
+router.get('/nextdates', nextDates);
 
 
 export default router;

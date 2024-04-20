@@ -1,6 +1,6 @@
 import cancel from '../assets/cancel.svg';
 
-const BookingCancel = () => {
+const BookingUpdate = () => {
 
   
     return (
@@ -59,4 +59,4 @@ const BookingCancel = () => {
     );
 };
 
-export default BookingCancel;
+export default BookingUpdate;

@@ -3,13 +3,17 @@ import axios from 'axios';
 import { useState,useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { enGB } from 'date-fns/locale';
 
 
 const ShopSetting = () => {
 
     const [totalSpace,setTotalSpace] = useState(0);
     const [onlineSpaces,setOnlineSpaces] = useState(0);
-    const [isSettingsChanged, setIsSettingsChanged] = useState(false);
+    const [isSpaceChanged, setIsSpaceChanged] = useState(false);
+    const [startDate, setStartDate] = useState();
 
     useEffect( ()=> {
         const spaceDataDetails = async () => {
@@ -26,15 +30,14 @@ const ShopSetting = () => {
 
     const handleTotalSpacesChange = (e) => {
         setTotalSpace(e.target.value);
-        setIsSettingsChanged(true);
+        setIsSpaceChanged(true);
     };
-
     const handleOnlineSpacesChange = (e) => {
         setOnlineSpaces(e.target.value);
-        setIsSettingsChanged(true);
+        setIsSpaceChanged(true);
     };
 
-    const handleUpdateClick = async () => {
+    const handleUpdateSpace = async () => {
       if (totalSpace < 0 || onlineSpaces < 0) {
         toast.error('Input values cannot be negative.');
         return;
@@ -43,19 +46,20 @@ const ShopSetting = () => {
         toast.error('Spaces for Online Booking cannot be greater than Total spaces.');
         return;
     }
-    if (!isSettingsChanged) {
+    if (!isSpaceChanged) {
         toast.error('No changes have been made to the space settings.');
         return;
     }
       try {
         await axios.put('http://localhost:8000/api/settings/updatespaces', {totalSpace, onlineSpaces});
-        setIsSettingsChanged(false);
+        setIsSpaceChanged(false);
         toast.success('Updated space settings!');
     } catch (err) {
         toast.error(err.response.data);
     }
-    }
+   }
 
+    
     return (
         <div>
             <ShopHeader pageName="Settings" />
@@ -84,7 +88,7 @@ const ShopSetting = () => {
                     </div>   
                 </div>
                 <div className="flex justify-end">
-                 <button className={`update-button ${isSettingsChanged ? 'btn text-white bg-blue-500' : 'btn bg-gray-400'}`} onClick={handleUpdateClick}>Update</button>
+                 <button className={`update-button ${isSpaceChanged ? 'btn btn-normal' : 'btn bg-gray-400'}`} onClick={handleUpdateSpace}>Update</button>
                 </div>
             </div>
             {/**space change settigns - end */}
@@ -93,7 +97,11 @@ const ShopSetting = () => {
             <div className="card mt-4 w-11/12 mx-auto p-4">
               <p className="topic">Add Holidays</p>
               <div className="flex">
-                <div className="w-1/2 p-4"></div>
+                <div className="w-1/2 p-4 flex">
+                <DatePicker className="outline-none rounded-lg p-2" dateFormat="yyyy-MM-dd" minDate={new Date()} locale={enGB}
+                 selected={startDate} onChange={(date) => setStartDate(date)} />
+                <button className="btn btn-normal ml-4">Add</button>
+                </div>
                 <div className="w-1/2 p-4">
                   <p className="font-semibold">Holidays for next 30 days</p>
                 </div>

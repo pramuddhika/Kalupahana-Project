@@ -1,7 +1,7 @@
 import ShopHeader from '../components/ShopHeader'
 import { useState } from 'react';
 import BookingDashboard from './BookingDashboard';
-import BookingCancel from './BookingCancel';
+import BookingUpdate from './BookingUpdate';
 import BookingReserved from './BookingReserved';
 
 const Booking = () => {
@@ -32,8 +32,8 @@ const Booking = () => {
 
         <button className={`${activeTopic === 'DashBoard' ? 'topic' : 'text-gray-500'}`}
         onClick={() => handleTopicClick('DashBoard')}>DashBoard</button>
-        <button className={`${activeTopic === 'CancelBooking' ? 'topic' : 'text-gray-500'}`}
-        onClick={() => handleTopicClick('CancelBooking')}>Cancel Booking</button>
+        <button className={`${activeTopic === 'UpdateBooking' ? 'topic' : 'text-gray-500'}`}
+        onClick={() => handleTopicClick('UpdateBooking')}>Update Booking</button>
         <button className={`${activeTopic === 'TodayList' ? 'topic' : 'text-gray-500'}`}
         onClick={() => handleTopicClick('TodayList')}>Reserved List</button>
                     
@@ -42,7 +42,7 @@ const Booking = () => {
              
       <div>
         {activeTopic === 'DashBoard' && <BookingDashboard/>}
-        {activeTopic === 'CancelBooking' && <BookingCancel/>}
+        {activeTopic === 'UpdateBooking' && <BookingUpdate/>}
         {activeTopic === 'TodayList' && <BookingReserved/>}
       </div>
 

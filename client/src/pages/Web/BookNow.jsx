@@ -12,6 +12,7 @@ const BookNow = () => {
   const [openModel,setOpenModel] = useState(false);
   const [openErrorModel,setOpenErrorModel] = useState(false);
   const [dates,setDates] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
   const [booking,setBooking] = useState({
     vehicleNumber:"",
     countactNumber:"",
@@ -38,18 +39,38 @@ const BookNow = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
+    const vehicleNumberRegex = /^[A-Z]{2,3}-\d{4}$/;
+    const contactNumberRegex = /^07[0-8]\d{7}$/;
+    
+    // Validate vehicle number
+    if (!vehicleNumberRegex.test(booking.vehicleNumber)) {
+    setErrorMessage('Invalid Vehicle number.');
+    setOpenErrorModel(true);
+    return;
+    } 
+
+    //VAlidate contact number
+    if (!contactNumberRegex.test(booking.contactNumber)) {
+      setErrorMessage('Invalid contact number.');
+      setOpenErrorModel(true);
+      return;
+    }
+    
+    // handle submission
     try{
       await axios.post('http://localhost:8000/api/booking/add', booking);
       setOpenModel(true);
     }catch(err){
-      console.log(err.message);
+      setErrorMessage(err.response.data);
+      setOpenErrorModel(true);
     }
   };
 
   return (
     <div className="flex justify-center items-center bg-text-primary h-screen">
 
-      <div className="box-context bg-white rounded-lg w-1/2 h-4/5">
+      <div className="box-context bg-white rounded-lg w-1/2 h-fit p-5">
      
         <div className="flex p-3 mt-4">
           <Link to='/'>
@@ -58,7 +79,7 @@ const BookNow = () => {
           <p className="font-inter text-3xl text-text-primary font-medium mx-auto">Kalupahana Motors</p>
         </div>
 
-        <form className='font-inter mt-8' onSubmit={(e) => e.preventDefault()}>
+        <form className='font-inter mt-8' onSubmit={handleSubmit}>
 
           <div className='flex flex-row justify-center mt-2'>
             <div className='basis-1/4'> Vehicle Number :</div>
@@ -94,13 +115,12 @@ const BookNow = () => {
              
           <div className='flex justify-center mt-5'> 
            <button className='btn btn-normal' onClick={handleSubmit}>Submit</button>
-           <button className='btn btn-normal' onClick={() => setOpenErrorModel(true)}>Error</button>
           </div>
 
           </form>
 
-          <Modal open={openModel} onClose={ () => setOpenModel(false)}>
-            <div onClick={() => setOpenModel(false)}>
+          <Modal open={openModel}>
+            <div>
              <div onClick={(e) => e.stopPropagation()}>
                 <p className="font-bold pb-2 text-text-primary text-2xl text-center">Completed!</p>
                 <img src={completed} className='h-44 mx-auto'/>
@@ -116,13 +136,12 @@ const BookNow = () => {
           </Modal>
 
           <Modal open={openErrorModel} onClose={ () => setOpenErrorModel(false)}>
-            <div onClick={() => setOpenErrorModel(false)}>
+            <div>
              <div onClick={(e) => e.stopPropagation()}>
                 <p className="font-bold pb-2 text-red-600 text-2xl text-center">Warning!</p>
                 <img src={Warning} className='h-44 mx-auto'/>
                 <div className='text-center pt-2'>
-                  <p>Something want wrong!,</p>
-                  <p>Please try again late.</p>
+                  <p className='text-red-700'>{errorMessage}</p>
                 </div>
                 <div className="flex justify-center">
                  <button className="btn btn-warning mx-auto mt-2" onClick={() => setOpenErrorModel(false)}>Ok</button>

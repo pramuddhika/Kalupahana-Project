@@ -2,7 +2,8 @@ import express from 'express';
 import { addBooking, 
          bookingInfo,
          cancelBooking,
-         cancelChecking } from '../controllers/booking-controller.js';
+         cancelChecking,
+         todayBookingInfo } from '../controllers/booking-controller.js';
 import {nextDates} from '../controllers/date-controller.js';
 
 const router = express.Router();
@@ -11,6 +12,8 @@ const router = express.Router();
 router.post('/add', addBooking);
 //get booking information from db
 router.get('/showbooking' , bookingInfo);
+//get today list
+router.get('/today', todayBookingInfo);
 //check vehicke to cancel
 router.get('/checking/:vehicleNumber', cancelChecking);
 //cancel booking

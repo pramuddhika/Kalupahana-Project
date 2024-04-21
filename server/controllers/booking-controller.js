@@ -1,18 +1,8 @@
 import { addBookingService, 
          getAllBookings,
          cancelBookingService,
-         cancelCheckingService } from '../services/booking-service.js';
-
-//#####################  get all resevation data - start ##################################
-export const bookingInfo = async (req,res) => {
-    try {
-        const data = await getAllBookings();
-        return res.status(200).json(data);
-    }catch (err){
-        return res.status(500).json(err.message);
-    }
-};
-//#####################  get all resevation data - end   ##################################
+         cancelCheckingService,
+         getTodayBookings } from '../services/booking-service.js';
 
 //#####################  Add resevation data - Start #######################################
 export const addBooking = async (req,res) => {
@@ -35,6 +25,28 @@ export const addBooking = async (req,res) => {
     }
 };
 //#####################  Add resevation data - end   #######################################
+
+//#####################  get resevation data - start ##################################
+export const bookingInfo = async (req,res) => {
+    try {
+        const data = await getAllBookings();
+        return res.status(200).json(data);
+    }catch (err){
+        return res.status(500).json(err.message);
+    }
+};
+//#####################  get resevation data - end   ##################################
+
+//#####################  get today resevation data - start ##################################
+export const todayBookingInfo = async (req,res) => {
+    try {
+        const data = await getTodayBookings();
+        return res.status(200).json(data);
+    }catch (err){
+        return res.status(500).json(err.message);
+    }
+};
+//#####################  get today resevation data - end   ##################################
 
 //##################### Check before cancel - Start  #######################################
 export const cancelChecking = async (req,res) => {

@@ -10,7 +10,7 @@ const BookingDashboard = () => {
     useEffect( () => {
         const fetchBookingDetails = async () => {
             try{
-                const res = await axios.get("http://localhost:8000/api/booking/showbooking")
+                const res = await axios.get("http://localhost:8000/api/booking/today")
                 setDetails(res.data);
             }catch(err){
                 console.log('Error fetching data:' ,err);
@@ -27,29 +27,25 @@ const BookingDashboard = () => {
          <p className="font-inter">Here is today&apos;s reserved list,</p>
 
 
-         <table className="w-10/12 mx-auto font-inter mt-6">
-                <tr className="bg-text-primary text-white h-20">
+         <table className="w-10/12 mx-auto font-inter mt-4">
+                <tr className="bg-text-primary text-white h-16">
                     <th className="w-1/12 border-2">Vehicle Number</th>
-                    <th className="w-2/12 border-2">customer Name</th>
                     <th className="w-1/12 border-2">Contact Number</th>
-                    <th className="w-1/12 border-2">Vehicle Category</th>
                     <th className="w-1/12 border-2">Reserved Date</th>
                     <th className="w-4/12 border-2 text-left pl-2">Message</th>
                 </tr>
 
-                {details === null || details.length === 0 ? (
+                {details == null || details.length === 0 ? (
                  <tr className="bg-gray-300">
                      <td colSpan="6" className="text-center border-2 py-2">No data to display</td>
                  </tr>
                ) : (
-               details.map((detail, index) => (
+                details && details.map((bookingDetails, index) => (
                  <tr key={index} className="bg-gray-300 pl-1">
-                      <td className="border-2 text-center">{detail.vehicleNumber}</td>
-                      <td className="border-2 pl-1">{detail.customerName}</td>
-                      <td className="border-2 text-center">{detail.contactNumber}</td>
-                      <td className="border-2 text-center">{detail.vehicleCategory}</td>
-                      <td className="border-2">{detail.date}</td>
-                      <td className="border-2 pl-2">{detail.message}</td>
+                      <td className="border-2 text-center py-3">{bookingDetails.vehicleNumber}</td>
+                      <td className="border-2 text-center py-3">{bookingDetails.contactNumber}</td>
+                      <td className="border-2 text-center py-3">{bookingDetails.date}</td>
+                      <td className="border-2 pl-2 py-3">{bookingDetails.message}</td>
                  </tr>
                )) )}
 

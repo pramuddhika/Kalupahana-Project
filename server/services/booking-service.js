@@ -1,24 +1,5 @@
 import {db} from '../.env/db-env.js'
 
-//#####################  get all resevation data - start ##################################
-export const getAllBookings = () => {
-    return new Promise ( (resolve, reject) => {
-        const q = `SELECT * FROM booking`;
-
-        db.query(q, (err,data) => {
-            if(err){
-                reject(err);
-            }else if ( !data || data.length === 0){
-                reject(new Error ('Data can not be found!'))
-            }else {
-                resolve(data);
-            }
-        });
-        
-    });
-};
-//#####################  get all resevation data - end   ###################################
-
 //#####################  Add resevation data - Start #######################################
 export const addBookingService = (vehicleNumber,contactNumber,message,date) => {
     return new Promise( (resolve,reject) => {
@@ -34,6 +15,57 @@ export const addBookingService = (vehicleNumber,contactNumber,message,date) => {
     });
 };
 //#####################  Add resevation data - end   #######################################
+
+//#####################  get resevation data - start ##################################
+export const getAllBookings = () => {
+    return new Promise ( (resolve, reject) => {
+        const q = `SELECT vehicleNumber,contactNumber,DATE_FORMAT(date, '%Y-%m-%d') as date,message FROM booking WHERE status = 'pending'`;
+
+        db.query(q, (err,data) => {
+            if(err){
+                reject(err);
+            }else if ( !data || data.length === 0){
+                reject(new Error ('Data can not be found!'))
+            }else {
+                const bookingDetails = data.map(booking => ({
+                    vehicleNumber : booking.vehicleNumber,
+                    contactNumber : booking.contactNumber,
+                    date :  booking.date,
+                    message : booking.message
+                }));
+                resolve(bookingDetails);
+            }
+        });
+        
+    });
+};
+//#####################  get resevation data - end   ###################################
+
+//#####################  get today resevation data - start ##################################
+export const getTodayBookings = () => {
+    return new Promise ( (resolve, reject) => {
+        
+        const q = `SELECT vehicleNumber,contactNumber,DATE_FORMAT(date, '%Y-%m-%d') as date,message FROM booking WHERE DATE(date)=CURDATE() && status = 'pending' `;
+
+        db.query(q, (err,data) => {
+            if(err){
+                reject(err);
+            }else if ( !data || data.length === 0){
+                reject(new Error ('Data can not be found!'))
+            }else {
+                const bookingDetails = data.map(booking => ({
+                    vehicleNumber : booking.vehicleNumber,
+                    contactNumber : booking.contactNumber,
+                    date :  booking.date,
+                    message : booking.message
+                }));
+                resolve(bookingDetails);
+            }
+        });
+        
+    });
+};
+//#####################  get today resevation data - end   ###################################
 
 //##################### Checking cancel data  - Start   #######################################
 export const cancelCheckingService = (vehicleNumber) => {

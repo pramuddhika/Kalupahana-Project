@@ -21,7 +21,6 @@ const Booking = () => {
     }
   };
 
-
   return (
     <div className=''>
 

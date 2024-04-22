@@ -1,4 +1,5 @@
 import OwnerPagesHeader from "../components/OwnerPagesHeader";
+import BookingReserved from "../Shop/BookingReserved";
 
 const Booking = () => {
     return (
@@ -8,7 +9,7 @@ const Booking = () => {
          <OwnerPagesHeader pageName="Booking" />
          {/**page head - end */}
 
-            <p>this is owner booking page</p>
+         <BookingReserved/>
 
         </div>
     );

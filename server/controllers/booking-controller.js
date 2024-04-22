@@ -48,9 +48,9 @@ export const todayBookingInfo = async (req,res) => {
 };
 //#####################  get today resevation data - end   ##################################
 
-//##################### Check before cancel - Start  #######################################
+//##################### Checking booking data for updating  - Start  #######################################
 export const cancelChecking = async (req,res) => {
-    const vehicleNumber = req.params.vehicleNumber;
+    const {vehicleNumber} = req.params;
 
     try{
         const data = await cancelCheckingService (vehicleNumber);
@@ -59,7 +59,7 @@ export const cancelChecking = async (req,res) => {
         res.status(500).json(err.message);
     }
 };
-//##################### Check before cancel - End  #########################################
+//##################### Checking booking data for updating  - end  #########################################
 
 //#####################  Cancel resevation data - Start ####################################
 export const cancelBooking = async (req,res) => {

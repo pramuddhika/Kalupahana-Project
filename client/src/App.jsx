@@ -48,7 +48,7 @@ const router = createBrowserRouter([
        {path: 'OpenJob',     element:<OpenJob/>     },
        {path: 'updateJob',   element:<UpdateJob/>   },
        {path: 'records',     element:<Records/>     },
-       {path: 'setting', element:<ShopSetting/> }
+       {path: 'setting',     element:<ShopSetting/> }
     ]
   },
   { path:'/owner/*',           element: <Owner/>,

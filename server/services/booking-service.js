@@ -67,22 +67,28 @@ export const getTodayBookings = () => {
 };
 //#####################  get today resevation data - end   ###################################
 
-//##################### Checking cancel data  - Start   #######################################
+//##################### Checking booking data for updating  - Start   #######################################
 export const cancelCheckingService = (vehicleNumber) => {
     return new Promise ( (resolve, reject) => {
-        const q = `SELECT * FROM booking WHERE vehiclenumber = ?`;
+        const q = `SELECT vehicleNumber,contactNumber,DATE_FORMAT(date, '%Y-%m-%d') as date,message FROM booking WHERE vehiclenumber = ?`;
         db.query(q,[vehicleNumber], (err,data) => {
             if(err){
                 reject(err);
             }else if ( !data || data.length === 0){
                 reject(new Error ('Data can not be found!'))
             }else {
-                resolve(data);
+                const searchDetails = data.map(booking => ({
+                    vehicleNumber : booking.vehicleNumber,
+                    contactNumber : booking.contactNumber,
+                    date :  booking.date,
+                    message : booking.message
+                }));
+                resolve(searchDetails);
             }
         })
     })
 }
-//##################### Checking cancl data  - end      #######################################
+//##################### Checking booking data for updating  - end  #######################################
 
 //#####################  Cancel resevation data - end   #######################################
 export const cancelBookingService = (vehicleNumber) => {

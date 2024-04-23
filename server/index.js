@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import {PORT} from './.env/port-env.js';
+import {PORT} from './.env';
 import settingsRoutes from './routes/settings-route.js';
 import bookingRoutes from './routes/booking-route.js';
 import dashBoardRoutes from './routes/dashBoard-route.js';

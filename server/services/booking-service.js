@@ -1,4 +1,4 @@
-import {db} from '../.env/db-env.js'
+import {db} from '../.env'
 
 //#####################  Add resevation data - Start #######################################
 export const addBookingService = (vehicleNumber,contactNumber,message,date) => {
@@ -77,13 +77,7 @@ export const cancelCheckingService = (vehicleNumber) => {
             }else if ( !data || data.length === 0){
                 reject(new Error ('Data can not be found!'))
             }else {
-                const searchDetails = data.map(booking => ({
-                    vehicleNumber : booking.vehicleNumber,
-                    contactNumber : booking.contactNumber,
-                    date :  booking.date,
-                    message : booking.message
-                }));
-                resolve(searchDetails);
+                resolve(data);
             }
         })
     })

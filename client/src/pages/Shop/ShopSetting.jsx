@@ -84,7 +84,7 @@ const ShopSetting = () => {
                     </div>
                     <div className="flex gap-3">
                        <p>Spaces for Emergency repairs</p>
-                       <input value={totalSpace - onlineSpaces} min="0" className="w-16 bg-white rounded-lg outline-none border-2 pl-4"/>
+                       <input value={totalSpace - onlineSpaces} min="0" className="w-16 bg-white rounded-lg outline-none border-2 pl-4" readOnly/>
                     </div>   
                 </div>
                 <div className="flex justify-end">

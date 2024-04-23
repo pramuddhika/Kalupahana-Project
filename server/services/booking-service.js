@@ -70,7 +70,7 @@ export const getTodayBookings = () => {
 //##################### Checking booking data for updating  - Start   #######################################
 export const cancelCheckingService = (vehicleNumber) => {
     return new Promise ( (resolve, reject) => {
-        const q = `SELECT vehicleNumber,contactNumber,DATE_FORMAT(date, '%Y-%m-%d') as date,message FROM booking WHERE vehiclenumber = ?`;
+        const q = `SELECT vehicleNumber,contactNumber,DATE_FORMAT(date, '%Y-%m-%d') as date,message FROM booking WHERE vehiclenumber = ? && status = 'pending'`;
         db.query(q,[vehicleNumber], (err,data) => {
             if(err){
                 reject(err);
@@ -87,7 +87,7 @@ export const cancelCheckingService = (vehicleNumber) => {
 //#####################  Cancel resevation data - end   #######################################
 export const cancelBookingService = (vehicleNumber) => {
     return new Promise( (resolve, reject) => {
-        const q = `DELETE FROM booking WHERE vehicleNumber = ?`;
+        const q = `UPDATE booking SET status = 'canceled' WHERE vehicleNumber = ? && status = 'pending' `;
         db.query(q,[vehicleNumber] , (err,data) => {
             if(err){
                 reject(err);
@@ -95,6 +95,21 @@ export const cancelBookingService = (vehicleNumber) => {
                 resolve('Booking Cancelled successfully!');
             }
         })
-    })
-}
+    });
+};
 //#####################  Cancel resevation data - end   #######################################
+
+//##################### change booking Date - Start ###########################################
+export const changeDateService = (date,vehicleNumber) => {
+    return new Promise ( (resolve, reject) => {
+        const q = `UPDATE booking SET date = ? WHERE vehicleNumber = ? && status = 'pending'`;
+        db.query( q, [date,vehicleNumber], (err,data) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve('Date Updated!')
+            }
+        })
+    });
+};
+//##################### change booking Date - end   ###########################################

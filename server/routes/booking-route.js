@@ -3,7 +3,8 @@ import { addBooking,
          bookingInfo,
          cancelBooking,
          cancelChecking,
-         todayBookingInfo } from '../controllers/booking-controller.js';
+         todayBookingInfo,
+         changeDate } from '../controllers/booking-controller.js';
 import {nextDates} from '../controllers/date-controller.js';
 
 const router = express.Router();
@@ -17,9 +18,11 @@ router.get('/today', todayBookingInfo);
 //check vehicke to cancel
 router.get('/checking/:vehicleNumber', cancelChecking);
 //cancel booking
-router.delete('/cancel', cancelBooking);
+router.put('/cancel', cancelBooking);
 //send next-4 days
 router.get('/nextdates', nextDates);
+//change booking date
+router.put('/changedate', changeDate);
 
 
 export default router;

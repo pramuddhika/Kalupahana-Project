@@ -21,22 +21,51 @@ const BookingUpdate = () => {
     setSearchNumner(newSearchNumber);
   }
 
+  //geta and set data to data form
   const handleSearchClick = async () => {
+    //validated vehicle number
+    const vehicleNumberRegex = /^[A-Z]{2,3}-\d{4}$/;
+    if (!vehicleNumberRegex.test(searchNumber)) {
+      toast.warning('Invalid Vehicle number.');
+      return;
+      } 
+  
+
     try{
       const res = await axios.get(`http://localhost:8000/api/booking/checking/${searchNumber}`);
-      if (!res.data) { // Check if the response data is empty
-        toast.error('The entered number is not in the database');
-      } else {
         setSearchBarVisible(false);
         setVehicleNumber(res.data[0].vehicleNumber);
         setContactNumber(res.data[0].contactNumber);
         setMessage(res.data[0].message);
         SetDate(res.data[0].date);
-      }
     } catch(err){
+      toast.error(err.response.data)
+    }
+  }
+
+  //cancel resevation 
+  const handleCancelClick = async () => {
+    try{
+      await axios.put('http://localhost:8000/api/booking/cancel',{vehicleNumber});
+      toast.success('Booking cancellation is successful!');
+      setSearchNumner('');
+      setSearchBarVisible(true);
+    }catch(err){
+      toast.error(err.response.data);
+    }
+  }
+  //change resevation date
+  const handleDateChangeCkick = async () => {
+    try{
+      await axios.put('http://localhost:8000/api/booking/changedate',{date,vehicleNumber});
+      toast.success('New date updated!');
+      setSearchNumner('');
+      setSearchBarVisible(true);
+    }catch(err){
       toast.error(err)
     }
   }
+
 
   const serachBar = (
     <div className='flex items-center card gap-12 box-content w-2/3 h-32 mt-2'>
@@ -61,12 +90,14 @@ const BookingUpdate = () => {
       </div>
       <div className='flex m-2 items-center px-5'>
         <p className='w-36'>Date</p>
-        <DatePicker value={date} className="outline-none rounded-lg p-2 ml-6 w-72" dateFormat="yyyy-MM-dd" minDate={new Date()} locale={enGB}/>
+        <DatePicker selected={date}  className="outline-none rounded-lg p-2 ml-6 w-72"
+         onChange={(date) => SetDate(date.toISOString().slice(0, 10))}  
+         dateFormat="yyyy-MM-dd" minDate={new Date()} locale={enGB}/>
       </div>
 
       <div className='flex justify-center gap-6 mt-4'>
-        <button className='bg-red-600 text-white px-6 py-2 rounded-lg'>Cancel</button>
-        <button className='bg-green-600 text-white px-6 py-2 rounded-lg'>Update</button>
+        <button onClick={handleCancelClick} className='bg-red-600 text-white px-6 py-2 rounded-lg'>Cancel</button>
+        <button onClick={handleDateChangeCkick} className='bg-green-600 text-white px-6 py-2 rounded-lg'>Update</button>
       </div>
     </div>
   );
@@ -79,7 +110,7 @@ const BookingUpdate = () => {
       <div className='flex mt-20'>
 
         <div className='w-1/2'>
-          <img src={cancel} className='h-96 ml-10 mt-6'/>
+          <img src={cancel} className='h-96 mx-auto mt-6'/>
         </div>
 
         <div className='flex items-center w-1/2'>

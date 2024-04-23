@@ -2,7 +2,8 @@ import { addBookingService,
          getAllBookings,
          cancelBookingService,
          cancelCheckingService,
-         getTodayBookings } from '../services/booking-service.js';
+         getTodayBookings,
+         changeDateService } from '../services/booking-service.js';
 
 //#####################  Add resevation data - Start #######################################
 export const addBooking = async (req,res) => {
@@ -73,3 +74,16 @@ export const cancelBooking = async (req,res) => {
     }
 }
 //#####################  Cancel resevation data - end   ####################################
+
+//##################### change booking date - start ########################################
+export const changeDate = async (req,res) => {
+    const {date,vehicleNumber} = req.body;
+    try{
+        const data = await changeDateService(date,vehicleNumber);
+        res.json(data);
+    }catch(err){
+        console.log(err);
+        res.status(500).json('Server side Error!');
+    }
+};
+//##################### change booking date - end  ########################################

@@ -47,7 +47,7 @@ export const addHolidayService = (dates) => {
             if(err){
                 reject (err);
             }else if(data && data.lenght === 0){
-                reject(new Error('Data can not be foun!'));
+                reject(new Error('Data can not be found!'));
             }else {
                 resolve("Added!");
             }

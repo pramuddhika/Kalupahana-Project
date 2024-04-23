@@ -15,6 +15,7 @@ const BookingUpdate = () => {
   const [contactNumber, setContactNumber] = useState('');
   const [message, setMessage] = useState('');
   const [date,SetDate] = useState('');
+  
 
   const handleSearchNumber = (e) => {
     const newSearchNumber = e.target.value;
@@ -30,7 +31,6 @@ const BookingUpdate = () => {
       return;
       } 
   
-
     try{
       const res = await axios.get(`http://localhost:8000/api/booking/checking/${searchNumber}`);
         setSearchBarVisible(false);
@@ -62,7 +62,7 @@ const BookingUpdate = () => {
       setSearchNumner('');
       setSearchBarVisible(true);
     }catch(err){
-      toast.error(err)
+      toast.warning(err);
     }
   }
 

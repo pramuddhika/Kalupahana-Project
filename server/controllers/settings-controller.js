@@ -28,13 +28,15 @@ export const updateSpaceData = async (req,res) => {
 //########################### add holiday - start ###########################################
 export const addHoliday = async (req,res) => {
   const {dates} = req.body;
-  console.log(dates);
   try{
     const data = await addHolidayService(dates);
     return res.status(200).json(data);
   }catch(err){
-    return res.status(500).json(err.message);
-    
+    if (err.code == 'ER_DUP_ENTRY') {
+      return res.status(409).json('Date already exists as a holidays!');
+  } else {
+      return res.status(500).json('Server side error!');
+  }  
   }
 };
 //########################### add holiday - end   ###########################################

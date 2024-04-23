@@ -9,7 +9,7 @@ router.get('/getspace', getSpaceData);
 //update space details
 router.put('/updatespaces', updateSpaceData);
 //add holidays
-router.post('/addholiday', addHoliday);
+router.post('/addholidays', addHoliday);
 
 
 export default router;

@@ -13,7 +13,7 @@ const ShopSetting = () => {
     const [totalSpace,setTotalSpace] = useState(0);
     const [onlineSpaces,setOnlineSpaces] = useState(0);
     const [isSpaceChanged, setIsSpaceChanged] = useState(false);
-    const [startDate, setStartDate] = useState();
+    const [dates, setDates] = useState();
 
     useEffect( ()=> {
         const spaceDataDetails = async () => {
@@ -36,26 +36,38 @@ const ShopSetting = () => {
         setOnlineSpaces(e.target.value);
         setIsSpaceChanged(true);
     };
-
+    
+    //update space and online booking spaces
     const handleUpdateSpace = async () => {
       if (totalSpace < 0 || onlineSpaces < 0) {
         toast.error('Input values cannot be negative.');
         return;
-    }
-    if (onlineSpaces > totalSpace) {
+     }
+     if (onlineSpaces > totalSpace) {
         toast.error('Spaces for Online Booking cannot be greater than Total spaces.');
         return;
-    }
-    if (!isSpaceChanged) {
+     }
+     if (!isSpaceChanged) {
         toast.error('No changes have been made to the space settings.');
         return;
-    }
+     }
       try {
         await axios.put('http://localhost:8000/api/settings/updatespaces', {totalSpace, onlineSpaces});
         setIsSpaceChanged(false);
         toast.success('Updated space settings!');
-    } catch (err) {
+     } catch (err) {
         toast.error(err.response.data);
+     }
+   }
+  //add holiday
+  const handleHolidayeAdd = async () => {
+    try{
+     await axios.post('http://localhost:8000/api/settings/addholidays' , {dates})
+     toast.success("Date added!");
+     setDates('');
+    } catch (err){
+      setDates('');
+      toast.error(err.response.data);
     }
    }
 
@@ -99,8 +111,8 @@ const ShopSetting = () => {
               <div className="flex">
                 <div className="w-1/2 p-4 flex">
                 <DatePicker className="outline-none rounded-lg p-2" dateFormat="yyyy-MM-dd" minDate={new Date()} locale={enGB}
-                 selected={startDate} onChange={(date) => setStartDate(date)} />
-                <button className="btn btn-normal ml-4">Add</button>
+                 selected={dates} onChange={(date) => setDates(date.toISOString().slice(0, 10))} />
+                <button className="btn btn-normal ml-4" onClick={handleHolidayeAdd}>Add</button>
                 </div>
                 <div className="w-1/2 p-4">
                   <p className="font-semibold">Holidays for next 30 days</p>

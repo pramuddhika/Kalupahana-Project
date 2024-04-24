@@ -13,6 +13,7 @@ import Feedbacks from './pages/Shop/Feedbacks'
 import Mechanics from './pages/Shop/Mechanics'
 import Stock from './pages/Shop/Stock'
 import ShopSetting from './pages/Shop/ShopSetting'
+import UpdateMenu from './pages/Shop/Update_Search'
 
 import Owner from './pages/Admin/Owner'
 import Home from './pages/Admin/Home'
@@ -48,7 +49,8 @@ const router = createBrowserRouter([
        {path: 'OpenJob',     element:<OpenJob/>     },
        {path: 'updateJob',   element:<UpdateJob/>   },
        {path: 'records',     element:<Records/>     },
-       {path: 'setting',     element:<ShopSetting/> }
+       {path: 'setting',     element:<ShopSetting/> },
+       {path: 'update',      element:<UpdateMenu/>  }
     ]
   },
   { path:'/owner/*',           element: <Owner/>,

@@ -1,7 +1,34 @@
 import ShopHeader from "../components/ShopHeader";
 import deal from "../assets/deal.svg"
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const OpenJob = () => {
+
+  const [isSearchBarVisible, setIsSearchBarVisible] = useState(true); 
+
+  const handleSearchClick = () => {
+    setIsSearchBarVisible(false)
+  };
+
+  const searchBar = (
+    <div className='flex items-center card gap-12 box-content w-2/3 h-32 mt-32'>
+      <input type='text' placeholder='Enter vehicle number' className='rounded-lg p-2 ml-6 outline-none' />
+      <button className='bg-text-primary text-white px-6 py-2 rounded-lg' onClick={handleSearchClick}>Search</button>
+    </div>
+  );
+
+  const createNew = (
+    <div className='p-3 font-inter card gap-12 box-content w-2/3 h-32 mt-32'>
+      <p className="flex justify-center py-6">New to shop. To create new profile click below button.</p>
+      <div className="flex justify-center">
+         <button className='bg-text-primary text-white px-6 py-2 rounded-lg'>
+           <Link to='/shop/profile'>Create Profile</Link>
+          </button>
+      </div>
+   </div>
+  );
+
     return (
         <div>
             <ShopHeader pageName="Job Open" />
@@ -12,10 +39,7 @@ const OpenJob = () => {
                   <img src={deal} className='h-96 mx-auto mt-6'/>
                </div>
                <div className="w-1/2">
-                 <div className='flex items-center card gap-12 box-content w-2/3 h-32 mt-32'>
-                   <input type='text' placeholder='Enter vehicle number' className='rounded-lg p-2 ml-6 outline-none' />
-                   <button className='bg-text-primary text-white px-6 py-2 rounded-lg'>Search</button>
-                 </div>
+                 {isSearchBarVisible? searchBar : createNew }
               </div>
             </div>
 

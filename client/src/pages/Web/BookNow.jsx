@@ -1,11 +1,11 @@
 import {ChevronLeftIcon} from '@heroicons/react/24/solid';
-import { Link} from 'react-router-dom';
+import { Link,useNavigate} from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import Modal from '../components/Modal';
 import completed from '../assets/completed.svg';
 import Warning from '../assets/warning.svg';
-import { useNavigate } from 'react-router-dom';
+
 
 const BookNow = () => {
 

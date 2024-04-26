@@ -1,9 +1,13 @@
 import repair from '../assets/repair.svg'
 import PropTypes from 'prop-types';
+import ShopHeader from '../components/ShopHeader';
 
 const Update_Search = ({ setActiveTopic }) => {
     return (
-        <div>  
+        <div>
+          <ShopHeader pageName='Job Update'/>
+          <div className="h-9 bg-side-nav-bg border-b-2"/>
+          
             <div className="flex mt-28">
                <div className='w-1/2'>
                   <img src={repair} className='h-96 mx-auto mt-6'/>

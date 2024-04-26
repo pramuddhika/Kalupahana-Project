@@ -1,17 +1,18 @@
-import { useState } from "react";
+import {Routes, Route} from 'react-router-dom'
 import OpenJobSearch from "./OpenJob_Search";
 import VehicleDetails from "./OpenJob_VehicleDetails";
 import PreRepairAssessment from "./PreRepairAssessment";
 
 const OpenJob = () => {
 
-  const [activeTopic,setActiveTopic] = useState('OpenJobSearch');
-
+ 
   return (
     <div>
-     {activeTopic === 'OpenJobSearch' && <OpenJobSearch setActiveTopic={setActiveTopic} />}
-     {activeTopic === 'VehicleDetails'       && <VehicleDetails setActiveTopic={setActiveTopic} />}
-     {activeTopic === 'PreRepairAssessment'  && <PreRepairAssessment/>}
+     <Routes>
+       <Route path='' element={<OpenJobSearch/>}/>
+       <Route path='details' element={<VehicleDetails/>}/>
+       <Route path='prerepair' element={<PreRepairAssessment/>}/>
+     </Routes>
     </div>
   );
 };

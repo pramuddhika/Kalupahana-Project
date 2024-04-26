@@ -1,7 +1,6 @@
 import ShopHeader from "../components/ShopHeader";
-import PropTypes from 'prop-types';
 
-const OpenJob_VehicleDetails = ({setActiveTopic}) => {
+const OpenJob_VehicleDetails = () => {
     return (
         <div>
             <ShopHeader pageName="Vehicle Details"/>
@@ -83,7 +82,7 @@ const OpenJob_VehicleDetails = ({setActiveTopic}) => {
                
                <div className="flex justify-center gap-6 mt-4">
                 <button className="btn btn-warning"> Clear</button>
-                <button className="btn btn-normal" onClick={ ()=> setActiveTopic('PreRepairAssessment')} > Submit</button>
+                <button className="btn btn-normal"> Submit</button>
                </div>
 
               </div>
@@ -92,10 +91,6 @@ const OpenJob_VehicleDetails = ({setActiveTopic}) => {
 
         </div>
     );
-};
-
-OpenJob_VehicleDetails.propTypes = {
-  setActiveTopic: PropTypes.func.isRequired,
 };
 
 export default OpenJob_VehicleDetails;

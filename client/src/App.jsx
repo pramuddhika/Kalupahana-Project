@@ -14,6 +14,11 @@ import Mechanics from './pages/Shop/Mechanics'
 import Stock from './pages/Shop/Stock'
 import ShopSetting from './pages/Shop/ShopSetting'
 import UpdateMenu from './pages/Shop/Update_Search'
+import Update_Search from './pages/Shop/Update_Search'
+import Update_AssignMechanic from './pages/Shop/Update_AssignMechanic'
+import VehicleDetails from './pages/Shop/OpenJob_VehicleDetails';
+import VehicleSearch from './pages/Shop/OpenJob_Search';
+import PreRepair from './pages/Shop/PreRepairAssessment';
 
 import Owner from './pages/Admin/Owner'
 import Home from './pages/Admin/Home'
@@ -46,8 +51,17 @@ const router = createBrowserRouter([
        {path: 'stock',       element:<Stock/>       },
        {path: 'feedbacks',   element:<Feedbacks/>   },
        {path: 'mechanics',   element:<Mechanics/>   },
-       {path: 'OpenJob',     element:<OpenJob/>     },
-       {path: 'updateJob',   element:<UpdateJob/>   },
+       {path: 'OpenJob/*',   element:<OpenJob/>, 
+       children:[
+        {path:'' ,           element:<VehicleSearch/>       },
+        {path:'details',     element:<VehicleDetails/>      },
+        {path:'prerepair',   element:<PreRepair/>           }
+       ]},
+       {path: 'updateJob/*',   element:<UpdateJob/>, 
+       children:[ 
+        {path:'',            element:<Update_Search/>        },
+        {path:'menu',        element:<Update_AssignMechanic/>}
+      ]},
        {path: 'records',     element:<Records/>     },
        {path: 'setting',     element:<ShopSetting/> },
        {path: 'update',      element:<UpdateMenu/>  }

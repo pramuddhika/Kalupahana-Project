@@ -16,7 +16,7 @@ export const getSpaceData = async (req,res) => {
 //########################### update space data - start #####################################
 export const updateSpaceData = async (req,res) => {
   const { totalSpace, onlineSpaces} = req.body;
-  try{
+  try{ 
     const data = await updateSpaceDataService(totalSpace,onlineSpaces);
     return res.status(200).json(data);
   }catch(err){

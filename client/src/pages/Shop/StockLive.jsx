@@ -1,6 +1,6 @@
 
 
-const StockNeededList = () => {
+const StockLive = () => {
     return (
         <div>
            <p>this is content for neededlist</p> 
@@ -8,4 +8,4 @@ const StockNeededList = () => {
     );
 };
 
-export default StockNeededList;
+export default StockLive;

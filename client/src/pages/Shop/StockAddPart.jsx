@@ -1,6 +1,6 @@
 
 
-const StockAvailable = () => {
+const StockAddPart = () => {
     return (
         <div>
             <p>this is content for availble stock</p>
@@ -8,4 +8,4 @@ const StockAvailable = () => {
     );
 };
 
-export default StockAvailable;
+export default StockAddPart;

@@ -9,12 +9,12 @@ const StockAddPurchases = () => {
 
             <div className="flex justify-center fornt-inter items-center mb-4">
               <p className="basis-1/4 text-text-primary font-semibold">Part Id:</p>
-              <input type="text" required className="input basis-1/2 rounded-lg p-2 pl-4"/>
+              <input type="text" required className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add part ID'/>
             </div>
 
             <div className="flex justify-center fornt-inter items-center mb-4">
               <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
-              <input type="text" required className="input basis-1/2 rounded-lg p-2 pl-4"/>
+              <input type="text" required className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add part Name'/>
             </div>
 
             <div className="flex justify-center fornt-inter items-center mb-4">
@@ -24,7 +24,7 @@ const StockAddPurchases = () => {
 
             <div className="flex justify-center fornt-inter">
               <p className="basis-1/4 text-text-primary font-semibold mt-3">Quantity:</p>
-              <input type="number" required className="input basis-1/2 rounded-lg p-2 pl-4"/>
+              <input type="number" required className="input basis-1/2 rounded-lg p-2 pl-4" placeholder="Number of units"/>
             </div>
 
             <div className="flex justify-center mt-6 gap-4">
@@ -53,6 +53,7 @@ const StockAddPurchases = () => {
               </div>
 
           </div>
+
         </div>
     );
 };

@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { enGB } from 'date-fns/locale';
+import {TrashIcon} from '@heroicons/react/24/solid';
+
 
 
 const ShopSetting = () => {
@@ -107,16 +109,40 @@ const ShopSetting = () => {
 
             {/**add holidays - start */}
             <div className="card mt-4 w-11/12 mx-auto p-4">
-              <p className="topic">Add Holidays</p>
-              <div className="flex">
-                <div className="w-1/2 p-4 flex">
-                <DatePicker className="outline-none rounded-lg p-2" dateFormat="yyyy-MM-dd" minDate={new Date()} locale={enGB}
-                 selected={dates} onChange={(date) => setDates(date.toISOString().slice(0, 10))} />
-                <button className="btn btn-normal ml-4" onClick={handleHolidayeAdd}>Add</button>
+              
+              <div className="flex gap-5">
+
+                <div className="w-1/2">
+                 <div className="p-4 flex justify-center items-center">
+                   <p className="topic w-36">Add Holidays</p>
+                   <DatePicker className="outline-none rounded-lg p-2" dateFormat="yyyy-MM-dd" minDate={new Date()} locale={enGB}
+                   selected={dates} onChange={(date) => setDates(date.toISOString().slice(0, 10))} />
+                   <button className="btn btn-normal ml-4" onClick={handleHolidayeAdd}>Add</button>
+                 </div>
+                 
+               </div>
+
+                <div className="flex justify-center w-1/2 p-4">
+                  <div className="flex justify-center overflow-auto max-h-80">
+                   <table className="mx-auto font-inter w-11/12">
+                     <tr className='bg-text-primary text-white'>
+                       <th className="border-2 border-black w-48">Date</th>
+                       <th className="border-2 border-black w-36">Action</th>
+                     </tr>
+
+                      <tr className="text-center">
+                        <td className="border-2 border-black"> hi</td>
+                        <td className="border-2 border-black">
+                        <button className="w-24 m-1">
+                          <TrashIcon className='text-red-600 h-5 mx-auto'/>
+                        </button>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+
                 </div>
-                <div className="w-1/2 p-4">
-                  <p className="font-semibold">Holidays for next 30 days</p>
-                </div>
+
               </div>
             </div>
             {/**add holidays - end */}

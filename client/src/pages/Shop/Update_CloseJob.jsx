@@ -2,8 +2,10 @@
 
 const Update_CloseJob = () => {
     return (
-        <div>
-            <p>content for update close job</p>
+        <div className="flex flex-row ">
+
+          <p>content for update close job</p>
+            
         </div>
     );
 };

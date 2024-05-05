@@ -28,7 +28,7 @@ const StockAddPart = () => {
             </div>
 
           </div>
-
+        
           <div className="card w-5/12 mt-28 p-6 h-92">
             
             <div className='flex justify-center mb-3 gap-6'>
@@ -40,7 +40,7 @@ const StockAddPart = () => {
               <table className="mx-auto font-inter mt-4 w-11/12">
                 <tr className='bg-text-primary text-white'>
                   <th className="border-2 border-black">Part ID</th>
-                  <th className="border-2 border-black">Quantity</th>
+                  <th className="border-2 border-black">Part Name</th>
                   <th colSpan="2" className="border-2 border-black">Action</th>
                 </tr>
 

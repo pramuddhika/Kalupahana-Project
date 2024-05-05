@@ -1,4 +1,4 @@
-
+import {TrashIcon,PencilSquareIcon} from '@heroicons/react/24/solid';
 
 const StockAddPurchases = () => {
     return (
@@ -39,14 +39,21 @@ const StockAddPurchases = () => {
 
              <div className="flex justify-center overflow-auto max-h-80">
               <table className="mx-auto font-inter mt-4 w-11/12">
-                <tr className="bg-text-primary text-white">
+                <tr className='bg-text-primary text-white'>
                   <th className="border-2 border-black">Part ID</th>
                   <th className="border-2 border-black">Quantity</th>
+                  <th colSpan="2" className="border-2 border-black">Action</th>
                 </tr>
 
                 <tr className="text-center">
                   <td className="border-2 border-black"> hi</td>
                   <td className="border-2 border-black"> hu</td>
+                   <td className="border-2 border-black cursor-pointer">
+                     <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
+                   </td>
+                  <td className="border-2 border-black cursor-pointer">
+                    <TrashIcon className='text-red-600 h-5 mx-auto'/>
+                  </td>
                 </tr>
     
               </table>

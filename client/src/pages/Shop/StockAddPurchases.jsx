@@ -38,15 +38,15 @@ const StockAddPurchases = () => {
              <p className="topic text-xl mb-4">Today Purchases</p>
 
              <div className="flex justify-center overflow-auto max-h-80">
-              <table className="border-separate border-spacing-2 border border-slate-500 w-11/12">
-                <tr>
-                  <th className="border border-slate-600 ">Part ID</th>
-                  <th className="border border-slate-600 ">Quantity</th>
+              <table className="mx-auto font-inter mt-4 w-11/12">
+                <tr className="bg-text-primary text-white">
+                  <th className="border-2 border-black">Part ID</th>
+                  <th className="border-2 border-black">Quantity</th>
                 </tr>
 
                 <tr className="text-center">
-                  <td className="border border-slate-600"> hi</td>
-                  <td className="border border-slate-600"> hu</td>
+                  <td className="border-2 border-black"> hi</td>
+                  <td className="border-2 border-black"> hu</td>
                 </tr>
     
               </table>

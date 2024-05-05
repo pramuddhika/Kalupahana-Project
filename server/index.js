@@ -4,6 +4,7 @@ import {PORT} from './.env';
 import settingsRoutes from './routes/settings-route.js';
 import bookingRoutes from './routes/booking-route.js';
 import dashBoardRoutes from './routes/dashBoard-route.js';
+import stockRoutes from './routes/stock-route.js';
 
 
 const app = express();
@@ -17,6 +18,9 @@ app.use('/api/booking', bookingRoutes);
 
 //parths - dashboard
 app.use('/api/dashboard', dashBoardRoutes);
+
+//parths - stock
+app.use('/api/stock', stockRoutes);
 
 
 app.listen(PORT, () => {

@@ -132,12 +132,12 @@ const ShopSetting = () => {
 
             {/**add holidays - start */}
             <div className="card mt-4 w-11/12 mx-auto p-4">
+              <p className="topic w-36">Add Holidays</p>
               
               <div className="flex gap-5">
 
                 <div className="w-1/2">
                  <div className="p-4 flex justify-center items-center">
-                   <p className="topic w-36">Add Holidays</p>
                    <DatePicker className="outline-none rounded-lg p-2" dateFormat="yyyy-MM-dd" minDate={new Date()} locale={enGB}
                    selected={dates} onChange={(date) => setDates(date.toISOString().slice(0, 10))} />
                    <button className="btn btn-normal ml-4" onClick={handleHolidayeAdd}>Add</button>

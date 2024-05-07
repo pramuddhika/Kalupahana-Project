@@ -45,8 +45,8 @@ const StockAddPart = () => {
                 </tr>
 
                 <tr className="text-center">
-                  <td className="border-2 border-black"> hi</td>
-                  <td className="border-2 border-black"> hu</td>
+                  <td className="border-2 border-black">test data</td>
+                  <td className="border-2 border-black">test data</td>
                    <td className="border-2 border-black cursor-pointer">
                      <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
                    </td>

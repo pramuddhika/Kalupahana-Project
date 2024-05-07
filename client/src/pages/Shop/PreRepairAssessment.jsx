@@ -67,7 +67,11 @@ const PreRepairAssessment = () => {
 
             <div className="card w-10/12 p-2 mt-7">
               <p className="topic my-3">Scratch marks in body</p>
-              <input type="image" className="input rounded-lg w-11/12 ml-9 mb-3"/>
+              <div className="flex">
+               <input type="file" className="input rounded-lg w-11/12 ml-9 mb-3"/>
+               <button className="btn btn-normal">Add</button>
+              </div>
+              
             </div>
 
             <div className="card w-10/12 p-2 mt-7">

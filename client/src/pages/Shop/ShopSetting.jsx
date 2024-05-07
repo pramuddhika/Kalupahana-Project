@@ -107,6 +107,29 @@ const ShopSetting = () => {
             </div>
             {/**space change settigns - end */}
 
+            {/**tommorow booking notification time - satrt */}
+            <div className="card w-11/12 mx-auto my-5 p-4">
+                <p className="topic">Next day reservation list notification time</p>
+
+                <div className="flex gap-8 mt-3 ml-6">
+
+                    <div className="flex gap-3 items-center basis-1/2">
+                      <p>set new time</p>  
+                      <input type="time" className="w-44 p-2 rounded-lg outline-none border-2 pl-4"/>
+                    </div>
+                    
+                    <div className="flex gap-3 items-center basis-1/2">
+                       <p>current time :</p>
+                       <input  className="w-44 bg-white p-2 rounded-lg outline-none border-2 pl-4" readOnly/>
+                    </div>   
+                </div>
+                <div className="flex justify-end">
+                 <button className='btn btn-normal'>Set Time</button>
+                </div>
+            </div>
+            {/**tommorow booking notification time - end */}
+
+
             {/**add holidays - start */}
             <div className="card mt-4 w-11/12 mx-auto p-4">
               

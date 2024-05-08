@@ -6,7 +6,7 @@ const Update_SendSMS = () => {
         
           <div className="flex flex-col justify-center items-center basis-2/3">
             {/**table - start */}
-            <div className="card mt-5 w-11/12 p-2 h-88">
+            <div className="box-content h-80 card mt-5 w-11/12 p-2">
               <p className="topic">Previous Updates</p>
               <div className="flex justify-center overflow-auto max-h-72">
               <table className="mx-auto font-inter mt-4 w-11/12">
@@ -18,7 +18,7 @@ const Update_SendSMS = () => {
                 <tr className="text-center">
                   <td className="border-2 border-black"> test data</td>
                   <td className="border-2 border-black text-start pl-2"> test data</td>
-                </tr>
+                </tr>             
 
               </table>
               </div>

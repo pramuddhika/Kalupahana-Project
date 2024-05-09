@@ -1,4 +1,4 @@
-
+import {Link} from 'react-router-dom';
 
 const Details = () => {
     return (
@@ -32,7 +32,9 @@ const Details = () => {
              </div>
 
              <div className="flex justify-center mt-4">
-                <button className="btn btn-normal">Eddit</button>
+                <button className="btn btn-normal">
+                  <Link to={'/shop/updateJob/edit'}>Edit</Link>
+                </button>
              </div>
 
           </div>

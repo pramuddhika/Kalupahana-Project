@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { enGB } from 'date-fns/locale';
-import {TrashIcon} from '@heroicons/react/24/solid';
+import {TrashIcon,PencilSquareIcon} from '@heroicons/react/24/solid';
 
 
 
@@ -155,7 +155,7 @@ const ShopSetting = () => {
                      </tr>
 
                       <tr className="text-center">
-                        <td className="border-2 border-black"> hi</td>
+                        <td className="border-2 border-black">test data</td>
                         <td className="border-2 border-black">
                         <button className="w-24 m-1">
                           <TrashIcon className='text-red-600 h-5 mx-auto'/>
@@ -170,6 +170,47 @@ const ShopSetting = () => {
               </div>
             </div>
             {/**add holidays - end */}
+
+            {/**mechanics specialist ares - start */}
+            <div className="card mt-4 w-11/12 mx-auto p-4 mb-4">
+              <p className="topic w-64">Mechanics Specialist Areas</p>
+              
+              <div className="flex gap-5">
+
+                <div className="w-1/2">
+                 <div className="p-4 flex justify-center items-center">
+                   <input type="text" className="input rounded-lg p-2"/>
+                   <button className="btn btn-normal ml-4" onClick={handleHolidayeAdd}>Add</button>
+                 </div>
+                 
+               </div>
+
+                <div className="flex justify-center w-1/2 p-4">
+                  <div className="flex justify-center overflow-auto max-h-80">
+                   <table className="mx-auto font-inter w-11/12">
+                     <tr className='bg-text-primary text-white'>
+                       <th className="border-2 border-black w-48">Specialist Area</th>
+                       <th colSpan="2" className="border-2 border-black w-36">Action</th>
+                     </tr>
+
+                      <tr className="text-center">
+                        <td className="border-2 border-black">test data</td>
+                        <td className="border-2 border-black cursor-pointer">
+                          <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
+                        </td>
+                        <td className="border-2 border-black cursor-pointer">
+                          <TrashIcon className='text-red-600 h-5 mx-auto'/>
+                        </td>
+                      </tr>
+                      
+                    </table>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+            {/**mechnicss specialist ares -end */}
 
 
         </div>

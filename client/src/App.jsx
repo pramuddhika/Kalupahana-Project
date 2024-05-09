@@ -21,6 +21,7 @@ import Update_Search from './pages/Shop/Update_Search'
 import VehicleDetails from './pages/Shop/OpenJob_VehicleDetails';
 import VehicleSearch from './pages/Shop/OpenJob_Search';
 import PreRepair from './pages/Shop/PreRepairAssessment';
+import Edit from './pages/Shop/Update_EditDetails';
 
 import Owner from './pages/Admin/Owner'
 import Home from './pages/Admin/Home'
@@ -65,7 +66,8 @@ const router = createBrowserRouter([
        ]},
        {path: 'updateJob/*',   element:<UpdateJob/>, children:[ 
               {path:'',            element:<Update_Search/>       },
-              {path:'menu',        element:<UpdateMenu/>          }
+              {path:'menu',        element:<UpdateMenu/>          },
+              {path:'edit',        element:<Edit/>                }
       ]},
        {path: 'records',     element:<Records/>     },
        {path: 'setting',     element:<ShopSetting/> }    ]

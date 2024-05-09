@@ -7,7 +7,7 @@ const Update_UsePart = () => {
           <div className="flex flex-col justify-center items-center basis-2/3">
 
             {/**input data form - start */}
-            <div className="card w-11/12 p-2 mt-5">
+            <div className="h-48 card w-11/12 p-2 mt-5">
              
               <p className="topic ">Used Part</p>
 

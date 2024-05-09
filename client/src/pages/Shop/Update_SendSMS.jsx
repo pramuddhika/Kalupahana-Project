@@ -5,6 +5,21 @@ const Update_SendSMS = () => {
         <div className="flex flex-row ">
         
           <div className="flex flex-col justify-center items-center basis-2/3">
+
+            <div className="h-48 card mt-5 w-11/12 p-2">
+              <p className="topic">Send SMS Update</p>
+              <div className="flex justify-between">
+                <div className="flex gap-10 my-4 ml-16">
+                  <p>Message: </p>
+                  <textarea rows={4} placeholder="Type job update" className="input rounded-lg w-96 p-2" />
+                </div>
+                <div className="flex items-end mb-4 mr-8 gap-4">
+                   <button className="btn btn-warning">Cancel</button>
+                   <button className="btn btn-normal">Send</button>
+                </div>
+              </div>
+            </div>
+
             {/**table - start */}
             <div className="box-content h-80 card mt-5 w-11/12 p-2">
               <p className="topic">Previous Updates</p>
@@ -24,20 +39,6 @@ const Update_SendSMS = () => {
               </div>
             </div>
             {/**table - end */}
-
-
-            <div className="card mt-5 w-11/12 p-2">
-              <p className="topic">Send SMS Update</p>
-              <div className="flex justify-between">
-                <div className="flex gap-10 my-4 ml-16">
-                  <p>Message: </p>
-                  <textarea rows={4} placeholder="Type job update" className="input rounded-lg w-96 p-2" />
-                </div>
-                <div className="flex items-end mb-4 mr-16">
-                   <button className="btn btn-normal">Send</button>
-                </div>
-              </div>
-            </div>
 
           </div>
 

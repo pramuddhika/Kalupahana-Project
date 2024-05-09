@@ -11,11 +11,13 @@ import UpdateJob from './pages/Shop/UpdateJob'
 import Records from './pages/Shop/Records'
 import Feedbacks from './pages/Shop/Feedbacks'
 import Mechanics from './pages/Shop/Mechanics'
+import MechanicsMenu from './pages/Shop/MechanicsMenu'
+import MechanicsAdd from './pages/Shop/MechanicsAdd'
+import MechanicsUpdate from './pages/Shop/MechanicsUpdate'
 import Stock from './pages/Shop/Stock'
 import ShopSetting from './pages/Shop/ShopSetting'
 import UpdateMenu from './pages/Shop/Update_Search'
 import Update_Search from './pages/Shop/Update_Search'
-import Update_AssignMechanic from './pages/Shop/Update_AssignMechanic'
 import VehicleDetails from './pages/Shop/OpenJob_VehicleDetails';
 import VehicleSearch from './pages/Shop/OpenJob_Search';
 import PreRepair from './pages/Shop/PreRepairAssessment';
@@ -51,22 +53,22 @@ const router = createBrowserRouter([
        {path: 'booking',     element:<Booking/>     },
        {path: 'stock',       element:<Stock/>       },
        {path: 'feedbacks',   element:<Feedbacks/>   },
-       {path: 'mechanics',   element:<Mechanics/>   },
-       {path: 'OpenJob/*',   element:<OpenJob/>, 
-       children:[
-        {path:'' ,           element:<VehicleSearch/>       },
-        {path:'details',     element:<VehicleDetails/>      },
-        {path:'prerepair',   element:<PreRepair/>           }
+       {path: 'mechanics/*',   element:<Mechanics/>, children:[
+              { path:'' ,      element:<MechanicsMenu/>       },
+              { path:'add'  ,      element:<MechanicsAdd/>        },
+              { path: 'update',    element:<MechanicsUpdate/>     }      
        ]},
-       {path: 'updateJob/*',   element:<UpdateJob/>, 
-       children:[ 
-        {path:'',            element:<Update_Search/>        },
-        {path:'menu',        element:<Update_AssignMechanic/>}
+       {path: 'OpenJob/*',   element:<OpenJob/>  , children:[
+              {path:'' ,           element:<VehicleSearch/>       },
+              {path:'details',     element:<VehicleDetails/>      },
+              {path:'prerepair',   element:<PreRepair/>           }
+       ]},
+       {path: 'updateJob/*',   element:<UpdateJob/>, children:[ 
+              {path:'',            element:<Update_Search/>       },
+              {path:'menu',        element:<UpdateMenu/>          }
       ]},
        {path: 'records',     element:<Records/>     },
-       {path: 'setting',     element:<ShopSetting/> },
-       {path: 'update',      element:<UpdateMenu/>  }
-    ]
+       {path: 'setting',     element:<ShopSetting/> }    ]
   },
   { path:'/owner/*',           element: <Owner/>,
        children: [

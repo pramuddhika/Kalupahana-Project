@@ -111,20 +111,21 @@ const ShopSetting = () => {
             <div className="card w-11/12 mx-auto my-5 p-4">
                 <p className="topic">Next day reservation list notification time</p>
 
-                <div className="flex gap-8 mt-3 ml-6">
+                <div className="flex gap-48 mt-3 justify-center">
 
-                    <div className="flex gap-3 items-center basis-1/2">
+                    <div className="flex gap-3 items-center">
                       <p>set new time</p>  
-                      <input type="time" className="w-44 p-2 rounded-lg outline-none border-2 pl-4"/>
+                      <input type="time" className="p-2 rounded-lg outline-none border-2 pl-4"/>
                     </div>
                     
-                    <div className="flex gap-3 items-center basis-1/2">
+                    <div className="flex gap-3 items-center">
                        <p>current time :</p>
-                       <input  className="w-44 bg-white p-2 rounded-lg outline-none border-2 pl-4" readOnly/>
+                       <input  className="bg-white p-2 rounded-lg outline-none border-2 pl-4 w-36" readOnly/>
                     </div>   
-                </div>
-                <div className="flex justify-end">
-                 <button className='btn btn-normal'>Set Time</button>
+
+                    <div className="flex justify-end">
+                     <button className='btn btn-normal'>Set Time</button>
+                    </div>
                 </div>
             </div>
             {/**tommorow booking notification time - end */}

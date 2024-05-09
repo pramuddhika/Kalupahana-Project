@@ -33,9 +33,6 @@ const Update_UsePart = () => {
                 </div>
               </div>
 
-
-                
-              
             </div>
             {/**input data form -end */}
 

@@ -29,23 +29,23 @@ const BookingDashboard = () => {
 
          <table className="w-10/12 mx-auto font-inter mt-4">
                 <tr className="bg-text-primary text-white h-16">
-                    <th className="w-1/12 border-2">Vehicle Number</th>
-                    <th className="w-1/12 border-2">Contact Number</th>
-                    <th className="w-1/12 border-2">Reserved Date</th>
-                    <th className="w-4/12 border-2 text-left pl-2">Message</th>
+                    <th className="w-1/12 border-2 border-black">Vehicle Number</th>
+                    <th className="w-1/12 border-2 border-black">Contact Number</th>
+                    <th className="w-1/12 border-2 border-black">Reserved Date</th>
+                    <th className="w-4/12 border-2 border-black text-left pl-2">Message</th>
                 </tr>
 
                 {details == null || details.length === 0 ? (
                  <tr className="bg-gray-300">
-                     <td colSpan="6" className="text-center border-2 py-2">No data to display</td>
+                     <td colSpan="6" className="text-center border-2 border-black py-2">No data to display</td>
                  </tr>
                ) : (
                 details && details.map((bookingDetails, index) => (
-                 <tr key={index} className="bg-gray-300 pl-1">
-                      <td className="border-2 text-center py-3">{bookingDetails.vehicleNumber}</td>
-                      <td className="border-2 text-center py-3">{bookingDetails.contactNumber}</td>
-                      <td className="border-2 text-center py-3">{bookingDetails.date}</td>
-                      <td className="border-2 pl-2 py-3">{bookingDetails.message}</td>
+                 <tr key={index} className="bg-gray-300 pl-1 text-center">
+                      <td className="border-2 border-black py-3">{bookingDetails.vehicleNumber}</td>
+                      <td className="border-2 border-black py-3">{bookingDetails.contactNumber}</td>
+                      <td className="border-2 border-black py-3">{bookingDetails.date}</td>
+                      <td className="border-2 border-black text-start pl-2 py-3">{bookingDetails.message}</td>
                  </tr>
                )) )}
 

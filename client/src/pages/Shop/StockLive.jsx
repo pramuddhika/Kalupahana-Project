@@ -33,16 +33,16 @@ const StockLive = () => {
               
           <table className="w-10/12 mx-auto font-inter">
             <tr className="bg-text-primary text-white h-12">
-              <th className="w-1/4 border-2">Part ID</th>
-              <th className="w-1/2 border-2">Part Name</th>
-              <th className="w-1/4 border-2">Quantity</th>
+              <th className="w-1/4 border-2 border-black">Part ID</th>
+              <th className="w-1/2 border-2 border-black">Part Name</th>
+              <th className="w-1/4 border-2 border-black">Quantity</th>
             </tr>
   
                   
             <tr className="bg-gray-300 p-2">
-              <td className="border-2 text-center py-3"></td>
-              <td className="border-2 text-start py-3"></td>
-              <td className="border-2 text-center py-3"></td>
+              <td className="border-2 border-black text-center py-3"></td>
+              <td className="border-2 border-black text-start py-3"></td>
+              <td className="border-2 border-black text-center py-3"></td>
             </tr>
                 
   

@@ -15,3 +15,25 @@ export const addPartService = (partID,partName,description) => {
     });
 }
 //##################### add part details - end   #########################
+
+//##################### get part name & ID - start #######################
+export const getId_NameService = () => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT partID,partName FROM sparepart`;
+
+        db.query( q, (err,data) => {
+            if(err){
+                reject(err);
+            }else if ( !data || data.length === 0){
+                reject(new Error ('Data can not be found!'))
+            }else {
+                const partDetails = data.map(part => ({
+                    partID : part.partID,
+                    partName : part.partName,
+                }));
+                resolve(partDetails);
+            }
+        } )
+    })
+}
+//##################### get part name & ID - end   #######################

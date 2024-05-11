@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import {PORT} from './.env';
+import {PORT, db} from './.env';
 import settingsRoutes from './routes/settings-route.js';
 import bookingRoutes from './routes/booking-route.js';
 import dashBoardRoutes from './routes/dashBoard-route.js';
@@ -21,6 +21,7 @@ app.use('/api/dashboard', dashBoardRoutes);
 
 //parths - stock
 app.use('/api/stock', stockRoutes);
+
 
 
 app.listen(PORT, () => {

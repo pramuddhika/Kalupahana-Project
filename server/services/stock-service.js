@@ -1,11 +1,11 @@
 import {db} from '../.env';
 
 //##################### add part details - satrt #########################
-export const addPartService = (partID,partName,description) => {
+export const addPartService = (partID,partName,partDescription) => {
     return new Promise ( (resolve,reject) => {
         const q = `INSERT INTO sparepart (partID,partName,description) VALUES (?,?,?) `;
 
-        db.query( q, [partID,partName,description], (err,data) => {
+        db.query( q, [partID,partName,partDescription], (err,data) => {
             if(err){
                 reject(err);
             }else{
@@ -19,7 +19,7 @@ export const addPartService = (partID,partName,description) => {
 //##################### get part name & ID - start #######################
 export const getId_NameService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT partID,partName FROM sparepart`;
+        const q = `SELECT partID,partName,description FROM sparepart`;
 
         db.query( q, (err,data) => {
             if(err){
@@ -30,6 +30,7 @@ export const getId_NameService = () => {
                 const partDetails = data.map(part => ({
                     partID : part.partID,
                     partName : part.partName,
+                    description: part.description
                 }));
                 resolve(partDetails);
             }

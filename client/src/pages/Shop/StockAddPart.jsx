@@ -1,34 +1,93 @@
 import {TrashIcon,PencilSquareIcon} from '@heroicons/react/24/solid';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 
 const StockAddPart = () => {
+
+  const [details,setDetails] = useState(null);
+  const [inputs, setInputs] = useState({
+    partID:"",
+    partName:"",
+    partDescription:""
+  });
+
+  useEffect( ()=> {
+    const fechPartDetails = async () => {
+      try{
+        const res = await axios.get("http://localhost:8000/api/stock/get")
+        setDetails(res.data);
+      }catch(err){
+        console.log('Error fetching data: ' , err);
+      }
+    }
+    fechPartDetails()
+  },[])
+
+  const handleInputChange = (e) => {
+      
+    setInputs( prevInputs => ({
+      ...prevInputs,[e.target.name]: e.target.value
+    }));
+    console.log(inputs);
+  }
+
+  const handleClear = () => {
+    setInputs({
+      partID:'',
+      partName:'',
+      partDescription:''
+    });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try{
+      await axios.post('http://localhost:8000/api/stock/add', inputs);
+      handleClear();
+    }catch(err){
+      console.log(err)
+    }
+  }
+
     return (
         <div  className="flex justify-center gap-8">
-            
-            <div className="card w-4/12 p-6 mt-28">
+
+          {/**input form -start */} 
+          <div className="card w-4/12 p-6 mt-28">
             <p className="topic text-xl mb-4">Part Details</p>
 
             <div className="flex fornt-inter items-center mb-4">
               <p className="basis-1/4 text-text-primary font-semibold">Part Id:</p>
-              <input type="text" required className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add part ID'/>
+              <input type="text" name='partID' value={inputs.partID} onChange={handleInputChange} required 
+               className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add part ID'/>
             </div>
 
             <div className="flex fornt-inter items-center mb-4">
               <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
-              <input type="text" required className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add Part Name'/>
+              <input type="text" name='partName' value={inputs.partName} onChange={handleInputChange} required 
+               className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add Part Name'/>
             </div>
 
             <div className="flex fornt-inter">
               <p className="basis-1/4 text-text-primary font-semibold mt-3">Description:</p>
-              <textarea rows={6} required className="input w-60 rounded-lg p-2 pl-4" placeholder='Note about part'/>
+              <div className='relative bg-white rounded-lg'>
+               <textarea rows={4} name='partDescription' value={inputs.partDescription} onChange={handleInputChange} required 
+               className="input w-60 rounded-lg p-2 pl-4 pr-2" placeholder='Note about part' maxLength="120"/>
+               <div className="absolute bottom-0 right-0 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">{inputs.partDescription.length}/120</div>
+              </div>
             </div>
 
             <div className="flex justify-center mt-4 gap-4">
-              <button className="btn btn-warning">Clear</button>
-              <button className="btn btn-normal">Submit</button>
+              <button className="btn btn-warning" onClick={handleClear}>Clear</button>
+              <button className="btn btn-normal" onClick={handleSubmit}>Submit</button>
             </div>
 
           </div>
-        
+          {/**input form - end */}
+
+          {/**table part - satrt */}
           <div className="card w-6/12 mt-28 p-6 h-92">
             
             <div className='flex justify-center mb-3 gap-6'>
@@ -45,22 +104,33 @@ const StockAddPart = () => {
                   <th colSpan="2" className="border-2 border-black">Action</th>
                 </tr>
 
-                <tr className="text-center">
-                  <td className="border-2 border-black overflow-hidden overflow-ellipsis">test data</td>
-                  <td className="border-2 border-black overflow-hidden overflow-ellipsis">test data</td>
-                  <td className="border-2 border-black overflow-hidden overflow-ellipsis">test data</td>
-                   <td className="border-2 border-black cursor-pointer">
-                     <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
-                   </td>
-                  <td className="border-2 border-black cursor-pointer">
-                    <TrashIcon className='text-red-600 h-5 mx-auto'/>
-                  </td>
-                </tr>
+                {details == null || details.length == 0? (
+                  <tr>
+                    <td colSpan="4" className='text-center border-2 border-black py-2'>No data to display</td>
+                  </tr>
+                ):(
+                  details && details.map( (partDetails, index) => (
+                    <tr key={index} className="text-center">
+                     <td className="border-2 w-24 border-black overflow-hidden overflow-ellipsis">{partDetails.partID}</td>
+                     <td className="border-2 border-black overflow-hidden overflow-ellipsis">{partDetails.partName}</td>
+                     <td className="border-2 border-black overflow-hidden overflow-ellipsis">{partDetails.description}</td>
+                     <td className="border-2 border-black cursor-pointer w-12">
+                       <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
+                     </td>
+                     <td className="border-2 border-black cursor-pointer w-12">
+                      <TrashIcon className='text-red-600 h-5 mx-auto'/>
+                     </td>
+                   </tr>
+                  ))
+                )}
+
+                
     
               </table>
               </div>
 
           </div>
+          {/**table part - end */}
 
         </div>
     );

@@ -72,7 +72,7 @@ const OpenJob_VehicleDetails = () => {
                  <div className="flex justify-center items-center p-2">
                     <div className="basis-1/4"><p>Email:</p></div>
                     <div className="basis-1/2">
-                      <input type="text" className="input rounded-lg ml-4 p-2 w-60" placeholder="email here"/>
+                      <input type="email" className="input rounded-lg ml-4 p-2 w-60" placeholder="email here"/>
                     </div>
                  </div>
 

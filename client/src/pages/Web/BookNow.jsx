@@ -39,6 +39,7 @@ const BookNow = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+  
 
     const vehicleNumberRegex = /^[A-Z]{2,3}-\d{4}$/;
     const contactNumberRegex = /^07[0-8]\d{7}$/;

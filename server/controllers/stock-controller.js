@@ -4,10 +4,10 @@ import {addPartService,
 //##################### add part details - satrt #########################
 export const addPart = async (req,res) => {
 
-    const {partID,partName,description} = req.body;
+    const {partID,partName,partDescription} = req.body;
 
     try{
-        const data = await addPartService(partID,partName,description);
+        const data = await addPartService(partID,partName,partDescription);
     }catch(err){
         return res.status(500).json(err.message);
     }

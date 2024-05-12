@@ -1,5 +1,6 @@
 import {addPartService,
-        getId_NameService} from '../services/stock-service.js';
+        getId_NameService,
+        deletePartService} from '../services/stock-service.js';
 
 //##################### add part details - satrt #########################
 export const addPart = async (req,res) => {
@@ -21,7 +22,6 @@ export const addPart = async (req,res) => {
 
 //##################### get part name & ID - start #######################
 export const getId_Name = async (req,res) => {
-   
     try{
         const data = await getId_NameService();
         return res.status(200).json(data);
@@ -30,3 +30,16 @@ export const getId_Name = async (req,res) => {
     }
 }
 //##################### get part name & ID - end   #######################
+
+//##################### delete part - satrt ##############################
+export const deletePart = async (req,res) => {
+    const {partID} = req.params;
+    try{
+        const data = await deletePartService(partID);
+        
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err.message);
+    }
+}
+//##################### delete part - end   ##############################

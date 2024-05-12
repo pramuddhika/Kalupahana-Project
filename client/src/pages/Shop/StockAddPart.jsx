@@ -3,17 +3,15 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Modal from '../components/Modal';
 
 const StockAddPart = () => {
 
   const [details,setDetails] = useState(null);
-  const [refresh,setRefresh] = useState(false)
-  const [inputs, setInputs] = useState({
-    partID:"",
-    partName:"",
-    partDescription:""
-  });
+  const [refresh,setRefresh] = useState(false);
+  const [selectedRow, setSelectedRow] = useState('');
+  const [openDeleteModal,setOpenDeleteModal] = useState(false);
+  const [inputs, setInputs] = useState({partID:"", partName:"", partDescription:""});
 
   useEffect( ()=> {
     const fechPartDetails = async () => {
@@ -43,7 +41,6 @@ const StockAddPart = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     //chack inputs are not empty
     if (!inputs.partID) {
       toast.error('Part ID cannot be empty');
@@ -53,7 +50,6 @@ const StockAddPart = () => {
       toast.error('Part Name cannot be empty');
       return;
     }
-    
     //send data to server
     try{
       const res = await axios.post('http://localhost:8000/api/stock/add', inputs);
@@ -64,6 +60,22 @@ const StockAddPart = () => {
       toast.warning(err.response.data)
     }
   }
+
+  const handleTrashClick = (data) => {
+    setSelectedRow(data);
+    setOpenDeleteModal(true);
+  };
+
+  const handleDelete = async (partID) => {
+     try{
+      const res = await axios.delete(`http://localhost:8000/api/stock/deletepart/${partID}`);
+      setRefresh(!refresh);
+      setOpenDeleteModal(false);
+      toast.success(res.data);
+     }catch(err){
+      toast.error(err.response.data);
+     }
+  } 
 
     return (
         <div  className="flex justify-center gap-8">
@@ -129,24 +141,55 @@ const StockAddPart = () => {
                     <tr key={index} className="text-center">
                      <td className="border-2 w-24 border-black overflow-hidden overflow-ellipsis">{partDetails.partID}</td>
                      <td className="border-2 border-black overflow-hidden overflow-ellipsis">{partDetails.partName}</td>
-                     <td className="border-2 border-black overflow-hidden overflow-ellipsis">{partDetails.description}</td>
+                     <td className="border-2 border-black overflow-hidden text-start pl-1 overflow-ellipsis">{partDetails.description}</td>
                      <td className="border-2 border-black cursor-pointer w-12">
-                       <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
+                        <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
                      </td>
-                     <td className="border-2 border-black cursor-pointer w-12">
+                     <td className="border-2 border-black cursor-pointer w-12" onClick={() => handleTrashClick(partDetails)}>
                       <TrashIcon className='text-red-600 h-5 mx-auto'/>
                      </td>
                    </tr>
                   ))
                 )}
-
-                
-    
               </table>
               </div>
-
           </div>
           {/**table part - end */}
+
+          {/**delete modal - start */}
+          <Modal open={openDeleteModal}>
+            <div>
+             <div onClick={(e) => e.stopPropagation()}>
+                <p className="font-bold pb-2 text-red-600 text-2xl text-center">Are You Sure?</p>
+
+                <div className="flex fornt-inter items-center mb-4">
+                  <p className="basis-1/4 text-text-primary font-semibold">Part Id:</p>
+                  <input type="text" value={selectedRow.partID} readOnly 
+                  className="input basis-1/2 rounded-lg p-2 pl-4"/>
+                </div>
+
+                <div className="flex fornt-inter items-center mb-4">
+                  <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
+                  <input type="text" value={selectedRow.partName} readOnly
+                  className="input basis-1/2 rounded-lg p-2 pl-4"/>
+                </div>
+
+                <div className="flex fornt-inter">
+                  <p className="basis-1/4 text-text-primary font-semibold mt-3">Description:</p>                  
+                  <textarea rows={4} value={selectedRow.description} readOnly 
+                  className="input w-60 rounded-lg p-2 pl-4 pr-2"/>              
+                </div>
+
+                <div className="flex justify-center gap-8">
+                 <button className='btn btn-normal mt-2'onClick={ () => { setOpenDeleteModal(false)}}>Cancel</button>
+                 <button className="btn btn-warning mt-2" onClick={ () => {handleDelete(selectedRow.partID)}}>Delete</button>
+                </div>
+
+              </div>
+            </div>
+          </Modal>
+          {/**delete modal - end   */}
+
 
         </div>
     );

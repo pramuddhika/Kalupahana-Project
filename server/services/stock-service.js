@@ -38,3 +38,19 @@ export const getId_NameService = () => {
     })
 }
 //##################### get part name & ID - end   #######################
+
+//#################### delete part - satrt ###############################
+export const deletePartService = (partID) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `DELETE FROM sparepart WHERE partID = ?`;
+        db.query (q, [partID], (err,data) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve('Part deleted!');
+            }
+        } )
+    })
+}
+//#################### delete part - end   ###############################
+

@@ -8,8 +8,13 @@ export const addPart = async (req,res) => {
 
     try{
         const data = await addPartService(partID,partName,partDescription);
+        return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json(err.message);
+        if (err.code == 'ER_DUP_ENTRY') {
+            return res.status(409).json('Part Id or Part Name alread taken!');
+        } else {
+            return res.status(500).json('Server side error!');
+        }
     }
 }
 //##################### add part details - end  #########################

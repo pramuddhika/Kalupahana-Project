@@ -1,11 +1,14 @@
 import {TrashIcon,PencilSquareIcon} from '@heroicons/react/24/solid';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const StockAddPart = () => {
 
   const [details,setDetails] = useState(null);
+  const [refresh,setRefresh] = useState(false)
   const [inputs, setInputs] = useState({
     partID:"",
     partName:"",
@@ -22,14 +25,12 @@ const StockAddPart = () => {
       }
     }
     fechPartDetails()
-  },[])
+  },[refresh])
 
   const handleInputChange = (e) => {
-      
     setInputs( prevInputs => ({
       ...prevInputs,[e.target.name]: e.target.value
     }));
-    console.log(inputs);
   }
 
   const handleClear = () => {
@@ -42,20 +43,35 @@ const StockAddPart = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    //chack inputs are not empty
+    if (!inputs.partID) {
+      toast.error('Part ID cannot be empty');
+      return;
+    }
+    if (!inputs.partName) {
+      toast.error('Part Name cannot be empty');
+      return;
+    }
     
+    //send data to server
     try{
-      await axios.post('http://localhost:8000/api/stock/add', inputs);
+      const res = await axios.post('http://localhost:8000/api/stock/add', inputs);
+      setRefresh(!refresh);
       handleClear();
+      toast.success(res.data);
     }catch(err){
-      console.log(err)
+      toast.warning(err.response.data)
     }
   }
 
     return (
         <div  className="flex justify-center gap-8">
 
+          <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+
           {/**input form -start */} 
-          <div className="card w-4/12 p-6 mt-28">
+          <div className="card w-4/12 p-6 mt-28 h-92">
             <p className="topic text-xl mb-4">Part Details</p>
 
             <div className="flex fornt-inter items-center mb-4">

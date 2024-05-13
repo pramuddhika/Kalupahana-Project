@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../components/Modal';
+import Select from 'react-select';
+
 
 const StockAddPart = () => {
 
@@ -18,19 +20,48 @@ const StockAddPart = () => {
   const [openDeleteModal,setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [inputs, setInputs] = useState({partID:"", partName:"", partDescription:""});
+  
+  //get data from database
+  const fechPartDetails = async () => {
+    try{
+      const res = await axios.get("http://localhost:8000/api/stock/get")
+      setDetails(res.data);
+    }catch(err){
+      console.log('Error fetching data: ' , err);
+    }
+  };
 
   useEffect( ()=> {
-    const fechPartDetails = async () => {
-      try{
-        const res = await axios.get("http://localhost:8000/api/stock/get")
-        setDetails(res.data);
-      }catch(err){
-        console.log('Error fetching data: ' , err);
-      }
-    }
-    fechPartDetails()
+    fechPartDetails();
   },[refresh])
 
+  // Prepare your options array
+  const options = details ? details.map(item => ({
+  value: `${item.partID} - ${item.partName}`,label: `${item.partID} - ${item.partName}`
+  })) : [];
+  // styles for select
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      borderColor: 'transparent',
+      boxShadow: 'none',
+      '&:hover': {
+        borderColor: 'transparent'
+      }
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? 'gray' : state.isFocused ? 'gray' : null,
+    }),
+    activeOption: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? 'gray' : state.isFocused ? 'gray' : null,
+    }),
+  };
+  
+
+  
+  //handle form user input
   const handleInputChange = (e) => {
     setInputs( prevInputs => ({
       ...prevInputs,[e.target.name]: e.target.value
@@ -40,6 +71,7 @@ const StockAddPart = () => {
   const handlePartNameEditChange        = (e) => {setEditPartName(e.target.value);}
   const handlePartDescriptionEditChange = (e) => {setEditPartDescription(e.target.value);}
 
+  //clearn user inputs
   const handleClear = () => {
     setInputs({
       partID:'',
@@ -74,9 +106,8 @@ const StockAddPart = () => {
     setSelectedRow(data);
     setOpenDeleteModal(true);
   };
-
+  
   const handleEditClick = (data) => {
-
     setEditPartID(data.partID);
     setEditPartName(data.partName);
     setEditPartDescription(data.description);
@@ -101,13 +132,12 @@ const StockAddPart = () => {
 
   const handleUpdate = async (e) =>{
     e.preventDefault();
-
     // Check if there are changes
     if (editPartName === initialPartName && editPartDescription === initialPartDescription) {
     toast.warning('No changes made');
     return;
     }
-    
+    //handel update data
     try{
       console.log(editPartName,editPartDescription,editPartID);
       const res = await axios.put('http://localhost:8000/api/stock/update',{editPartName,editPartDescription,editPartID});
@@ -118,11 +148,11 @@ const StockAddPart = () => {
       console.log(editPartName,editPartDescription,editPartID);
       toast.error(err.response.data);
     }
-    
   }
 
     return (
         <div  className="flex justify-center gap-8">
+        
 
           <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
 
@@ -162,10 +192,16 @@ const StockAddPart = () => {
           {/**table part - satrt */}
           <div className="card w-6/12 mt-28 p-6 h-92">
             
-            <div className='flex justify-center mb-3 gap-6'>
-              <input type='text' className='input  rounded-lg pl-2' placeholder='Add part name or part ID'/>
-              <button className='btn btn-normal'>Search</button>
+            {/**search bar - start */}
+            <div className='flex justify-center items-center gap-5'>
+            <p className='topic'>Search Part :</p>
+            <Select className="input p-2 rounded-lg w-96"
+              options={options}
+              isClearable
+              styles={customStyles}
+              placeholder='Enter part ID or name'/>
             </div>
+            {/**search bar - end */}
 
              <div className="flex justify-center overflow-auto max-h-80">
               <table className="mx-auto font-inter mt-4 w-11/12">

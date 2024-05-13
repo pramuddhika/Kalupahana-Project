@@ -54,3 +54,17 @@ export const deletePartService = (partID) => {
 }
 //#################### delete part - end   ###############################
 
+//##################### edit part details - start ########################
+export const editPartsService = (editPartName,editPartDescription,editPartID) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `UPDATE sparepart SET partName=?, description = ? WHERE partID = ?`;
+        db.query(q,[editPartName,editPartDescription,editPartID], (err,data) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve('Part details updates!');
+            }
+        })
+    })
+}
+//##################### edit part details - end   ########################

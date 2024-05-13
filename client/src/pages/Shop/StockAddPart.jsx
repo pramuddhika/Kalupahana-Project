@@ -10,7 +10,13 @@ const StockAddPart = () => {
   const [details,setDetails] = useState(null);
   const [refresh,setRefresh] = useState(false);
   const [selectedRow, setSelectedRow] = useState('');
+  const [editPartID, setEditPartID] = useState('');
+  const [editPartName, setEditPartName] = useState('');
+  const [initialPartName, setInitialPartName] = useState('');
+  const [initialPartDescription, setInitialPartDescription] = useState('');
+  const [editPartDescription, setEditPartDescription] = useState('');
   const [openDeleteModal,setOpenDeleteModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [inputs, setInputs] = useState({partID:"", partName:"", partDescription:""});
 
   useEffect( ()=> {
@@ -30,6 +36,9 @@ const StockAddPart = () => {
       ...prevInputs,[e.target.name]: e.target.value
     }));
   }
+
+  const handlePartNameEditChange        = (e) => {setEditPartName(e.target.value);}
+  const handlePartDescriptionEditChange = (e) => {setEditPartDescription(e.target.value);}
 
   const handleClear = () => {
     setInputs({
@@ -61,9 +70,22 @@ const StockAddPart = () => {
     }
   }
 
-  const handleTrashClick = (data) => {
+  const handleDeleteClick = (data) => {
     setSelectedRow(data);
     setOpenDeleteModal(true);
+  };
+
+  const handleEditClick = (data) => {
+
+    setEditPartID(data.partID);
+    setEditPartName(data.partName);
+    setEditPartDescription(data.description);
+
+    // Set the initial state
+    setInitialPartName(data.partName);
+    setInitialPartDescription(data.description);
+    
+    setOpenEditModal(true);
   };
 
   const handleDelete = async (partID) => {
@@ -75,7 +97,29 @@ const StockAddPart = () => {
      }catch(err){
       toast.error(err.response.data);
      }
-  } 
+  }
+
+  const handleUpdate = async (e) =>{
+    e.preventDefault();
+
+    // Check if there are changes
+    if (editPartName === initialPartName && editPartDescription === initialPartDescription) {
+    toast.warning('No changes made');
+    return;
+    }
+    
+    try{
+      console.log(editPartName,editPartDescription,editPartID);
+      const res = await axios.put('http://localhost:8000/api/stock/update',{editPartName,editPartDescription,editPartID});
+      setRefresh(!refresh);
+      setOpenEditModal(false);
+      toast.success(res.data);
+    }catch(err){
+      console.log(editPartName,editPartDescription,editPartID);
+      toast.error(err.response.data);
+    }
+    
+  }
 
     return (
         <div  className="flex justify-center gap-8">
@@ -89,13 +133,13 @@ const StockAddPart = () => {
             <div className="flex fornt-inter items-center mb-4">
               <p className="basis-1/4 text-text-primary font-semibold">Part Id:</p>
               <input type="text" name='partID' value={inputs.partID} onChange={handleInputChange} required 
-               className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add part ID'/>
+               className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add part ID' maxLength='20'/>
             </div>
 
             <div className="flex fornt-inter items-center mb-4">
               <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
               <input type="text" name='partName' value={inputs.partName} onChange={handleInputChange} required 
-               className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add Part Name'/>
+               className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add Part Name' maxLength='60'/>
             </div>
 
             <div className="flex fornt-inter">
@@ -142,10 +186,10 @@ const StockAddPart = () => {
                      <td className="border-2 w-24 border-black overflow-hidden overflow-ellipsis">{partDetails.partID}</td>
                      <td className="border-2 border-black overflow-hidden overflow-ellipsis">{partDetails.partName}</td>
                      <td className="border-2 border-black overflow-hidden text-start pl-1 overflow-ellipsis">{partDetails.description}</td>
-                     <td className="border-2 border-black cursor-pointer w-12">
+                     <td className="border-2 border-black cursor-pointer w-12" onClick={() => handleEditClick(partDetails)}>
                         <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
                      </td>
-                     <td className="border-2 border-black cursor-pointer w-12" onClick={() => handleTrashClick(partDetails)}>
+                     <td className="border-2 border-black cursor-pointer w-12" onClick={() => handleDeleteClick(partDetails)}>
                       <TrashIcon className='text-red-600 h-5 mx-auto'/>
                      </td>
                    </tr>
@@ -160,29 +204,29 @@ const StockAddPart = () => {
           <Modal open={openDeleteModal}>
             <div>
              <div onClick={(e) => e.stopPropagation()}>
-                <p className="font-bold pb-2 text-red-600 text-2xl text-center">Are You Sure?</p>
+                <p className="font-bold pb-2 text-red-600 text-2xl text-center mb-3">Delete Part Details</p>
 
                 <div className="flex fornt-inter items-center mb-4">
-                  <p className="basis-1/4 text-text-primary font-semibold">Part Id:</p>
+                  <p className="w-24 text-text-primary font-semibold">Part Id:</p>
                   <input type="text" value={selectedRow.partID} readOnly 
-                  className="input basis-1/2 rounded-lg p-2 pl-4"/>
+                  className="input w-64 border-2 rounded-lg p-2 pl-4"/>
                 </div>
 
                 <div className="flex fornt-inter items-center mb-4">
-                  <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
+                  <p className="w-24 text-text-primary font-semibold">Part Name:</p>
                   <input type="text" value={selectedRow.partName} readOnly
-                  className="input basis-1/2 rounded-lg p-2 pl-4"/>
+                  className="input w-64 border-2 rounded-lg p-2 pl-4"/>
                 </div>
 
                 <div className="flex fornt-inter">
-                  <p className="basis-1/4 text-text-primary font-semibold mt-3">Description:</p>                  
+                  <p className="w-24 text-text-primary font-semibold mt-3">Description:</p>                  
                   <textarea rows={4} value={selectedRow.description} readOnly 
-                  className="input w-60 rounded-lg p-2 pl-4 pr-2"/>              
+                  className="input w-64 border-2 rounded-lg p-2 pl-4 pr-2"/>              
                 </div>
 
-                <div className="flex justify-center gap-8">
-                 <button className='btn btn-normal mt-2'onClick={ () => { setOpenDeleteModal(false)}}>Cancel</button>
-                 <button className="btn btn-warning mt-2" onClick={ () => {handleDelete(selectedRow.partID)}}>Delete</button>
+                <div className="flex justify-center gap-8 mt-4">
+                 <button className='btn btn-normal'onClick={ () => { setOpenDeleteModal(false)}}>Cancel</button>
+                 <button className="btn btn-warning" onClick={ () => {handleDelete(selectedRow.partID)}}>Delete</button>
                 </div>
 
               </div>
@@ -190,6 +234,43 @@ const StockAddPart = () => {
           </Modal>
           {/**delete modal - end   */}
 
+          {/**edit modal - start */}
+          <Modal open={openEditModal}>
+            <div>
+             <div onClick={(e) => e.stopPropagation()}>
+                <p className="font-bold pb-2 text-text-primary text-2xl text-center mb-3">Part Details Update</p>
+
+                <div className="flex fornt-inter items-center mb-4 w-88">
+                  <p className="w-24 text-text-primary font-semibold">Part Id:</p>
+                  <input type="text" value={editPartID} maxLength="20" readOnly
+                  className="input w-64 rounded-lg p-2 pl-4  border-2"/>
+                </div>
+
+                <div className="flex fornt-inter items-center mb-4 w-88">
+                  <p className="w-24 text-text-primary font-semibold">Part Name:</p>
+                  <input type="text" value={editPartName} maxLength="100" onChange={handlePartNameEditChange}
+                  className="input w-64 rounded-lg p-2 pl-4 border-2"/>
+                </div>
+
+                <div className="flex fornt-inter ">
+                  <p className="w-24 text-text-primary font-semibold mt-3">Description:</p>
+                  <div className='relative bg-white rounded-lg'>
+                   <textarea rows={4} value={editPartDescription} onChange={handlePartDescriptionEditChange}
+                   className="input w-64 rounded-lg p-2 pl-4 pr-2 border-2" maxLength="120"/>
+                   <div className="absolute bottom-2 right-2 bg-white text-end rounded-lg pr-2 
+                  text-gray-500 text-sm">{editPartDescription.length}/120</div>
+                  </div>                         
+                </div>
+
+                <div className="flex justify-center gap-8 mt-4">
+                 <button className='btn btn-normal'onClick={ () => { setOpenEditModal(false)}}>Cancel</button>
+                 <button className="btn bg-green-700 text-white font-semibold" onClick={handleUpdate}>Update</button>
+                </div>
+
+              </div>
+            </div>
+          </Modal>
+          {/**edit modal - end   */}
 
         </div>
     );

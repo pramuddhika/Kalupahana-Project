@@ -1,12 +1,10 @@
 import {addPartService,
         getId_NameService,
-        deletePartService} from '../services/stock-service.js';
+        deletePartService,editPartsService} from '../services/stock-service.js';
 
 //##################### add part details - satrt #########################
 export const addPart = async (req,res) => {
-
     const {partID,partName,partDescription} = req.body;
-
     try{
         const data = await addPartService(partID,partName,partDescription);
         return res.status(200).json(data);
@@ -43,3 +41,19 @@ export const deletePart = async (req,res) => {
     }
 }
 //##################### delete part - end   ##############################
+
+//##################### edit part details - start ########################
+export const editParts = async (req,res) => {
+    const {editPartName,editPartDescription,editPartID} = req.body;
+    try{
+        const data = await editPartsService(editPartName,editPartDescription,editPartID);
+        return res.status(200).json(data);
+    }catch(err){
+        if (err.code == 'ER_DUP_ENTRY') {
+            return res.status(409).json('Part Name alread taken!');
+        } else {
+            return res.status(500).json('Server side error!');
+        }
+    }
+}
+//##################### edit part details - end   ########################

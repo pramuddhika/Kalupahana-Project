@@ -1,7 +1,5 @@
 import express from 'express';
-import {addPart,
-        getId_Name,
-        deletePart} from '../controllers/stock-controller.js';
+import {addPart,getId_Name,deletePart,editParts} from '../controllers/stock-controller.js';
 
 const router = express.Router();
 
@@ -10,6 +8,7 @@ router.post('/add', addPart);
 //display part id & name
 router.get('/get', getId_Name);
 //edit part details
+router.put('/update',editParts);
 //delete part from addpart
 router.delete('/deletepart/:partID', deletePart);
 //add part purchases to stock

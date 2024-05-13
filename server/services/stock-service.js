@@ -68,3 +68,26 @@ export const editPartsService = (editPartName,editPartDescription,editPartID) =>
     })
 }
 //##################### edit part details - end   ########################
+
+//##################### get part name & ID - start #######################
+export const searchPartService = (searchID) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT partID,partName,description FROM sparepart WHERE partID = ?`;
+
+        db.query( q,[searchID], (err,data) => {
+            if(err){
+                reject(err);
+            }else if ( !data || data.length === 0){
+                reject(new Error ('Data can not be found!'))
+            }else {
+                const partDetails = data.map(part => ({
+                    partID : part.partID,
+                    partName : part.partName,
+                    description: part.description
+                }));
+                resolve(partDetails);
+            }
+        } )
+    })
+}
+//##################### get part name & ID - end   #######################

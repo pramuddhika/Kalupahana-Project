@@ -1,5 +1,5 @@
 import {addPartService,
-        getId_NameService,
+        getId_NameService,searchPartService,
         deletePartService,editPartsService} from '../services/stock-service.js';
 
 //##################### add part details - satrt #########################
@@ -40,7 +40,7 @@ export const deletePart = async (req,res) => {
         return res.status(500).json(err.message);
     }
 }
-//##################### delete part - end   ##############################
+//##################### delete part - end   ############################## 
 
 //##################### edit part details - start ########################
 export const editParts = async (req,res) => {
@@ -57,3 +57,15 @@ export const editParts = async (req,res) => {
     }
 }
 //##################### edit part details - end   ########################
+
+//##################### search part data - start #######################
+export const searchPart = async (req,res) => {
+    const {searchID} = req.params;
+    try{
+        const data = await searchPartService(searchID);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err.message);
+    }
+}
+//##################### search part data - end   #######################

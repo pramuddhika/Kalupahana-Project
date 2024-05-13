@@ -20,7 +20,9 @@ const StockAddPart = () => {
   const [openDeleteModal,setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [inputs, setInputs] = useState({partID:"", partName:"", partDescription:""});
-  
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [searchID,setSearchID] = useState(null);
+
   //get data from database
   const fechPartDetails = async () => {
     try{
@@ -31,13 +33,36 @@ const StockAddPart = () => {
     }
   };
 
+  //get data from database
+  const fechSearchDetails = async (searchID) => {
+    try{
+      const res = await axios.get(`http://localhost:8000/api/stock/search/${searchID}`)
+      setDetails(res.data);
+    }catch(err){
+      console.log('Error fetching data: ' , err);
+    }
+  };
+
+  //handel searchbar inputs
+  const handleChange = (option) => {
+    setSelectedOption(option);
+    const currentOption = (option ? option.value : null);
+    setSearchID(currentOption);
+    setRefresh(!refresh);
+  };
+
   useEffect( ()=> {
-    fechPartDetails();
-  },[refresh])
+    if (searchID === null) {
+      fechPartDetails();
+    } else {
+      fechSearchDetails(searchID);
+    }
+  }, [refresh, searchID]);
 
   // Prepare your options array
   const options = details ? details.map(item => ({
-  value: `${item.partID} - ${item.partName}`,label: `${item.partID} - ${item.partName}`
+  value: item.partID,
+  label: `${item.partID} - ${item.partName}`
   })) : [];
   // styles for select
   const customStyles = {
@@ -58,8 +83,6 @@ const StockAddPart = () => {
       backgroundColor: state.isSelected ? 'gray' : state.isFocused ? 'gray' : null,
     }),
   };
-  
-
   
   //handle form user input
   const handleInputChange = (e) => {
@@ -119,9 +142,12 @@ const StockAddPart = () => {
     setOpenEditModal(true);
   };
 
+  //handle delete option
   const handleDelete = async (partID) => {
      try{
       const res = await axios.delete(`http://localhost:8000/api/stock/deletepart/${partID}`);
+      setSelectedOption(null);
+      setSearchID(null);
       setRefresh(!refresh);
       setOpenDeleteModal(false);
       toast.success(res.data);
@@ -129,7 +155,8 @@ const StockAddPart = () => {
       toast.error(err.response.data);
      }
   }
-
+  
+  //handle update option
   const handleUpdate = async (e) =>{
     e.preventDefault();
     // Check if there are changes
@@ -139,13 +166,13 @@ const StockAddPart = () => {
     }
     //handel update data
     try{
-      console.log(editPartName,editPartDescription,editPartID);
       const res = await axios.put('http://localhost:8000/api/stock/update',{editPartName,editPartDescription,editPartID});
+      setSelectedOption(null);
+      setSearchID(null);
       setRefresh(!refresh);
       setOpenEditModal(false);
       toast.success(res.data);
     }catch(err){
-      console.log(editPartName,editPartDescription,editPartID);
       toast.error(err.response.data);
     }
   }
@@ -153,7 +180,6 @@ const StockAddPart = () => {
     return (
         <div  className="flex justify-center gap-8">
         
-
           <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
 
           {/**input form -start */} 
@@ -199,6 +225,8 @@ const StockAddPart = () => {
               options={options}
               isClearable
               styles={customStyles}
+              onChange={handleChange}
+              value={selectedOption}
               placeholder='Enter part ID or name'/>
             </div>
             {/**search bar - end */}

@@ -91,3 +91,24 @@ export const searchPartService = (searchID) => {
     })
 }
 //##################### get part name & ID - end   #######################
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%% purchases %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+//###################### get today purchases - satrt #########################
+export const todayPurchasesService = () => {
+    return new Promise ( (resolve, reject) => {
+        const q = `SELECT partID,quantity FROM purchases WHERE DATE(date)=CURDATE()`;
+        db.query(q,(err,data) => {
+            if(err){
+                reject(err);
+            }else{
+                const purchases = data.map (part => ({
+                    partID : part.partID,
+                    quantity : part.quantity
+                }));
+                resolve(purchases);
+            }
+        })
+    })
+}
+//###################### get today purchases - end   #########################

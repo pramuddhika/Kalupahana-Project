@@ -1,9 +1,14 @@
 import {TrashIcon,PencilSquareIcon} from '@heroicons/react/24/solid';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StockAddPurchases = () => {
     return (
         <div className="flex justify-center gap-8">
 
+         <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+
+          {/**purchases input part-start*/}
           <div className="card w-5/12 p-6 mt-28 h-84">
             <p className="topic text-xl mb-4">Purchases Details</p>
 
@@ -33,12 +38,13 @@ const StockAddPurchases = () => {
             </div>
 
           </div>
+          {/**purchases input part - end */}
 
           <div className="card w-5/12 mt-28 p-6 h-84">
-             <p className="topic text-xl mb-4">Today Purchases</p>
-
-             <div className="flex justify-center overflow-auto max-h-80">
-              <table className="mx-auto font-inter mt-4 w-11/12">
+            <p className="topic text-xl mb-4">Today Purchases</p>
+            {/**table part - start */}
+            <div className="flex justify-center overflow-auto max-h-80">
+             <table className="mx-auto font-inter mt-4 w-11/12">
                 <tr className='bg-text-primary text-white'>
                   <th className="border-2 border-black">Part ID</th>
                   <th className="border-2 border-black">Quantity</th>
@@ -56,9 +62,9 @@ const StockAddPurchases = () => {
                   </td>
                 </tr>
     
-              </table>
-              </div>
-
+             </table>
+            </div>
+            {/**tab3e part - end */}
           </div>
 
         </div>

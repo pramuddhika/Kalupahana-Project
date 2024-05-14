@@ -19,7 +19,7 @@ export const addPartService = (partID,partName,partDescription) => {
 //##################### get part name & ID - start #######################
 export const getId_NameService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION FROM spare_parts`;
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts`;
 
         db.query( q, (err,data) => {
             if(err){
@@ -30,7 +30,8 @@ export const getId_NameService = () => {
                 const partDetails = data.map(part => ({
                     partID : part.PART_ID,
                     partName : part.PART_NAME,
-                    description: part.DESCRIPTION
+                    description: part.DESCRIPTION,
+                    quantity: part.QUANTITY
                 }));
                 resolve(partDetails);
             }
@@ -97,7 +98,7 @@ export const searchPartService = (searchID) => {
 //###################### get today purchases - satrt #########################
 export const todayPurchasesService = () => {
     return new Promise ( (resolve, reject) => {
-        const q = `SELECT PART_ID,QUANTITY FROM purchases WHERE DATE(DATE)=CURDATE()`;
+        const q = `SELECT PART_ID,QUANTITY FROM purchases WHERE MONTH(DATE) = MONTH(CURDATE()) AND YEAR(DATE) = YEAR(CURDATE())`;
         db.query(q,(err,data) => {
             if(err){
                 reject(err);

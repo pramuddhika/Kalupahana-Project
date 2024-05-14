@@ -19,6 +19,7 @@ router.get('/search/:searchID', searchPart);
 //get today purchases data
 router.get('/todaypurchases', todayPurchases);
 
+
 //add part purchases to stock
 //get all available parts details in stock
 //remove use parts quantity from stock 

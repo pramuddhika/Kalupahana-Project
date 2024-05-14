@@ -1,11 +1,26 @@
 import {TrashIcon,PencilSquareIcon} from '@heroicons/react/24/solid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const StockAddPurchases = () => {
 
-  
+  const [tableList,setTableList] = useState(null);
+
+  //get today purchases data to table
+  const fechTableData = async () => {
+    try{
+      const res = await axios.get("http://localhost:8000/api/stock/todaypurchases")
+      setTableList(res.data);
+    }catch(err){
+      console.log('Error fetching data:',err);
+    }
+  }
+
+  useEffect( () => {
+    fechTableData();
+  })
 
     return (
         <div className="flex justify-center gap-8">
@@ -55,17 +70,23 @@ const StockAddPurchases = () => {
                   <th colSpan="2" className="border-2 border-black">Action</th>
                 </tr>
 
-                <tr className="text-center">
-                  <td className="border-2 border-black">test data</td>
-                  <td className="border-2 border-black">test data</td>
-                   <td className="border-2 border-black cursor-pointer">
-                     <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
-                   </td>
-                  <td className="border-2 border-black cursor-pointer">
-                    <TrashIcon className='text-red-600 h-5 mx-auto'/>
-                  </td>
-                </tr>
-    
+                {tableList == null || tableList.length == 0 ? (
+                  <tr>
+                   <td colSpan="4" className='text-center border-2 border-black py-2'>No data to display</td>
+                  </tr>
+                ):(
+                  tableList && tableList.map ( (purchases,index) => (
+                    <tr key={index} className="text-center">
+                     <td className="border-2 border-black">{purchases.partID}</td>
+                     <td className="border-2 border-black">{purchases.quantity}</td>
+                     <td className="border-2 border-black cursor-pointer">
+                       <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
+                     </td>
+                     <td className="border-2 border-black cursor-pointer">
+                       <TrashIcon className='text-red-600 h-5 mx-auto'/>
+                     </td>
+                   </tr>
+                  )))}
              </table>
             </div>
             {/**tab3e part - end */}

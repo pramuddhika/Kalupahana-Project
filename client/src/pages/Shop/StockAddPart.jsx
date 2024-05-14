@@ -128,6 +128,9 @@ const StockAddPart = () => {
   const handleDelete = async (partID) => {
     try{
       const res = await axios.delete(`http://localhost:8000/api/stock/deletepart/${partID}`);
+      // Remove the deleted data from the local state
+      setDetails(details.filter(detail => detail.partID !== partID));
+      
       setSelectedOption(null);
       setSearchID(null);
       setRefresh(!refresh);

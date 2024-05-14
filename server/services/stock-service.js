@@ -97,14 +97,14 @@ export const searchPartService = (searchID) => {
 //###################### get today purchases - satrt #########################
 export const todayPurchasesService = () => {
     return new Promise ( (resolve, reject) => {
-        const q = `SELECT partID,quantity FROM purchases WHERE DATE(date)=CURDATE()`;
+        const q = `SELECT PART_ID,QUANTITY FROM purchases WHERE DATE(DATE)=CURDATE()`;
         db.query(q,(err,data) => {
             if(err){
                 reject(err);
             }else{
                 const purchases = data.map (part => ({
-                    partID : part.partID,
-                    quantity : part.quantity
+                    partID : part.PART_ID,
+                    quantity : part.QUANTITY
                 }));
                 resolve(purchases);
             }

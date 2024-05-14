@@ -9,9 +9,11 @@ import customStyles from '../components/SelectStyle';
 const StockAddPurchases = () => {
 
   const [tableList,setTableList] = useState(null);
-  const [selectedID,setSelectedID] = useState(null);
-  const [selectedName,setSelectedName] =useState(null);
+  const [partID,setPartID] = useState(null);
+  const [partName,setPartName] =useState(null);
   const [details,setDetails] = useState(null);
+  const [dates,setDates] = useState(null);
+  const [units,setUnits] = useState(null);
 
   //get today purchases data to table
   const fetchTableData = async () => {
@@ -51,15 +53,30 @@ const StockAddPurchases = () => {
     })) : [];
 
   //handle selected partID change
-  const handlePartIDChange = (optionsID) => {
-    setSelectedID(optionsID);
+  const handlePartIDChange = (selectedOption) => {
+    setPartID(selectedOption);
+    setPartName(selectedOption);
   }
 
   //handle selected partName change
-  const handlePartNameChange = (optionsNames) => {
-    setSelectedName(optionsNames);
+  const handlePartNameChange = (selectedOption) => {
+    setPartName(selectedOption);
+    setPartID(selectedOption);
+    console.log(dates);
   }
 
+  const handlequantityChange = (e) => {setUnits(e.target.value);}
+  const handleDatesChange = (e) => {setDates(e.target.value);}
+
+  //handle clear button
+  const handleClear =() => {
+    setUnits('');
+    setPartID(null);
+    setPartName(null);
+    setDates('');
+  }
+
+  
     return (
         <div className="flex justify-center gap-8">
 
@@ -77,7 +94,7 @@ const StockAddPurchases = () => {
               isClearable
               styles={customStyles}
               onChange={handlePartIDChange}
-              value={selectedID}
+              value={partID}
               placeholder='Add PartID'/>
 
           </div>
@@ -90,23 +107,26 @@ const StockAddPurchases = () => {
               isClearable
               styles={customStyles}
               onChange={handlePartNameChange}
-              value={selectedName}
+              value={partName}
               placeholder='Add Part Name'/>
               
             </div>
 
             <div className="flex justify-center fornt-inter items-center mb-4">
-              <p className="basis-1/4 text-text-primary font-semibold">Date:</p>
-              <input type="date" required className="input basis-1/2 rounded-lg p-2 pl-4"/>
-            </div>
+             <p className="basis-1/4 text-text-primary font-semibold">Date:</p>
+             <input type="date" value={dates} required className="input basis-1/2 rounded-lg p-2 pl-4" 
+             onChange={handleDatesChange}/>
+             </div>
 
             <div className="flex justify-center fornt-inter">
               <p className="basis-1/4 text-text-primary font-semibold mt-3">Quantity:</p>
-              <input type="number" required className="input basis-1/2 rounded-lg p-2 pl-4" placeholder="Number of units"/>
+              <input type="number" required className="input basis-1/2 rounded-lg p-2 pl-4" placeholder="Number of units" value={units}
+              onChange={handlequantityChange}
+              />
             </div>
 
             <div className="flex justify-center mt-6 gap-4">
-              <button className="btn btn-warning">Clear</button>
+              <button className="btn btn-warning" onClick={handleClear}>Clear</button>
               <button className="btn btn-normal">Submit</button>
             </div>
 

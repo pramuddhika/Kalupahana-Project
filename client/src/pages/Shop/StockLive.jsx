@@ -1,6 +1,25 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 const StockLive = () => {
+
+  const [tabledetails,setTableDetails] = useState(null)
+  
+  //geta table data
+  const fetchTableData =  async () => {
+    try{
+      const res = await axios.get('http://localhost:8000/api/stock/get');
+      setTableDetails(res.data);
+    }catch(err){
+      console.log('Error fetching data:',err);
+    }
+  }
+
+  useEffect( () => {
+    fetchTableData();
+  })
+
     return (
 
       <div>
@@ -37,16 +56,21 @@ const StockLive = () => {
               <th className="w-1/2 border-2 border-black">Part Name</th>
               <th className="w-1/4 border-2 border-black">Quantity</th>
             </tr>
-  
-                  
-            <tr className="bg-gray-300 p-2">
-              <td className="border-2 border-black text-center py-3"></td>
-              <td className="border-2 border-black text-start py-3"></td>
-              <td className="border-2 border-black text-center py-3"></td>
-            </tr>
-                
-  
-              </table>
+
+            {tabledetails == null || tabledetails.length == 0 ? (
+              <tr>
+                <td colSpan={3} className="border-2 border-black text-center py-3">No data to display</td>
+              </tr>
+            ):(
+              tabledetails && tabledetails.map ( (partDetails, index) => (
+                <tr key={index} className="bg-gray-300 p-2">
+                 <td className="border-2 border-black text-center py-3">{partDetails.partID}</td>
+                 <td className="border-2 border-black text-start py-3">{partDetails.partName}</td>
+                 <td className="border-2 border-black text-center py-3">{partDetails.quantity}</td>
+                </tr>
+              ))
+            )}
+            </table>
   
               </div>
       </div>

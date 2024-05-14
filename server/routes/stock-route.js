@@ -1,6 +1,6 @@
 import express from 'express';
 import {addPart,getId_Name,deletePart,editParts,searchPart,
-        todayPurchases} from '../controllers/stock-controller.js';
+        todayPurchases, AddPurchases} from '../controllers/stock-controller.js';
 
 const router = express.Router();
 
@@ -18,9 +18,8 @@ router.get('/search/:searchID', searchPart);
 
 //get today purchases data
 router.get('/todaypurchases', todayPurchases);
-
-
 //add part purchases to stock
+router.post('/purchases', AddPurchases)
 //get all available parts details in stock
 //remove use parts quantity from stock 
 

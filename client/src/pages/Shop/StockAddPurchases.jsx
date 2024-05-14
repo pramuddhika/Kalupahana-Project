@@ -1,6 +1,6 @@
-import {TrashIcon,PencilSquareIcon} from '@heroicons/react/24/solid';
+import {TrashIcon} from '@heroicons/react/24/solid';
 import { useEffect, useState } from 'react';
-import { ToastContainer} from 'react-toastify';
+import { ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Select from 'react-select';
@@ -9,11 +9,13 @@ import customStyles from '../components/SelectStyle';
 const StockAddPurchases = () => {
 
   const [tableList,setTableList] = useState(null);
+  const [selectedpartID,setSelectedPartID] = useState(null);
   const [partID,setPartID] = useState(null);
   const [partName,setPartName] =useState(null);
   const [details,setDetails] = useState(null);
   const [dates,setDates] = useState(null);
   const [units,setUnits] = useState(null);
+  const [refresh,setRefresh] = useState(false);
 
   //get today purchases data to table
   const fetchTableData = async () => {
@@ -38,7 +40,10 @@ const StockAddPurchases = () => {
   useEffect( () => {
     fetchTableData();
     fetchIDs();
-  })
+    if (selectedpartID) {
+      setPartID(selectedpartID.value);
+    }
+  },[refresh,selectedpartID])
 
   //make option arry for partIDs
   const optionsID = details ? details.map(item => ({
@@ -47,22 +52,25 @@ const StockAddPurchases = () => {
     })) : [];
 
   //make option arry for partIDs
-  const optionsNnames = details ? details.map(item => ({
+  const optionsNames = details ? details.map(item => ({
     value: item.partID,
     label: `${item.partName}`
     })) : [];
 
   //handle selected partID change
   const handlePartIDChange = (selectedOption) => {
-    setPartID(selectedOption);
-    setPartName(selectedOption);
+    setSelectedPartID(selectedOption);
+    setPartName(selectedOption.label);
+    console.log(selectedOption.value)
+   
   }
 
   //handle selected partName change
   const handlePartNameChange = (selectedOption) => {
     setPartName(selectedOption);
-    setPartID(selectedOption);
-    console.log(dates);
+    setSelectedPartID(selectedOption.value);
+    console.log(selectedOption.value)
+    
   }
 
   const handlequantityChange = (e) => {setUnits(e.target.value);}
@@ -71,9 +79,33 @@ const StockAddPurchases = () => {
   //handle clear button
   const handleClear =() => {
     setUnits('');
-    setPartID(null);
+    setSelectedPartID(null);
     setPartName(null);
     setDates('');
+  }
+
+  //handle add part
+  const handleAddPart = async (e) => {
+    e.preventDefault();
+    //chack part id is not empty
+    if (!partID) {
+      toast.warning('Part ID cannot be empty!');
+      return;
+    }
+    //check date is not emapty
+    if(!dates){
+      toast.warning('Date cannot be empty!')
+    }
+    try{
+      const res = await axios.post('http://localhost:8000/api/stock/purchases', {partID,units,dates});
+      setRefresh(!refresh);
+      handleClear();
+      setPartID(null);
+      toast.success(res.data);
+     
+    }catch(err){
+      toast.error(err.response.data);
+    }
   }
 
   
@@ -94,7 +126,7 @@ const StockAddPurchases = () => {
               isClearable
               styles={customStyles}
               onChange={handlePartIDChange}
-              value={partID}
+              value={selectedpartID}
               placeholder='Add PartID'/>
 
           </div>
@@ -103,7 +135,7 @@ const StockAddPurchases = () => {
               <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
               
               <Select className="w-64"
-              options={optionsNnames}
+              options={optionsNames}
               isClearable
               styles={customStyles}
               onChange={handlePartNameChange}
@@ -127,7 +159,7 @@ const StockAddPurchases = () => {
 
             <div className="flex justify-center mt-6 gap-4">
               <button className="btn btn-warning" onClick={handleClear}>Clear</button>
-              <button className="btn btn-normal">Submit</button>
+              <button className="btn btn-normal" onClick={handleAddPart}>Submit</button>
             </div>
 
           </div>
@@ -140,8 +172,9 @@ const StockAddPurchases = () => {
              <table className="mx-auto font-inter mt-4 w-11/12">
                 <tr className='bg-text-primary text-white'>
                   <th className="border-2 border-black">Part ID</th>
+                  <th className='border-2 border-black w-32'>Date</th>
                   <th className="border-2 border-black">Quantity</th>
-                  <th colSpan="2" className="border-2 border-black">Action</th>
+                  <th className="border-2 border-black">Action</th>
                 </tr>
 
                 {tableList == null || tableList.length == 0 ? (
@@ -152,10 +185,8 @@ const StockAddPurchases = () => {
                   tableList && tableList.map ( (purchases,index) => (
                     <tr key={index} className="text-center">
                      <td className="border-2 border-black">{purchases.partID}</td>
+                     <td className='border-2 border-black'>{purchases.date}</td>
                      <td className="border-2 border-black">{purchases.quantity}</td>
-                     <td className="border-2 border-black cursor-pointer">
-                       <PencilSquareIcon className='text-green-700 h-5 mx-auto'/>
-                     </td>
                      <td className="border-2 border-black cursor-pointer">
                        <TrashIcon className='text-red-600 h-5 mx-auto'/>
                      </td>

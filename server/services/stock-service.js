@@ -98,13 +98,14 @@ export const searchPartService = (searchID) => {
 //###################### get today purchases - satrt #########################
 export const todayPurchasesService = () => {
     return new Promise ( (resolve, reject) => {
-        const q = `SELECT PART_ID,QUANTITY FROM purchases WHERE MONTH(DATE) = MONTH(CURDATE()) AND YEAR(DATE) = YEAR(CURDATE())`;
+        const q = `SELECT PART_ID,DATE_FORMAT(DATE, '%Y-%m-%d') as DATE,QUANTITY FROM purchases WHERE MONTH(DATE) = MONTH(CURDATE()) AND YEAR(DATE) = YEAR(CURDATE())`;
         db.query(q,(err,data) => {
             if(err){
                 reject(err);
             }else{
                 const purchases = data.map (part => ({
                     partID : part.PART_ID,
+                    date : part.DATE,
                     quantity : part.QUANTITY
                 }));
                 resolve(purchases);
@@ -113,3 +114,26 @@ export const todayPurchasesService = () => {
     })
 }
 //###################### get today purchases - end   #########################
+
+//###################### Add Purchases - start ############################
+export const AddPurchasesService = async (partID,dates,units) => {
+    return new Promise ( (resolve, reject) => {
+        const insert = `INSERT INTO purchases (PART_ID,DATE,QUANTITY) VALUES(?,?,?)`;
+        db.query(insert, [partID,dates,units],(err,data) => {
+            if(err){
+                reject(err);
+                return;
+            }
+
+            const update = `UPDATE spare_parts SET QUANTITY = QUANTITY + ? WHERE PART_ID = ?`;
+            db.query(update, [units,partID],(err,data) => {
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve('Updated part successfully!');
+            });
+        });
+    });
+};
+//###################### Add Purchases - end   ############################

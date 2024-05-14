@@ -1,5 +1,5 @@
 import {addPartService,getId_NameService,searchPartService,deletePartService,editPartsService,
-    todayPurchasesService} from '../services/stock-service.js';
+    todayPurchasesService,AddPurchasesService} from '../services/stock-service.js';
 
 //##################### add part details - satrt #########################
 export const addPart = async (req,res) => {
@@ -69,6 +69,7 @@ export const searchPart = async (req,res) => {
 }
 //##################### search part data - end   #######################
 
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%% purchases %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 //###################### get today purchases - satrt #########################
@@ -81,3 +82,15 @@ export const todayPurchases  = async (req,res) =>{
     }
 }
 //###################### get today purchases - end   #########################
+
+//###################### add purchases - start ###############################
+export const AddPurchases = async (req,res) => {
+    const {partID,dates,units} = req.body;
+    try{
+        const data = await AddPurchasesService(partID,dates,units);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err.message);
+    }
+}
+//###################### add purchases - end   ###############################

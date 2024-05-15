@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 
 
@@ -122,74 +124,124 @@ const StockLive = () => {
     console.log(filter);
     // setRefresh(!refresh);
   }
-
-
-
-    return (
-
-      <div>
-        <div className="flex justify-center">
-           
-            <div className="flex justify-center items-center gap-10 card mt-10 p-8 w-11/12">
-
-             <div className="border-2 border-text-primary p-4 rounded-lg">
-                <Select className="w-72"
-                 options={optionForFilter}
-                 isClearable
-                 styles={customStyles}
-                 onChange={handlefilterChange}
-                 value={selectedFilter}
-                 placeholder='Add your filter'/>
-                
-              </div>
-
-              <div className="border-2 border-text-primary p-4 rounded-lg">
-              <Select className="w-60"
-               options={optionForID_Name}
-               isClearable
-               styles={customStyles}
-               onChange={handlePartIDChange}
-               value={selectedPart}
-               placeholder='Add Part Id or Name'/>
-              </div>
-               
-               <div className="border-text-primary border-2 p-4 rounded-lg">
-                 <button className="btn btn-normal w-48">Get Report</button>
-               </div>
-              
-            </div>
-
-         
-
-        </div>
-
-        <div className="mt-10">
-              
-          <table className="w-10/12 mx-auto font-inter">
-            <tr className="bg-text-primary text-white h-12">
-              <th className="w-1/4 border-2 border-black">Part ID</th>
-              <th className="w-1/2 border-2 border-black">Part Name</th>
-              <th className="w-1/4 border-2 border-black">Quantity</th>
-            </tr>
-
-            {tabledetails == null || tabledetails.length == 0 ? (
-              <tr>
-                <td colSpan={3} className="border-2 border-black text-center py-3">No data to display</td>
-              </tr>
-            ):(
-              tabledetails && tabledetails.map ( (partDetails, index) => (
-                <tr key={index} className="bg-gray-300 p-2">
-                 <td className="border-2 border-black text-center py-3">{partDetails.partID}</td>
-                 <td className="border-2 border-black text-start py-3 pl-3">{partDetails.partName}</td>
-                 <td className="border-2 border-black text-center py-3">{partDetails.quantity}</td>
-                </tr>
-              ))
-            )}
-            </table>
   
-              </div>
+  //create stock report
+  const printDocument = () => {
+    // A4 size page of PDF
+    const pdf = new jsPDF('p', 'mm', 'a4'); 
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    //main title
+    pdf.setFontSize(22); 
+    pdf.setFont("helvetica", "bold"); 
+    const title = 'Kalupahana Motor Engineering';
+    const titleWidth = pdf.getStringUnitWidth(title) * pdf.internal.getFontSize() / pdf.internal.scaleFactor;
+    const titleX = (pageWidth - titleWidth) / 2; 
+    pdf.text(title, titleX, 20);
+    // Add subtitle
+    pdf.setFontSize(12); 
+    pdf.setFont("helvetica", "normal"); 
+    const subtitle = 'Mahingoda Junction Bus Stop,Ratnapura Road,Eheliyagoda. - 0773880154';
+    const subtitleWidth = pdf.getStringUnitWidth(subtitle) * pdf.internal.getFontSize() / pdf.internal.scaleFactor;
+    const subtitleX = (pageWidth - subtitleWidth) / 2; 
+    pdf.text(subtitle, subtitleX, 26); 
+    // Add another text row
+    const reportText = 'Stock Report';
+    pdf.setFont("helvetica", "bold");
+    pdf.text(reportText, 26, 35);
+
+    const dateText = new Date().toLocaleDateString();
+    const dateTextWidth = pdf.getStringUnitWidth(dateText) * pdf.internal.getFontSize() / pdf.internal.scaleFactor;
+    pdf.text(dateText, pageWidth - dateTextWidth - 26, 35);
+  
+    // Get table data
+    const tableData = tabledetails.map(item => [item.partID,item.partName,item.quantity]); 
+    const columns = ['Part ID','Part Name','Quantity']; 
+  
+    // Add table to PDF
+    pdf.autoTable(columns, tableData, {
+      startY: 45, 
+      margin: { horizontal: (pageWidth * 0.25) / 2 },
+      styles: { halign: 'center' },
+      // Center the content of the Part ID and quantity
+      columnStyles: {
+        0: { halign: 'center' }, 
+        1: {halign: 'start'},
+        2: { halign: 'center' }
+      } 
+    });
+    // Get current date and time and format it as a string
+    const date = new Date();
+    const dateTimeString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
+    // Save the PDF with the date and time in the filename
+    pdf.save(`Kalupahana-stock-${dateTimeString}.pdf`);  
+  }
+
+
+
+  return (
+    <div>
+
+      <div className="flex justify-center">
+
+        <div className="flex justify-center items-center gap-10 card mt-10 p-8 w-11/12">
+          {/** filters - start */}
+          <div className="border-2 border-text-primary p-4 rounded-lg">
+            <Select className="w-72"
+              options={optionForFilter}
+              isClearable
+              styles={customStyles}
+              onChange={handlefilterChange}
+              value={selectedFilter}
+              placeholder='Add your filter'/>  
+          </div>
+
+          <div className="border-2 border-text-primary p-4 rounded-lg">
+            <Select className="w-60"
+              options={optionForID_Name}
+              isClearable
+              styles={customStyles}
+              onChange={handlePartIDChange}
+              value={selectedPart}
+              placeholder='Add Part Id or Name'/>
+          </div>
+          {/**filters - end */}
+
+          {/**report download button - satrt */}    
+          <div className="border-text-primary border-2 p-4 rounded-lg">
+           <button className="btn btn-normal w-48" onClick={printDocument}>Get Report</button>
+          </div>
+          {/**report download button - end */}    
+        </div>
       </div>
-    );
+
+      <div className="mt-10">
+        {/** data disply table - start */}      
+        <table id="stock_table" className="w-10/12 mx-auto font-inter">
+          <tr className="bg-text-primary text-white h-12">
+            <th className="w-1/4 border-2 border-black">Part ID</th>
+            <th className="w-1/2 border-2 border-black">Part Name</th>
+            <th className="w-1/4 border-2 border-black">Quantity</th>
+          </tr>
+
+          {tabledetails == null || tabledetails.length == 0 ? (
+            <tr>
+              <td colSpan={3} className="border-2 border-black text-center py-3">No data to display</td>
+            </tr>
+          ):(
+            tabledetails && tabledetails.map ( (partDetails, index) => (
+              <tr key={index} className="bg-gray-300 p-2">
+                <td className="border-2 border-black text-center py-3">{partDetails.partID}</td>
+                <td className="border-2 border-black text-start py-3 pl-3">{partDetails.partName}</td>
+                <td className="border-2 border-black text-center py-3">{partDetails.quantity}</td>
+              </tr>
+            ))
+          )}
+        </table>
+        {/** data disply table - end */}  
+  
+      </div>
+    </div>
+  );
 };
 
 export default StockLive;

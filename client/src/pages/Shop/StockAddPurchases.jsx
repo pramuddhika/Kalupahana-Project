@@ -9,13 +9,12 @@ import customStyles from '../components/SelectStyle';
 const StockAddPurchases = () => {
 
   const [tableList,setTableList] = useState(null);
-  const [selectedpartID,setSelectedPartID] = useState(null);
   const [partID,setPartID] = useState(null);
-  const [partName,setPartName] =useState(null);
   const [details,setDetails] = useState(null);
   const [dates,setDates] = useState(null);
   const [units,setUnits] = useState(null);
   const [refresh,setRefresh] = useState(false);
+  const [selectedPart, setSelectedPart] = useState(null);
 
   //get today purchases data to table
   const fetchTableData = async () => {
@@ -40,47 +39,37 @@ const StockAddPurchases = () => {
   useEffect( () => {
     fetchTableData();
     fetchIDs();
-    if (selectedpartID) {
-      setPartID(selectedpartID.value);
-    }
-  },[refresh,selectedpartID])
+  },[refresh])
 
   //make option arry for partIDs
-  const optionsID = details ? details.map(item => ({
+  const options = details ? details.map(item => ({
     value: item.partID,
-    label: `${item.partID}`
-    })) : [];
-
-  //make option arry for partIDs
-  const optionsNames = details ? details.map(item => ({
-    value: item.partID,
-    label: `${item.partName}`
+    label: `${item.partID} - ${item.partName}`
     })) : [];
 
   //handle selected partID change
   const handlePartIDChange = (selectedOption) => {
-    setSelectedPartID(selectedOption);
-    setPartName(selectedOption.label);
-    console.log(selectedOption.value)
+    
+    setSelectedPart(selectedOption);
+    const currentpart = (selectedOption ? selectedOption.value : null);
+    setPartID(currentpart);
+    console.log(partID)
    
   }
-
-  //handle selected partName change
-  const handlePartNameChange = (selectedOption) => {
-    setPartName(selectedOption);
-    setSelectedPartID(selectedOption.value);
-    console.log(selectedOption.value)
-    
+  
+  //handle user input for quantity
+  const handlequantityChange = (e) => {
+    setUnits(e.target.value);
   }
 
-  const handlequantityChange = (e) => {setUnits(e.target.value);}
-  const handleDatesChange = (e) => {setDates(e.target.value);}
+  const handleDatesChange = (e) => {
+    setDates(e.target.value);
+  }
 
   //handle clear button
   const handleClear =() => {
     setUnits('');
-    setSelectedPartID(null);
-    setPartName(null);
+    setSelectedPart(null);
     setDates('');
   }
 
@@ -89,13 +78,24 @@ const StockAddPurchases = () => {
     e.preventDefault();
     //chack part id is not empty
     if (!partID) {
-      toast.warning('Part ID cannot be empty!');
+      toast.warning('Part name cannot be empty!');
       return;
     }
     //check date is not emapty
     if(!dates){
       toast.warning('Date cannot be empty!')
+      return;
     }
+    //check quantity is not empty
+    if(!units){
+      toast.warning('Quantity can not be empty!');
+      return;
+    }
+    if(units <= 0){
+      toast.warning('Invalid quantity entered!');
+      return;
+    }
+
     try{
       const res = await axios.post('http://localhost:8000/api/stock/purchases', {partID,units,dates});
       setRefresh(!refresh);
@@ -119,30 +119,19 @@ const StockAddPurchases = () => {
             <p className="topic text-xl mb-4">Purchases Details</p>
 
             <div className="flex justify-center fornt-inter items-center mb-4">
-              <p className="basis-1/4 text-text-primary font-semibold">Part Id:</p>
+              <p className="basis-1/4 text-text-primary font-semibold">Part :</p>
               
               <Select className="w-64"
-              options={optionsID}
+              options={options}
               isClearable
               styles={customStyles}
               onChange={handlePartIDChange}
-              value={selectedpartID}
-              placeholder='Add PartID'/>
+              value={selectedPart}
+              placeholder='Add Part Id or Name'/>
 
           </div>
 
-            <div className="flex justify-center fornt-inter items-center mb-4">
-              <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
-              
-              <Select className="w-64"
-              options={optionsNames}
-              isClearable
-              styles={customStyles}
-              onChange={handlePartNameChange}
-              value={partName}
-              placeholder='Add Part Name'/>
-              
-            </div>
+            
 
             <div className="flex justify-center fornt-inter items-center mb-4">
              <p className="basis-1/4 text-text-primary font-semibold">Date:</p>
@@ -153,8 +142,7 @@ const StockAddPurchases = () => {
             <div className="flex justify-center fornt-inter">
               <p className="basis-1/4 text-text-primary font-semibold mt-3">Quantity:</p>
               <input type="number" required className="input basis-1/2 rounded-lg p-2 pl-4" placeholder="Number of units" value={units}
-              onChange={handlequantityChange}
-              />
+              onChange={handlequantityChange} min={1}/>
             </div>
 
             <div className="flex justify-center mt-6 gap-4">
@@ -196,6 +184,8 @@ const StockAddPurchases = () => {
             </div>
             {/**tab3e part - end */}
           </div>
+
+          
 
         </div>
     );

@@ -90,7 +90,11 @@ export const AddPurchases = async (req,res) => {
         const data = await AddPurchasesService(partID,dates,units);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json(err.message);
+        if (err.code == 'ER_DUP_ENTRY') {
+            return res.status(409).json('This purchases has already been placed!');
+        } else {
+            return res.status(500).json('Server side error!');
+        }
     }
 }
 //###################### add purchases - end   ###############################

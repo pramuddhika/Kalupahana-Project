@@ -65,7 +65,7 @@ const StockLive = () => {
               tabledetails && tabledetails.map ( (partDetails, index) => (
                 <tr key={index} className="bg-gray-300 p-2">
                  <td className="border-2 border-black text-center py-3">{partDetails.partID}</td>
-                 <td className="border-2 border-black text-start py-3">{partDetails.partName}</td>
+                 <td className="border-2 border-black text-start py-3 pl-3">{partDetails.partName}</td>
                  <td className="border-2 border-black text-center py-3">{partDetails.quantity}</td>
                 </tr>
               ))

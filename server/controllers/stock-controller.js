@@ -33,10 +33,13 @@ export const deletePart = async (req,res) => {
     const {partID} = req.params;
     try{
         const data = await deletePartService(partID);
-        
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json(err.message);
+        if(err.code === 'ER_ROW_IS_REFERENCED_2') {
+            return res.status(409).json('Can not delete, Stock is available!');
+        }else{
+            return res.status(500).json('Server side error!');
+        }
     }
 }
 //##################### delete part - end   ############################## 
@@ -106,7 +109,7 @@ export const DeletePurchases = async (req,res) => {
         const data = await DeletePurchasesService(partid,date,quantity);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json('Server side error!');
+        return res.status(500).json('Server side error!')
     }
 }
 //##################### delete purchases data - end   ########################

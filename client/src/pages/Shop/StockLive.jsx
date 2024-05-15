@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Select from 'react-select';
+import customStyles from '../components/SelectStyle';
 
 
 const StockLive = () => {
 
-  const [tabledetails,setTableDetails] = useState(null)
+  const [tabledetails,setTableDetails] = useState(null);
+  const [selectedPart,setSelectedPart] = useState(null);
+  const [refresh,setRefresh] = useState(false);
+  const [searchID,setSearchID] = useState(null);
   
   //geta table data
   const fetchTableData =  async () => {
@@ -16,9 +21,40 @@ const StockLive = () => {
     }
   }
 
+  //get data from database for select item
+  const fechSearchByID = async (searchID) => {
+    try{
+      const res = await axios.get(`http://localhost:8000/api/stock/search/${searchID}`)
+      setTableDetails(res.data);
+    }catch(err){
+      console.log('Error fetching data: ' , err);
+    }
+  };
+
   useEffect( () => {
-    fetchTableData();
+    if( searchID === null) {
+      fetchTableData();
+    }else {
+      fechSearchByID(searchID);
+    }
+    
   })
+
+  //filter by part id or name - option list
+  const optionForID_Name = tabledetails ? tabledetails.map(part => ({
+    value: part.partID,
+    label: `${part.partID} - ${part.partName}`
+  })):[]; 
+
+  //handel part id & name searchbar
+  const handlePartIDChange = (option) => {
+    setSelectedPart(option);
+    const currentOption = (option ? option.value : null);
+    setSearchID(currentOption);
+    setRefresh(!refresh);
+  };
+
+
 
     return (
 
@@ -29,12 +65,17 @@ const StockLive = () => {
 
              <div className="flex gap-4 border-2 border-text-primary p-4 rounded-lg">
                 <input type="text" className="input p-2 rounded-lg w-44" placeholder="Add Part ID or Name"/>
-                <button className="btn btn-normal">Add Filter</button>
+                
               </div>
 
               <div className="flex gap-4 border-2 border-text-primary p-4 rounded-lg">
-                <input type="text" className="input p-2 rounded-lg w-44" placeholder="Add Part ID or Name"/>
-                <button className="btn btn-normal">Search</button>
+              <Select className="w-60"
+               options={optionForID_Name}
+               isClearable
+               styles={customStyles}
+               onChange={handlePartIDChange}
+               value={selectedPart}
+               placeholder='Add Part Id or Name'/>
               </div>
                
                <div className="flex items-center gap-4 border-text-primary border-2 p-4 rounded-lg">

@@ -11,6 +11,8 @@ const StockLive = () => {
   const [selectedPart,setSelectedPart] = useState(null);
   const [refresh,setRefresh] = useState(false);
   const [searchID,setSearchID] = useState(null);
+  const [selectedFilter,setSelectedFilter] = useState(null);
+  const [filter,setFilter] = useState(null);
   
   //geta table data
   const fetchTableData =  async () => {
@@ -32,13 +34,63 @@ const StockLive = () => {
     }
   };
 
-  useEffect( () => {
-    if( searchID === null) {
-      fetchTableData();
-    }else {
-      fechSearchByID(searchID);
+  //get available stock data
+  const fetchAvailable =  async () => {
+    try{
+      const res = await axios.get('http://localhost:8000/api/stock/available');
+      setTableDetails(res.data);
+    }catch(err){
+      console.log('Error fetching data:',err);
     }
-  },[refresh, searchID])
+  }
+
+  //geta not availble data
+  const fetchNotAvailable =  async () => {
+    try{
+      const res = await axios.get('http://localhost:8000/api/stock/notavailable');
+      setTableDetails(res.data);
+    }catch(err){
+      console.log('Error fetching data:',err);
+    }
+  }
+
+  //geta low to high stock data
+  const fetchLowToHigh =  async () => {
+    try{
+      const res = await axios.get('http://localhost:8000/api/stock/l2h');
+      setTableDetails(res.data);
+    }catch(err){
+      console.log('Error fetching data:',err);
+    }
+  }
+
+  //geta hiigh to low stock data
+  const fetchHighToLow =  async () => {
+    try{
+      const res = await axios.get('http://localhost:8000/api/stock/h2l');
+      setTableDetails(res.data);
+    }catch(err){
+      console.log('Error fetching data:',err);
+    }
+  }
+
+  useEffect( () => {
+    if(filter === 'available' || searchID !== null ) {
+      fetchAvailable();
+      fechSearchByID(searchID);
+    } else if (filter === 'notavailable' || searchID !== null) {
+      fetchNotAvailable();
+      fechSearchByID(searchID);
+    } else if (filter === 'l2h' || searchID !== null) {
+      fetchLowToHigh();
+      fechSearchByID(searchID);
+    } else if (filter == 'h2l' || searchID !== null) {
+      fetchHighToLow();
+      fechSearchByID(searchID);
+    } else if (filter === null && searchID === null) {
+      fetchTableData();
+    }
+  },[refresh,searchID,filter])
 
   //filter by part id or name - option list
   const optionForID_Name = tabledetails ? tabledetails.map(part => ({
@@ -62,6 +114,15 @@ const StockLive = () => {
     setRefresh(!refresh);
   };
 
+  //handle selected filter
+  const handlefilterChange = (option) => {
+    setSelectedFilter(option);
+    const currentFilter = (option ? option.value : null);
+    setFilter(currentFilter);
+    console.log(filter);
+    // setRefresh(!refresh);
+  }
+
 
 
     return (
@@ -76,6 +137,8 @@ const StockLive = () => {
                  options={optionForFilter}
                  isClearable
                  styles={customStyles}
+                 onChange={handlefilterChange}
+                 value={selectedFilter}
                  placeholder='Add your filter'/>
                 
               </div>

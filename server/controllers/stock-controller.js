@@ -1,5 +1,6 @@
 import {addPartService,getId_NameService,searchPartService,deletePartService,editPartsService,
-    todayPurchasesService,AddPurchasesService,DeletePurchasesService} from '../services/stock-service.js';
+        todayPurchasesService,AddPurchasesService,DeletePurchasesService,
+        availblePartsService,notAvailableService,LowToHighService,HighToLowService} from '../services/stock-service.js';
 
 //##################### add part details - satrt #########################
 export const addPart = async (req,res) => {
@@ -113,3 +114,47 @@ export const DeletePurchases = async (req,res) => {
     }
 }
 //##################### delete purchases data - end   ########################
+
+//##################### filter available parts - start   ########################
+export const availbleParts = async (req,res) => {
+    try{
+        const data = await availblePartsService();
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err.message);
+    }
+}
+//##################### filter available parts - end     ########################
+
+//##################### filter not available parts - start   ########################
+export const notAvailable = async (req,res) => {
+    try{
+        const data = await notAvailableService();
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err.message);
+    }
+}
+//##################### filter not available parts - start   ########################
+
+//##################### filter low 2 high parts - start   ########################
+export const LowToHigh = async (req,res) => {
+    try{
+        const data = await LowToHighService();
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err.message);
+    }
+}
+//##################### filter low 2 high parts - end     ########################
+
+//##################### filter high 2 low parts - start   ########################
+export const HighToLow = async (req,res) => {
+    try{
+        const data = await HighToLowService();
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err.message);
+    }
+}
+//##################### filter high 2 low parts - end     ########################

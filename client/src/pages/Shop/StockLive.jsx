@@ -4,6 +4,7 @@ import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
 
 
+
 const StockLive = () => {
 
   const [tabledetails,setTableDetails] = useState(null);
@@ -37,14 +38,21 @@ const StockLive = () => {
     }else {
       fechSearchByID(searchID);
     }
-    
-  })
+  },[refresh, searchID])
 
   //filter by part id or name - option list
   const optionForID_Name = tabledetails ? tabledetails.map(part => ({
     value: part.partID,
     label: `${part.partID} - ${part.partName}`
   })):[]; 
+
+  //filter option for main filters
+  const optionForFilter = [
+    {value:'available' , label: 'Only Available'},
+    {value:'notavailable', label: 'Not Available'},
+    {value:'l2h', label:'Quantity - Low to High'},
+    {value:'h2l', label:'Quantity - High to Low'}
+  ]
 
   //handel part id & name searchbar
   const handlePartIDChange = (option) => {
@@ -63,12 +71,16 @@ const StockLive = () => {
            
             <div className="flex justify-center items-center gap-10 card mt-10 p-8 w-11/12">
 
-             <div className="flex gap-4 border-2 border-text-primary p-4 rounded-lg">
-                <input type="text" className="input p-2 rounded-lg w-44" placeholder="Add Part ID or Name"/>
+             <div className="border-2 border-text-primary p-4 rounded-lg">
+                <Select className="w-72"
+                 options={optionForFilter}
+                 isClearable
+                 styles={customStyles}
+                 placeholder='Add your filter'/>
                 
               </div>
 
-              <div className="flex gap-4 border-2 border-text-primary p-4 rounded-lg">
+              <div className="border-2 border-text-primary p-4 rounded-lg">
               <Select className="w-60"
                options={optionForID_Name}
                isClearable
@@ -78,9 +90,8 @@ const StockLive = () => {
                placeholder='Add Part Id or Name'/>
               </div>
                
-               <div className="flex items-center gap-4 border-text-primary border-2 p-4 rounded-lg">
-                 <input type="text" value="Get Report" className="input p-2 rounded-lg w-32 text-gray-400" readOnly/>
-                 <button className="btn btn-normal">Download</button>
+               <div className="border-text-primary border-2 p-4 rounded-lg">
+                 <button className="btn btn-normal w-48">Get Report</button>
                </div>
               
             </div>

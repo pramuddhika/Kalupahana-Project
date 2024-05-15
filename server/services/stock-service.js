@@ -160,3 +160,95 @@ export const DeletePurchasesService = async (partid,date,quantity) => {
     });
 };
 //###################### delete purchases data - end   ####################
+
+//##################### filter available parts - start   ########################
+export const availblePartsService = () => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts WHERE QUANTITY > 0`;
+
+        db.query( q, (err,data) => {
+            if(err){
+                reject(err);
+            }else if ( !data || data.length === 0){
+                reject(new Error ('Data can not be found!'))
+            }else {
+                const partDetails = data.map(part => ({
+                    partID : part.PART_ID,
+                    partName : part.PART_NAME,
+                    quantity: part.QUANTITY
+                }));
+                resolve(partDetails);
+            }
+        } )
+    })
+}
+//##################### filter available parts - end     ########################
+
+//##################### filter not available parts - start   ########################
+export const notAvailableService = () => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts WHERE QUANTITY = 0`;
+
+        db.query( q, (err,data) => {
+            if(err){
+                reject(err);
+            }else if ( !data || data.length === 0){
+                reject(new Error ('Data can not be found!'))
+            }else {
+                const partDetails = data.map(part => ({
+                    partID : part.PART_ID,
+                    partName : part.PART_NAME,
+                    quantity: part.QUANTITY
+                }));
+                resolve(partDetails);
+            }
+        } )
+    })
+}
+//##################### filter not available parts - start   ########################
+
+//##################### filter low 2 high parts - start   ########################
+export const LowToHighService = () => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts ORDER BY QUANTITY ASC`;
+
+        db.query( q, (err,data) => {
+            if(err){
+                reject(err);
+            }else if ( !data || data.length === 0){
+                reject(new Error ('Data can not be found!'))
+            }else {
+                const partDetails = data.map(part => ({
+                    partID : part.PART_ID,
+                    partName : part.PART_NAME,
+                    quantity: part.QUANTITY
+                }));
+                resolve(partDetails);
+            }
+        } )
+    })
+}
+//##################### filter low 2 high parts - end     ########################
+
+//##################### filter high 2 low parts - start   ########################
+export const HighToLowService = () => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts ORDER BY QUANTITY DESC`;
+
+        db.query( q, (err,data) => {
+            if(err){
+                reject(err);
+            }else if ( !data || data.length === 0){
+                reject(new Error ('Data can not be found!'))
+            }else {
+                const partDetails = data.map(part => ({
+                    partID : part.PART_ID,
+                    partName : part.PART_NAME,
+                    quantity: part.QUANTITY
+                }));
+                resolve(partDetails);
+            }
+        } )
+    })
+}
+//##################### filter high 2 low parts - end     ########################

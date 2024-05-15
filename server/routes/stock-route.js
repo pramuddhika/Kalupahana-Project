@@ -1,6 +1,7 @@
 import express from 'express';
 import {addPart,getId_Name,deletePart,editParts,searchPart,
-        todayPurchases, AddPurchases,DeletePurchases} from '../controllers/stock-controller.js';
+        todayPurchases, AddPurchases,DeletePurchases,
+        availbleParts,notAvailable,LowToHigh,HighToLow} from '../controllers/stock-controller.js';
 
 const router = express.Router();
 
@@ -21,6 +22,13 @@ router.post('/purchases', AddPurchases);
 //delete purchases data
 router.delete('/delete/:partid/:date/:quantity', DeletePurchases);
 
-//remove use parts quantity from stock 
+//filter availble parts
+router.get('/available' , availbleParts);
+//filter not availble parts
+router.get('/notavailable', notAvailable);
+//filter part low 2 hight
+router.get('/l2h' , LowToHigh);
+//filter part high 2 low 
+router.get('/h2l',HighToLow);
 
 export default router;

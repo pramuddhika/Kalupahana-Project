@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
+import Modal from '../components/Modal';
 
 const StockAddPurchases = () => {
 
@@ -15,6 +16,8 @@ const StockAddPurchases = () => {
   const [units,setUnits] = useState(null);
   const [refresh,setRefresh] = useState(false);
   const [selectedPart, setSelectedPart] = useState(null);
+  const [openDeleteModal,setOpenDeleteModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState('');
 
   //get today purchases data to table
   const fetchTableData = async () => {
@@ -108,6 +111,25 @@ const StockAddPurchases = () => {
     }
   }
 
+  //handel delete click in table
+  const handleDeleteClick = (data) => {
+    setSelectedRow(data);
+    setOpenDeleteModal(true);
+  };
+  
+  //handel delete request
+  const handleDelete = async (partid,date,quantity) => {
+    try{
+      const res = await axios.delete(`http://localhost:8000/api/stock/delete/${partid}/${date}/${quantity}`);
+      setRefresh(!refresh);
+      handleClear();
+      setOpenDeleteModal(false)
+      toast.success(res.data);
+    }catch(err){
+      toast.error(err.response.data);
+    }
+  }
+
   
     return (
         <div className="flex justify-center gap-8">
@@ -175,7 +197,7 @@ const StockAddPurchases = () => {
                      <td className="border-2 border-black">{purchases.partID}</td>
                      <td className='border-2 border-black'>{purchases.date}</td>
                      <td className="border-2 border-black">{purchases.quantity}</td>
-                     <td className="border-2 border-black cursor-pointer">
+                     <td className="border-2 border-black cursor-pointer" onClick={() => handleDeleteClick(purchases)}>
                        <TrashIcon className='text-red-600 h-5 mx-auto'/>
                      </td>
                    </tr>
@@ -184,6 +206,35 @@ const StockAddPurchases = () => {
             </div>
             {/**tab3e part - end */}
           </div>
+
+          {/**delete modal - start */}
+    <Modal open={openDeleteModal}>
+      <div onClick={(e) => e.stopPropagation()}>
+        <p className="font-bold pb-2 text-red-600 text-2xl text-center mb-3">Delete purchase Details</p>
+
+        <div className="flex fornt-inter items-center mb-4">
+          <p className="w-24 text-text-primary font-semibold">Part Id:</p>
+          <input type="text" value={selectedRow.partID} readOnly className="input w-40 border-2 rounded-lg py-2 pl-4"/>
+        </div>
+
+        <div className="flex fornt-inter items-center mb-4">
+          <p className="w-24 text-text-primary font-semibold">Date:</p>
+            <input type="text" value={selectedRow.date} readOnly className="input w-40 border-2 rounded-lg py-2 pl-4"/>
+        </div>
+
+        <div className="flex fornt-inter">
+          <p className="w-24 text-text-primary font-semibold mt-3">Quntity:</p>                  
+          <input type='text' value={selectedRow.quantity}  readOnly className="input w-40 border-2 rounded-lg py-2 pl-4"/>              
+        </div>
+
+        <div className="flex justify-center gap-8 mt-4">
+          <button className='btn btn-normal'onClick={ () => { setOpenDeleteModal(false)}}>Cancel</button>
+          <button className="btn btn-warning" 
+          onClick={ () => {handleDelete(selectedRow.partID,selectedRow.date,selectedRow.quantity)}}>Delete</button>
+        </div>
+      </div>   
+    </Modal>
+    {/**delete modal - end   */}
 
           
 

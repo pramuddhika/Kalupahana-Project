@@ -137,3 +137,26 @@ export const AddPurchasesService = async (partID,dates,units) => {
     });
 };
 //###################### Add Purchases - end   ############################
+
+//###################### delete purchases data - start ####################
+export const DeletePurchasesService = async (partid,date,quantity) => {
+    return new Promise ( (resolve,reject) => {
+        const remove = `DELETE FROM purchases WHERE PART_ID = ? AND DATE =?`;
+        db.query(remove, [partid,date],(err,data) => {
+            if(err){
+                reject(err);
+                return;
+            }
+
+            const minimize = `UPDATE spare_parts SET QUANTITY = QUANTITY - ? WHERE PART_ID = ?`;
+            db.query(minimize, [quantity,partid], (err,data) => {
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve('Part deleted successfully!');
+            });
+        });
+    });
+};
+//###################### delete purchases data - end   ####################

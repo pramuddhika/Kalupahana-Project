@@ -1,5 +1,5 @@
 import {addPartService,getId_NameService,searchPartService,deletePartService,editPartsService,
-    todayPurchasesService,AddPurchasesService} from '../services/stock-service.js';
+    todayPurchasesService,AddPurchasesService,DeletePurchasesService} from '../services/stock-service.js';
 
 //##################### add part details - satrt #########################
 export const addPart = async (req,res) => {
@@ -98,3 +98,15 @@ export const AddPurchases = async (req,res) => {
     }
 }
 //###################### add purchases - end   ###############################
+
+//##################### delete purchases data - start ########################
+export const DeletePurchases = async (req,res) => {
+    const {partid,date,quantity} = req.params;
+    try{
+        const data = await DeletePurchasesService(partid,date,quantity);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json('Server side error!');
+    }
+}
+//##################### delete purchases data - end   ########################

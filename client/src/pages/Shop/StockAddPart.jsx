@@ -173,13 +173,13 @@ const StockAddPart = () => {
       <div className="flex fornt-inter items-center mb-4">
         <p className="basis-1/4 text-text-primary font-semibold">Part Id:</p>
         <input type="text" name='partID' value={inputs.partID} onChange={handleInputChange} required 
-        className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add part ID' maxLength='20'/>
+        className="input w-60 rounded-lg p-2 pl-4" placeholder='Add part ID' maxLength='20'/>
       </div>
 
       <div className="flex fornt-inter items-center mb-4">
         <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
         <input type="text" name='partName' value={inputs.partName} onChange={handleInputChange} required 
-        className="input basis-1/2 rounded-lg p-2 pl-4" placeholder='Add Part Name' maxLength='60'/>
+        className="input w-60 rounded-lg p-2 pl-4" placeholder='Add Part Name' maxLength='60'/>
       </div>
 
       <div className="flex fornt-inter">

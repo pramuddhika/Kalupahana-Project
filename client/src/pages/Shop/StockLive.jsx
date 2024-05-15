@@ -3,6 +3,7 @@ import axios from "axios";
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
 import jsPDF from 'jspdf';
+// eslint-disable-next-line no-unused-vars
 import autoTable from 'jspdf-autotable';
 
 

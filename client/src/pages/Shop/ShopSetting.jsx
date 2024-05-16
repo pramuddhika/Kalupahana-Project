@@ -16,6 +16,7 @@ const ShopSetting = () => {
   const [nextdayTime, setNextdayTime] = useState('00:00');
   const [initialNextdayTime,setInitialNextdayTime] = useState(null);
   const [recordsTime,setRecordsTime] = useState('00:00');
+  const [initialRecordsTime,setInitialRecordsTime] = useState(null);
   const [refresh,setRefresh] = useState(false);
 
   //fetch setting table data
@@ -29,6 +30,7 @@ const ShopSetting = () => {
       setNextdayTime(res.data[0].nextdayTime);
       setInitialNextdayTime(res.data[0].nextdayTime);
       setRecordsTime(res.data[0].recordsTime);
+      setInitialRecordsTime(res.data[0].recordsTime);
     }catch(err){
       console.log('Error fetching data :' , err);
     }
@@ -85,13 +87,11 @@ const ShopSetting = () => {
   //handel next day notification time update
   const handleNexdayTimeSubmit = async (e) => {
     e.preventDefault();
-
     //check changes are make or not
     if(nextdayTime === initialNextdayTime ){
       toast.warning('No changes to update!');
       return;
     }
-
     try{
       const res = await axios.put('http://localhost:8000/api/settings/updatenextdaytime', {nextdayTime});
       setRefresh(!refresh);
@@ -99,7 +99,29 @@ const ShopSetting = () => {
     }catch(err){
       toast.error(err.response.data);
     }
-     
+  }
+
+  //handle record time change
+  const handleRecordTimeChange = async (e) => {
+    setRecordsTime(e.target.value);
+  }
+
+  //handle record time update
+  const handleRecordTimeSubmit = async(e) => {
+    e.preventDefault();
+    //check changes are make or not
+    if(recordsTime === initialRecordsTime ){
+      toast.warning('No changes to update!');
+      return;
+    }
+    try{
+      const res = await axios.put('http://localhost:8000/api/settings/recordcheck', {recordsTime});
+      setRefresh(!refresh);
+      toast.success(res.data);
+    }catch(err){
+      toast.error(err.response.data);
+    }
+
   }
   
     return (
@@ -170,16 +192,16 @@ const ShopSetting = () => {
 
                     <div className="flex gap-3 items-center">
                       <p>set new time</p>  
-                      <input type="time" className="p-2 rounded-lg outline-none border-2 pl-4"/>
+                      <input type="time" value={recordsTime} onChange={handleRecordTimeChange} className="p-2 rounded-lg outline-none border-2 pl-4"/>
                     </div>
                     
                     <div className="flex gap-3 items-center">
                        <p>current time :</p>
-                       <input value={recordsTime}  className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
+                       <input value={initialRecordsTime}  className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
                     </div>   
 
                     <div className="flex justify-end">
-                     <button className='btn btn-normal'>Set Time</button>
+                     <button className='btn btn-normal' onClick={handleRecordTimeSubmit}>Set Time</button>
                     </div>
                 </div>
             </div>

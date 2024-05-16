@@ -1,6 +1,7 @@
 import {getSettingsTableDataService,
         updateSpaceDataService,
         updateNextDayTimeService,
+        recordCheckService,
         addHolidayService} from '../services/settings-services.js';
 
 //############################ get space data & borth notification times - start ######################################
@@ -29,7 +30,6 @@ export const updateSpaceDataController = async (req,res) => {
 //################## update next day notification time  - start ##############################
 export const updateNextDayTimeController = async (req,res) => {
   const {nextdayTime} = req.body;
-  console.log(nextdayTime);
   try{
     const data = await updateNextDayTimeService(nextdayTime);
     return res.status(200).json(data);
@@ -38,6 +38,18 @@ export const updateNextDayTimeController = async (req,res) => {
   }
 };
 //################## update next day notification time  - end   ##############################
+
+//################# update record check time - start #########################################
+export const recordCheckController = async (req,res) => {
+  const {recordsTime} = req.body;
+  try{
+    const data = await recordCheckService(recordsTime);
+    return res.status(200).json(data);
+  }catch(err){
+    return res.status(500).json(err.message);
+  }
+};
+//################ updat record check time - end   ##########################################
 
 //########################### add holiday - start ###########################################
 export const addHoliday = async (req,res) => {

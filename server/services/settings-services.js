@@ -57,6 +57,21 @@ export const updateNextDayTimeService  = (nextdayTime) => {
 };
 //################## update next day notification time  - end   ##############################
 
+//################## update record check  time  - start ##############################
+export const recordCheckService  = (recordsTime) => {
+    return new Promise( (resolve,reject) => {
+     const q = `UPDATE settings SET TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME = ? `;
+     db.query( q, [recordsTime], (err,data) => {
+         if(err){
+             reject(err);
+         }else{
+             resolve("Notofocation time updated!");
+         }
+     })
+    })
+ };
+ //################## update record check time  - end   ##############################
+
 
 //######################### add holiday - Start ###############################
 export const addHolidayService = (dates) => {

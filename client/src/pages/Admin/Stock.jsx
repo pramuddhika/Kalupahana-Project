@@ -1,4 +1,5 @@
 import OwnerPagesHeader from "../components/OwnerPagesHeader";
+import LiveStock from '../Shop/StockLive';
 
 const Stock = () => {
     return (
@@ -8,7 +9,8 @@ const Stock = () => {
           <OwnerPagesHeader pageName="Stock" />
           {/**page head - end */}
 
-            <p>this is owner stock page</p>
+          <LiveStock/>
+
         </div>
     );
 };

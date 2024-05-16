@@ -73,7 +73,7 @@ export const editPartsService = (editPartName,editPartDescription,editPartID) =>
 //##################### get part name & ID - start #######################
 export const searchPartService = (searchID) => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION FROM spare_parts WHERE PART_ID = ?`;
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts WHERE PART_ID = ?`;
 
         db.query( q,[searchID], (err,data) => {
             if(err){
@@ -84,7 +84,8 @@ export const searchPartService = (searchID) => {
                 const partDetails = data.map(part => ({
                     partID : part.PART_ID,
                     partName : part.PART_NAME,
-                    description: part.DESCRIPTION
+                    description: part.DESCRIPTION,
+                    quantity: part.QUANTITY
                 }));
                 resolve(partDetails);
             }

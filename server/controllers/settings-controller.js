@@ -1,5 +1,6 @@
 import {getSettingsTableDataService,
         updateSpaceDataService,
+        updateNextDayTimeService,
         addHolidayService} from '../services/settings-services.js';
 
 //############################ get space data & borth notification times - start ######################################
@@ -24,6 +25,19 @@ export const updateSpaceDataController = async (req,res) => {
   }
 };
 //########################### update space data - end   #####################################
+
+//################## update next day notification time  - start ##############################
+export const updateNextDayTimeController = async (req,res) => {
+  const {nextdayTime} = req.body;
+  console.log(nextdayTime);
+  try{
+    const data = await updateNextDayTimeService(nextdayTime);
+    return res.status(200).json(data);
+  }catch(err){
+    return res.status(500).json(err.message);
+  }
+};
+//################## update next day notification time  - end   ##############################
 
 //########################### add holiday - start ###########################################
 export const addHoliday = async (req,res) => {

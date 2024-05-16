@@ -14,6 +14,7 @@ const ShopSetting = () => {
   const [bookingSpace,setBookingSpace] = useState(0);
   const [currentBookingSpace,setCurrentBookingSpace] = useState(null);
   const [nextdayTime, setNextdayTime] = useState('00:00');
+  const [initialNextdayTime,setInitialNextdayTime] = useState(null);
   const [recordsTime,setRecordsTime] = useState('00:00');
   const [refresh,setRefresh] = useState(false);
 
@@ -26,6 +27,7 @@ const ShopSetting = () => {
       setBookingSpace(res.data[0].bookingSpace);
       setCurrentBookingSpace(res.data[0].bookingSpace);
       setNextdayTime(res.data[0].nextdayTime);
+      setInitialNextdayTime(res.data[0].nextdayTime);
       setRecordsTime(res.data[0].recordsTime);
     }catch(err){
       console.log('Error fetching data :' , err);
@@ -53,6 +55,12 @@ const ShopSetting = () => {
     toast.warning('No changes to update!');
     return;
    }
+   //check values are positive
+   if( (totalSpace < 0 || bookingSpace< 0)){
+    toast.warning('Invalid number entered!')
+    setRefresh(!refresh);
+    return;
+   }
    //check Spaces for Emergency repairs > 0
    if( (totalSpace-bookingSpace) < 0 ) {
     toast.warning('Wrong data Input!');
@@ -69,11 +77,30 @@ const ShopSetting = () => {
 
   }
   
+  //handle next day reservation notification time
   const handleNextdayTimeChange = async (e) => {
     setNextdayTime(e.target.value);
-    console.log(nextdayTime);
   }
   
+  //handel next day notification time update
+  const handleNexdayTimeSubmit = async (e) => {
+    e.preventDefault();
+
+    //check changes are make or not
+    if(nextdayTime === initialNextdayTime ){
+      toast.warning('No changes to update!');
+      return;
+    }
+
+    try{
+      const res = await axios.put('http://localhost:8000/api/settings/updatenextdaytime', {nextdayTime});
+      setRefresh(!refresh);
+      toast.success(res.data);
+    }catch(err){
+      toast.error(err.response.data);
+    }
+     
+  }
   
     return (
         <div>
@@ -125,7 +152,7 @@ const ShopSetting = () => {
                     
                     <div className="flex gap-3 items-center">
                        <p>current time :</p>
-                       <input  value={nextdayTime} className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
+                       <input  value={initialNextdayTime} className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
                     </div>   
 
                     <div className="flex justify-end">

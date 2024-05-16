@@ -42,6 +42,22 @@ export const updateSpaceDataService = (totalSpace,bookingSpace) => {
 };
 //######################### updare spaces - end    ############################
 
+//################## update next day notification time  - start ##############################
+export const updateNextDayTimeService  = (nextdayTime) => {
+   return new Promise( (resolve,reject) => {
+    const q = `UPDATE settings SET NEXT_DAY_BOOKING_NOTIFI_TIME = ? `;
+    db.query( q, [nextdayTime], (err,data) => {
+        if(err){
+            reject(err);
+        }else{
+            resolve("Notofocation time updated!");
+        }
+    })
+   })
+};
+//################## update next day notification time  - end   ##############################
+
+
 //######################### add holiday - Start ###############################
 export const addHolidayService = (dates) => {
     return new Promise ( (resolve,reject) => {

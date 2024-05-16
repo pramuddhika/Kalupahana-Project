@@ -99,7 +99,9 @@ export const searchPartService = (searchID) => {
 //###################### get today purchases - satrt #########################
 export const todayPurchasesService = () => {
     return new Promise ( (resolve, reject) => {
-        const q = `SELECT PART_ID,DATE_FORMAT(DATE, '%Y-%m-%d') as DATE,QUANTITY FROM purchases WHERE MONTH(DATE) = MONTH(CURDATE()) AND YEAR(DATE) = YEAR(CURDATE())`;
+        const q = `SELECT PART_ID,DATE_FORMAT(DATE, '%Y-%m-%d') as DATE,
+        QUANTITY FROM purchases WHERE MONTH(DATE) = MONTH(CURDATE()) AND YEAR(DATE) = YEAR(CURDATE())`;
+        
         db.query(q,(err,data) => {
             if(err){
                 reject(err);

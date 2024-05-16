@@ -18,6 +18,7 @@ const ShopSetting = () => {
   const [recordsTime,setRecordsTime] = useState('00:00');
   const [initialRecordsTime,setInitialRecordsTime] = useState(null);
   const [date,setDate] = useState(null);
+  const [speciallistArea,setSpecialistArea] = useState('');
   const [refresh,setRefresh] = useState(false);
 
 
@@ -130,6 +131,7 @@ const ShopSetting = () => {
     setDate(e.target.value);
    
   }
+
   const HandleDateSubmit = async (e) => {
     e.preventDefault();
       try{
@@ -139,6 +141,23 @@ const ShopSetting = () => {
         toast.success(res.data);
       }catch(err){
         setDate('');
+        toast.error(err.response.data);
+      }
+    }
+
+    //handle specialist area 
+    const handleChangeArea = (e) => {
+      setSpecialistArea(e.target.value);
+    }
+    const handleSubmitArea = async (e) => {
+      e.preventDefault();
+      try{
+        const res = await axios.post('http://localhost:8000/api/settings/Addspecialistarea', {speciallistArea});
+        setRefresh(!refresh);
+        setSpecialistArea('');
+        toast.success(res.data);
+      }catch(err){
+        setSpecialistArea('');
         toast.error(err.response.data);
       }
     }
@@ -236,7 +255,7 @@ const ShopSetting = () => {
 
                 <div className="w-1/2">
                  <div className="p-4 flex justify-center items-center">
-                  <input type="date" value={date} className="input  rounded-lg p-2 pl-4" onChange={handleDatesChange} />
+                  <input type="date" value={date} className="input  rounded-lg p-2 pl-4 w-60" onChange={handleDatesChange} />
                    <button className="btn btn-normal ml-4" onClick={HandleDateSubmit}>Add</button>
                  </div>
                  
@@ -275,8 +294,8 @@ const ShopSetting = () => {
 
                 <div className="w-1/2">
                  <div className="p-4 flex justify-center items-center">
-                   <input type="text" className="input rounded-lg p-2"/>
-                   {/* <button className="btn btn-normal ml-4" onClick={handleHolidayeAdd}>Add</button> */}
+                   <input type="text" className="input rounded-lg p-2" value={speciallistArea} maxLength='30'onChange={handleChangeArea} placeholder="Add area"/>
+                   <button className="btn btn-normal ml-4" onClick={handleSubmitArea} >Add</button>
                  </div>
                  
                </div>

@@ -76,7 +76,7 @@ export const AddSpecialistAreaController = async (req,res) => {
     return res.status(200).json(data);
   }catch(err){
     if (err.code == 'ER_DUP_ENTRY') {
-      return res.status(409).json('Date already exists as a holidays!');
+      return res.status(409).json('Date already exists!');
   } else {
       return res.status(500).json('Server side error!');
   }  

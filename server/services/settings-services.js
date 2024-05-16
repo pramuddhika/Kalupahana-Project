@@ -89,3 +89,20 @@ export const addHolidayService = (date) => {
     });
 };
 //######################### add holiday - end   ###############################
+
+//######################### add specialist area - Start ###############################
+export const AddSpecialistAreaService = (speciallistArea) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `INSERT INTO mechanic_specialist_areas (SPECIALIST_AREA) VALUES (?)`;
+        db.query(q, [speciallistArea], (err,data) => {
+            if(err){
+                reject (err);
+            }else if(data && data.lenght === 0){
+                reject(new Error('Data can not be found!'));
+            }else {
+                resolve("Added!");
+            }
+        })
+    });
+};
+//######################### add specialist area - end   ###############################

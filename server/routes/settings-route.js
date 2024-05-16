@@ -1,6 +1,6 @@
 import express from 'express';
 import { getSettingsTableDataController,updateSpaceDataController,updateNextDayTimeController,recordCheckController,
-        addHoliday } from '../controllers/settings-controller.js';
+        AddSpecialistAreaController,addHoliday } from '../controllers/settings-controller.js';
 
 const router = express.Router();
 
@@ -14,6 +14,8 @@ router.put('/updatenextdaytime' , updateNextDayTimeController )
 router.put('/recordcheck' , recordCheckController )
 //add holidays
 router.post('/addholidays', addHoliday);
+//add mechanic specifialist area
+router.post('/Addspecialistarea', AddSpecialistAreaController);
 
 
 export default router;

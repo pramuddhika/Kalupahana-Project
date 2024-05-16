@@ -17,7 +17,9 @@ const ShopSetting = () => {
   const [initialNextdayTime,setInitialNextdayTime] = useState(null);
   const [recordsTime,setRecordsTime] = useState('00:00');
   const [initialRecordsTime,setInitialRecordsTime] = useState(null);
+  const [date,setDate] = useState(null);
   const [refresh,setRefresh] = useState(false);
+
 
   //fetch setting table data
   const fetchSettingData = async() => {
@@ -121,8 +123,26 @@ const ShopSetting = () => {
     }catch(err){
       toast.error(err.response.data);
     }
-
   }
+  
+  //handle holiiday change
+  const handleDatesChange = (e) => {
+    setDate(e.target.value);
+   
+  }
+  const HandleDateSubmit = async (e) => {
+    e.preventDefault();
+      try{
+        const res = await axios.post('http://localhost:8000/api/settings/addholidays', {date});
+        setRefresh(!refresh);
+        setDate('');
+        toast.success(res.data);
+      }catch(err){
+        setDate('');
+        toast.error(err.response.data);
+      }
+    }
+  
   
     return (
         <div>
@@ -216,8 +236,8 @@ const ShopSetting = () => {
 
                 <div className="w-1/2">
                  <div className="p-4 flex justify-center items-center">
-                  
-                   <button className="btn btn-normal ml-4">Add</button>
+                  <input type="date" value={date} className="input  rounded-lg p-2 pl-4" onChange={handleDatesChange} />
+                   <button className="btn btn-normal ml-4" onClick={HandleDateSubmit}>Add</button>
                  </div>
                  
                </div>

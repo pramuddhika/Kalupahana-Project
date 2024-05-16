@@ -74,10 +74,10 @@ export const recordCheckService  = (recordsTime) => {
 
 
 //######################### add holiday - Start ###############################
-export const addHolidayService = (dates) => {
+export const addHolidayService = (date) => {
     return new Promise ( (resolve,reject) => {
-        const q = `INSERT INTO holidays (dates) VALUES (?)`;
-        db.query(q, [dates], (err,data) => {
+        const q = `INSERT INTO holidays (HOLIDATE) VALUES (?)`;
+        db.query(q, [date], (err,data) => {
             if(err){
                 reject (err);
             }else if(data && data.lenght === 0){

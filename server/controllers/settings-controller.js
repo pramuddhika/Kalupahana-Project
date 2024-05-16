@@ -53,9 +53,9 @@ export const recordCheckController = async (req,res) => {
 
 //########################### add holiday - start ###########################################
 export const addHoliday = async (req,res) => {
-  const {dates} = req.body;
+  const {date} = req.body;
   try{
-    const data = await addHolidayService(dates);
+    const data = await addHolidayService(date);
     return res.status(200).json(data);
   }catch(err){
     if (err.code == 'ER_DUP_ENTRY') {

@@ -1,14 +1,80 @@
 import ShopHeader from "../components/ShopHeader";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {TrashIcon} from '@heroicons/react/24/solid';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 
 const ShopSetting = () => {
 
+  const [totalSpace, setTotalSpace] = useState (0);
+  const [currentTotalSpace,setCurrentTotalSpace] = useState(null);
+  const [bookingSpace,setBookingSpace] = useState(0);
+  const [currentBookingSpace,setCurrentBookingSpace] = useState(null);
+  const [nextdayTime, setNextdayTime] = useState('00:00');
+  const [recordsTime,setRecordsTime] = useState('00:00');
+  const [refresh,setRefresh] = useState(false);
+
+  //fetch setting table data
+  const fetchSettingData = async() => {
+    try{
+      const res = await axios.get('http://localhost:8000/api/settings/getsettings');
+      setTotalSpace(res.data[0].totalSpace);
+      setCurrentTotalSpace(res.data[0].totalSpace);
+      setBookingSpace(res.data[0].bookingSpace);
+      setCurrentBookingSpace(res.data[0].bookingSpace);
+      setNextdayTime(res.data[0].nextdayTime);
+      setRecordsTime(res.data[0].recordsTime);
+    }catch(err){
+      console.log('Error fetching data :' , err);
+    }
+  }
+
+  useEffect ( ()=> {
+    fetchSettingData();
+  },[refresh])
+
+  //handle totalspace change
+  const handleTotalSpaceChange = (e) => {
+    setTotalSpace(e.target.value);
     
-    
+  }
+  //handle booking space change
+  const handleBookingSpaceChnage = (e) => {
+    setBookingSpace(e.target.value);
+  }
+
+  const handleSpaceSubmit = async (e) => {
+    e.preventDefault();
+   //check user change data
+   if( currentTotalSpace === totalSpace && currentBookingSpace === bookingSpace){
+    toast.warning('No changes to update!');
+    return;
+   }
+   //check Spaces for Emergency repairs > 0
+   if( (totalSpace-bookingSpace) < 0 ) {
+    toast.warning('Wrong data Input!');
+    setRefresh(!refresh);
+    return;
+   }
+   try{
+    const res = await axios.put('http://localhost:8000/api/settings/updatespaces', {totalSpace,bookingSpace});
+    setRefresh(!refresh);
+    toast.success(res.data);
+   }catch(err){
+    toast.error(err.response.data);
+   }
+
+  }
+  
+  const handleNextdayTimeChange = async (e) => {
+    setNextdayTime(e.target.value);
+    console.log(nextdayTime);
+  }
+  
+  
     return (
         <div>
             <ShopHeader pageName="Settings" />
@@ -23,22 +89,26 @@ const ShopSetting = () => {
 
                 <div className="flex gap-24 mt-3 justify-center">
 
-                    <div className="flex gap-3">
+                    <div className="flex items-center gap-3">
                       <p>Total Spaces</p>  
-                      <input type="number" min="0"  className="w-16 rounded-lg outline-none border-2 pl-4"/>
+                      <input type="number" value={totalSpace} min="0" onChange={handleTotalSpaceChange}  className="w-16 p-1 rounded-lg outline-none border-2 text-center"/>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex items-center gap-3">
                        <p>Spaces for Online Booking</p>
-                       <input type="number" min="0"  className="w-16 rounded-lg outline-none text-justify border-2 pl-4"/>
+                       <input type="number" min="0" value={bookingSpace} onChange={handleBookingSpaceChnage}  className="w-16 rounded-lg p-1 outline-none text-center border-2"/>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex items-center gap-3">
                        <p>Spaces for Emergency repairs</p>
-                       <input  min="0" className="w-16 bg-white rounded-lg outline-none border-2 pl-4" readOnly/>
-                    </div>   
+                       <input  min="0" value={Math.max(totalSpace - bookingSpace, 0)} className="w-16 bg-white rounded-lg outline-none p-1 border-2 text-center" readOnly/>
+                    </div> 
+                      
                 </div>
-                <div className="flex justify-end mr-32 mt-5">
-                 <button className='btn btn-normal'>Update</button>
+                <div className="flex mt-3 mr-20 justify-end">
+                 <button className='btn btn-normal px-6'
+                  
+                  onClick={handleSpaceSubmit}>Update</button>
                 </div>
+                
             </div>
             {/**space change settigns - end */}
 
@@ -50,16 +120,16 @@ const ShopSetting = () => {
 
                     <div className="flex gap-3 items-center">
                       <p>set new time</p>  
-                      <input type="time" className="p-2 rounded-lg outline-none border-2 pl-4"/>
+                      <input type="time" value={nextdayTime} onChange={handleNextdayTimeChange} className="p-2 rounded-lg outline-none border-2 pl-4"/>
                     </div>
                     
                     <div className="flex gap-3 items-center">
                        <p>current time :</p>
-                       <input  className="bg-white p-2 rounded-lg outline-none border-2 pl-4 w-36" readOnly/>
+                       <input  value={nextdayTime} className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
                     </div>   
 
                     <div className="flex justify-end">
-                     <button className='btn btn-normal'>Set Time</button>
+                     <button className='btn btn-normal' onClick={handleNexdayTimeSubmit}>Set Time</button>
                     </div>
                 </div>
             </div>
@@ -78,7 +148,7 @@ const ShopSetting = () => {
                     
                     <div className="flex gap-3 items-center">
                        <p>current time :</p>
-                       <input  className="bg-white p-2 rounded-lg outline-none border-2 pl-4 w-36" readOnly/>
+                       <input value={recordsTime}  className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
                     </div>   
 
                     <div className="flex justify-end">

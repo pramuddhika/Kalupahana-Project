@@ -8,6 +8,8 @@ const router = express.Router();
 router.get('/getsettings', getSettingsTableDataController);
 //update space details
 router.put('/updatespaces', updateSpaceDataController);
+//update next day booking list notification time
+router.put('/updtenxtdaytime' , )
 //add holidays
 router.post('/addholidays', addHoliday);
 

@@ -3,8 +3,11 @@ import {db} from '../.env';
 //######################### get space data & borth notification times - start ############################
 export const getSettingsTableDataService = () => {
     return new Promise ( (resolve,reject) => {
-      const q = `SELECT TOTAL_SPACE,SPACE_FOR_BOOKING,NEXT_DAY_BOOKING_NOTIFI_TIME,TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME FROM settings`;
-  
+        const q = `SELECT TOTAL_SPACE, SPACE_FOR_BOOKING, 
+        DATE_FORMAT(NEXT_DAY_BOOKING_NOTIFI_TIME, '%H:%i') as NEXT_DAY_BOOKING_NOTIFI_TIME, 
+        DATE_FORMAT(TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME, '%H:%i') as TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME 
+        FROM settings`;
+
       db.query(q, (err,data) => {
           if(err){
                reject(err);
@@ -25,14 +28,13 @@ export const getSettingsTableDataService = () => {
 //######################### get space data & borth notification times - end   ############################
 
 //######################### update spaces - start  ############################
-export const updateSpaceDataService = (totalSpace,bookingSpaces) => {
+export const updateSpaceDataService = (totalSpace,bookingSpace) => {
     return new Promise ( (resolve,reject) => {
        const q = `UPDATE settings SET TOTAL_SPACE = ?, SPACE_FOR_BOOKING = ?`;
-       db.query(q,[totalSpace,bookingSpaces],(err,data) => {
+       db.query(q,[totalSpace,bookingSpace],(err,data) => {
         if(err){
             reject(err);
-        }
-        else {
+        }else {
             resolve("Space data updated!");
         }        
        })

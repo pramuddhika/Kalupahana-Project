@@ -15,9 +15,9 @@ export const getSettingsTableDataController = async (req,res) => {
 
 //########################### update space data - start #####################################
 export const updateSpaceDataController = async (req,res) => {
-  const { totalSpace, BookingSpaces} = req.body;
+  const { totalSpace, bookingSpace} = req.body;
   try{ 
-    const data = await updateSpaceDataService(totalSpace,BookingSpaces);
+    const data = await updateSpaceDataService(totalSpace,bookingSpace);
     return res.status(200).json(data);
   }catch(err){
     return res.status(500).json(err.message);

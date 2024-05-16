@@ -1,23 +1,23 @@
-import {getSpaceDataService,
+import {getSettingsTableDataService,
         updateSpaceDataService,
         addHolidayService} from '../services/settings-services.js';
 
-//############################ get space data - start ######################################
-export const getSpaceData = async (req,res) => {
+//############################ get space data & borth notification times - start ######################################
+export const getSettingsTableDataController = async (req,res) => {
   try{
-    const data = await getSpaceDataService();
+    const data = await getSettingsTableDataService();
     return res.status(200).json(data);
   }catch(err){
     return res.status(500).json(err.message);
   }
 };
-//############################ get space data - end   ######################################
+//############################ get space data & borth notification times - end   ######################################
 
 //########################### update space data - start #####################################
-export const updateSpaceData = async (req,res) => {
-  const { totalSpace, onlineSpaces} = req.body;
+export const updateSpaceDataController = async (req,res) => {
+  const { totalSpace, BookingSpaces} = req.body;
   try{ 
-    const data = await updateSpaceDataService(totalSpace,onlineSpaces);
+    const data = await updateSpaceDataService(totalSpace,BookingSpaces);
     return res.status(200).json(data);
   }catch(err){
     return res.status(500).json(err.message);

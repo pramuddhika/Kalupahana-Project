@@ -1,13 +1,13 @@
 import express from 'express';
-import { getSpaceData, updateSpaceData,
+import { getSettingsTableDataController,updateSpaceDataController,
         addHoliday } from '../controllers/settings-controller.js';
 
 const router = express.Router();
 
-//get space detils
-router.get('/getspace', getSpaceData);
+//get settings data
+router.get('/getsettings', getSettingsTableDataController);
 //update space details
-router.put('/updatespaces', updateSpaceData);
+router.put('/updatespaces', updateSpaceDataController);
 //add holidays
 router.post('/addholidays', addHoliday);
 

@@ -3,9 +3,9 @@ import {  useState } from 'react';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { enGB } from 'date-fns/locale';
+
+
+
 
 const BookingUpdate = () => {
 
@@ -90,9 +90,7 @@ const BookingUpdate = () => {
       </div>
       <div className='flex m-2 items-center px-5'>
         <p className='w-36'>Date</p>
-        <DatePicker selected={date}  className="outline-none rounded-lg p-2 ml-6 w-72"
-         onChange={(date) => SetDate(date.toISOString().slice(0, 10))}  
-         dateFormat="yyyy-MM-dd" minDate={new Date()} locale={enGB}/>
+        
       </div>
 
       <div className='flex justify-center gap-6 mt-4'>

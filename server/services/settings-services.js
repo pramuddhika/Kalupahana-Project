@@ -106,3 +106,24 @@ export const AddSpecialistAreaService = (speciallistArea) => {
     });
 };
 //######################### add specialist area - end   ###############################
+
+//########################## get specialist Area - start #########################################
+export const getSpecialistAreaService = () => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT SPECIALIST_AREA FROM mechanic_specialist_areas`;
+
+      db.query(q, (err,data) => {
+          if(err){
+               reject(err);
+          }else if (!data || data.length === 0){
+               reject(new Error('Data can not be found!'));
+          }else{
+            const list = data.map(list => ({
+                area: list.SPECIALIST_AREA,
+              }));
+              resolve(list);
+          }
+      });
+    });
+  };
+//########################## get specialist Area - send  #########################################

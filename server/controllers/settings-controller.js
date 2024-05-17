@@ -3,7 +3,8 @@ import {getSettingsTableDataService,
         updateNextDayTimeService,
         recordCheckService,
         addHolidayService,
-        AddSpecialistAreaService} from '../services/settings-services.js';
+        AddSpecialistAreaService,
+        getSpecialistAreaService} from '../services/settings-services.js';
 
 //############################ get space data & borth notification times - start ######################################
 export const getSettingsTableDataController = async (req,res) => {
@@ -53,7 +54,7 @@ export const recordCheckController = async (req,res) => {
 //################ updat record check time - end   ##########################################
 
 //########################### add holiday - start ###########################################
-export const addHoliday = async (req,res) => {
+export const addHolidayController = async (req,res) => {
   const {date} = req.body;
   try{
     const data = await addHolidayService(date);
@@ -83,4 +84,15 @@ export const AddSpecialistAreaController = async (req,res) => {
   }
 };
 //########################### add specialist are - end   ###########################################
+
+//########################## get specialist Area - start #########################################
+export const getSpecialistAreaController = async (req,res) => {
+  try{
+    const data = await getSpecialistAreaService();
+    return res.status(200).json(data);
+  }catch(err){
+    return res.status(500).json(err.message);
+  }
+}
+//########################## get specialist Area - send  #########################################
 

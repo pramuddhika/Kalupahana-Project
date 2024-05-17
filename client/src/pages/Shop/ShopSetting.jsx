@@ -19,6 +19,7 @@ const ShopSetting = () => {
   const [initialRecordsTime,setInitialRecordsTime] = useState(null);
   const [date,setDate] = useState(null);
   const [speciallistArea,setSpecialistArea] = useState('');
+  const [list,setList] = useState(null);
   const [refresh,setRefresh] = useState(false);
 
 
@@ -37,8 +38,19 @@ const ShopSetting = () => {
     }
   }
 
+  //fetch specialoist Ares list to table
+  const fetchSpecialistArea = async() => {
+    try{
+      const res = await axios.get('http://localhost:8000/api/settings/getlist');
+      setList(res.data);
+    }catch(err){
+      console.log('Error fetching data :' , err);
+    }
+  }
+
   useEffect ( ()=> {
     fetchSettingData();
+    fetchSpecialistArea();
     setNextdayTime(null);
     setRecordsTime(null);
   },[refresh])
@@ -73,10 +85,11 @@ const ShopSetting = () => {
    }
    try{
     const res = await axios.put('http://localhost:8000/api/settings/updatespaces', {totalSpace,bookingSpace});
-    setRefresh(!refresh);
     toast.success(res.data);
    }catch(err){
     toast.error(err.response.data);
+   }finally{
+    setRefresh(!refresh);
    }
 
   }
@@ -101,10 +114,11 @@ const ShopSetting = () => {
     try{
       const res = await axios.put('http://localhost:8000/api/settings/updatenextdaytime', {nextdayTime});
       setNextdayTime('');
-      setRefresh(!refresh);
       toast.success(res.data);
     }catch(err){
       toast.error(err.response.data);
+    }finally{
+      setRefresh(!refresh);
     }
   }
 
@@ -127,11 +141,13 @@ const ShopSetting = () => {
     }
     try{
       const res = await axios.put('http://localhost:8000/api/settings/recordcheck', {recordsTime});
-      setRecordsTime('');
-      setRefresh(!refresh);
+      
       toast.success(res.data);
     }catch(err){
       toast.error(err.response.data);
+    }finally{
+      setRecordsTime('');
+      setRefresh(!refresh);
     }
   }
   
@@ -145,12 +161,12 @@ const ShopSetting = () => {
     e.preventDefault();
       try{
         const res = await axios.post('http://localhost:8000/api/settings/addholidays', {date});
-        setRefresh(!refresh);
-        setDate('');
         toast.success(res.data);
       }catch(err){
-        setDate('');
         toast.error(err.response.data);
+      }finally{
+        setRefresh(!refresh);
+        setDate('');
       }
     }
 
@@ -160,14 +176,18 @@ const ShopSetting = () => {
     }
     const handleSubmitArea = async (e) => {
       e.preventDefault();
+      if(speciallistArea === ''){
+        toast.warning('No changes to update!');
+        return;
+      }
       try{
         const res = await axios.post('http://localhost:8000/api/settings/Addspecialistarea', {speciallistArea});
         setRefresh(!refresh);
-        setSpecialistArea('');
         toast.success(res.data);
       }catch(err){
-        setSpecialistArea('');
         toast.error(err.response.data);
+      }finally{
+        setSpecialistArea('');
       }
     }
   
@@ -317,12 +337,22 @@ const ShopSetting = () => {
                        <th className="border-2 border-black w-36">Action</th>
                      </tr>
 
-                      <tr className="text-center">
-                        <td className="border-2 border-black">test data</td>
+                     {list === null || list.length === 0  ? (
+                      <tr>
+                        <td colSpan={2} className="text-center border-2 border-black py-2">No data to display</td>
+                      </tr>
+                     ) : (
+                      list && list.map( (list, index) => (
+                        <tr key={index} className="text-center">
+                        <td className="border-2 border-black">{list.area}</td>
                         <td className="border-2 border-black cursor-pointer">
                           <TrashIcon className='text-red-600 h-5 mx-auto'/>
                         </td>
                       </tr>
+                      ))
+                     )}
+
+                      
                       
                     </table>
                   </div>

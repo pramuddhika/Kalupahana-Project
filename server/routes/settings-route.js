@@ -7,7 +7,8 @@ import { getSettingsTableDataController,
         addHolidayController,
         getSpecialistAreaController,
         deleteSpecialistAreaController,
-        getHolidayController} from '../controllers/settings-controller.js';
+        getHolidayController,
+        deleteHolidayController} from '../controllers/settings-controller.js';
 
 const router = express.Router();
 
@@ -23,6 +24,8 @@ router.put('/recordcheck' , recordCheckController )
 router.post('/addholidays', addHolidayController);
 //get holidays
 router.get('/getholidays', getHolidayController);
+//delete holidays
+router.delete('/deleteholidays/:deletedate' , deleteHolidayController)
 //add mechanic specifialist area
 router.post('/Addspecialistarea', AddSpecialistAreaController);
 //get mechanic specialistarea list

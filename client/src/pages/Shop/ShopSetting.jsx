@@ -20,6 +20,7 @@ const ShopSetting = () => {
   const [date,setDate] = useState(null);
   const [speciallistArea,setSpecialistArea] = useState('');
   const [list,setList] = useState(null);
+  const [days,setDays] = useState(null);
   const [refresh,setRefresh] = useState(false);
 
 
@@ -48,9 +49,20 @@ const ShopSetting = () => {
     }
   }
 
+  //fetching holidays to the table
+  const fetchHolidays = async() => {
+    try{
+      const res = await axios.get('http://localhost:8000/api/settings/getholidays');
+      setDays(res.data);
+    }catch(err){
+      console.log('Error fetching data :' , err)
+    }
+  }
+
   useEffect ( ()=> {
     fetchSettingData();
     fetchSpecialistArea();
+    fetchHolidays();
     setNextdayTime(null);
     setRecordsTime(null);
   },[refresh])
@@ -141,7 +153,6 @@ const ShopSetting = () => {
     }
     try{
       const res = await axios.put('http://localhost:8000/api/settings/recordcheck', {recordsTime});
-      
       toast.success(res.data);
     }catch(err){
       toast.error(err.response.data);
@@ -154,11 +165,15 @@ const ShopSetting = () => {
   //handle holiiday change
   const handleDatesChange = (e) => {
     setDate(e.target.value);
-   
   }
-
+  //handle holiday adding
   const HandleDateSubmit = async (e) => {
     e.preventDefault();
+    //handle date input
+    if(days.length === 0){
+      toast.warning('No changes to update!');
+      return;
+    }
       try{
         const res = await axios.post('http://localhost:8000/api/settings/addholidays', {date});
         toast.success(res.data);
@@ -169,6 +184,7 @@ const ShopSetting = () => {
         setDate('');
       }
     }
+
 
     //handle specialist area 
     const handleChangeArea = (e) => {
@@ -204,7 +220,20 @@ const ShopSetting = () => {
       }finally{
         setRefresh(!refresh);
       }
+    }
 
+    //handel holiday removing
+    const handleHolidayDeleteClick = async (deletedate) => {
+      try{
+        const res = await axios.delete(`http://localhost:8000/api/settings/deleteholidays/${deletedate}`);
+        // Remove the deleted area from the state
+        setDays(days.filter(days => days.holidays !== deletedate));
+        toast.success(res.data);
+      }catch(err){
+        toast.error(err.response.data);
+      }finally{
+        setRefresh(!refresh);
+      }
     }
   
   
@@ -314,14 +343,21 @@ const ShopSetting = () => {
                        <th className="border-2 border-black w-36">Action</th>
                      </tr>
 
-                      <tr className="text-center">
-                        <td className="border-2 border-black">test data</td>
-                        <td className="border-2 border-black">
-                        <button className="w-24 m-1">
+                     {days === null || days.length === 0  ? (
+                      <tr>
+                        <td colSpan={2} className="text-center border-2 border-black py-2">No data to display</td>
+                      </tr>
+                     ) : (
+                      days && days.map( (days, index) => (
+                        <tr key={index} className="text-center">
+                        <td className="border-2 border-black">{days.holidays}</td>
+                        <td className="border-2 border-black cursor-pointer" onClick={() => handleHolidayDeleteClick(days.holidays)}>
                           <TrashIcon className='text-red-600 h-5 mx-auto'/>
-                        </button>
                         </td>
                       </tr>
+                      ))
+                     )}
+
                     </table>
                   </div>
 

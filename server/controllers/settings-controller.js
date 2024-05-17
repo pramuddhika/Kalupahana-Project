@@ -6,7 +6,8 @@ import {getSettingsTableDataService,
         AddSpecialistAreaService,
         getSpecialistAreaService,
         deleteSpecialistAreaService,
-        getHolidayService} from '../services/settings-services.js';
+        getHolidayService,
+        deleteHolidayService} from '../services/settings-services.js';
 
 //############################ get space data & borth notification times - start ######################################
 export const getSettingsTableDataController = async (req,res) => {
@@ -82,6 +83,18 @@ export const getHolidayController = async (req,res) => {
 }
 //########################## get holidays Area - send  #########################################
 
+//######################### delete holidays - start #####################################
+export const deleteHolidayController = async (req,res) => {
+  const {deletedate} = req.params;
+  try{
+    const data = await deleteHolidayService(deletedate);
+    return res.status(200).json(data);
+  }catch(err){
+    return res.status(500).json(err.message);
+  }
+} 
+//######################### delete holidays - end   #####################################
+
 //########################### add specialist area - start ###########################################
 export const AddSpecialistAreaController = async (req,res) => {
   const {speciallistArea} = req.body;
@@ -116,7 +129,11 @@ export const deleteSpecialistAreaController = async (req,res) => {
     const data = await deleteSpecialistAreaService(deleteArea);
     return res.status(200).json(data);
   }catch(err){
-    return res.status(500).json(err.message);
+    if(err.code === 'ER_ROW_IS_REFERENCED_2') {
+      return res.status(409).json('Can not delete!');
+  }else{
+      return res.status(500).json('Server side error!');
+  }
   }
 } 
 //######################### delete specialist Area - end   #####################################

@@ -93,7 +93,7 @@ export const addHolidayService = (date) => {
 //########################## get holidays - start #########################################
 export const getHolidayService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT DATE_FORMAT(HOLIDATE, '%Y-%m-%d') AS HOLIDATE FROM holidays`;
+        const q = `SELECT DATE_FORMAT(HOLIDATE, '%Y-%m-%d') AS HOLIDATE FROM holidays WHERE HOLIDATE >= CURDATE()`;
 
       db.query(q, (err,data) => {
           if(err){
@@ -110,6 +110,22 @@ export const getHolidayService = () => {
     });
   };
 //########################## get holidays  - end  #########################################
+
+//########################## delete holiday - send  ######################################
+export const deleteHolidayService = (deletedate) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `DELETE FROM holidays WHERE HOLIDATE = ?`;
+
+        db.query( q,(deletedate),(err,data) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve('Date removed!');
+            }
+        })
+    })
+}
+//########################## delete holiday - send  ######################################
 
 //######################### add specialist area - Start ###############################
 export const AddSpecialistAreaService = (speciallistArea) => {

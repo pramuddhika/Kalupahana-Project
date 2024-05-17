@@ -13,9 +13,9 @@ const ShopSetting = () => {
   const [currentTotalSpace,setCurrentTotalSpace] = useState(null);
   const [bookingSpace,setBookingSpace] = useState(0);
   const [currentBookingSpace,setCurrentBookingSpace] = useState(null);
-  const [nextdayTime, setNextdayTime] = useState('00:00');
+  const [nextdayTime, setNextdayTime] = useState(null);
   const [initialNextdayTime,setInitialNextdayTime] = useState(null);
-  const [recordsTime,setRecordsTime] = useState('00:00');
+  const [recordsTime,setRecordsTime] = useState(null);
   const [initialRecordsTime,setInitialRecordsTime] = useState(null);
   const [date,setDate] = useState(null);
   const [speciallistArea,setSpecialistArea] = useState('');
@@ -30,9 +30,7 @@ const ShopSetting = () => {
       setCurrentTotalSpace(res.data[0].totalSpace);
       setBookingSpace(res.data[0].bookingSpace);
       setCurrentBookingSpace(res.data[0].bookingSpace);
-      setNextdayTime(res.data[0].nextdayTime);
       setInitialNextdayTime(res.data[0].nextdayTime);
-      setRecordsTime(res.data[0].recordsTime);
       setInitialRecordsTime(res.data[0].recordsTime);
     }catch(err){
       console.log('Error fetching data :' , err);
@@ -41,12 +39,13 @@ const ShopSetting = () => {
 
   useEffect ( ()=> {
     fetchSettingData();
+    setNextdayTime(null);
+    setRecordsTime(null);
   },[refresh])
 
   //handle totalspace change
   const handleTotalSpaceChange = (e) => {
     setTotalSpace(e.target.value);
-    
   }
   //handle booking space change
   const handleBookingSpaceChnage = (e) => {
@@ -91,12 +90,17 @@ const ShopSetting = () => {
   const handleNexdayTimeSubmit = async (e) => {
     e.preventDefault();
     //check changes are make or not
+    if(nextdayTime === null){
+      toast.warning('No changes to update!');
+      return;
+    }
     if(nextdayTime === initialNextdayTime ){
       toast.warning('No changes to update!');
       return;
     }
     try{
       const res = await axios.put('http://localhost:8000/api/settings/updatenextdaytime', {nextdayTime});
+      setNextdayTime('');
       setRefresh(!refresh);
       toast.success(res.data);
     }catch(err){
@@ -113,12 +117,17 @@ const ShopSetting = () => {
   const handleRecordTimeSubmit = async(e) => {
     e.preventDefault();
     //check changes are make or not
+    if(recordsTime === null){
+      toast.warning('No changes to update!');
+      return;
+    }
     if(recordsTime === initialRecordsTime ){
       toast.warning('No changes to update!');
       return;
     }
     try{
       const res = await axios.put('http://localhost:8000/api/settings/recordcheck', {recordsTime});
+      setRecordsTime('');
       setRefresh(!refresh);
       toast.success(res.data);
     }catch(err){

@@ -50,7 +50,7 @@ export const updateNextDayTimeService  = (nextdayTime) => {
         if(err){
             reject(err);
         }else{
-            resolve("Notofocation time updated!");
+            resolve("Notification time updated!");
         }
     })
    })
@@ -65,7 +65,7 @@ export const recordCheckService  = (recordsTime) => {
          if(err){
              reject(err);
          }else{
-             resolve("Notofocation time updated!");
+             resolve("Notification time updated!");
          }
      })
     })

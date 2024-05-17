@@ -5,7 +5,8 @@ import {getSettingsTableDataService,
         addHolidayService,
         AddSpecialistAreaService,
         getSpecialistAreaService,
-        deleteSpecialistAreaService} from '../services/settings-services.js';
+        deleteSpecialistAreaService,
+        getHolidayService} from '../services/settings-services.js';
 
 //############################ get space data & borth notification times - start ######################################
 export const getSettingsTableDataController = async (req,res) => {
@@ -69,6 +70,17 @@ export const addHolidayController = async (req,res) => {
   }
 };
 //########################### add holiday - end   ###########################################
+
+//########################## get holidays - start #########################################
+export const getHolidayController = async (req,res) => {
+  try{
+    const data = await getHolidayService();
+    return res.status(200).json(data);
+  }catch(err){
+    return res.status(500).json('Server side error!');
+  }
+}
+//########################## get holidays Area - send  #########################################
 
 //########################### add specialist area - start ###########################################
 export const AddSpecialistAreaController = async (req,res) => {

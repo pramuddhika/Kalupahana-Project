@@ -90,6 +90,27 @@ export const addHolidayService = (date) => {
 };
 //######################### add holiday - end   ###############################
 
+//########################## get holidays - start #########################################
+export const getHolidayService = () => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT DATE_FORMAT(HOLIDATE, '%Y-%m-%d') AS HOLIDATE FROM holidays`;
+
+      db.query(q, (err,data) => {
+          if(err){
+               reject(err);
+          }else if (!data || data.length === 0){
+               reject(new Error('Data can not be found!'));
+          }else{
+            const holidays = data.map(days => ({
+                holidays: days.HOLIDATE,
+              }));
+              resolve(holidays);
+          }
+      });
+    });
+  };
+//########################## get holidays  - end  #########################################
+
 //######################### add specialist area - Start ###############################
 export const AddSpecialistAreaService = (speciallistArea) => {
     return new Promise ( (resolve,reject) => {
@@ -126,7 +147,7 @@ export const getSpecialistAreaService = () => {
       });
     });
   };
-//########################## get specialist Area - send  #########################################
+//########################## get specialist Area - end  #########################################
 
 //########################## delete specialist Area - send  ######################################
 export const deleteSpecialistAreaService = (deleteAres) => {

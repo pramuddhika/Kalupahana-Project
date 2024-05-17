@@ -17,7 +17,7 @@ const Booking = () => {
       case 'DashBoard':
         return 'Dashboard';
       default:
-        return 'Boooking';
+        return 'Booking';
     }
   };
 

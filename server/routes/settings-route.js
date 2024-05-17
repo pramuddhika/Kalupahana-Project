@@ -1,6 +1,12 @@
 import express from 'express';
-import { getSettingsTableDataController,updateSpaceDataController,updateNextDayTimeController,recordCheckController,
-        AddSpecialistAreaController,addHolidayController,getSpecialistAreaController } from '../controllers/settings-controller.js';
+import { getSettingsTableDataController,
+        updateSpaceDataController,
+        updateNextDayTimeController,
+        recordCheckController,
+        AddSpecialistAreaController,
+        addHolidayController,
+        getSpecialistAreaController,
+        deleteSpecialistAreaController } from '../controllers/settings-controller.js';
 
 const router = express.Router();
 
@@ -18,6 +24,8 @@ router.post('/addholidays', addHolidayController);
 router.post('/Addspecialistarea', AddSpecialistAreaController);
 //get mechanic specialistarea list
 router.get('/getlist', getSpecialistAreaController)
+//delete mechanic specialist ares
+router.delete('/deletearea/:deleteArea', deleteSpecialistAreaController);
 
 
 export default router;

@@ -345,7 +345,7 @@ const ShopSetting = () => {
                       list && list.map( (list, index) => (
                         <tr key={index} className="text-center">
                         <td className="border-2 border-black">{list.area}</td>
-                        <td className="border-2 border-black cursor-pointer">
+                        <td className="border-2 border-black cursor-pointer" on>
                           <TrashIcon className='text-red-600 h-5 mx-auto'/>
                         </td>
                       </tr>

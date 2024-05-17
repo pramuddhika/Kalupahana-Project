@@ -127,3 +127,19 @@ export const getSpecialistAreaService = () => {
     });
   };
 //########################## get specialist Area - send  #########################################
+
+//########################## delete specialist Area - send  ######################################
+export const deleteSpecialistAreaService = (deleteAres) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `DELETE mechanic_specialist_areas WHERE SPECIALIST_AREA = ?`;
+
+        db.query( q,(deleteAres),(err,data) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve('Area deleted!');
+            }
+        })
+    })
+}
+//########################## delete specialist Area - send  ######################################

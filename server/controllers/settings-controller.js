@@ -4,7 +4,8 @@ import {getSettingsTableDataService,
         recordCheckService,
         addHolidayService,
         AddSpecialistAreaService,
-        getSpecialistAreaService} from '../services/settings-services.js';
+        getSpecialistAreaService,
+        deleteSpecialistAreaService} from '../services/settings-services.js';
 
 //############################ get space data & borth notification times - start ######################################
 export const getSettingsTableDataController = async (req,res) => {
@@ -12,7 +13,7 @@ export const getSettingsTableDataController = async (req,res) => {
     const data = await getSettingsTableDataService();
     return res.status(200).json(data);
   }catch(err){
-    return res.status(500).json(err.message);
+    return res.status(500).json('Server side Error!');
   }
 };
 //############################ get space data & borth notification times - end   ######################################
@@ -24,7 +25,7 @@ export const updateSpaceDataController = async (req,res) => {
     const data = await updateSpaceDataService(totalSpace,bookingSpace);
     return res.status(200).json(data);
   }catch(err){
-    return res.status(500).json(err.message);
+    return res.status(500).json('Server side Error!');
   }
 };
 //########################### update space data - end   #####################################
@@ -36,7 +37,7 @@ export const updateNextDayTimeController = async (req,res) => {
     const data = await updateNextDayTimeService(nextdayTime);
     return res.status(200).json(data);
   }catch(err){
-    return res.status(500).json(err.message);
+    return res.status(500).json('Server side Error!');
   }
 };
 //################## update next day notification time  - end   ##############################
@@ -48,7 +49,7 @@ export const recordCheckController = async (req,res) => {
     const data = await recordCheckService(recordsTime);
     return res.status(200).json(data);
   }catch(err){
-    return res.status(500).json(err.message);
+    return res.status(500).json('Server side Error!');
   }
 };
 //################ updat record check time - end   ##########################################
@@ -91,8 +92,20 @@ export const getSpecialistAreaController = async (req,res) => {
     const data = await getSpecialistAreaService();
     return res.status(200).json(data);
   }catch(err){
-    return res.status(500).json(err.message);
+    return res.status(500).json('Server side Error!');
   }
 }
 //########################## get specialist Area - send  #########################################
+
+//######################### delete specialist Area - start #####################################
+export const deleteSpecialistAreaController = async (req,res) => {
+  const {deleteArea} = req.params;
+  try{
+    const res = await deleteSpecialistAreaService(deleteArea);
+    return res.status(200).json(data);
+  }catch(err){
+    return res.status(500).json('Server side Error!');
+  }
+} 
+//######################### delete specialist Area - end   #####################################
 

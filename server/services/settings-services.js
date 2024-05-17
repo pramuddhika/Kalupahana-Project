@@ -131,7 +131,7 @@ export const getSpecialistAreaService = () => {
 //########################## delete specialist Area - send  ######################################
 export const deleteSpecialistAreaService = (deleteAres) => {
     return new Promise ( (resolve,reject) => {
-        const q = `DELETE mechanic_specialist_areas WHERE SPECIALIST_AREA = ?`;
+        const q = `DELETE FROM mechanic_specialist_areas WHERE SPECIALIST_AREA = ?`;
 
         db.query( q,(deleteAres),(err,data) => {
             if(err){

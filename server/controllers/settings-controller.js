@@ -101,10 +101,10 @@ export const getSpecialistAreaController = async (req,res) => {
 export const deleteSpecialistAreaController = async (req,res) => {
   const {deleteArea} = req.params;
   try{
-    const res = await deleteSpecialistAreaService(deleteArea);
+    const data = await deleteSpecialistAreaService(deleteArea);
     return res.status(200).json(data);
   }catch(err){
-    return res.status(500).json('Server side Error!');
+    return res.status(500).json(err.message);
   }
 } 
 //######################### delete specialist Area - end   #####################################

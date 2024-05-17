@@ -190,6 +190,22 @@ const ShopSetting = () => {
         setSpecialistArea('');
       }
     }
+
+    //handel specialalist area delete
+    const handleDeleteClick = async (deleteArea) => {
+      try{
+        const res = await axios.delete(`http://localhost:8000/api/settings/deletearea/${deleteArea}`);
+        // Remove the deleted area from the state
+        setList(list.filter(list => list.area !== deleteArea));
+        toast.success(res.data);
+        
+      }catch(err){
+        toast.error(err.response.data);
+      }finally{
+        setRefresh(!refresh);
+      }
+
+    }
   
   
     return (
@@ -345,7 +361,7 @@ const ShopSetting = () => {
                       list && list.map( (list, index) => (
                         <tr key={index} className="text-center">
                         <td className="border-2 border-black">{list.area}</td>
-                        <td className="border-2 border-black cursor-pointer" on>
+                        <td className="border-2 border-black cursor-pointer" onClick={() => handleDeleteClick(list.area)}>
                           <TrashIcon className='text-red-600 h-5 mx-auto'/>
                         </td>
                       </tr>

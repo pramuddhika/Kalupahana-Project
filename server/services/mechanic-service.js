@@ -21,7 +21,7 @@ export const addMechanicService = (employeeId,employeeName,contactNumber,livingA
 //############################# get mechanic data - start ######################################
 export const getMechanicService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT EMPLOYEE_ID,EMPLOYEE_NAME,CONTACT_NUMBER,LIVING_AREA,JOIN_DATE,MAIN_AREA,SUB_AREA,RESIGN_DATE FROM mechanic`;
+        const q = `SELECT EMPLOYEE_ID, EMPLOYEE_NAME, CONTACT_NUMBER, LIVING_AREA, DATE_FORMAT(JOIN_DATE, '%Y-%m-%d') AS JOIN_DATE, MAIN_AREA, SUB_AREA, DATE_FORMAT(RESIGN_DATE, '%Y-%m-%d') AS RESIGN_DATE FROM mechanic`;
 
         db.query( q, (err,data) => {
             if(err){

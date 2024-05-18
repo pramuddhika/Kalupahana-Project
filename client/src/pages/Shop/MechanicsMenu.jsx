@@ -42,7 +42,7 @@ const MechanicsMenu = () => {
                  
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3">Employee Id : </p>
-                   <input type="text" className="input rounded-lg p-2 w-56" readOnly/>
+                   <input type="text" className="input rounded-lg p-2 w-56" placeholder="Select an employee" readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
@@ -52,32 +52,32 @@ const MechanicsMenu = () => {
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3">Contact Number : </p>
-                   <input type="text" className="input rounded-lg p-2 w-56" readOnly/>
+                   <input type="text" className="input rounded-lg p-2 w-56"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3">Address : </p>
-                   <input type="text" className="input rounded-lg p-2 w-56" readOnly/>
+                   <input type="text" className="input rounded-lg p-2 w-56"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3">Join Date : </p>
-                   <input type="text" className="input rounded-lg p-2 w-56" readOnly/>
+                   <input type="text" className="input rounded-lg p-2 w-56"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3">Main specialist area : </p>
-                   <input type="text" className="input rounded-lg p-2 w-56" readOnly/>
+                   <input type="text" className="input rounded-lg p-2 w-56"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3">Sub specialist area : </p>
-                   <input type="text" className="input rounded-lg p-2 w-56" readOnly/>
+                   <input type="text" className="input rounded-lg p-2 w-56"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3">Resign Date : </p>
-                   <input type="text" className="input rounded-lg p-2 w-56" readOnly/>
+                   <input type="text" className="input rounded-lg p-2 w-56"  readOnly/>
                  </div>
 
                  <div className="flex justify-end my-3 mr-10">

@@ -1,4 +1,4 @@
-import {addMechanicService} from '../services/mechanic-service.js';
+import {addMechanicService,getMechanicService} from '../services/mechanic-service.js';
 
 //############################### add mechanic - start ########################
 export const addMechanicController = async (req,res) => {
@@ -15,3 +15,14 @@ export const addMechanicController = async (req,res) => {
     }
 }
 //############################### add mechanic - end   ########################
+
+//########################### get mechanic data - start ###############################
+export const getMechanicController = async (req,res) => {
+    try{
+        const data = await getMechanicService();
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json('Sever side error!');
+    } 
+}
+//########################### get mechanic data - end   ###############################

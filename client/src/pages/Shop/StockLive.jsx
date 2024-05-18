@@ -105,8 +105,8 @@ const StockLive = () => {
   const optionForFilter = [
     {value:'available' , label: 'Only Available'},
     {value:'notavailable', label: 'Not Available'},
-    {value:'l2h', label:'Quantity - Low to High'},
-    {value:'h2l', label:'Quantity - High to Low'}
+    {value:'l2h', label:'Quantity - Asecending order 🔺'},
+    {value:'h2l', label:'Quantity - Descending order 🔻'}
   ]
 
   //handel part id & name searchbar

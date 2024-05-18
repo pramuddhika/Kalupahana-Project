@@ -167,12 +167,12 @@ const ShopSetting = () => {
   //handle holiday adding
   const HandleDateSubmit = async (e) => {
     e.preventDefault();
+    
     //handle date input
-    if(days.length === 0){
+    if(date.length === 0){
       toast.warning('No changes to update!');
       return;
     }
-
     try{
       const res = await axios.post('http://localhost:8000/api/settings/addholidays', {date});
       toast.success(res.data);

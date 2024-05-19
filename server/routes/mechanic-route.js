@@ -1,5 +1,5 @@
 import express from 'express';
-import {addMechanicController,getMechanicController} from '../controllers/mechanic-controller.js';
+import {addMechanicController,getMechanicController,updateMechanicController} from '../controllers/mechanic-controller.js';
 
 const router = express.Router();
 
@@ -7,5 +7,7 @@ const router = express.Router();
 router.post('/addmechanic', addMechanicController);
 //get mechanic data
 router.get('/getmechanics' , getMechanicController);
+//update mechanic data
+router.put('/updatemechanic', updateMechanicController);
 
 export default router;

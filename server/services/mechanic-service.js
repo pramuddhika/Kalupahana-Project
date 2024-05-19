@@ -45,3 +45,21 @@ export const getMechanicService = () => {
     })
 }
 //############################# get mechanic data - end   ######################################
+
+//############################ update mechanic data - start ###################################
+export const updateMechanicService = (employeeName,contactNumber,livingArea,joinDate,mainArea,subArea,resignDate,employeeId) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `UPDATE mechanic SET EMPLOYEE_NAME=? , CONTACT_NUMBER=? , LIVING_AREA=? , JOIN_DATE=? , MAIN_AREA=?, SUB_AREA=?, RESIGN_DATE=? WHERE EMPLOYEE_ID=?`;
+
+        db.query(q, [employeeName,contactNumber,livingArea,joinDate,mainArea,subArea,resignDate,employeeId] , (err,data) => {
+            if(err){
+                reject (err);
+            }else if(data && data.lenght === 0){
+                reject(new Error('Data can not be found!'));
+            }else {
+                resolve("Updated!");
+            }
+        })
+    })
+}
+//########################### update mechanic data -  end   ####################################

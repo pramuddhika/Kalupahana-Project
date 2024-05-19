@@ -50,7 +50,7 @@ const MechanicsMenu = () => {
 
       <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
 
-      <div className="flex justify-center gap-12">
+      <div className="flex justify-center gap-14">
 
         <div className="w-5/12">
 
@@ -109,7 +109,7 @@ const MechanicsMenu = () => {
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Address : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Residential Area : : </p>
               <input type="text" value={selectedRow.livingArea} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
             </div>
 

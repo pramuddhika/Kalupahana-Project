@@ -49,7 +49,7 @@ const MechanicsAdd = () => {
     setAddMechanic( (pre) => ({...pre,[e.target.name]: e.target.value}));
   }
 
-  //handle mechanic main are select value
+  //handle mechanic main area select value
   const handleMechanicMainArea = (options) => {
     setAddMechanic(prevState => ( {
       ...prevState,
@@ -110,6 +110,10 @@ const MechanicsAdd = () => {
      toast.warning("Main specialist area can't be empty!");
      return;
     }
+    if (addMechanic.mainArea === addMechanic.subArea){
+      toast.warning("Please select different specialist areas!")
+      return;
+    }
     //handle add data
     try{
       const res = await axios.post('http://localhost:8000/api/mechanic/addmechanic', addMechanic);
@@ -124,7 +128,7 @@ const MechanicsAdd = () => {
 
   return (
     <div>
-      <ShopHeader pageName="Add Mechanic"/>
+      <ShopHeader pageName="Add New Mechanic"/>
       <div className="h-9 bg-side-nav-bg border-b-2"/>
 
       <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
@@ -140,37 +144,37 @@ const MechanicsAdd = () => {
           <div className="mt-16 card p-2">
                  
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3">Employee Id : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Employee Id : </p>
               <input type="text" name="employeeId" value={addMechanic.employeeId} onChange={handleMechanicAdd} 
               className="input rounded-lg p-2 w-56" maxLength={10} placeholder="EID-0001" required/>
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3">Employee Name : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Employee Name : </p>
               <input type="text" name="employeeName" value={addMechanic.employeeName} onChange={handleMechanicAdd} 
               className="input rounded-lg p-2 w-56" maxLength={30} placeholder="Name here" required/>
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3">Contact Number : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Contact Number : </p>
               <input type="text" name="contactNumber" value={addMechanic.contactNumber} onChange={handleMechanicAdd} 
               className="input rounded-lg p-2 w-56" maxLength={10} placeholder="07 _ _ _ _ _ _ _ _" required/>
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3">Living Area : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Residential Area : </p>
               <input type="text" name="livingArea" value={addMechanic.livingArea} onChange={handleMechanicAdd} 
               className="input rounded-lg p-2 w-56" maxLength={40} placeholder="Village name" required/>
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3">Join Date : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Join Date : </p>
               <input type="date" name="joinDate" value={addMechanic.joinDate} onChange={handleMechanicAdd} 
               className="input rounded-lg p-2 w-56" required/>
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3">Main specialist area : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Main specialist area : </p>
               <Select className="w-56"
                 options={MainOptions}
                 isClearable
@@ -181,7 +185,7 @@ const MechanicsAdd = () => {
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3">Sub specialist area : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Sub specialist area : </p>
               <Select className="w-56"
                 options={MainOptions}
                 isClearable
@@ -204,7 +208,7 @@ const MechanicsAdd = () => {
       {/**leave modal - start */}
       <Modal open={openCancelModal}>
         <div onClick={(e) => e.stopPropagation()}>
-         <p className="font-bold pb-2 text-red-600 text-2xl px-20 text-center mb-3">Warning!</p>
+         <p className="font-bold pb-2 text-red-600 text-2xl px-20 text-center mb-3">Leaving!</p>
          <p className="text-text-primary text-center font-semibold px-10 ">Are you sure you want to leave?</p>
 
          <div className="flex justify-center gap-8 mt-8">

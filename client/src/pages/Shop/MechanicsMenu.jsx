@@ -7,7 +7,7 @@ const MechanicsMenu = () => {
 
   const [tableData,setTableData] = useState(null);
   const [selectedRow,setSelectedRow] = useState('');
-  const [refresh,setRefresh] = useState(false);
+  const [selectedRowIndex,setSelectedRowIndex] = useState('');
 
   //fetch data to the table
   const fetchTableData = async () => {
@@ -21,12 +21,12 @@ const MechanicsMenu = () => {
 
   useEffect( () => {
     fetchTableData();
-  }, [refresh]);
+  }, []);
 
   //handle selected row data fetching
-  const handleRowSelect = (data) => {
+  const handleRowSelect = (data,index) => {
+    setSelectedRowIndex(index);
     setSelectedRow(data);
-    setRefresh(!refresh);
   }
 
     return (
@@ -59,7 +59,9 @@ const MechanicsMenu = () => {
                   </tr>
                  ):(
                   tableData && tableData.map( (mechanicsDetails, index)=> (
-                  <tr key={index} className="text-center cursor-pointer" onClick={() => handleRowSelect(mechanicsDetails)}>
+                  <tr key={index} 
+                  className={`text-center cursor-pointer ${index === selectedRowIndex ? 'bg-web-primary' : ''}`}
+                  onClick={() => handleRowSelect(mechanicsDetails,index)}>
                    <td className="border-2 border-black">{mechanicsDetails.employeeId}</td>
                    <td className="border-2 border-black">{mechanicsDetails.employeeName}</td>
                    <td className="border-2 border-black">{mechanicsDetails.mainArea}</td>
@@ -79,42 +81,42 @@ const MechanicsMenu = () => {
                  
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3 text-text-primary font-semibold">Employee Id : </p>
-                   <input type="text" value={selectedRow.employeeId} className="input rounded-lg p-2 w-56" placeholder="Select an employee" readOnly/>
+                   <input type="text" value={selectedRow.employeeId} className="input rounded-lg p-2 w-56 text-gray-600" placeholder="Select an employee" readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3 text-text-primary font-semibold">Employee Name : </p>
-                   <input type="text" value={selectedRow.employeeName} className="input rounded-lg p-2 w-56" readOnly/>
+                   <input type="text" value={selectedRow.employeeName} className="input rounded-lg p-2 w-56 text-gray-600" readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3 text-text-primary font-semibold">Contact Number : </p>
-                   <input type="text" value={selectedRow.contactNumber} className="input rounded-lg p-2 w-56"  readOnly/>
+                   <input type="text" value={selectedRow.contactNumber} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3 text-text-primary font-semibold">Address : </p>
-                   <input type="text" value={selectedRow.livingArea} className="input rounded-lg p-2 w-56"  readOnly/>
+                   <input type="text" value={selectedRow.livingArea} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3 text-text-primary font-semibold">Join Date : </p>
-                   <input type="text" value={selectedRow.joinDate} className="input rounded-lg p-2 w-56"  readOnly/>
+                   <input type="text" value={selectedRow.joinDate} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3 text-text-primary font-semibold">Main specialist area : </p>
-                   <input type="text" value={selectedRow.mainArea} className="input rounded-lg p-2 w-56"  readOnly/>
+                   <input type="text" value={selectedRow.mainArea} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3 text-text-primary font-semibold">Sub specialist area : </p>
-                   <input type="text" value={selectedRow.employeeId ? (selectedRow.subArea ? selectedRow.subArea : "Not added") : " "}  className="input rounded-lg p-2 w-56"  readOnly/>
+                   <input type="text" value={selectedRow.employeeId ? (selectedRow.subArea ? selectedRow.subArea : "Not Added") : " "}  className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
                  </div>
 
                  <div className="flex items-center ml-3 my-3">
                    <p className="basis-1/3 text-text-primary font-semibold">Resign Date : </p>
-                   <input type="text" value={selectedRow.employeeId ? (selectedRow.resignDate ? selectedRow.resignDate : "Not added") : " "} placeholder="jk" className="input rounded-lg p-2 w-56"  readOnly/>
+                   <input type="text" value={selectedRow.employeeId ? (selectedRow.resignDate ? selectedRow.resignDate : "Not Added ") : " "} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
                  </div>
 
                  <div className="flex justify-end my-3 mr-10">

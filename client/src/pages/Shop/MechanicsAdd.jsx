@@ -201,7 +201,7 @@ const MechanicsAdd = () => {
       </div>
 
 
-      {/**delete modal - start */}
+      {/**leave modal - start */}
       <Modal open={openCancelModal}>
         <div onClick={(e) => e.stopPropagation()}>
          <p className="font-bold pb-2 text-red-600 text-2xl px-20 text-center mb-3">Warning!</p>
@@ -215,7 +215,7 @@ const MechanicsAdd = () => {
          </div>
        </div>   
       </Modal>
-      {/**delete modal - end   */}
+      {/**leave modal - end   */}
     </div>
   );
 };

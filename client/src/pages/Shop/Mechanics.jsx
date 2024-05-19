@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Menu from './MechanicsMenu';
 import Add from './MechanicsAdd';
-import Update from './MechanicsUpdate';
+import MechanicsUpdate from './MechanicsUpdate';
 
 const Mechanics = () => {
     return (
@@ -9,7 +9,7 @@ const Mechanics = () => {
             <Routes>
                 <Route path="" element={<Menu/>}/>
                 <Route path="add" element={<Add/>}/>
-                <Route path="update" element={<Update/>} />
+                <Route path="update" element={<MechanicsUpdate/>} />
             </Routes>
         </div>
     );

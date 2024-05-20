@@ -130,7 +130,7 @@ export const deleteSpecialistAreaController = async (req,res) => {
     return res.status(200).json(data);
   }catch(err){
     if(err.code === 'ER_ROW_IS_REFERENCED_2') {
-      return res.status(409).json('Can not delete!');
+      return res.status(409).json("Specialized mechanics are available.This area can't be removed");
   }else{
       return res.status(500).json('Server side error!');
   }

@@ -20,7 +20,7 @@ const MechanicsAdd = () => {
     livingArea:"",
     joinDate:"",
     mainArea:"",
-    subArea:""
+    subArea:null
   })
   const navigate = useNavigate();
 

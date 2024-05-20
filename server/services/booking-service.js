@@ -19,7 +19,7 @@ export const addBookingService = (vehicleNumber,contactNumber,vehicleFault,reser
 //#####################  get resevation data - start ##################################
 export const getAllBookings = () => {
     return new Promise ( (resolve, reject) => {
-        const q = `SELECT vehicleNumber,contactNumber,DATE_FORMAT(date, '%Y-%m-%d') as date,message FROM booking WHERE status = 'pending'`;
+        const q = `SELECT VEHICLE_NUMBER,CONTACT_NUMBER,DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE,VEHICLE_FAULT FROM booking WHERE STATUS = 'pending'`;
 
         db.query(q, (err,data) => {
             if(err){
@@ -28,10 +28,10 @@ export const getAllBookings = () => {
                 reject(new Error ('Data can not be found!'))
             }else {
                 const bookingDetails = data.map(booking => ({
-                    vehicleNumber : booking.vehicleNumber,
-                    contactNumber : booking.contactNumber,
-                    date :  booking.date,
-                    message : booking.message
+                    vehicleNumber : booking.VEHICLE_NUMBER,
+                    contactNumber : booking.CONTACT_NUMBER,
+                    reservedDate :  booking.RESERVED_DATE,
+                    vehicleFault : booking.VEHICLE_FAULT
                 }));
                 resolve(bookingDetails);
             }

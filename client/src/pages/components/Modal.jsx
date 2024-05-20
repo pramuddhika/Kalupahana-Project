@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-const Modal = ({ open, onClose, children }) => {
+const Modal = ({ open, children }) => {
     return (
-        <div onClick={onClose} className={`
+        <div className={`
             fixed inset-0 flex justify-center items-center 
             transition-colors
             ${open ? "visible bg-black/20" : "invisible"}
@@ -23,6 +23,5 @@ export default Modal;
 
 Modal.propTypes = {
     open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired
 };

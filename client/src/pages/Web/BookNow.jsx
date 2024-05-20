@@ -15,14 +15,17 @@ const BookNow = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [booking,setBooking] = useState({
     vehicleNumber:"",
-    countactNumber:"",
-    message:"",
-    date:""
+    contactNumber:"",
+    vehicleFault:"",
+    reservedDate:""
   });
 
-  const handleChange = (e) => {
-    setBooking( (prev) => ({...prev,[e.target.name]: e.target.value}));
-  }
+  const handleChange = (event) => {
+    setBooking({
+      ...booking,
+      [event.target.name]: event.target.value
+    });
+  };
 
   const navigate = useNavigate();
 
@@ -39,23 +42,28 @@ const BookNow = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-  
-
-    const vehicleNumberRegex = /^[A-Z]{2,3}-\d{4}$/;
+    
+    // const vehicleNumberRegex = /^[A-Z]{2,3}-\d{4}$/;
     const contactNumberRegex = /^07[0-8]\d{7}$/;
     
-    // Validate vehicle number
-    if (!vehicleNumberRegex.test(booking.vehicleNumber)) {
-    setErrorMessage('Invalid Vehicle number.');
-    setOpenErrorModel(true);
-    return;
-    } 
+    // // Validate vehicle number
+    // if (!vehicleNumberRegex.test(booking.vehicleNumber)) {
+    // setErrorMessage('Invalid Vehicle number.');
+    // setOpenErrorModel(true);
+    // return;
+    // } 
 
     //VAlidate contact number
     if (!contactNumberRegex.test(booking.contactNumber)) {
       setErrorMessage('Invalid contact number.');
       setOpenErrorModel(true);
       return;
+    }
+    // Validate vehicleFault
+    if (!booking.vehicleFault) {
+    setErrorMessage('Vehicle fault is required.');
+    setOpenErrorModel(true);
+    return;
     }
     
     // handle submission
@@ -83,33 +91,35 @@ const BookNow = () => {
         <form className='font-inter mt-8' onSubmit={handleSubmit}>
 
           <div className='flex flex-row justify-center mt-2'>
-            <div className='basis-1/4'> Vehicle Number :</div>
+            <div className='basis-1/4 font-semibold'> Vehicle Number :</div>
              <div className='basis-1/2'>
-                <input type='text' name='vehicleNumber' onChange={handleChange} placeholder='AA-0001 or AAA-0001' className='input border-b-2 w-full'/>
+                <input type='text' name='vehicleNumber' onChange={handleChange} placeholder='XX - XXXX  or  XXX - XXXX' className='input border-b-2 w-full' maxLength={8} />
              </div>
           </div>
 
           <div className='flex flex-row justify-center mt-3'>
-            <div className='basis-1/4'>Contact Number :</div>
+            <div className='basis-1/4 font-semibold'>Contact Number :</div>
             <div className='basis-1/2'>
-              <input type='text' name='contactNumber' onChange={handleChange} placeholder='07........' className='input border-b-2 w-full'/>
+              <input type='text' name='contactNumber' onChange={handleChange} placeholder='07........' className='input border-b-2 w-full' maxLength={10}/>
             </div>
           </div>
 
           <div className='flex flex-row justify-center mt-3'>
-            <div className='basis-1/4'><p>Message :</p></div>
-            <div className='basis-1/2'>
-              <textarea id="message" rows="6" name='message' onChange={handleChange} className="input block p-2.5 w-full rounded-lg border" placeholder="Write your identify error here..."/>
+            <div className='basis-1/4 font-semibold'><p>Vehicle Fault :</p></div>
+            <div className='basis-1/2 relative bg-white rounded-lg'>
+              <textarea id="message" rows="6" name='vehicleFault' onChange={handleChange} className="input block p-2.5 w-full rounded-lg border" placeholder="Write your identify fault here..." maxLength={200} />
+              <div className="absolute bottom-0.5 right-0.5 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">{booking.vehicleFault.length}/200</div>
+
             </div>
           </div>
 
           <div className='flex flex-row justify-center mt-3'>
-            <div className='basis-1/4'><p>Date :</p></div>
+            <div className='basis-1/4 font-semibold'><p>Date :</p></div>
             <div className='basis-1/2'>
-             <select name='date' className='input w-full border-2 rounded-lg p-2 text-gray-400' onChange={handleChange}>
+             <select name='reservedDate' className='input w-full border-2 rounded-lg p-2 text-gray-700' onChange={handleChange}>
               <option>Select a Date</option>
               {dates.map((date, index) => (
-                <option key={index} value={date}>{date}</option>))}
+                <option className='text-black' key={index} value={date}>{date}</option>))}
              </select>
             </div>
           </div>
@@ -120,7 +130,7 @@ const BookNow = () => {
 
           </form>
 
-          <Modal open={openModel}>
+          <Modal open={openModel} >
             <div>
              <div onClick={(e) => e.stopPropagation()}>
                 <p className="font-bold pb-2 text-text-primary text-2xl text-center">Completed!</p>
@@ -136,13 +146,12 @@ const BookNow = () => {
             </div>
           </Modal>
 
-          <Modal open={openErrorModel} onClose={ () => setOpenErrorModel(false)}>
+          <Modal open={openErrorModel}>
             <div>
              <div onClick={(e) => e.stopPropagation()}>
-                <p className="font-bold pb-2 text-red-600 text-2xl text-center">Warning!</p>
-                <img src={Warning} className='h-44 mx-auto'/>
+                <img src={Warning} className='h-44 mx-auto mb-2'/>
                 <div className='text-center pt-2'>
-                  <p className='text-red-700'>{errorMessage}</p>
+                  <p className='text-red-700 font-semibold'>{errorMessage}</p>
                 </div>
                 <div className="flex justify-center">
                  <button className="btn btn-warning mx-auto mt-2" onClick={() => setOpenErrorModel(false)}>Ok</button>

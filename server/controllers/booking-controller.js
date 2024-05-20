@@ -7,15 +7,15 @@ import { addBookingService,
 
 //#####################  Add resevation data - Start #######################################
 export const addBooking = async (req,res) => {
-    const {vehicleNumber,contactNumber,message,date} = req.body;
+    const {vehicleNumber,contactNumber,vehicleFault,reservedDate} = req.body;
     
     //validate inputs
-    if (!vehicleNumber || !contactNumber || !message || !date) {
+    if (!vehicleNumber || !contactNumber || !vehicleFault || !reservedDate) {
         return res.status(400).json('All fields are required.');
     }
 
     try {
-        const data = await addBookingService(vehicleNumber,contactNumber,message,date);
+        const data = await addBookingService(vehicleNumber,contactNumber,vehicleFault,reservedDate);
         return res.status(200).json(data);
     } catch (err) {
         if (err.code == 'ER_DUP_ENTRY') {
@@ -78,6 +78,12 @@ export const cancelBooking = async (req,res) => {
 //##################### change booking date - start ########################################
 export const changeDate = async (req,res) => {
     const {date,vehicleNumber} = req.body;
+
+    // //validate inputs
+    // if (!vehicleNumber || !contactNumber || !message || !date) {
+    //     return res.status(400).json('An error occurs!');
+    // }
+
     try{
         const data = await changeDateService(date,vehicleNumber);
         res.json(data);

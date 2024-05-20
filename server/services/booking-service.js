@@ -1,11 +1,11 @@
 import {db} from '../.env'
 
 //#####################  Add resevation data - Start #######################################
-export const addBookingService = (vehicleNumber,contactNumber,message,date) => {
+export const addBookingService = (vehicleNumber,contactNumber,vehicleFault,reservedDate) => {
     return new Promise( (resolve,reject) => {
-        const q = `INSERT INTO booking (vehicleNumber,contactNumber,message,date) VALUES (?,?,?,?)`;
+        const q = `INSERT INTO booking (VEHICLE_NUMBER,CONTACT_NUMBER,VEHICLE_FAULT,RESERVED_DATE) VALUES (?,?,?,?)`;
 
-        db.query(q, [vehicleNumber,contactNumber,message,date], (err,data) => {
+        db.query(q, [vehicleNumber,contactNumber,vehicleFault,reservedDate], (err,data) => {
             if(err){
                 reject(err);
             }else{

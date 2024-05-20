@@ -45,6 +45,7 @@ const BookNow = () => {
     
     const regexVehicleNumber = /^([A-Z]{2,3}|\d{2,3})-\d{4}$/;
     const contactNumberRegex = /^07[0-8]\d{7}$/;
+    const regexFault = /^[a-zA-Z0-9 ]*$/;
     
     // // Validate vehicle number
     if (!regexVehicleNumber.test(booking.vehicleNumber)) {
@@ -60,6 +61,11 @@ const BookNow = () => {
       return;
     }
     // Validate vehicleFault
+    if(!regexFault.test(booking.vehicleFault)){
+      setErrorMessage('Vehicle fault should not contain any symbols');
+      setOpenErrorModel(true);
+      return;
+    }
     if (!booking.vehicleFault) {
     setErrorMessage('Vehicle fault is required.');
     setOpenErrorModel(true);

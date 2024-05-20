@@ -43,15 +43,15 @@ const BookNow = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     
-    // const vehicleNumberRegex = /^[A-Z]{2,3}-\d{4}$/;
+    const regexVehicleNumber = /^([A-Z]{2,3}|\d{2,3})-\d{4}$/;
     const contactNumberRegex = /^07[0-8]\d{7}$/;
     
     // // Validate vehicle number
-    // if (!vehicleNumberRegex.test(booking.vehicleNumber)) {
-    // setErrorMessage('Invalid Vehicle number.');
-    // setOpenErrorModel(true);
-    // return;
-    // } 
+    if (!regexVehicleNumber.test(booking.vehicleNumber)) {
+      setErrorMessage('Invalid vehicle number');
+      setOpenErrorModel(true);
+      return;
+    } 
 
     //VAlidate contact number
     if (!contactNumberRegex.test(booking.contactNumber)) {
@@ -100,7 +100,7 @@ const BookNow = () => {
           <div className='flex flex-row justify-center mt-3'>
             <div className='basis-1/4 font-semibold'>Contact Number :</div>
             <div className='basis-1/2'>
-              <input type='text' name='contactNumber' onChange={handleChange} placeholder='07........' className='input border-b-2 w-full' maxLength={10}/>
+              <input type='number' name='contactNumber' onChange={handleChange} placeholder='07........' className='input border-b-2 w-full' maxLength={10}/>
             </div>
           </div>
 
@@ -117,7 +117,7 @@ const BookNow = () => {
             <div className='basis-1/4 font-semibold'><p>Date :</p></div>
             <div className='basis-1/2'>
              <select name='reservedDate' className='input w-full border-2 rounded-lg p-2 text-gray-700' onChange={handleChange}>
-              <option>Select a Date</option>
+              <option>Select a date</option>
               {dates.map((date, index) => (
                 <option className='text-black' key={index} value={date}>{date}</option>))}
              </select>

@@ -250,19 +250,19 @@ const ShopSetting = () => {
           <div className="flex gap-24 mt-3 justify-center">
 
             <div className="flex items-center gap-3">
-             <p>Total Spaces</p>  
+             <p className="mainStyle">Total Spaces</p>  
              <input type="number" value={totalSpace} min="0" onChange={handleTotalSpaceChange}  
               className="w-16 p-1 rounded-lg outline-none border-2 text-center"/>
             </div>
             
             <div className="flex items-center gap-3">
-              <p>Spaces for Online Booking</p>
+              <p className="mainStyle">For Online Booking</p>
               <input type="number" min="0" value={bookingSpace} onChange={handleBookingSpaceChnage}  
               className="w-16 rounded-lg p-1 outline-none text-center border-2"/>
             </div>
 
             <div className="flex items-center gap-3">
-              <p>Spaces for Emergency repairs</p>
+              <p className="mainStyle">For Emergency Repairs</p>
               <input  min="0" value={Math.max(totalSpace - bookingSpace, 0)} 
               className="w-16 bg-white rounded-lg outline-none p-1 border-2 text-center" readOnly/>
             </div> 
@@ -282,13 +282,13 @@ const ShopSetting = () => {
           <div className="flex gap-48 mt-3 justify-center">
 
            <div className="flex gap-3 items-center">
-             <p>set new time</p>  
+             <p className="mainStyle">Set New Time</p>  
              <input type="time" value={nextdayTime} onChange={handleNextdayTimeChange} 
              className="p-2 rounded-lg outline-none border-2 pl-4"/>
            </div>
                     
            <div className="flex gap-3 items-center">
-             <p>current time :</p>
+             <p className="mainStyle">Current Time :</p>
              <input  value={initialNextdayTime} 
              className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
            </div>   
@@ -308,13 +308,13 @@ const ShopSetting = () => {
           <div className="flex gap-48 mt-3 justify-center">
 
             <div className="flex gap-3 items-center">
-             <p>set new time</p>  
+             <p className="mainStyle">Set New Time</p>  
              <input type="time" value={recordsTime} onChange={handleRecordTimeChange} 
              className="p-2 rounded-lg outline-none border-2 pl-4"/>
             </div>
                     
             <div className="flex gap-3 items-center">
-             <p>current time :</p>
+             <p className="mainStyle">Current Time :</p>
              <input value={initialRecordsTime} 
              className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
             </div>   
@@ -350,11 +350,11 @@ const ShopSetting = () => {
 
                 {days === null || days.length === 0  ? (
                 <tr>
-                  <td colSpan={2} className="text-center border-2 border-black py-2">No data to display</td>
+                  <td colSpan={2} className="text-center border-2 border-black py-2 mainStyle">No data to display</td>
                 </tr>
                 ) : (
                 days && days.map( (days, index) => (
-                <tr key={index} className="text-center">
+                <tr key={index} className="text-center mainStyle">
                   <td className="border-2 border-black">{days.holidays}</td>
                   <td className="border-2 border-black cursor-pointer" onClick={() => handleHolidayDeleteClick(days.holidays)}>
                     <TrashIcon className='text-red-600 h-5 mx-auto'/>
@@ -392,11 +392,11 @@ const ShopSetting = () => {
 
                   {list === null || list.length === 0  ? (
                   <tr>
-                    <td colSpan={2} className="text-center border-2 border-black py-2">No data to display</td>
+                    <td colSpan={2} className="text-center border-2 border-black py-2 mainStyle">No data to display</td>
                   </tr>
                   ) : (
                   list && list.map( (list, index) => (
-                  <tr key={index} className="text-center">
+                  <tr key={index} className="text-center mainStyle">
                     <td className="border-2 border-black">{list.area}</td>
                     <td className="border-2 border-black cursor-pointer" onClick={() => handleDeleteClick(list.area)}>
                       <TrashIcon className='text-red-600 h-5 mx-auto'/>

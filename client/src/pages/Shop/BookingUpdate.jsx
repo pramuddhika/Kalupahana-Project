@@ -22,11 +22,11 @@ const BookingUpdate = () => {
   //geta and set data to data form
   const handleSearchClick = async () => {
     // //validated vehicle number
-    // const vehicleNumberRegex = /^[A-Z]{2,3}-\d{4}$/;
-    // if (!vehicleNumberRegex.test(searchNumber)) {
-    //   toast.warning('Invalid Vehicle number.');
-    //   return;
-    //   } 
+    const regexVehicleNumber = /^([A-Z]{2,3}|\d{2,3})-\d{4}$/;
+    if (!regexVehicleNumber.test(searchNumber)) {
+      toast.warning('Invalid vehicle number');
+      return;
+    } 
   
     try{
       const res = await axios.get(`http://localhost:8000/api/booking/checking/${searchNumber}`);

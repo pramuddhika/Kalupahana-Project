@@ -218,7 +218,10 @@ const MechanicsUpdate = () => {
       <Modal open={openCancelModal}>
         <div onClick={(e) => e.stopPropagation()}>
           <p className="font-bold pb-2 text-red-600 text-2xl px-20 text-center mb-3">Leaving!</p>
-          <p className="text-text-primary text-center font-semibold px-10">Are you sure you want to leave?</p>
+          <p className="text-text-primary text-center font-semibold px-10">
+           The process is not complete.<br/>
+           Are you sure you want to leave?
+          </p>
           <div className="flex justify-center gap-8 mt-8">
             <Link to="/shop/mechanics">
               <button className="btn btn-warning">Yes</button>

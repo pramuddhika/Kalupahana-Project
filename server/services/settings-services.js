@@ -4,9 +4,9 @@ import {db} from '../.env';
 export const getSettingsTableDataService = () => {
     return new Promise ( (resolve,reject) => {
         const q = `SELECT TOTAL_SPACE, SPACE_FOR_BOOKING, 
-        DATE_FORMAT(NEXT_DAY_BOOKING_NOTIFI_TIME, '%H:%i') as NEXT_DAY_BOOKING_NOTIFI_TIME, 
-        DATE_FORMAT(TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME, '%H:%i') as TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME 
-        FROM settings`;
+                   DATE_FORMAT(NEXT_DAY_BOOKING_NOTIFI_TIME, '%H:%i') as NEXT_DAY_BOOKING_NOTIFI_TIME, 
+                   DATE_FORMAT(TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME, '%H:%i') as TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME 
+                   FROM settings`;
 
       db.query(q, (err,data) => {
           if(err){
@@ -30,7 +30,10 @@ export const getSettingsTableDataService = () => {
 //######################### update spaces - start  ############################
 export const updateSpaceDataService = (totalSpace,bookingSpace) => {
     return new Promise ( (resolve,reject) => {
-       const q = `UPDATE settings SET TOTAL_SPACE = ?, SPACE_FOR_BOOKING = ?`;
+
+       const q = `UPDATE settings 
+                  SET TOTAL_SPACE = ?, SPACE_FOR_BOOKING = ?`;
+
        db.query(q,[totalSpace,bookingSpace],(err,data) => {
         if(err){
             reject(err);
@@ -45,7 +48,10 @@ export const updateSpaceDataService = (totalSpace,bookingSpace) => {
 //################## update next day notification time  - start ##############################
 export const updateNextDayTimeService  = (nextdayTime) => {
    return new Promise( (resolve,reject) => {
-    const q = `UPDATE settings SET NEXT_DAY_BOOKING_NOTIFI_TIME = ? `;
+
+    const q = `UPDATE settings 
+               SET NEXT_DAY_BOOKING_NOTIFI_TIME = ? `;
+
     db.query( q, [nextdayTime], (err,data) => {
         if(err){
             reject(err);
@@ -60,7 +66,10 @@ export const updateNextDayTimeService  = (nextdayTime) => {
 //################## update record check  time  - start ##############################
 export const recordCheckService  = (recordsTime) => {
     return new Promise( (resolve,reject) => {
-     const q = `UPDATE settings SET TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME = ? `;
+
+     const q = `UPDATE settings 
+                SET TODAY_COMING_VEHICLE_RECORDS_NOTIFI_TIME = ? `;
+
      db.query( q, [recordsTime], (err,data) => {
          if(err){
              reject(err);
@@ -76,7 +85,10 @@ export const recordCheckService  = (recordsTime) => {
 //######################### add holiday - Start ###############################
 export const addHolidayService = (date) => {
     return new Promise ( (resolve,reject) => {
-        const q = `INSERT INTO holidays (HOLIDATE) VALUES (?)`;
+
+        const q = `INSERT INTO holidays 
+                   (HOLIDATE) VALUES (?)`;
+
         db.query(q, [date], (err,data) => {
             if(err){
                 reject (err);
@@ -93,7 +105,10 @@ export const addHolidayService = (date) => {
 //########################## get holidays - start #########################################
 export const getHolidayService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT DATE_FORMAT(HOLIDATE, '%Y-%m-%d') AS HOLIDATE FROM holidays WHERE HOLIDATE >= CURDATE()`;
+
+        const q = `SELECT DATE_FORMAT(HOLIDATE, '%Y-%m-%d') AS HOLIDATE 
+                   FROM holidays 
+                   WHERE HOLIDATE >= CURDATE()`;
 
       db.query(q, (err,data) => {
           if(err){
@@ -114,7 +129,9 @@ export const getHolidayService = () => {
 //########################## delete holiday - send  ######################################
 export const deleteHolidayService = (deletedate) => {
     return new Promise ( (resolve,reject) => {
-        const q = `DELETE FROM holidays WHERE HOLIDATE = ?`;
+
+        const q = `DELETE FROM holidays 
+                   WHERE HOLIDATE = ?`;
 
         db.query( q,(deletedate),(err,data) => {
             if(err){
@@ -130,7 +147,10 @@ export const deleteHolidayService = (deletedate) => {
 //######################### add specialist area - Start ###############################
 export const AddSpecialistAreaService = (speciallistArea) => {
     return new Promise ( (resolve,reject) => {
-        const q = `INSERT INTO mechanic_specialist_areas (SPECIALIST_AREA) VALUES (?)`;
+
+        const q = `INSERT INTO mechanic_specialist_areas 
+                   (SPECIALIST_AREA) VALUES (?)`;
+
         db.query(q, [speciallistArea], (err,data) => {
             if(err){
                 reject (err);
@@ -147,7 +167,9 @@ export const AddSpecialistAreaService = (speciallistArea) => {
 //########################## get specialist Area - start #########################################
 export const getSpecialistAreaService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT SPECIALIST_AREA FROM mechanic_specialist_areas`;
+
+        const q = `SELECT SPECIALIST_AREA 
+                   FROM mechanic_specialist_areas`;
 
       db.query(q, (err,data) => {
           if(err){
@@ -168,7 +190,9 @@ export const getSpecialistAreaService = () => {
 //########################## delete specialist Area - send  ######################################
 export const deleteSpecialistAreaService = (deleteAres) => {
     return new Promise ( (resolve,reject) => {
-        const q = `DELETE FROM mechanic_specialist_areas WHERE SPECIALIST_AREA = ?`;
+
+        const q = `DELETE FROM mechanic_specialist_areas 
+                   WHERE SPECIALIST_AREA = ?`;
 
         db.query( q,(deleteAres),(err,data) => {
             if(err){

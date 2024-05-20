@@ -77,7 +77,7 @@ export const cancelBooking = async (req,res) => {
 
 //##################### change booking date - start ########################################
 export const changeDate = async (req,res) => {
-    const {date,vehicleNumber} = req.body;
+    const {reservedDate,vehicleNumber} = req.body;
 
     // //validate inputs
     // if (!vehicleNumber || !contactNumber || !message || !date) {
@@ -85,7 +85,7 @@ export const changeDate = async (req,res) => {
     // }
 
     try{
-        const data = await changeDateService(date,vehicleNumber);
+        const data = await changeDateService(reservedDate,vehicleNumber);
         res.json(data);
     }catch(err){
         console.log(err);

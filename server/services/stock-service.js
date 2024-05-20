@@ -3,7 +3,10 @@ import {db} from '../.env';
 //##################### add part details - satrt #########################
 export const addPartService = (partID,partName,partDescription) => {
     return new Promise ( (resolve,reject) => {
-        const q = `INSERT INTO spare_parts (PART_ID,PART_NAME,DESCRIPTION) VALUES (?,?,?) `;
+
+        const q = `INSERT INTO spare_parts 
+                   (PART_ID,PART_NAME,DESCRIPTION) 
+                   VALUES (?,?,?) `;
 
         db.query( q, [partID,partName,partDescription], (err,data) => {
             if(err){
@@ -19,7 +22,9 @@ export const addPartService = (partID,partName,partDescription) => {
 //##################### get part name & ID - start #######################
 export const getId_NameService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts`;
+
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+                   FROM spare_parts`;
 
         db.query( q, (err,data) => {
             if(err){
@@ -43,7 +48,11 @@ export const getId_NameService = () => {
 //#################### delete part - satrt ###############################
 export const deletePartService = (partID) => {
     return new Promise ( (resolve,reject) => {
-        const q = `DELETE FROM spare_parts WHERE PART_ID = ?`;
+
+        const q = `DELETE 
+                   FROM spare_parts 
+                   WHERE PART_ID = ?`;
+
         db.query (q, [partID], (err,data) => {
             if(err){
                 reject(err);
@@ -58,7 +67,11 @@ export const deletePartService = (partID) => {
 //##################### edit part details - start ########################
 export const editPartsService = (editPartName,editPartDescription,editPartID) => {
     return new Promise ( (resolve,reject) => {
-        const q = `UPDATE spare_parts SET PART_NAME=?, DESCRIPTION = ? WHERE PART_ID = ?`;
+
+        const q = `UPDATE spare_parts 
+                   SET PART_NAME=?, DESCRIPTION = ? 
+                   WHERE PART_ID = ?`;
+
         db.query(q,[editPartName,editPartDescription,editPartID], (err,data) => {
             if(err){
                 reject(err);
@@ -73,7 +86,10 @@ export const editPartsService = (editPartName,editPartDescription,editPartID) =>
 //##################### get part name & ID - start #######################
 export const searchPartService = (searchID) => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts WHERE PART_ID = ?`;
+
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+                   FROM spare_parts 
+                   WHERE PART_ID = ?`;
 
         db.query( q,[searchID], (err,data) => {
             if(err){
@@ -99,8 +115,10 @@ export const searchPartService = (searchID) => {
 //###################### get today purchases - satrt #########################
 export const todayPurchasesService = () => {
     return new Promise ( (resolve, reject) => {
-        const q = `SELECT PART_ID,DATE_FORMAT(DATE, '%Y-%m-%d') as DATE,
-        QUANTITY FROM purchases WHERE MONTH(DATE) = MONTH(CURDATE()) AND YEAR(DATE) = YEAR(CURDATE())`;
+
+        const q = `SELECT PART_ID,DATE_FORMAT(DATE, '%Y-%m-%d') as DATE,QUANTITY 
+                   FROM purchases 
+                   WHERE MONTH(DATE) = MONTH(CURDATE()) AND YEAR(DATE) = YEAR(CURDATE())`;
         
         db.query(q,(err,data) => {
             if(err){
@@ -121,14 +139,21 @@ export const todayPurchasesService = () => {
 //###################### Add Purchases - start ############################
 export const AddPurchasesService = async (partID,dates,units) => {
     return new Promise ( (resolve, reject) => {
-        const insert = `INSERT INTO purchases (PART_ID,DATE,QUANTITY) VALUES(?,?,?)`;
+
+        const insert = `INSERT INTO purchases 
+                        (PART_ID,DATE,QUANTITY) 
+                        VALUES(?,?,?)`;
+
         db.query(insert, [partID,dates,units],(err,data) => {
             if(err){
                 reject(err);
                 return;
             }
 
-            const update = `UPDATE spare_parts SET QUANTITY = QUANTITY + ? WHERE PART_ID = ?`;
+            const update = `UPDATE spare_parts 
+                            SET QUANTITY = QUANTITY + ? 
+                            WHERE PART_ID = ?`;
+
             db.query(update, [units,partID],(err,data) => {
                 if(err){
                     reject(err);
@@ -144,14 +169,20 @@ export const AddPurchasesService = async (partID,dates,units) => {
 //###################### delete purchases data - start ####################
 export const DeletePurchasesService = async (partid,date,quantity) => {
     return new Promise ( (resolve,reject) => {
-        const remove = `DELETE FROM purchases WHERE PART_ID = ? AND DATE =?`;
+
+        const remove = `DELETE FROM purchases 
+                        WHERE PART_ID = ? AND DATE =?`;
+
         db.query(remove, [partid,date],(err,data) => {
             if(err){
                 reject(err);
                 return;
             }
 
-            const minimize = `UPDATE spare_parts SET QUANTITY = QUANTITY - ? WHERE PART_ID = ?`;
+            const minimize = `UPDATE spare_parts 
+                              SET QUANTITY = QUANTITY - ? 
+                              WHERE PART_ID = ?`;
+
             db.query(minimize, [quantity,partid], (err,data) => {
                 if(err){
                     reject(err);
@@ -167,7 +198,10 @@ export const DeletePurchasesService = async (partid,date,quantity) => {
 //##################### filter available parts - start   ########################
 export const availblePartsService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts WHERE QUANTITY > 0`;
+
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+                   FROM spare_parts 
+                   WHERE QUANTITY > 0`;
 
         db.query( q, (err,data) => {
             if(err){
@@ -190,7 +224,10 @@ export const availblePartsService = () => {
 //##################### filter not available parts - start   ########################
 export const notAvailableService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts WHERE QUANTITY = 0`;
+
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+                   FROM spare_parts 
+                   WHERE QUANTITY = 0`;
 
         db.query( q, (err,data) => {
             if(err){
@@ -213,7 +250,9 @@ export const notAvailableService = () => {
 //##################### filter low 2 high parts - start   ########################
 export const LowToHighService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts ORDER BY QUANTITY ASC`;
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+                   FROM spare_parts 
+                   ORDER BY QUANTITY ASC`;
 
         db.query( q, (err,data) => {
             if(err){
@@ -236,7 +275,9 @@ export const LowToHighService = () => {
 //##################### filter high 2 low parts - start   ########################
 export const HighToLowService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY FROM spare_parts ORDER BY QUANTITY DESC`;
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+                   FROM spare_parts 
+                   ORDER BY QUANTITY DESC`;
 
         db.query( q, (err,data) => {
             if(err){

@@ -11,7 +11,6 @@ export const addMechanicController = async (req,res) => {
         if (err.code == 'ER_DUP_ENTRY') {
           return res.status(409).json('This employee ID taken!');
       } else {
-          console.log(err.message)
           return res.status(500).json('Server side error!');
       } 
     }

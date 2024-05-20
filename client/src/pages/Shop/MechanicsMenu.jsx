@@ -109,7 +109,7 @@ const MechanicsMenu = () => {
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Residential Area : : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Residential Area : </p>
               <input type="text" value={selectedRow.livingArea} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
             </div>
 

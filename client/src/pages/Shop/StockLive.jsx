@@ -226,7 +226,7 @@ const StockLive = () => {
 
           {tabledetails == null || tabledetails.length == 0 ? (
             <tr>
-              <td colSpan={3} className="border-2 border-black text-center py-3">No data to display</td>
+              <td colSpan={3} className="border-2 border-black text-center py-3  mainStyle">No data to display</td>
             </tr>
           ):(
             tabledetails && tabledetails.map ( (partDetails, index) => (

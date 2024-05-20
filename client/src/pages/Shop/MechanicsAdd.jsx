@@ -20,7 +20,7 @@ const MechanicsAdd = () => {
     livingArea:"",
     joinDate:"",
     mainArea:"",
-    subArea:null
+    subArea:""
   })
   const navigate = useNavigate();
 
@@ -114,6 +114,10 @@ const MechanicsAdd = () => {
       toast.warning("Please select different specialist areas!")
       return;
     }
+    if (addMechanic.subArea === "") {
+      addMechanic.subArea = null;
+    }
+
     //handle add data
     try{
       const res = await axios.post('http://localhost:8000/api/mechanic/addmechanic', addMechanic);

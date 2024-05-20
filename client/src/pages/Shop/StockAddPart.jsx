@@ -199,7 +199,7 @@ const StockAddPart = () => {
     {/**input form - end */}
 
     {/**table part - satrt */}
-    <div className="card w-6/12 mt-28 p-6 h-92">
+    <div className="card w-7/12 mt-28 p-6 h-92">
             
      {/**search bar - start */}
      <div className='flex justify-center items-center gap-5'>
@@ -215,7 +215,7 @@ const StockAddPart = () => {
      {/**search bar - end */}
 
      <div className="flex justify-center overflow-auto max-h-80">
-      <table className="mx-auto font-inter mt-4 w-11/12">
+      <table className="mx-auto font-inter mt-4 w-12/12">
         <tr className='bg-text-primary text-white'>
           <th className="border-2 border-black">Part ID</th>
           <th className="border-2 border-black">Part Name</th>
@@ -229,7 +229,7 @@ const StockAddPart = () => {
           </tr>
         ):(
         details && details.map( (partDetails, index) => (
-          <tr key={index} className="text-center mainStyle">
+          <tr key={index} className="text-center mainStyle text-sm">
             <td className="border-2 w-24 border-black overflow-hidden overflow-ellipsis">{partDetails.partID}</td>
             <td className="border-2 border-black overflow-hidden overflow-ellipsis">{partDetails.partName}</td>
             <td className="border-2 border-black overflow-hidden text-start pl-1 overflow-ellipsis">{partDetails.description}</td>

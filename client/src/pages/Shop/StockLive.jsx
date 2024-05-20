@@ -184,7 +184,7 @@ const StockLive = () => {
 
       <div className="flex justify-center">
 
-        <div className="flex justify-center items-center gap-10 card mt-10 p-8 w-11/12">
+        <div className="flex justify-center items-center gap-16 card mt-10 p-8 w-11/12">
           {/** filters - start */}
           <div className="border-2 border-text-primary p-4 rounded-lg">
             <Select className="w-72"
@@ -208,7 +208,7 @@ const StockLive = () => {
           {/**filters - end */}
 
           {/**report download button - satrt */}    
-          <div className="border-text-primary border-2 p-4 rounded-lg">
+          <div className="border-text-primary">
            <button className="btn btn-normal w-48" onClick={printDocument}>Get Report</button>
           </div>
           {/**report download button - end */}    

@@ -128,7 +128,7 @@ const MechanicsAdd = () => {
 
   return (
     <div>
-      <ShopHeader pageName="Add New Mechanic"/>
+      <ShopHeader pageName="Mechanic Registration"/>
       <div className="h-9 bg-side-nav-bg border-b-2"/>
 
       <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
@@ -146,13 +146,13 @@ const MechanicsAdd = () => {
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Employee Id : </p>
               <input type="text" name="employeeId" value={addMechanic.employeeId} onChange={handleMechanicAdd} 
-              className="input rounded-lg p-2 w-56" maxLength={10} placeholder="EID-0001" required/>
+              className="input rounded-lg p-2 w-56" maxLength={10} placeholder="EID - XXXX" required/>
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Employee Name : </p>
               <input type="text" name="employeeName" value={addMechanic.employeeName} onChange={handleMechanicAdd} 
-              className="input rounded-lg p-2 w-56" maxLength={30} placeholder="Name here" required/>
+              className="input rounded-lg p-2 w-56" maxLength={30} placeholder="Mechanic's Name" required/>
             </div>
 
             <div className="flex items-center ml-3 my-3">
@@ -164,7 +164,7 @@ const MechanicsAdd = () => {
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Residential Area : </p>
               <input type="text" name="livingArea" value={addMechanic.livingArea} onChange={handleMechanicAdd} 
-              className="input rounded-lg p-2 w-56" maxLength={40} placeholder="Village name" required/>
+              className="input rounded-lg p-2 w-56" maxLength={40} placeholder="City Name" required/>
             </div>
 
             <div className="flex items-center ml-3 my-3">
@@ -174,24 +174,24 @@ const MechanicsAdd = () => {
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Main specialist area : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Main Specialist Area : </p>
               <Select className="w-56"
                 options={MainOptions}
                 isClearable
                 onChange={handleMechanicMainArea}
                 styles={customStyles}
-                placeholder="Enter main area"
+                placeholder="Enter Main Area"
               />
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Sub specialist area : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Sub Specialist Area : </p>
               <Select className="w-56"
                 options={MainOptions}
                 isClearable
                 onChange={handleMechanicSubArea}
                 styles={customStyles}
-                placeholder="Enter sub area"
+                placeholder="Enter Sub Area"
               />
             </div>
 
@@ -209,7 +209,10 @@ const MechanicsAdd = () => {
       <Modal open={openCancelModal}>
         <div onClick={(e) => e.stopPropagation()}>
          <p className="font-bold pb-2 text-red-600 text-2xl px-20 text-center mb-3">Leaving!</p>
-         <p className="text-text-primary text-center font-semibold px-10 ">Are you sure you want to leave?</p>
+         <p className="text-text-primary text-center font-semibold px-10 ">
+           The process is not complete.<br/>
+           Are you sure you want to leave?
+         </p>
 
          <div className="flex justify-center gap-8 mt-8">
            <Link to="/shop/mechanics">

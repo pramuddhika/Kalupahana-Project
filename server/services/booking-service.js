@@ -51,7 +51,7 @@ export const getAllBookings = () => {
 export const getTodayBookings = () => {
     return new Promise ( (resolve, reject) => {
         
-        const q = `SELECT VEHICLE_NUMBER,contactNumber,DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE,RESERVED_DATE 
+        const q = `SELECT VEHICLE_NUMBER,CONTACT_NUMBER,DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE,VEHICLE_FAULT 
                    FROM booking 
                    WHERE DATE(RESERVED_DATE)=CURDATE() && STATUS = 'pending' `;
 
@@ -89,7 +89,13 @@ export const cancelCheckingService = (vehicleNumber) => {
             }else if ( !data || data.length === 0){
                 reject(new Error ('Data can not be found!'))
             }else {
-                resolve(data);
+                const bookingDetails = data.map(booking => ({
+                    vehicleNumber : booking.VEHICLE_NUMBER,
+                    contactNumber : booking.CONTACT_NUMBER,
+                    reservedDate :  booking.RESERVED_DATE,
+                    vehicleFault : booking.VEHICLE_FAULT
+                }));
+                resolve(bookingDetails);
             }
         })
     })

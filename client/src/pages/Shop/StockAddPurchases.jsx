@@ -181,11 +181,11 @@ const StockAddPurchases = () => {
 
             {tableList == null || tableList.length == 0 ? (
               <tr>
-                <td colSpan="4" className='text-center border-2 border-black py-2'>No data to display</td>
+                <td colSpan="4" className='text-center border-2 border-black py-2 mainStyle'>No data to display</td>
               </tr>
             ):(
               tableList && tableList.map ( (purchases,index) => (
-                <tr key={index} className="text-center">
+                <tr key={index} className="text-center mainStyle">
                   <td className="border-2 border-black">{purchases.partID}</td>
                   <td className='border-2 border-black'>{purchases.date}</td>
                   <td className="border-2 border-black">{purchases.quantity}</td>

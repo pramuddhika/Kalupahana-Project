@@ -52,10 +52,10 @@ export const todayBookingInfo = async (req,res) => {
 //##################### Checking booking data for updating  - Start  #######################################
 export const cancelChecking = async (req,res) => {
     const {vehicleNumber} = req.params;
-
+    
     try{
         const data = await cancelCheckingService (vehicleNumber);
-        res.json(data);
+        return res.status(200).json(data);
     }catch(err){
         res.status(500).json(err.message);
     }

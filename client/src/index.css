@@ -42,5 +42,9 @@ input[type=number] {
     .topic{
         @apply text-text-primary font-bold text-lg;
     }
+
+    .mainStyle{
+       @apply text-text-primary font-medium; 
+    }
 }
 

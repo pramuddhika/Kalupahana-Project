@@ -225,11 +225,11 @@ const StockAddPart = () => {
 
         {details == null || details.length == 0? (
           <tr>
-            <td colSpan="4" className='text-center border-2 border-black py-2'>No data to display</td>
+            <td colSpan="4" className='text-center border-2 border-black py-2 mainStyle'>No data to display</td>
           </tr>
         ):(
         details && details.map( (partDetails, index) => (
-          <tr key={index} className="text-center">
+          <tr key={index} className="text-center mainStyle">
             <td className="border-2 w-24 border-black overflow-hidden overflow-ellipsis">{partDetails.partID}</td>
             <td className="border-2 border-black overflow-hidden overflow-ellipsis">{partDetails.partName}</td>
             <td className="border-2 border-black overflow-hidden text-start pl-1 overflow-ellipsis">{partDetails.description}</td>

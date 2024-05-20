@@ -57,7 +57,7 @@ const MechanicsMenu = () => {
           <div className="flex justify-between items-center mt-12">
             <p className="topic text-xl">Mechanics Details</p>
             <button className="btn btn-normal">
-              <Link to={'/shop/mechanics/add'}>Add</Link>
+              <Link to={'/shop/mechanics/add'}>Register New Mechanic</Link>
             </button>
           </div>
           {/**table - start */}
@@ -71,16 +71,16 @@ const MechanicsMenu = () => {
 
               {tableData === null || tableData.length === 0 ? (
               <tr>
-                <td colSpan="4" className='text-center border-2 border-black py-2'>No data to display</td>
+                <td colSpan="4" className='text-center border-2 border-black py-2 mainStyle'>No data to display</td>
               </tr>
               ):(
               tableData && tableData.map( (mechanicsDetails, index)=> (
                 <tr key={index} 
-                className={`text-center cursor-pointer ${index === selectedRowIndex ? 'bg-web-primary' : ''}`}
+                className={`text-center cursor-pointer ${index === selectedRowIndex ? 'bg-gray-300' : ''}`}
                 onClick={() => handleRowSelect(mechanicsDetails,index)}>
-                  <td className="border-2 border-black">{mechanicsDetails.employeeId}</td>
-                  <td className="border-2 border-black">{mechanicsDetails.employeeName}</td>
-                  <td className="border-2 border-black">{mechanicsDetails.mainArea}</td>
+                  <td className="border-2 border-black mainStyle">{mechanicsDetails.employeeId}</td>
+                  <td className="border-2 border-black mainStyle">{mechanicsDetails.employeeName}</td>
+                  <td className="border-2 border-black mainStyle">{mechanicsDetails.mainArea}</td>
                 </tr>
               ))
               )} 
@@ -119,12 +119,12 @@ const MechanicsMenu = () => {
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Main specialist area : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Main Specialist Area : </p>
               <input type="text" value={selectedRow.mainArea} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Sub specialist area : </p>
+              <p className="basis-1/3 text-text-primary font-semibold">Sub Specialist Area : </p>
               <input type="text" value={selectedRow.employeeId ? (selectedRow.subArea ? selectedRow.subArea : "Not Added") : " "}  
               className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
             </div>

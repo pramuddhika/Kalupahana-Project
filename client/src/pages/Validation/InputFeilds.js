@@ -7,4 +7,12 @@ export const validateContactNumber = (contactNumber) => {
     return null;
   };
 
+  //check input is empty
+  export const validateInputField = (inputValue) => {
+    const emptyFieldRegex = /^\s*$/;
+    if (emptyFieldRegex.test(inputValue)) {
+      return 'Required fields can not be empty!';
+    }
+    return null;
+  };
   

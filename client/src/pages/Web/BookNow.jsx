@@ -5,8 +5,8 @@ import axios from 'axios';
 import Modal from '../components/Modal';
 import completed from '../assets/completed.svg';
 import Warning from '../assets/warning.svg';
-import {validateVehicleNumber,validateVehicleFault} from '../Validation/VehicleDataValidation';
-import {validateContactNumber} from '../Validation/InputValidation';
+import {validateVehicleNumber,validateVehicleFault} from '../Validation/VehicleData';
+import {validateContactNumber,validateInputField} from '../Validation/InputFeilds';
 
 
 const BookNow = () => {
@@ -49,16 +49,16 @@ const BookNow = () => {
     const vehicleFaultError = validateVehicleFault(booking.vehicleFault);  
     const CustomerContactNumberError =  validateContactNumber(booking.contactNumber);
   
-  if (vehicleNumberError || vehicleFaultError || CustomerContactNumberError) {
-    setErrorMessage(vehicleNumberError || vehicleFaultError || CustomerContactNumberError);
-    setOpenErrorModel(true);
-    return;
-  }
+    if (vehicleNumberError || vehicleFaultError || CustomerContactNumberError) {
+     setErrorMessage(vehicleNumberError || vehicleFaultError || CustomerContactNumberError);
+     setOpenErrorModel(true);
+     return;
+    }
     
-     if (!booking.vehicleFault) {
-    setErrorMessage('Vehicle fault is required.');
-    setOpenErrorModel(true);
-    return;
+    if (!booking.vehicleFault) {
+     setErrorMessage('Vehicle fault is required.');
+     setOpenErrorModel(true);
+     return;
     }
     
     // handle submission

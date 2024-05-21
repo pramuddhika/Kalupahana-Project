@@ -29,7 +29,7 @@ const BookingUpdate = () => {
     } 
   
     try{
-      const res = await axios.get(`http://localhost:8000/api/booking/checking/${searchNumber}`);
+      const res = await axios.get(`/api/booking/checking/${searchNumber}`);
         setSearchBarVisible(false);
         setVehicleNumber(res.data[0].vehicleNumber);
         setContactNumber(res.data[0].contactNumber);
@@ -43,7 +43,7 @@ const BookingUpdate = () => {
   //cancel resevation 
   const handleCancelClick = async () => {
     try{
-      await axios.put('http://localhost:8000/api/booking/cancel',{vehicleNumber});
+      await axios.put('/api/booking/cancel',{vehicleNumber});
       toast.success('Booking cancellation is successful!');
       setSearchNumner('');
       setSearchBarVisible(true);
@@ -54,7 +54,7 @@ const BookingUpdate = () => {
   //change resevation date
   const handleDateChangeCkick = async () => {
     try{
-      await axios.put('http://localhost:8000/api/booking/changedate',{reservedDate,vehicleNumber});
+      await axios.put('/api/booking/changedate',{reservedDate,vehicleNumber});
       toast.success('New date updated!');
       setSearchNumner('');
       setSearchBarVisible(true);

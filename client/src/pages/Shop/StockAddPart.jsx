@@ -27,7 +27,7 @@ const StockAddPart = () => {
   //get data from database
   const fechPartDetails = async () => {
     try{
-      const res = await axios.get("http://localhost:8000/api/stock/get")
+      const res = await axios.get("/api/stock/get")
       setDetails(res.data);
     }catch(err){
       console.log('Error fetching data: ' , err);
@@ -37,7 +37,7 @@ const StockAddPart = () => {
   //get data from database for select item
   const fechSearchDetails = async (searchID) => {
     try{
-      const res = await axios.get(`http://localhost:8000/api/stock/search/${searchID}`)
+      const res = await axios.get(`/api/stock/search/${searchID}`)
       setDetails(res.data);
     }catch(err){
       console.log('Error fetching data: ' , err);
@@ -98,7 +98,7 @@ const StockAddPart = () => {
     }
     //send data to server
     try{
-      const res = await axios.post('http://localhost:8000/api/stock/add', inputs);
+      const res = await axios.post('/api/stock/add', inputs);
       setRefresh(!refresh);
       handleClear();
       toast.success(res.data);
@@ -127,7 +127,7 @@ const StockAddPart = () => {
   //handle delete option
   const handleDelete = async (partID) => {
     try{
-      const res = await axios.delete(`http://localhost:8000/api/stock/deletepart/${partID}`);
+      const res = await axios.delete(`/api/stock/deletepart/${partID}`);
       // Remove the deleted data from the local state
       setDetails(details.filter(detail => detail.partID !== partID));
       setSelectedOption(null);
@@ -150,7 +150,7 @@ const StockAddPart = () => {
     }
     //handel update data
     try{
-      const res = await axios.put('http://localhost:8000/api/stock/update',{editPartName,editPartDescription,editPartID});
+      const res = await axios.put('/api/stock/update',{editPartName,editPartDescription,editPartID});
       setSelectedOption(null);
       setSearchID(null);
       setRefresh(!refresh);

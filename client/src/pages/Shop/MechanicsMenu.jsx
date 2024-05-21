@@ -15,7 +15,7 @@ const MechanicsMenu = () => {
   //fetch data to the table
   const fetchTableData = async () => {
     try{
-      const res = await axios.get("http://localhost:8000/api/mechanic/getmechanics");
+      const res = await axios.get("/api/mechanic/getmechanics");
       setTableData(res.data);
     }catch(err){
       console.log('Error fetching data:', err);

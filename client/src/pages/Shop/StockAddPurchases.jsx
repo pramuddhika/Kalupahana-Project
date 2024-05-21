@@ -22,7 +22,7 @@ const StockAddPurchases = () => {
   //get today purchases data to table
   const fetchTableData = async () => {
     try{
-      const res = await axios.get("http://localhost:8000/api/stock/todaypurchases")
+      const res = await axios.get("/api/stock/todaypurchases")
       setTableList(res.data);
     }catch(err){
       console.log('Error fetching data:',err);
@@ -32,7 +32,7 @@ const StockAddPurchases = () => {
   //fect Id to select
   const fetchIDs = async () => {
     try{
-      const res = await axios.get('http://localhost:8000/api/stock/get');
+      const res = await axios.get('/api/stock/get');
       setDetails(res.data);
     }catch(err){
       console.log('Error fetching data:',err);
@@ -97,7 +97,7 @@ const StockAddPurchases = () => {
     }
 
     try{
-      const res = await axios.post('http://localhost:8000/api/stock/purchases', {partID,units,dates});
+      const res = await axios.post('/api/stock/purchases', {partID,units,dates});
       setRefresh(!refresh);
       handleClear();
       setPartID(null);
@@ -116,7 +116,7 @@ const StockAddPurchases = () => {
   //handel delete request
   const handleDelete = async (partid,date,quantity) => {
     try{
-      const res = await axios.delete(`http://localhost:8000/api/stock/delete/${partid}/${date}/${quantity}`);
+      const res = await axios.delete(`/api/stock/delete/${partid}/${date}/${quantity}`);
       setRefresh(!refresh);
       handleClear();
       setOpenDeleteModal(false)

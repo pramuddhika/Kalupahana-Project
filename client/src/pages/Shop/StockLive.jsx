@@ -20,7 +20,7 @@ const StockLive = () => {
   //geta table data
   const fetchTableData =  async () => {
     try{
-      const res = await axios.get('http://localhost:8000/api/stock/get');
+      const res = await axios.get('/api/stock/get');
       setTableDetails(res.data);
     }catch(err){
       console.log('Error fetching data:',err);
@@ -30,7 +30,7 @@ const StockLive = () => {
   //get data from database for select item
   const fechSearchByID = async (searchID) => {
     try{
-      const res = await axios.get(`http://localhost:8000/api/stock/search/${searchID}`)
+      const res = await axios.get(`/api/stock/search/${searchID}`)
       setTableDetails(res.data);
     }catch(err){
       console.log('Error fetching data: ' , err);
@@ -40,7 +40,7 @@ const StockLive = () => {
   //get available stock data
   const fetchAvailable =  async () => {
     try{
-      const res = await axios.get('http://localhost:8000/api/stock/available');
+      const res = await axios.get('/api/stock/available');
       setTableDetails(res.data);
     }catch(err){
       console.log('Error fetching data:',err);
@@ -50,7 +50,7 @@ const StockLive = () => {
   //geta not availble data
   const fetchNotAvailable =  async () => {
     try{
-      const res = await axios.get('http://localhost:8000/api/stock/notavailable');
+      const res = await axios.get('/api/stock/notavailable');
       setTableDetails(res.data);
     }catch(err){
       console.log('Error fetching data:',err);
@@ -60,7 +60,7 @@ const StockLive = () => {
   //geta low to high stock data
   const fetchLowToHigh =  async () => {
     try{
-      const res = await axios.get('http://localhost:8000/api/stock/l2h');
+      const res = await axios.get('/api/stock/l2h');
       setTableDetails(res.data);
     }catch(err){
       console.log('Error fetching data:',err);
@@ -70,7 +70,7 @@ const StockLive = () => {
   //geta hiigh to low stock data
   const fetchHighToLow =  async () => {
     try{
-      const res = await axios.get('http://localhost:8000/api/stock/h2l');
+      const res = await axios.get('/api/stock/h2l');
       setTableDetails(res.data);
     }catch(err){
       console.log('Error fetching data:',err);

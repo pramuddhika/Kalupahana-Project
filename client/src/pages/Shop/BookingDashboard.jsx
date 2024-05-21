@@ -10,7 +10,7 @@ const BookingDashboard = () => {
     useEffect( () => {
         const fetchBookingDetails = async () => {
             try{
-                const res = await axios.get("http://localhost:8000/api/booking/today")
+                const res = await axios.get("/api/booking/today")
                 setDetails(res.data);
             }catch(err){
                 console.log('Error fetching data:' ,err);

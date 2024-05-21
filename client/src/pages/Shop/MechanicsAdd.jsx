@@ -27,7 +27,7 @@ const MechanicsAdd = () => {
   //fetch mechanoc specalist are to the select list
   const fetchMechanicSpeacialistArea = async () => {
     try{
-      const res = await axios.get('http://localhost:8000/api/settings/getlist');
+      const res = await axios.get('/api/settings/getlist');
       setMechanicsList(res.data);
     }catch(err){
       console.log('Error of fetching data: ', err);
@@ -120,7 +120,7 @@ const MechanicsAdd = () => {
 
     //handle add data
     try{
-      const res = await axios.post('http://localhost:8000/api/mechanic/addmechanic', addMechanic);
+      const res = await axios.post('/api/mechanic/addmechanic', addMechanic);
       toast.success(res.data);
       setTimeout(() => {
         navigate("/shop/mechanics");

@@ -34,7 +34,7 @@ const MechanicsUpdate = () => {
   // Fetch mechanic specialist area to the select list
   const fetchMechanicSpecialistArea = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/settings/getlist');
+      const res = await axios.get('/api/settings/getlist');
       setMechanicsList(res.data);
       //main area create as editabke
       if (selectedRow?.mainArea) {
@@ -135,7 +135,7 @@ const MechanicsUpdate = () => {
     
     //handle data  update 
     try{
-      const res = await axios.put('http://localhost:8000/api/mechanic/updatemechanic', newDetails);
+      const res = await axios.put('/api/mechanic/updatemechanic', newDetails);
       toast.success(res.data);
       setTimeout(() => {
         navigate("/shop/mechanics");

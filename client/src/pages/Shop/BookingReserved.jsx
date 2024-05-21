@@ -9,7 +9,7 @@ const BookingReserved = () => {
     useEffect( () => {
         const fetchBookingDetails = async () => {
             try{
-                const res = await axios.get("http://localhost:8000/api/booking/showbooking")
+                const res = await axios.get("/api/booking/showbooking")
                 setDetails(res.data);
             }catch(err){
                 console.log('Error fetching data:' ,err);

@@ -31,7 +31,7 @@ const BookNow = () => {
 
   //get next 3 dayes in yyyy-mm-dd format
   useEffect(() => {
-    axios.get('http://localhost:8000/api/booking/nextdates')
+    axios.get('/api/booking/nextdates')
         .then(response => {
             setDates(response.data.dates);
         })
@@ -74,7 +74,7 @@ const BookNow = () => {
     
     // handle submission
     try{
-      await axios.post('http://localhost:8000/api/booking/add', booking);
+      await axios.post('/api/booking/add', booking);
       setOpenModel(true);
     }catch(err){
       setErrorMessage(err.response.data);

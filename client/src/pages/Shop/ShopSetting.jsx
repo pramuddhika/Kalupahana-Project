@@ -24,7 +24,7 @@ const ShopSetting = () => {
   //fetch setting table data
   const fetchSettingData = async() => {
     try{
-      const res = await axios.get('http://localhost:8000/api/settings/getsettings');
+      const res = await axios.get('/api/settings/getsettings');
       setTotalSpace(res.data[0].totalSpace);
       setCurrentTotalSpace(res.data[0].totalSpace);
       setBookingSpace(res.data[0].bookingSpace);
@@ -39,7 +39,7 @@ const ShopSetting = () => {
   //fetch specialoist Ares list to table
   const fetchSpecialistArea = async() => {
     try{
-      const res = await axios.get('http://localhost:8000/api/settings/getlist');
+      const res = await axios.get('/api/settings/getlist');
       setList(res.data);
     }catch(err){
       console.log('Error fetching data :' , err);
@@ -49,7 +49,7 @@ const ShopSetting = () => {
   //fetching holidays to the table
   const fetchHolidays = async() => {
     try{
-      const res = await axios.get('http://localhost:8000/api/settings/getholidays');
+      const res = await axios.get('/api/settings/getholidays');
       setDays(res.data);
     }catch(err){
       console.log('Error fetching data :' , err)
@@ -93,7 +93,7 @@ const ShopSetting = () => {
     return;
    }
    try{
-    const res = await axios.put('http://localhost:8000/api/settings/updatespaces', {totalSpace,bookingSpace});
+    const res = await axios.put('/api/settings/updatespaces', {totalSpace,bookingSpace});
     toast.success(res.data);
    }catch(err){
     toast.error(err.response.data);
@@ -121,7 +121,7 @@ const ShopSetting = () => {
     }
 
     try{
-      const res = await axios.put('http://localhost:8000/api/settings/updatenextdaytime', {nextdayTime});
+      const res = await axios.put('/api/settings/updatenextdaytime', {nextdayTime});
       setNextdayTime('');
       toast.success(res.data);
     }catch(err){
@@ -149,7 +149,7 @@ const ShopSetting = () => {
       return;
     }
     try{
-      const res = await axios.put('http://localhost:8000/api/settings/recordcheck', {recordsTime});
+      const res = await axios.put('/api/settings/recordcheck', {recordsTime});
       toast.success(res.data);
     }catch(err){
       toast.error(err.response.data);
@@ -174,7 +174,7 @@ const ShopSetting = () => {
       return;
     }
     try{
-      const res = await axios.post('http://localhost:8000/api/settings/addholidays', {date});
+      const res = await axios.post('/api/settings/addholidays', {date});
       toast.success(res.data);
     }catch(err){
       toast.error(err.response.data);
@@ -196,7 +196,7 @@ const ShopSetting = () => {
       return;
     }
     try{
-      const res = await axios.post('http://localhost:8000/api/settings/Addspecialistarea', {speciallistArea});
+      const res = await axios.post('/api/settings/Addspecialistarea', {speciallistArea});
       toast.success(res.data);
     }catch(err){
       toast.error(err.response.data);
@@ -209,7 +209,7 @@ const ShopSetting = () => {
   //handel specialalist area delete
   const handleDeleteClick = async (deleteArea) => {
     try{
-    const res = await axios.delete(`http://localhost:8000/api/settings/deletearea/${deleteArea}`);
+    const res = await axios.delete(`/api/settings/deletearea/${deleteArea}`);
       // Remove the deleted area from the state
       setList(list.filter(list => list.area !== deleteArea));
       toast.success(res.data);
@@ -223,7 +223,7 @@ const ShopSetting = () => {
   //handel holiday removing
     const handleHolidayDeleteClick = async (deletedate) => {
     try{
-      const res = await axios.delete(`http://localhost:8000/api/settings/deleteholidays/${deletedate}`);
+      const res = await axios.delete(`/api/settings/deleteholidays/${deletedate}`);
       // Remove the holiday area from the state
       setDays(days.filter(days => days.holidays !== deletedate));
       toast.success(res.data);

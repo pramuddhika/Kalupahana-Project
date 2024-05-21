@@ -44,20 +44,21 @@ const BookNow = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    
+    //input feild validation
     const vehicleNumberError = validateVehicleNumber(booking.vehicleNumber);
     const vehicleFaultError = validateVehicleFault(booking.vehicleFault);  
     const CustomerContactNumberError =  validateContactNumber(booking.contactNumber);
-  
+    const vehicleFaultEmptyError = validateInputField(booking.vehicleFault);
+    const dataEmptyError = validateInputField(booking.reservedDate);
+    
     if (vehicleNumberError || vehicleFaultError || CustomerContactNumberError) {
      setErrorMessage(vehicleNumberError || vehicleFaultError || CustomerContactNumberError);
      setOpenErrorModel(true);
      return;
     }
-    
-    if (!booking.vehicleFault) {
-     setErrorMessage('Vehicle fault is required.');
-     setOpenErrorModel(true);
+    if(dataEmptyError||vehicleFaultEmptyError){
+      setErrorMessage(dataEmptyError||vehicleFaultEmptyError);
+      setOpenErrorModel(true);
      return;
     }
     

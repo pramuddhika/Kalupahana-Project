@@ -5,6 +5,8 @@ import axios from 'axios';
 import Modal from '../components/Modal';
 import completed from '../assets/completed.svg';
 import Warning from '../assets/warning.svg';
+import {validateVehicleNumber,validateVehicleFault} from '../Validation/VehicleDataValidation';
+import {validateContactNumber} from '../Validation/InputValidation';
 
 
 const BookNow = () => {
@@ -43,30 +45,17 @@ const BookNow = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     
-    const regexVehicleNumber = /^([A-Z]{2,3}|\d{2,3})-\d{4}$/;
-    const contactNumberRegex = /^07[0-8]\d{7}$/;
-    const regexFault = /^[a-zA-Z0-9 ]*$/;
+    const vehicleNumberError = validateVehicleNumber(booking.vehicleNumber);
+    const vehicleFaultError = validateVehicleFault(booking.vehicleFault);  
+    const CustomerContactNumberError =  validateContactNumber(booking.contactNumber);
+  
+  if (vehicleNumberError || vehicleFaultError || CustomerContactNumberError) {
+    setErrorMessage(vehicleNumberError || vehicleFaultError || CustomerContactNumberError);
+    setOpenErrorModel(true);
+    return;
+  }
     
-    // // Validate vehicle number
-    if (!regexVehicleNumber.test(booking.vehicleNumber)) {
-      setErrorMessage('Invalid vehicle number');
-      setOpenErrorModel(true);
-      return;
-    } 
-
-    //VAlidate contact number
-    if (!contactNumberRegex.test(booking.contactNumber)) {
-      setErrorMessage('Invalid contact number.');
-      setOpenErrorModel(true);
-      return;
-    }
-    // Validate vehicleFault
-    if(!regexFault.test(booking.vehicleFault)){
-      setErrorMessage('Vehicle fault should not contain any symbols');
-      setOpenErrorModel(true);
-      return;
-    }
-    if (!booking.vehicleFault) {
+     if (!booking.vehicleFault) {
     setErrorMessage('Vehicle fault is required.');
     setOpenErrorModel(true);
     return;

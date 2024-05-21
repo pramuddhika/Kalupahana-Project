@@ -105,7 +105,6 @@ const BookNow = () => {
             <div className='basis-1/2 relative bg-white rounded-lg'>
               <textarea id="message" rows="6" name='vehicleFault' onChange={handleChange} className="input block p-2.5 w-full rounded-lg border" placeholder="Write your identify fault here..." maxLength={200} />
               <div className="absolute bottom-0.5 right-0.5 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">{booking.vehicleFault.length}/200</div>
-
             </div>
           </div>
 

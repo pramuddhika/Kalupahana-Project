@@ -3,6 +3,7 @@ import {  useState } from 'react';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import {validateVehicleNumber} from '../Validation/VehicleData';
 
 const BookingUpdate = () => {
 
@@ -21,9 +22,9 @@ const BookingUpdate = () => {
 
   //geta and set data to data form
   const handleSearchClick = async () => {
-    // //validated vehicle number
-    const regexVehicleNumber = /^([A-Z]{2,3}|\d{2,3})-\d{4}$/;
-    if (!regexVehicleNumber.test(searchNumber)) {
+    //validated vehicle number
+    const vehicleNumberError = validateVehicleNumber(searchNumber);
+    if(vehicleNumberError){
       toast.warning('Invalid vehicle number');
       return;
     } 

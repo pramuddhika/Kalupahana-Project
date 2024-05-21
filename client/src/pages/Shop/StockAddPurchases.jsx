@@ -126,7 +126,6 @@ const StockAddPurchases = () => {
     }
   }
 
-  
   return (
     <div className="flex justify-center gap-8">
 

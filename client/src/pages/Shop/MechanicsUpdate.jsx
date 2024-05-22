@@ -182,7 +182,7 @@ const MechanicsUpdate = () => {
               <input type="date" value={newDetails.joinDate} className="input rounded-lg p-2 w-56 text-gray-600" readOnly />
             </div>
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Main specialist area :</p>
+              <p className="basis-1/3 text-text-primary font-semibold">Main Specialist Area :</p>
               <Select className="w-56"
                 options={MainOptions}
                 value={mainAreaOption}
@@ -192,7 +192,7 @@ const MechanicsUpdate = () => {
               />
             </div>
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Sub specialist area :</p>
+              <p className="basis-1/3 text-text-primary font-semibold">Sub Specialist Area :</p>
               <Select className="w-56"
                 options={MainOptions}
                 value={subAreaOption}

@@ -27,4 +27,15 @@ export const validateInputField = (inputValue) => {
 
 };
 //##################################################################
+
+//############### check human name ################################
+export const validateHumanName = (personName) => {
+  //name can only conatin lettters
+  const nameregex = /^[a-zA-Z\s]*$/;
+
+  if(nameregex.test(personName)){
+    return ("Invalid name!");
+  }
+  return null;
+}
   

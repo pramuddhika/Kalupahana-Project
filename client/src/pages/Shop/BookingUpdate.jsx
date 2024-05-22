@@ -23,6 +23,7 @@ const BookingUpdate = () => {
 
   //geta and set data to data form
   const handleSearchClick = async () => {
+    
     //validated vehicle number
     const vehicleNumberError = validateVehicleNumber(searchNumber);
     if(vehicleNumberError){

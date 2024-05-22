@@ -4,17 +4,17 @@ export const validateVehicleNumber = (vehicleNumber) => {
   //vechile number can contain 2 or 3 numbers with 4 numbers
   const regexVehicleNumber = /^([A-Z]{2,3}|\d{2,3})-\d{4}$/;
 
-  //check vehicle number lenght
-  if((vehicleNumber.length !== 7) && (vehicleNumber.length !== 8)){
-    return 'Invalid vehicle number!';
-  }
   //check number pattern
   if (!regexVehicleNumber.test(vehicleNumber)) {
     return 'Invalid vehicle number';
   }
 
-  return null;
+  //check vehicle number lenght
+  if((vehicleNumber.length !== 7) && (vehicleNumber.length !== 8)){
+    return 'Invalid vehicle number!';
+  }
 
+  return null;
 };
 //#########################################################################
 

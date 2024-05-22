@@ -126,7 +126,7 @@ const StockLive = () => {
     // setRefresh(!refresh);
   }
   
-  //create stock report
+  //############# create stock report ############################
   const printDocument = () => {
     // A4 size page of PDF
     const pdf = new jsPDF('p', 'mm', 'a4'); 

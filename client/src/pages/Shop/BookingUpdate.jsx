@@ -13,6 +13,7 @@ const BookingUpdate = () => {
   const [contactNumber, setContactNumber] = useState('');
   const [vehicleFault, setVehicleFault] = useState('');
   const [reservedDate,SetReservedDate] = useState('');
+  const [initialReservedDate, setInitialReservedDate] = useState(null);
   
 
   const handleSearchNumber = (e) => {
@@ -36,6 +37,7 @@ const BookingUpdate = () => {
         setContactNumber(res.data[0].contactNumber);
         setVehicleFault(res.data[0].vehicleFault);
         SetReservedDate(res.data[0].reservedDate);
+        setInitialReservedDate(res.data[0].reservedDate);
     } catch(err){
       toast.error(err.response.data)
     }
@@ -54,6 +56,11 @@ const BookingUpdate = () => {
   }
   //change resevation date
   const handleDateChangeCkick = async () => {
+    //check date is change
+    if(reservedDate === initialReservedDate){
+      toast.warning('Nothing to update!');
+      return;
+    }
     try{
       await axios.put('/api/booking/changedate',{reservedDate,vehicleNumber});
       toast.success('New date updated!');

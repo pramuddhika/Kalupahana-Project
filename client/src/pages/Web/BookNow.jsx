@@ -44,22 +44,23 @@ const BookNow = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
     //input feild validation
     const vehicleNumberError = validateVehicleNumber(booking.vehicleNumber);
     const vehicleFaultError = validateVehicleFault(booking.vehicleFault);  
-    const CustomerContactNumberError =  validateContactNumber(booking.contactNumber);
-    const vehicleFaultEmptyError = validateInputField(booking.vehicleFault);
-    const dataEmptyError = validateInputField(booking.reservedDate);
+    const customerContactNumberError =  validateContactNumber(booking.contactNumber);
+    const reservedDateerror = validateInputField(booking.reservedDate);
     
-    if (vehicleNumberError || vehicleFaultError || CustomerContactNumberError) {
-     setErrorMessage(vehicleNumberError || vehicleFaultError || CustomerContactNumberError);
+    //check inputs are in correct way
+    if (vehicleNumberError || vehicleFaultError || customerContactNumberError) {
+     setErrorMessage(vehicleNumberError || vehicleFaultError || customerContactNumberError);
      setOpenErrorModel(true);
      return;
     }
-    if(dataEmptyError||vehicleFaultEmptyError){
-      setErrorMessage(dataEmptyError||vehicleFaultEmptyError);
+    if(reservedDateerror){
+      setErrorMessage(reservedDateerror);
       setOpenErrorModel(true);
-     return;
+      return;
     }
     
     // handle submission
@@ -89,22 +90,27 @@ const BookNow = () => {
           <div className='flex flex-row justify-center mt-2'>
             <div className='basis-1/4 font-semibold'> Vehicle Number :</div>
              <div className='basis-1/2'>
-                <input type='text' name='vehicleNumber' onChange={handleChange} placeholder='XX - XXXX  or  XXX - XXXX' className='input border-b-2 w-full' maxLength={8} />
+                <input type='text' name='vehicleNumber' onChange={handleChange} placeholder='XX - XXXX  or  XXX - XXXX' 
+                className='input border-b-2 w-full' maxLength={8} />
              </div>
           </div>
 
           <div className='flex flex-row justify-center mt-3'>
             <div className='basis-1/4 font-semibold'>Contact Number :</div>
             <div className='basis-1/2'>
-              <input type='number' name='contactNumber' onChange={handleChange} placeholder='07........' className='input border-b-2 w-full' maxLength={10}/>
+              <input type='number' name='contactNumber' onChange={handleChange} placeholder='07........' 
+              className='input border-b-2 w-full' maxLength={10}/>
             </div>
           </div>
 
           <div className='flex flex-row justify-center mt-3'>
             <div className='basis-1/4 font-semibold'><p>Vehicle Fault :</p></div>
             <div className='basis-1/2 relative bg-white rounded-lg'>
-              <textarea id="message" rows="6" name='vehicleFault' onChange={handleChange} className="input block p-2.5 w-full rounded-lg border" placeholder="Write your identify fault here..." maxLength={200} />
-              <div className="absolute bottom-0.5 right-0.5 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">{booking.vehicleFault.length}/200</div>
+              <textarea id="message" rows="6" name='vehicleFault' onChange={handleChange} maxLength={200}
+              className="input block p-2.5 w-full rounded-lg border" placeholder="Write your identify fault here..."/>
+              <div className="absolute bottom-0.5 right-0.5 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">
+               {booking.vehicleFault.length}/200
+              </div>
             </div>
           </div>
 

@@ -41,7 +41,7 @@ const SideNav = () => {
     <div>
 
       <div className="fixed top-0 left-0 w-[180px] border-2 border-l-gray-400 bg-side-nav-bg h-screen">
-
+      
         <div className="font-inter text-text-primary p-4 mb-8">
           <p className="flex font-bold text-xl justify-center">Kalupahana</p>
           <p className="flex justify-end font-semibold mr-6">Motors</p>
@@ -58,7 +58,8 @@ const SideNav = () => {
             </div>
           </Link>
 
-          <div className='flex pl-7 gap-1 rounded-lg p-2 cursor-pointer hover:text-white hover:bg-text-primary' 
+          <div className={`flex pl-7 gap-1 rounded-lg p-2 cursor-pointer hover:text-white hover:bg-text-primary
+          ${showSubset ? 'border border-gray-300 font-bold' : ''}`} 
           onClick={toggleSubset}>
             <BriefcaseIcon className='h-6 w-6 '/>
             <p>Jobs</p>
@@ -143,10 +144,8 @@ const SideNav = () => {
             </div>
           </Link>
 
-        </div>
-
+        </div>``
       </div>
-      
     </div>
   );
 };

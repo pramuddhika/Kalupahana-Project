@@ -173,20 +173,20 @@ const StockAddPart = () => {
       <div className="flex fornt-inter items-center mb-4">
         <p className="basis-1/4 text-text-primary font-semibold">Part Id:</p>
         <input type="text" name='partID' value={inputs.partID} onChange={handleInputChange} required 
-        className="input w-60 rounded-lg p-2 pl-4" placeholder='Add part ID' maxLength='20'/>
+        className="input w-72 rounded-lg p-2 pl-4" placeholder='Add part ID' maxLength='20'/>
       </div>
 
       <div className="flex fornt-inter items-center mb-4">
         <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
         <input type="text" name='partName' value={inputs.partName} onChange={handleInputChange} required 
-        className="input w-60 rounded-lg p-2 pl-4" placeholder='Add Part Name' maxLength='60'/>
+        className="input w-72 rounded-lg p-2 pl-4" placeholder='Add Part Name' maxLength='60'/>
       </div>
 
       <div className="flex fornt-inter">
         <p className="basis-1/4 text-text-primary font-semibold mt-3">Description:</p>
         <div className='relative bg-white rounded-lg'>
           <textarea rows={4} name='partDescription' value={inputs.partDescription} onChange={handleInputChange} required 
-          className="input w-60 rounded-lg p-2 pl-4 pr-2" placeholder='Note about part' maxLength="120"/>
+          className="input w-72 rounded-lg p-2 pl-4 pr-2" placeholder='Note about part' maxLength="120"/>
           <div className="absolute bottom-0 right-0 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">{inputs.partDescription.length}/120</div>
         </div>
       </div>

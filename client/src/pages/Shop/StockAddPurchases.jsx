@@ -135,7 +135,7 @@ const StockAddPurchases = () => {
       <div className="card w-5/12 p-6 mt-28 h-84">
         <p className="topic text-xl mb-4">Purchases Details</p>
 
-        <div className="flex justify-center fornt-inter items-center mb-4">
+        <div className="flex justify-center fornt-inter items-center mb-4 mt-16">
           <p className="basis-1/4 text-text-primary font-semibold">Part :</p>
               
             <Select className="w-64"

@@ -142,53 +142,6 @@ const vehicleDetails = (
             <ShopHeader pageName="New Vehicle Registration"/>
             <div className="h-9 bg-side-nav-bg border-b-2 "/>
 
-            {/* <div className="flex justify-center mt-24">
-            <div className="flex card justify-center w-10/12">
-
-              <div className="w-1/2">
-
-               <form className="p-4">
-
-                 <p className="topic">Vehicle Details</p>
-
-                 <div className="flex justify-center items-center p-2">
-                    <div className="basis-1/4"><p>Vehicle Number:</p></div>
-                    <div className="basis-1/2">
-                      <input type="text" className="input rounded-lg ml-4 p-2 w-60" placeholder="AAA-0001 or AA-0001"/>
-                    </div>
-                 </div>
-
-                 <div className="flex justify-center items-center p-2">
-                    <div className="basis-1/4"><p>Model:</p></div>
-                    <div className="basis-1/2">
-                      <input type="text" className="input rounded-lg ml-4 p-2 w-60" placeholder="Vehicle Model here"/>
-                    </div>
-                 </div>
-
-                 <div className="flex justify-center items-center p-2">
-                    <div className="basis-1/4"><p>Category:</p></div>
-                    <div className="basis-1/2">
-                      <input type="text" className="input rounded-lg ml-4 p-2 w-60" placeholder="Vehicle Category here"/>
-                    </div>
-                 </div>
-
-                 <div className="flex justify-center p-2">
-                    <div className="basis-1/4"><p className="mt-3">Note:</p></div>
-                    <div className="basis-1/2">
-                      <textarea rows="5" className="input rounded-lg ml-4 p-2 w-60" placeholder="Additional details"/>
-                    </div>
-                 </div>
-
-               </form>
-              </div>
-
-              <div className="w-1/2">
-               
-
-              </div>
-            </div>
-            </div> */}
-
             <div className="flex justify-center mt-28 w-11/12 ">
 
             <div className="w-1/3 mx-auto">

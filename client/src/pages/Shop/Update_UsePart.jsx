@@ -2,7 +2,7 @@ import Details from "../components/Details";
 
 const Update_UsePart = () => {
     return (
-        <div className="flex flex-row ">
+        <div className="flex flex-row mt-7">
         
           <div className="flex flex-col justify-center items-center basis-2/3">
 

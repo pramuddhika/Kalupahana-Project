@@ -1,40 +1,41 @@
 import Details from "../components/Details";
 
 const Update_AssignMechanic = () => {
-    return (
-      <div className="flex flex-row ">
+  return (
+    <div className="flex flex-row mt-7">
         
       <div className="flex flex-col justify-center items-center basis-2/3">
 
-      {/**input data form - start */}
-      <div className="h-48 card w-11/12 p-2 mt-5">
+        {/**input data form - start */}
+        <div className="h-48 card w-11/12 p-2 mt-5">
  
-      <p className="topic ">Assign Mechanics</p>
+          <p className="topic ">Assign Mechanics</p>
 
-      <div className="flex my-4 justify-between">
-       <div className="flex justify-center items-center font-inter gap-5">
-         <p className="text-text-primary font-semibold w-28">Employee ID: </p>
-         <input type="text" className="input p-2 rounded-lg" placeholder="Search by Employee ID"/>
-       </div>
-       <div className="flex justify-center items-center font-inter gap-5">
-         <p className="text-text-primary font-semibold">Employee Name: </p>
-         <input type="text" className="input p-2 rounded-lg" readOnly/>
-       </div>
-      </div>
+          <div className="flex items-center font-inter gap-2 mt-3">
+            <p className="text-text-primary font-semibold w-48 pl-4">Employee ID & Name: </p>
+            <input type="text" className="input p-2 rounded-lg w-96" placeholder="Search by Employee ID or Employee Name"/>
+          </div>
 
-      <div className="flex my-4 justify-end">
-        <div className="flex justify-center items-center font-inter gap-5 mr-12">
-          <button className="btn btn-warning">Clean</button>
-          <button className="btn btn-normal">Asign</button>
+          <div className="flex mt-2 pl-4">
+            <div className="flex flex-col w-1/2 gap-2">
+               <input className="input p-1 rounded-lg"/>
+               <input className="input p-1 rounded-lg"/>
+            </div>
+
+            <div className="ju">
+              <button >
+                Assign
+              </button>
+            </div>
+             
+          </div>
+
         </div>
-      </div>
-
-      </div>
-      {/**input data form -end */}
+        {/**input data form -end */}
 
 
-      {/**table - start */}
-      <div className="box-content h-80 card mt-5 w-11/12 p-2">
+        {/**table - start */}
+        <div className="box-content h-80 card mt-5 w-11/12 p-2">
        <p className="topic">Work Allocation</p>
        <div className="flex justify-center overflow-auto max-h-72">
         <table className="mx-auto font-inter mt-4 w-11/12">
@@ -48,12 +49,12 @@ const Update_AssignMechanic = () => {
             <td className="border-2 border-black"> test data</td>
             <td className="border-2 border-black"> test data</td>
             <td className="border-2 border-black"> test data</td>
-          </tr>             
-
+          </tr>
+                      
         </table>
       </div>
-      </div>
-      {/**table - end */}
+        </div>
+        {/**table - end */}
 
       </div>
 
@@ -62,7 +63,7 @@ const Update_AssignMechanic = () => {
       </div>
             
     </div>
-    );
+  );
 };
 
 export default Update_AssignMechanic;

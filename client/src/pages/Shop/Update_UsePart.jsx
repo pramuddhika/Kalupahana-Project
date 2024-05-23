@@ -11,24 +11,17 @@ const Update_UsePart = () => {
              
               <p className="topic ">Used Part</p>
 
-              <div className="flex my-4 justify-between">
-                <div className="flex justify-center items-center font-inter gap-5">
-                  <p className="text-text-primary font-semibold w-24">Part ID: </p>
-                  <input type="text" className="input p-2 rounded-lg" placeholder="Search by Part ID"/>
-                </div>
-                <div className="flex justify-center items-center font-inter gap-5">
-                  <p className="text-text-primary font-semibold">Part Name: </p>
-                  <input type="text" className="input p-2 rounded-lg" placeholder="Search by Part Name"/>
-                </div>
+              <div className="flex justify-center items-center w-10/12 font-inter gap-2 mt-1">
+                <p className="text-text-primary font-semibold w-4/12">Part Name or Id: </p>
+                <input type="text" className="input p-2 rounded-lg w-6/12" placeholder="Search by Part Name or Id"/>
               </div>
 
-              <div className="flex my-4 justify-between">
-                <div className="flex justify-center items-center font-inter gap-5">
-                  <p className="text-text-primary font-semibold w-24">Quantity : </p>
-                  <input type="number" className="input p-2 rounded-lg" placeholder=""/>
+              <div className="flex justify-center items-center font-inter mt-6">
+                <div className="flex items-center w-96">
+                 <p className="text-text-primary font-semibold w-40 pl-4">Quantity : </p>
+                 <input type="number" className="input p-2 rounded-lg w-32" placeholder="Search by Part Name or Id"/>
                 </div>
-                <div className="flex justify-center items-center font-inter gap-5 mr-12">
-                  <button className="btn btn-warning">Clean</button>
+                <div className="flex items-end w-48 justify-end">
                   <button className="btn btn-normal">Add</button>
                 </div>
               </div>

@@ -12,18 +12,24 @@ const Update_AssignMechanic = () => {
           <p className="topic ">Assign Mechanics</p>
 
           <div className="flex items-center font-inter gap-2 mt-3">
-            <p className="text-text-primary font-semibold w-48 pl-4">Employee ID & Name: </p>
-            <input type="text" className="input p-2 rounded-lg w-96" placeholder="Search by Employee ID or Employee Name"/>
+            <p className="text-text-primary font-semibold w-48 pl-4">Employee Name OR Id: </p>
+            <input type="text" className="input p-2 rounded-lg w-96" placeholder="Search by Name or Id"/>
           </div>
 
-          <div className="flex mt-2 pl-4">
-            <div className="flex flex-col w-1/2 gap-2">
-               <input className="input p-1 rounded-lg"/>
-               <input className="input p-1 rounded-lg"/>
+          <div className="flex justify-center mt-4 pl-4">
+            <div className="flex flex-col gap-2 w-8/12">
+              <div className="flex items-center gap-3">
+                <p className="mainStyle">Main Specialist Area</p>
+                <input className="input p-1 rounded-lg w-80" readOnly/>
+              </div>
+              <div className="flex gap-3 items-center">
+                 <p className="mainStyle">Sub Sepecialist Area</p>
+                 <input className="input p-1 rounded-lg w-80" readOnly/>
+              </div>
             </div>
 
-            <div className="ju">
-              <button >
+            <div className="flex items-end justify-end w-2/12">
+              <button className="btn btn-normal">
                 Assign
               </button>
             </div>

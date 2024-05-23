@@ -6,6 +6,7 @@ import bookingRoutes from './routes/booking-route.js';
 import dashBoardRoutes from './routes/dashBoard-route.js';
 import stockRoutes from './routes/stock-route.js';
 import mechanicRoutes from './routes/mechanic-route.js';
+import openJobRoutes from './routes/openJob-route.js';
 
 
 const app = express();
@@ -18,6 +19,9 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/stock', stockRoutes);
 app.use('/api/mechanic', mechanicRoutes);
+
+//parths - jobs
+app.use('/api/openjob', openJobRoutes);
 
 //parths - dashboard
 app.use('/api/dashboard', dashBoardRoutes);

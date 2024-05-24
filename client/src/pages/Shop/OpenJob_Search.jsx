@@ -3,28 +3,49 @@ import deal from "../assets/deal.svg"
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {validateVehicleNumber} from '../Validation/VehicleData.js';
+import axios from "axios";
 
 const OpenJobSearch = () => {
 
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(true);
-  const [searchNumber,setSearchNumber] = useState(null);
+  const [jobOpenNumber,setJobOpenNumber] = useState(null);
 
 
   //handle openJob Search change
   const handleOpenJobSearch = (e) => {
-    setSearchNumber(e.target.value);
+    setJobOpenNumber(e.target.value);
   }
 
   const handleSearchClick = async (e) => {
     e.preventDefault();
     // setIsSearchBarVisible(false)
-    toast.info(searchNumber);
+
+    //validate vehicle number
+    const vehicleNumberError = validateVehicleNumber(jobOpenNumber);
+    if(vehicleNumberError){
+      toast.error('Invailed vehicle number!');
+      return;
+    }
+
+    //check vehicle is online booked one or not 
+    //change status when it is onle booked vehicle
+    try{
+      const onlineBooking = await axios.put('/api/openjob/checkbooking', jobOpenNumber);
+      toast.info(onlineBooking.data);
+    }catch(err){
+      toast.error(err.response.data);
+      return;
+    }
+  
+
+    
   };
 
   const searchBar = (
     <div className='flex items-center card gap-12 box-content w-2/3 h-32 mt-32'>
       <input type='text' placeholder='Enter vehicle number' className='rounded-lg p-2 ml-6 outline-none' 
-      value={searchNumber} onChange={handleOpenJobSearch}/>
+      value={jobOpenNumber} onChange={handleOpenJobSearch}/>
       <button className='bg-text-primary text-white px-6 py-2 rounded-lg' onClick={handleSearchClick}>Search</button>
     </div>
   );

@@ -1,9 +1,11 @@
 import express from 'express';
-import {checkVehicleController} from '../controllers/openJob-controller.js';
+import {checkBookingController} from '../controllers/openJob-controller.js';
+
 
 const router = express.Router();
 
-//serach vechicle is new or not
-router.post('/checkVehicle', checkVehicleController);
+//check vehicle is in booking table or not
+router.put('/checkbooking', checkBookingController);
+
 
 export default router;

@@ -1,13 +1,14 @@
-import {checkVehicleService} from '../services/openJob-service.js';
+import {checkBookingService} from '../services/openJob-service.js';
 
-//################ check vehicle number - start ######################
-export const checkVehicleController = async(req,res) => {
-   const {searchNumber} = req.body;
+//################# before open job check vehicle is booked one - start ###################
+export const checkBookingController = async(req,res) => {
+   const {jobOpenNumber} = req.body;
+
    try{
-    const data = await checkVehicleService(searchNumber);
-    return res.status(200).json(data);
+       const data = await checkBookingService(jobOpenNumber);
+       return res.status(200).json(data);
    }catch(err){
-    return res.status(500).json('Server side Error!');
+       return res.status(500).json(err.message);
    }
-} 
-//################ check vehicle number - end   ######################
+}
+//#####################   check booking - end  ############################################

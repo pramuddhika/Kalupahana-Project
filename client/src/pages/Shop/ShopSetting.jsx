@@ -175,7 +175,6 @@ const ShopSetting = () => {
       return;
     }
     try{
-      toast.warning(date);
       const res = await axios.post('/api/settings/addholidays', {date});
       toast.success(res.data);
     }catch(err){

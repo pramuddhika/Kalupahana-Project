@@ -144,7 +144,7 @@ const SideNav = () => {
             </div>
           </Link>
 
-        </div>``
+        </div>
       </div>
     </div>
   );

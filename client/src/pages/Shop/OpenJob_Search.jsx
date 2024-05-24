@@ -29,7 +29,7 @@ const OpenJobSearch = () => {
     }
 
     //check vehicle is online booked one or not 
-    //change status when it is onle booked vehicle
+    //change status when it's online booked vehicle
     try{
       const onlineBooking = await axios.put('/api/openjob/checkbooking', jobOpenNumber);
       toast.info(onlineBooking.data);

@@ -32,3 +32,12 @@ export const  checkBookingService = async(jobOpenNumber) => {
     });
 }
 //######################### check vehicle - end  ################################
+
+//##################### check vehicle is registered or not - start ########################
+export const checkRegisteredVehicleService = async (jobOpenNumber) => {
+    return new Promise ( (resolve,reject) => {
+
+        
+    });
+}
+//##################### check vehicle is registered or not - end   ########################

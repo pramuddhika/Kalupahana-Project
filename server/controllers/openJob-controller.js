@@ -4,7 +4,7 @@ import {checkBookingService,
 //################# before open job check vehicle is booked one - start ###################
 export const checkBookingController = async(req,res) => {
    const {jobOpenNumber} = req.body;
-
+   
    try{
        const data = await checkBookingService(jobOpenNumber);
        return res.status(200).json(data);
@@ -16,7 +16,7 @@ export const checkBookingController = async(req,res) => {
 
 //##################### check vehicle is registered or not - start ########################
 export const  checkRegisteredVehicleController = async(req,res) => {
-    const {jobOpenNumber} = req.body;
+    const {jobOpenNumber} = req.params;
 
     try{
         const data = await checkRegisteredVehicleService(jobOpenNumber);

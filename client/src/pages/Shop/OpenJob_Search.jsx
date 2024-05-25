@@ -5,11 +5,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {validateVehicleNumber} from '../Validation/VehicleData.js';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const OpenJobSearch = () => {
 
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(true);
   const [jobOpenNumber,setJobOpenNumber] = useState(null);
+
+  const navigate = useNavigate();
 
 
   //handle openJob Search change
@@ -19,8 +22,7 @@ const OpenJobSearch = () => {
 
   const handleSearchClick = async (e) => {
     e.preventDefault();
-    // setIsSearchBarVisible(false)
-
+    
     //validate vehicle number
     const vehicleNumberError = validateVehicleNumber(jobOpenNumber);
     if(vehicleNumberError){
@@ -31,11 +33,25 @@ const OpenJobSearch = () => {
     //check vehicle is online booked one or not 
     //change status when it's online booked vehicle
     try{
-      const onlineBooking = await axios.put('/api/openjob/checkbooking', jobOpenNumber);
+      const onlineBooking = await axios.put(`/api/openjob/checkbooking/`,{jobOpenNumber});
       toast.info(onlineBooking.data);
     }catch(err){
       toast.error(err.response.data);
-      return;
+    }
+
+    //check vehicle is new to system
+    try{
+      const checkVehicle = await axios.get(`/api/openjob/checkRegisteredVehicle/${jobOpenNumber}`);
+       if (checkVehicle.data === "NEW"){
+        setIsSearchBarVisible(false);
+        return;
+       }else{
+        setTimeout(() => {
+          navigate("/shop/openJob/details");
+        }, 2500);
+       }
+    }catch(err){
+      console.log(err);
     }
   
 

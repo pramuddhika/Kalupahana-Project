@@ -52,7 +52,7 @@ const BookNow = () => {
     const reservedDateerror = validateInputField(booking.reservedDate);
     
     //check inputs are in correct way
-    if (vehicleNumberError || vehicleFaultError || customerContactNumberError) {
+    if (vehicleNumberError || customerContactNumberError || vehicleFaultError ) {
      setErrorMessage(vehicleNumberError || vehicleFaultError || customerContactNumberError);
      setOpenErrorModel(true);
      return;

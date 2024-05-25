@@ -48,6 +48,7 @@ export const validateHumanNIC = (NICnumber) => {
   if(!NICregex.test(NICnumber)){
     return("Invaild NIC number!");
   }
+  return null;
 }
 //####################################################################
   

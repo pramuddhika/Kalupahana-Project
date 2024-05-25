@@ -1,6 +1,6 @@
 import {db} from '../.env';
 
-//############## check vehicle is online book vechicle or not ###################
+//############## check vehicle is online book vechicle or not ########################
 export const  checkBookingService = async(jobOpenNumber) => {
     return new Promise( (resolve,reject) => {
 
@@ -31,7 +31,7 @@ export const  checkBookingService = async(jobOpenNumber) => {
         });
     });
 }
-//######################### check vehicle - end  ################################
+//######################### check vehicle - end  #########################################
 
 //##################### check vehicle is registered or not - start ########################
 export const checkRegisteredVehicleService = async (jobOpenNumber) => {

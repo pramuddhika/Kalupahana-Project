@@ -1,6 +1,7 @@
 import express from 'express';
 import {checkBookingController,
-        checkRegisteredVehicleController} from '../controllers/openJob-controller.js';
+        checkRegisteredVehicleController,
+        checkCustomerController} from '../controllers/openJob-controller.js';
 
 
 const router = express.Router();
@@ -9,6 +10,8 @@ const router = express.Router();
 router.put('/checkbooking', checkBookingController);
 //ckeck vehicle is registered or not
 router.get('/checkRegisteredVehicle/:jobOpenNumber' , checkRegisteredVehicleController);
+//get customer data
+router.get('/getCustomer/:NICnumber', checkCustomerController);
 
 
 export default router;

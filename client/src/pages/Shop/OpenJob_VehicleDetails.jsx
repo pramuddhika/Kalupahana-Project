@@ -2,6 +2,10 @@ import ShopHeader from "../components/ShopHeader";
 import register from '../assets/newVehicleAdd.svg';
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { validateHumanNIC } from '../Validation/InputFeilds.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import { AtSymbolIcon } from "@heroicons/react/24/solid";
 
 const OpenJob_VehicleDetails = () => {
 
@@ -16,8 +20,21 @@ const OpenJob_VehicleDetails = () => {
     setNICnumber(e.target.value);
   }
 
-  const handleNICNumber = () => {
-     setISOldCustomer(false);
+  //handle NIC search
+  const handleNICNumber = async (e) => {
+    e.preventDefault();
+    
+    //validate NIC number
+    const NICerror =  validateHumanNIC(NICnumber);
+    if(NICerror){
+      toast.error(NICerror);
+      return;
+    }
+
+    //search customer data from database
+
+
+    setISOldCustomer(false);
   }
 
   const handleCustomethOtherDetails = () => {
@@ -150,6 +167,9 @@ const vehicleDetails = (
         <div>
             <ShopHeader pageName="New Vehicle Registration"/>
             <div className="h-9 bg-side-nav-bg border-b-2 "/>
+
+            <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+
 
             <div className="flex justify-center mt-28 w-11/12 ">
 

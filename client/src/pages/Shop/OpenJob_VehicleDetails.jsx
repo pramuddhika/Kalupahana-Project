@@ -1,11 +1,15 @@
 import ShopHeader from "../components/ShopHeader";
 import register from '../assets/newVehicleAdd.svg';
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const OpenJob_VehicleDetails = () => {
 
   const [isCustomerVisible,setIsCustomerVisible] = useState(true);
   const [isOldCustomer, setISOldCustomer] = useState(true);
+  const location = useLocation();
+  const vehicleNumber = location.state?.vehicleNumber;
+  const NICnumber = location.state?.NICnumber;
 
   const handleNICNumber = () => {
      setISOldCustomer(false);
@@ -37,7 +41,7 @@ const OpenJob_VehicleDetails = () => {
          <p className="mainStyle">NIC Number:</p>
         </div>
         <div className="basis-1/2">
-          <input type="text" className="input rounded-lg ml-4 p-2 w-60" placeholder="NIC here"/>
+          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={NICnumber} placeholder="NIC here"/>
         </div>
      </div>
 

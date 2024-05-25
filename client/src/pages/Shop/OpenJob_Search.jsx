@@ -20,6 +20,11 @@ const OpenJobSearch = () => {
     setJobOpenNumber(e.target.value);
   }
 
+  //handle create profile for new vehices
+  const handleCreateProfile = () => {
+    navigate("/shop/openJob/details");
+  }
+
   const handleSearchClick = async (e) => {
     e.preventDefault();
     
@@ -42,20 +47,22 @@ const OpenJobSearch = () => {
     //check vehicle is new to system
     try{
       const checkVehicle = await axios.get(`/api/openjob/checkRegisteredVehicle/${jobOpenNumber}`);
+      console.log(checkVehicle.data[0].NICnumber);
        if (checkVehicle.data === "NEW"){
         setIsSearchBarVisible(false);
         return;
        }else{
+
+        const vechicleNumber = checkVehicle.data[0].vechicleNumber;
+        const NICnumber = checkVehicle.data[0].NICnumber;
+ 
         setTimeout(() => {
-          navigate("/shop/openJob/details");
+          navigate("/shop/openJob/details" , {state: {vechicleNumber, NICnumber}});
         }, 2500);
        }
     }catch(err){
       console.log(err);
     }
-  
-
-    
   };
 
   const searchBar = (
@@ -70,29 +77,29 @@ const OpenJobSearch = () => {
     <div className='p-3 font-inter card gap-12 box-content w-2/3 h-32 mt-32'>
       <p className="flex justify-center py-6">New to shop. To create new profile click below button.</p>
       <div className="flex justify-center">
-         <button className='bg-text-primary text-white px-6 py-2 rounded-lg'>Create Profile</button>
+         <button className='bg-text-primary text-white px-6 py-2 rounded-lg'onClick={handleCreateProfile}>Create Profile</button>
       </div>
    </div>
   );
 
-    return (
-        <div>
-            <ShopHeader pageName="Job Open" />
-            <div className="h-9 bg-side-nav-bg border-b-2"/>
+  return (
+    <div>
+      <ShopHeader pageName="Job Open" />
+      <div className="h-9 bg-side-nav-bg border-b-2"/>
 
-            <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+        <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
 
-            <div className="flex mt-28">
-               <div className='w-1/2'>
-                  <img src={deal} className='h-96 mx-auto mt-6'/>
-               </div>
-               <div className="w-1/2">
-                 {isSearchBarVisible? searchBar : createNew }
-              </div>
-            </div>
-
+        <div className="flex mt-28">
+          <div className='w-1/2'>
+            <img src={deal} className='h-96 mx-auto mt-6'/>
+          </div>
+          <div className="w-1/2">
+            {isSearchBarVisible? searchBar : createNew }
+          </div>
         </div>
-    );
+
+    </div>
+  );
 };
 
 

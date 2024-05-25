@@ -9,7 +9,12 @@ const OpenJob_VehicleDetails = () => {
   const [isOldCustomer, setISOldCustomer] = useState(true);
   const location = useLocation();
   const vehicleNumber = location.state?.vehicleNumber;
-  const NICnumber = location.state?.NICnumber;
+  const [NICnumber,setNICnumber] = useState(location.state?.NICnumber);
+
+  //handle NIC number changes
+  const handleNICchange = (e) => {
+    setNICnumber(e.target.value);
+  }
 
   const handleNICNumber = () => {
      setISOldCustomer(false);
@@ -41,7 +46,7 @@ const OpenJob_VehicleDetails = () => {
          <p className="mainStyle">NIC Number:</p>
         </div>
         <div className="basis-1/2">
-          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={NICnumber} placeholder="NIC here"/>
+          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={NICnumber} onChange={handleNICchange} placeholder="NIC here" maxLength={12}/>
         </div>
      </div>
 
@@ -105,7 +110,7 @@ const vehicleDetails = (
       <div className="flex justify-center items-center p-2">
        <div className="w-36 mainStyle"><p>Vehicle Number:</p></div>
        <div className="basis-1/2">
-          <input type="text" className="input rounded-lg ml-4 p-2 w-60" placeholder="AAA-0001 or AA-0001"/>
+          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={vehicleNumber} readOnly/>
        </div>
       </div>
 

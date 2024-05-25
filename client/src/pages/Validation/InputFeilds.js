@@ -28,7 +28,7 @@ export const validateInputField = (inputValue) => {
 };
 //##################################################################
 
-//############### check human name ################################
+//############### check human name #################################
 export const validateHumanName = (personName) => {
   //name can only conatin lettters
   const nameregex = /^[a-zA-Z\s]*$/;
@@ -38,4 +38,16 @@ export const validateHumanName = (personName) => {
   }
   return null;
 }
+//###################################################################
+
+//################## check human NIC NUMBER #########################
+export const validateHumanNIC = (NICnumber) => {
+  //NIC can conatin 12 numbers or 9 numbers with 'V'
+  const NICregex = /^(\d{12}|\d{9}V)$/;
+
+  if(!NICregex.test(NICnumber)){
+    return("Invaild NIC number!");
+  }
+}
+//####################################################################
   

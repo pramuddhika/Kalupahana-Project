@@ -85,7 +85,7 @@ const OpenJob_VehicleDetails = () => {
   }
 
 
-  const handleCustomethOtherDetails = (e) => {
+  const handleCustomethOtherDetails = async (e) => {
     e.preventDefault();
 
     //validate iser inputs
@@ -107,12 +107,13 @@ const OpenJob_VehicleDetails = () => {
     }
 
     //check details are change or not
-    if(initData.name === customerName){
+    if(initData.name === customerName || initData.email == customerEmail || initData.phone === customerPhoneNumber){
       toast.info("No changes to update!");
     }
 
     //if customer regular , update data base
     if(regularCustomer === "Yes"){
+      // const data = await axios.put();
       setTimeout( ()=> {
         navigate("/shop/openJob/prerepair");
       },2500)

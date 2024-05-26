@@ -1,6 +1,8 @@
 import {checkBookingService,
         checkRegisteredVehicleService,
-        checkCustomerService} from '../services/openJob-service.js';
+        checkCustomerService,
+        customerDataUpdateService,
+        customerRegisterService} from '../services/openJob-service.js';
 
 //################# before open job check vehicle is booked one - start ###################
 export const checkBookingController = async(req,res) => {
@@ -36,7 +38,33 @@ export const checkCustomerController = async(req,res) => {
         const data = await checkCustomerService(NICnumber);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json(err.message);
+        return res.status(500).json("Server side error!");
     }
 }
 //#################### get customer data - end   ##########################################
+
+//######################### update customer data - start ###################################
+export const customerDataUpdateController = async(req,res) => {
+    const {customerName,customerEmail,customerPhoneNumber,NICnumbe} = req.body;
+
+    try{
+        const data = await customerDataUpdateService(customerName,customerEmail,customerPhoneNumber,NICnumbe);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err.message);
+    }
+}
+//######################### update customer data - end   ###################################
+
+//######################### update customer data - start ###################################
+export const customerRegisterController = async(req,res) => {
+    const {customerName,customerEmail,customerPhoneNumber,NICnumbe} = req.body;
+
+    try{
+        const data = await customerRegisterService(customerName,customerEmail,customerPhoneNumber,NICnumbe);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err.message);
+    }
+}
+//######################### update customer data - end   ###################################

@@ -71,7 +71,7 @@ export const checkCustomerService = async (NICnumber) => {
         
         db.query(q,[NICnumber], (err,data) => {
             if(err){
-                reject(err);
+                reject({message: "An error occurred", error: err});
                 return;
             }else if (data.length === 0){
                 resolve({ message: "New customer!" });
@@ -88,3 +88,45 @@ export const checkCustomerService = async (NICnumber) => {
     })
 }
 //########################## cheeck customer data = end   ##################################
+
+//######################### update customer data - start ###################################
+export const customerDataUpdateService = async (customerName,customerEmail,customerPhoneNumber,NICnumbe) => {
+    return new Promise( (resolve,reject) => {
+
+        const q = `UPDATE customer
+                   SET CUSTOMER_NAME =? , EMAIL = ? , PHONE_NUMBER =?
+                   WHERE NIC_NUMBER = ?`;
+        
+        db.query(q,[customerName,customerEmail,customerPhoneNumber,NICnumbe],(err,data) => {
+            if(err){
+                reject({message: "An error occurred", error: err});
+                return;
+            }else{
+                resolve({message:"Details updated!"});
+                return;
+            }
+        })
+    })
+}
+//######################### update customer data - end   ###################################
+
+//######################### update customer data - start ###################################
+export const customerRegisterService = async (customerName,customerEmail,customerPhoneNumber,NICnumbe) => {
+    return new Promise( (resolve,reject) => {
+
+        const q = `INSERT INTO customer
+                   (CUSTOMER_NAME,EMAIL,PHONE_NUMBER,NIC_NUMBER)
+                   VALUES (?,?,?,?)`;
+        
+        db.query(q,[customerName,customerEmail,customerPhoneNumber,NICnumbe],(err,data) => {
+            if(err){
+                reject({message: "An error occurred", error: err});
+                return;
+            }else{
+                resolve({message:"Customer Registered!"});
+                return;
+            }
+        })
+    })
+}
+//######################### update customer data - end   ###################################

@@ -34,7 +34,7 @@ export const checkCustomerController = async(req,res) => {
 
     try{
         const data = await checkCustomerService(NICnumber);
-        return res.data(200).json(data);
+        return res.status(200).json(data);
     }catch(err){
         return res.status(500).json(err.message);
     }

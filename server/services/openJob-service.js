@@ -60,3 +60,31 @@ export const checkRegisteredVehicleService = async (jobOpenNumber) => {
     });
 }
 //##################### check vehicle is registered or not - end   ########################
+
+//########################### check customer data - start ##################################
+export const checkCustomerService = async (NICnumber) => {
+    return new Promise ( (resolve,reject) => {
+
+        const q = `SELECT CUSTOMER_NAME,EMAIL,PHONE_NUMBER
+                   FROM customer
+                   WHERE NIC_NUMBER = ?`;
+        
+        db.query(q,[NICnumber], (err,data) => {
+            if(err){
+                reject(err);
+                return;
+            }else if (data.length === 0){
+                resolve({ message: "New customer!" });
+                return;
+            }else {
+                const checkCustomer = data.map(customer => ({
+                    name : customer.CUSTOMER_NAME,
+                    email : customer.EMAIL,
+                    phoneNumber : customer.PHONE_NUMBER
+                }));
+                resolve({checkCustomer});
+            }
+        })
+    })
+}
+//########################## cheeck customer data = end   ##################################

@@ -22,7 +22,8 @@ const OpenJobSearch = () => {
 
   //handle create profile for new vehices
   const handleCreateProfile = () => {
-    navigate("/shop/openJob/details");
+    const vehicleNumber = jobOpenNumber;
+    navigate("/shop/openJob/details" , {state:{vehicleNumber}});
   }
 
   const handleSearchClick = async (e) => {
@@ -34,8 +35,6 @@ const OpenJobSearch = () => {
       toast.error('Invailed vehicle number!');
       return;
     }
-
-    
 
     //check vehicle is online booked one or not 
     //change status when it's online booked vehicle
@@ -49,17 +48,17 @@ const OpenJobSearch = () => {
     //check vehicle is new to system
     try{
       const checkVehicle = await axios.get(`/api/openjob/checkRegisteredVehicle/${jobOpenNumber}`);
-      console.log(checkVehicle.data[0].NICnumber);
+      
        if (checkVehicle.data === "NEW"){
         setIsSearchBarVisible(false);
         return;
        }else{
 
-        const vechicleNumber = checkVehicle.data[0].vechicleNumber;
+        const vehicleNumber = checkVehicle.data[0].vehicleNumber;
         const NICnumber = checkVehicle.data[0].NICnumber;
  
         setTimeout(() => {
-          navigate("/shop/openJob/details" , {state: {vechicleNumber, NICnumber}});
+          navigate("/shop/openJob/details" , {state: {vehicleNumber,NICnumber}});
         }, 2500);
        }
     }catch(err){

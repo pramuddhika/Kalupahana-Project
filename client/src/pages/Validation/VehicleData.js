@@ -5,16 +5,16 @@ export const validateVehicleNumber = (vehicleNumber) => {
   const regexVehicleNumber = /^([A-Z]{2,3}|\d{2,3})-\d{4}$/;
   
   //check empty vehicle number
-  if(!vehicleNumber.lenght){
+  if(!vehicleNumber.length){
     return ("Vehicle number can't be ematy!");
   }
   //check number pattern
   if (!regexVehicleNumber.test(vehicleNumber)) {
-    return 'Invalid vehicle number';
+    return ("Invalid vehicle number");
   }
   //check vehicle number lenght
   if((vehicleNumber.length !== 7) && (vehicleNumber.length !== 8)){
-    return 'Invalid vehicle number!';
+    return ("Invalid vehicle number!");
   }
 
   return null;

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const OpenJobSearch = () => {
 
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(true);
-  const [jobOpenNumber,setJobOpenNumber] = useState(null);
+  const [jobOpenNumber,setJobOpenNumber] = useState("");
 
   const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ const OpenJobSearch = () => {
     //validate vehicle number
     const vehicleNumberError = validateVehicleNumber(jobOpenNumber);
     if(vehicleNumberError){
-      toast.error('Invailed vehicle number!');
+      toast.warning(vehicleNumberError);
       return;
     }
 

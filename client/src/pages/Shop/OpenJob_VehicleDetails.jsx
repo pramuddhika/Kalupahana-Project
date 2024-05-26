@@ -1,7 +1,7 @@
 import ShopHeader from "../components/ShopHeader";
 import register from '../assets/newVehicleAdd.svg';
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import { validateHumanNIC } from '../Validation/InputFeilds.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,12 +15,16 @@ const OpenJob_VehicleDetails = () => {
   const location = useLocation();
   const [vehicleNumber] = useState(location.state?.vehicleNumber);
   const [NICnumber,setNICnumber] = useState(location.state?.NICnumber);
+  const [regularCustomer, setRegularCustomer] = useState(null);
   const [customerName,setCustomerName] = useState("");
   const [customerEmail,setCustomerEmail] = useState("");
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
   const [brand,setBrand] = useState("");
   const [model,setModel] = useState("");
   const [fuleType,setFuleType] = useState("");
+  const [initData,setInitData] = useState({"name":"","email":"","phone":""});
+
+  const navigate = useNavigate();
   
 
   //handle NIC number changes
@@ -60,6 +64,13 @@ const OpenJob_VehicleDetails = () => {
         setCustomerName(resCustomer.data.checkCustomer[0].name);
         setCustomerEmail(resCustomer.data.checkCustomer[0].email);
         setCustomerPhoneNumber(resCustomer.data.checkCustomer[0].phoneNumber);
+        setInitData(prevState =>({
+          ...prevState,
+          name:resCustomer.data.checkCustomer[0].name,
+          email:resCustomer.data.checkCustomer[0].email,
+          phone:resCustomer.data.checkCustomer[0].phoneNumber
+        }));
+        setRegularCustomer("Yes");
         //move to next step
         setISOldCustomer(false);
         return;
@@ -95,7 +106,19 @@ const OpenJob_VehicleDetails = () => {
       return;
     }
 
-    setIsCustomerVisible(false);
+    //check details are change or not
+    if(initData.name === customerName){
+      toast.info("No changes to update!");
+    }
+
+    //if customer regular , update data base
+    if(regularCustomer === "Yes"){
+      setTimeout( ()=> {
+        navigate("/shop/openJob/prerepair");
+      },2500)
+    }else{
+      setIsCustomerVisible(false);
+    }
   }
 
   const handleCustomerDetailBack = () => {

@@ -122,8 +122,8 @@ const StockLive = () => {
     setSelectedFilter(option);
     const currentFilter = (option ? option.value : null);
     setFilter(currentFilter);
-    console.log(filter);
-    // setRefresh(!refresh);
+    // console.log(filter);
+    setRefresh(!refresh);
   }
   
   //############# create stock report ############################

@@ -6,6 +6,8 @@ import { validateHumanNIC } from '../Validation/InputFeilds.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import Select from 'react-select';
+import customStyles from '../components/SelectStyle';
 import {validateContactNumber,validateHumanName,validateEmail} from '../Validation/InputFeilds.js';
 
 const OpenJob_VehicleDetails = () => {
@@ -15,7 +17,7 @@ const OpenJob_VehicleDetails = () => {
   const location = useLocation();
   const [vehicleNumber] = useState(location.state?.vehicleNumber);
   const [NICnumber,setNICnumber] = useState(location.state?.NICnumber);
-  const [regularCustomer, setRegularCustomer] = useState(null);
+  const [oldVehicle] = useState(location.state?.oldVehicle);
   const [customerName,setCustomerName] = useState("");
   const [customerEmail,setCustomerEmail] = useState("");
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
@@ -23,17 +25,29 @@ const OpenJob_VehicleDetails = () => {
   const [model,setModel] = useState("");
   const [fuleType,setFuleType] = useState("");
   const [initData,setInitData] = useState({"name":"","email":"","phone":""});
+  const [selectedFuleType,setSelectedFuleType] = useState(null);
 
   const navigate = useNavigate();
   
+  //fule type options
+  const fuleTypes = [
+    {value:'petrol', label:'Petrol'},
+    {value:'diesel', label:'Diesel'},
+    {value:'hybrid', label:'Hybrid'},
+    {value:'eletric', label:'Eletric'}
+  ]
+
+  const handleSeleteOption = (option) => {
+    setSelectedFuleType(option);
+    const currentOption = (option ? option.value: null);
+    setFuleType(currentOption);
+  }
 
   //handle NIC number changes
   const handleNICchange = (e) => {
     setNICnumber(e.target.value);
   }
-
   
-
   //handle NIC search
   const handleNICNumber = async (e) => {
     e.preventDefault();
@@ -70,21 +84,16 @@ const OpenJob_VehicleDetails = () => {
           email:resCustomer.data.checkCustomer[0].email,
           phone:resCustomer.data.checkCustomer[0].phoneNumber
         }));
-        setRegularCustomer("Yes");
         //move to next step
         setISOldCustomer(false);
         return;
       }
     }catch(err){
-      if(err.response){
-        toast.error(err.response.data);
-      } else {
-        console.log(err.message);
-      }
+      toast.error(err.response.data.message);
     }
   }
 
-
+  // customer data handel
   const handleCustomethOtherDetails = async (e) => {
     e.preventDefault();
 
@@ -107,16 +116,23 @@ const OpenJob_VehicleDetails = () => {
     }
 
     //check details are change or not
-    if(initData.name === customerName || initData.email == customerEmail || initData.phone === customerPhoneNumber){
+    if(initData.name === customerName && initData.email == customerEmail && initData.phone === customerPhoneNumber){
       toast.info("No changes to update!");
     }
 
     //if customer regular , update data base
-    if(regularCustomer === "Yes"){
-      // const data = await axios.put();
+    if(oldVehicle === "old"){
+      try{
+        const res = await axios.put('/api/openjob/updateCustomer', {customerName,customerEmail,customerPhoneNumber,NICnumber});
+        toast.success(res.data.message);
+      }catch(err){
+        toast.error(err.response.data.message);
+      }
+
       setTimeout( ()=> {
         navigate("/shop/openJob/prerepair");
       },2500)
+
     }else{
       setIsCustomerVisible(false);
     }
@@ -126,8 +142,9 @@ const OpenJob_VehicleDetails = () => {
     setISOldCustomer(true);
   }
 
-  const handleVehicleDetails = () => {
-
+  const handleVehicleDetails = (e) => {
+    e.preventDefault();
+    //console.log(customerName,customerEmail,customerPhoneNumber,NICnumber,vehicleNumber,model,brand,fuleType);
   }
 
   const handleVehicleDetailsBack = () => {
@@ -137,21 +154,21 @@ const OpenJob_VehicleDetails = () => {
   // nic number get form 
   const idSerach = (
   <div className="card gap-12 box-content w-5/6 h-88 ">
-     <p className="topic ml-4 text-2xl mt-5">Customer Details</p>
+    <p className="topic ml-4 text-2xl mt-5">Customer Details</p>
      
-     <div className="flex justify-center items-center mt-20">
-        <div className="basis-1/4">
-         <p className="mainStyle">NIC Number:</p>
-        </div>
-        <div className="basis-1/2">
-          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={NICnumber} 
-          onChange={handleNICchange} placeholder="NIC here" maxLength={12}/>
-        </div>
-     </div>
+    <div className="flex justify-center items-center mt-20">
+      <div className="basis-1/4">
+        <p className="mainStyle">NIC Number:</p>
+      </div>
+      <div className="basis-1/2">
+        <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={NICnumber} 
+        onChange={handleNICchange} placeholder="NIC here" maxLength={12}/>
+      </div>
+    </div>
 
-     <div className="flex justify-center mt-8" onClick={handleNICNumber}>
-       <button className="btn btn-normal">Search</button>
-     </div>    
+    <div className="flex justify-center mt-8" onClick={handleNICNumber}>
+      <button className="btn btn-normal">Search</button>
+    </div>    
   </div>
   );
 
@@ -160,116 +177,123 @@ const OpenJob_VehicleDetails = () => {
   <div className="card gap-12 box-content w-5/6 h-88 ">
     <p className="topic ml-4 text-2xl mt-5">Customer Details</p>
 
-      <form className="p-4 mt-7">
+    <form className="p-4 mt-7">
 
-        <div className="flex justify-center items-center p-2 mt-3">
-          <div className="w-36 mainStyle"><p>Customer Name:</p></div>
-          <div className="basis-1/2">
-            <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={customerName} onChange={ (e)=> setCustomerName(e.target.value)}
-             placeholder="Name here" maxLength={20}/>
-          </div>
-        </div>
-
-        <div className="flex justify-center items-center p-2">
-          <div className="w-36 mainStyle"><p>Email:</p></div>
-          <div className="basis-1/2">
-            <input type="email" className="input rounded-lg ml-4 p-2 w-60" value={customerEmail} onChange={ (e)=> setCustomerEmail(e.target.value)}
-             placeholder="Email here" maxLength={55}/>
-          </div>
-        </div>
-
-        <div className="flex justify-center items-center p-2">
-          <div className="w-36 mainStyle"><p>Contact Number:</p></div>
-          <div className="basis-1/2">
-            <input type="number" className="input rounded-lg ml-4 p-2 w-60" value={customerPhoneNumber}   onChange={ (e)=> setCustomerPhoneNumber(e.target.value)}
-             placeholder="07_ _ _ _ _ _ _ _" maxLength={10}/>
-          </div>
-        </div>
-
-      </form>
-
-      <div className="flex justify-center gap-6 mt-4 mb-4">
-        <button className="btn btn-warning" onClick={handleCustomerDetailBack}>Backr</button>
-        <button className="btn btn-normal px-5" onClick={handleCustomethOtherDetails}>Next</button>
-      </div>
-
-  </div>
-);
-
-//controll customer data input forms
-const customerDetails = (
-  <>
-    {isOldCustomer ? idSerach : otherDetails }
-  </>
-);
-
-const vehicleDetails = (
-  <div className="card gap-12 box-content w-5/6 h-88 ">
-    <p className="topic ml-4 text-2xl mt-5">Vehicle Details</p>
-
-    <form className="p-4">
-
-      <div className="flex justify-center items-center p-2">
-       <div className="w-36 mainStyle"><p>Vehicle Number:</p></div>
-       <div className="basis-1/2">
-          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={vehicleNumber} readOnly/>
-       </div>
-      </div>
-
-      <div className="flex justify-center items-center p-2">
-        <div className="w-36 mainStyle"><p>Brand:</p></div>
+      <div className="flex justify-center items-center p-2 mt-3">
+        <div className="w-36 mainStyle"><p>Customer Name:</p></div>
         <div className="basis-1/2">
-          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={brand} onChange={(e)=> setBrand(e.target.value)} placeholder="Vehicle Brand here"/>
+          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={customerName} 
+          onChange={ (e)=> setCustomerName(e.target.value)} placeholder="Name here" maxLength={20}/>
         </div>
       </div>
 
       <div className="flex justify-center items-center p-2">
-        <div className="w-36 mainStyle"><p>Model:</p></div>
+        <div className="w-36 mainStyle"><p>Email:</p></div>
         <div className="basis-1/2">
-          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={model} onChange={(e)=> setModel(e.target.value)} placeholder="Vehicle Model here"/>
+          <input type="email" className="input rounded-lg ml-4 p-2 w-60" value={customerEmail} 
+          onChange={ (e)=> setCustomerEmail(e.target.value)} placeholder="Email here" maxLength={55}/>
         </div>
       </div>
 
       <div className="flex justify-center items-center p-2">
-        <div className="w-36 mainStyle"><p>Fule Type:</p></div>
+        <div className="w-36 mainStyle"><p>Contact Number:</p></div>
         <div className="basis-1/2">
-          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={fuleType} onChange={(e)=> setFuleType(e.target.value)} placeholder="Vehicle Fule here"/>
+          <input type="number" className="input rounded-lg ml-4 p-2 w-60" value={customerPhoneNumber}   
+          onChange={ (e)=> setCustomerPhoneNumber(e.target.value)} placeholder="07_ _ _ _ _ _ _ _" maxLength={10}/>
         </div>
       </div>
 
     </form>
 
     <div className="flex justify-center gap-6 mt-4 mb-4">
-      <button className="btn btn-warning" onClick={handleVehicleDetailsBack}>Back</button>
-      <button className="btn btn-normal px-5" onClick={handleVehicleDetails}>Submit</button>
+      <button className="btn btn-warning" onClick={handleCustomerDetailBack}>Backr</button>
+      <button className="btn btn-normal px-5" onClick={handleCustomethOtherDetails}>Next</button>
     </div>
-
   </div>
-);
+  );
 
+  //controll customer data input forms
+  const customerDetails = (
+   <>
+     {isOldCustomer ? idSerach : otherDetails }
+   </>
+  );
 
-    return (
-        <div>
-            <ShopHeader pageName="New Vehicle Registration"/>
-            <div className="h-9 bg-side-nav-bg border-b-2 "/>
+  const vehicleDetails = (
+    <div className="card gap-12 box-content w-5/6 h-88 ">
+      <p className="topic ml-4 text-2xl mt-5">Vehicle Details</p>
 
-            <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+      <form className="p-4">
 
-
-            <div className="flex justify-center mt-28 w-11/12 ">
-
-            <div className="w-1/3 mx-auto">
-              <img src={register}/>
-            </div>
-
-            <div className="flex justify-center w-1/2">
-              {isCustomerVisible ? customerDetails : vehicleDetails}
-            </div>
-
-            </div>
-
+        <div className="flex justify-center items-center p-2">
+          <div className="w-36 mainStyle"><p>Vehicle Number:</p></div>
+          <div className="basis-1/2">
+            <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={vehicleNumber} readOnly/>
+          </div>
         </div>
-    );
+
+        <div className="flex justify-center items-center p-2">
+          <div className="w-36 mainStyle"><p>Brand:</p></div>
+          <div className="basis-1/2">
+            <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={brand} 
+            onChange={(e)=> setBrand(e.target.value)} placeholder="Vehicle Brand here"/>
+          </div>
+        </div>
+
+        <div className="flex justify-center items-center p-2">
+          <div className="w-36 mainStyle"><p>Model:</p></div>
+          <div className="basis-1/2">
+            <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={model} 
+            onChange={(e)=> setModel(e.target.value)} placeholder="Vehicle Model here"/>
+          </div>
+        </div>
+
+        <div className="flex justify-center items-center p-2">
+          <div className="w-36 mainStyle"><p>Fule Type:</p></div>
+          <div className="basis-1/2">
+            {/* <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={fuleType} 
+            onChange={(e)=> setFuleType(e.target.value)} placeholder="Vehicle Fule here"/> */}
+            <Select className="w-60 ml-4"
+            options={fuleTypes}
+            isClearable
+            styles={customStyles}
+            onChange={handleSeleteOption}
+            value={selectedFuleType}
+            placeholder='Vehicle Fule here'/>
+          </div>
+        </div>
+
+      </form>
+
+      <div className="flex justify-center gap-6 mt-4 mb-4">
+        <button className="btn btn-warning" onClick={handleVehicleDetailsBack}>Back</button>
+        <button className="btn btn-normal px-5" onClick={handleVehicleDetails}>Submit</button>
+      </div>
+
+    </div>
+  );
+
+
+  return (
+    <div>
+      <ShopHeader pageName="New Vehicle Registration"/>
+      <div className="h-9 bg-side-nav-bg border-b-2 "/>
+
+      <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+
+      <div className="flex justify-center mt-28 w-11/12 ">
+
+        <div className="w-1/3 mx-auto">
+          <img src={register}/>
+        </div>
+
+        <div className="flex justify-center w-1/2">
+          {isCustomerVisible ? customerDetails : vehicleDetails}
+        </div>
+
+      </div>
+    </div>
+  );
 };
 
 export default OpenJob_VehicleDetails;

@@ -45,10 +45,10 @@ export const checkCustomerController = async(req,res) => {
 
 //######################### update customer data - start ###################################
 export const customerDataUpdateController = async(req,res) => {
-    const {customerName,customerEmail,customerPhoneNumber,NICnumbe} = req.body;
+    const {customerName,customerEmail,customerPhoneNumber,NICnumber} = req.body;
 
     try{
-        const data = await customerDataUpdateService(customerName,customerEmail,customerPhoneNumber,NICnumbe);
+        const data = await customerDataUpdateService(customerName,customerEmail,customerPhoneNumber,NICnumber);
         return res.status(200).json(data);
     }catch(err){
         return res.status(500).json(err.message);

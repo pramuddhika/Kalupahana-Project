@@ -111,14 +111,14 @@ export const customerDataUpdateService = async (customerName,customerEmail,custo
 //######################### update customer data - end   ###################################
 
 //######################### update customer data - start ###################################
-export const customerRegisterService = async (customerName,customerEmail,customerPhoneNumber,NICnumbe) => {
+export const customerRegisterService = async (customerName,customerEmail,customerPhoneNumber,NICnumber) => {
     return new Promise( (resolve,reject) => {
 
         const q = `INSERT INTO customer
                    (CUSTOMER_NAME,EMAIL,PHONE_NUMBER,NIC_NUMBER)
                    VALUES (?,?,?,?)`;
         
-        db.query(q,[customerName,customerEmail,customerPhoneNumber,NICnumbe],(err,data) => {
+        db.query(q,[customerName,customerEmail,customerPhoneNumber,NICnumber],(err,data) => {
             if(err){
                 reject({message: "An error occurred", error: err});
                 return;

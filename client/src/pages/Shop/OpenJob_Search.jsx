@@ -14,7 +14,7 @@ const OpenJobSearch = () => {
 
   const navigate = useNavigate();
 
-
+  
   //handle openJob Search change
   const handleOpenJobSearch = (e) => {
     setJobOpenNumber(e.target.value);
@@ -49,18 +49,18 @@ const OpenJobSearch = () => {
     try{
       const checkVehicle = await axios.get(`/api/openjob/checkRegisteredVehicle/${jobOpenNumber}`);
       
-       if (checkVehicle.data === "NEW"){
+      if (checkVehicle.data === "NEW"){
         setIsSearchBarVisible(false);
         return;
-       }else{
-
+      }else{
         const vehicleNumber = checkVehicle.data[0].vehicleNumber;
         const NICnumber = checkVehicle.data[0].NICnumber;
- 
+        const newOldVehicle = "old";
+    
         setTimeout(() => {
-          navigate("/shop/openJob/details" , {state: {vehicleNumber,NICnumber}});
+          navigate("/shop/openJob/details" , {state: {vehicleNumber,NICnumber,oldVehicle : newOldVehicle}});
         }, 2500);
-       }
+      }
     }catch(err){
       console.log(err);
     }
@@ -88,16 +88,16 @@ const OpenJobSearch = () => {
       <ShopHeader pageName="Job Open" />
       <div className="h-9 bg-side-nav-bg border-b-2"/>
 
-        <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+      <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
 
-        <div className="flex mt-28">
-          <div className='w-1/2'>
-            <img src={deal} className='h-96 mx-auto mt-6'/>
-          </div>
-          <div className="w-1/2">
-            {isSearchBarVisible? searchBar : createNew }
-          </div>
+      <div className="flex mt-28">
+        <div className='w-1/2'>
+          <img src={deal} className='h-96 mx-auto mt-6'/>
         </div>
+        <div className="w-1/2">
+          {isSearchBarVisible? searchBar : createNew }
+        </div>
+      </div>
 
     </div>
   );

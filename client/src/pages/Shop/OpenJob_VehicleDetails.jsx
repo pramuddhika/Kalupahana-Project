@@ -36,7 +36,7 @@ const OpenJob_VehicleDetails = () => {
     {value:'hybrid', label:'Hybrid'},
     {value:'eletric', label:'Eletric'}
   ]
-
+  //get option value to the fule type
   const handleSeleteOption = (option) => {
     setSelectedFuleType(option);
     const currentOption = (option ? option.value: null);

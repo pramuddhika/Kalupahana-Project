@@ -3,7 +3,9 @@ import {checkBookingController,
         checkRegisteredVehicleController,
         checkCustomerController,
         customerDataUpdateController,
-        customerRegisterController} from '../controllers/openJob-controller.js';
+        customerRegisterController,
+        vehicleRegisterController,
+        ownerChangeController} from '../controllers/openJob-controller.js';
 
 
 const router = express.Router();
@@ -18,6 +20,10 @@ router.get('/getCustomer/:NICnumber', checkCustomerController);
 router.put('/updateCustomer', customerDataUpdateController);
 //register customer
 router.post('/registerCustomer', customerRegisterController);
+//register vehicle
+router.post('/registerVehicle', vehicleRegisterController);
+//change vehicle owner  data
+router.put('/ownerChange', ownerChangeController);
 
 
 export default router;

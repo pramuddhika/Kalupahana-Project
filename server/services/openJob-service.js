@@ -130,3 +130,41 @@ export const customerRegisterService = async (customerName,customerEmail,custome
     })
 }
 //######################### update customer data - end   ###################################
+
+//######################## register vehicle - satrt  #########################################
+export const vehicleRegisterService = async (vehicleNumber,brand,model,fuleType,NICnumbe) => {
+    return new Promise( (resolve,reject) => {
+        const q = `INSERT INTO vehicle
+                   (VEHICLE_NUMBER,BARND,MODEL,FULE_TYPE,NIC_NUMBER)
+                   VALUES (?,?,?,?,?)`;
+        db.query(q,[vehicleNumber,brand,model,fuleType,NICnumbe],(err,data) => {
+            if(err){
+                reject({message:"An error occurred!", error:err});
+                return;
+            }else{
+                resolve({message:"Vehicle registered!"});
+                return;
+            }
+        })
+    })
+}
+//######################## register vehicle - end    #########################################
+
+//######################## vehicle ownerShip change - satrt  #################################
+export const ownerChangeService = async (NICnumbe,vehicleNumber) => {
+    return new Promise( (resolve,reject) => {
+        const q = `UPDATE vehicle
+                   SET NIC_NUMBER =? 
+                   WHERE VEHICLE_NUMBER =?`;
+        db.query( q,[NICnumbe,vehicleNumber], (err,data) => {
+            if(err){
+                reject({message:"An error occurred!",error: err});
+                return;
+            }else{
+                resolve({message:"Owner change successful!"});
+                return;
+            }
+        })
+    })
+}
+//######################## vehicle ownerShip change - end    #################################

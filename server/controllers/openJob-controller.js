@@ -2,7 +2,9 @@ import {checkBookingService,
         checkRegisteredVehicleService,
         checkCustomerService,
         customerDataUpdateService,
-        customerRegisterService} from '../services/openJob-service.js';
+        customerRegisterService,
+        vehicleRegisterService,
+        ownerChangeService} from '../services/openJob-service.js';
 
 //################# before open job check vehicle is booked one - start ###################
 export const checkBookingController = async(req,res) => {
@@ -51,7 +53,7 @@ export const customerDataUpdateController = async(req,res) => {
         const data = await customerDataUpdateService(customerName,customerEmail,customerPhoneNumber,NICnumber);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json(err.message);
+        return res.status(500).json("Server side error!");
     }
 }
 //######################### update customer data - end   ###################################
@@ -64,7 +66,31 @@ export const customerRegisterController = async(req,res) => {
         const data = await customerRegisterService(customerName,customerEmail,customerPhoneNumber,NICnumbe);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json(err.message);
+        return res.status(500).json("Server side error!");
     }
 }
 //######################### update customer data - end   ###################################
+
+//######################## register vehicle - satrt  #########################################
+export const vehicleRegisterController = async (req,res) => {
+    const {vehicleNumber,brand,model,fuleType,NICnumbe} = req.body;
+    try{
+        const data = await vehicleRegisterService(vehicleNumber,brand,model,fuleType,NICnumbe);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json("server side error!");
+    }
+}
+//######################## register vehicle - end    #########################################
+
+//######################## vehicle ownerShip change - satrt  #################################
+export const ownerChangeController = async (req,res) => {
+    const {NICnumbe,vehicleNumber} = req.body;
+    try{
+        const data = await ownerChangeService(NICnumbe,vehicleNumber);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json("server side error!");
+    }
+}
+//######################## vehicle ownerShip change - end    #################################

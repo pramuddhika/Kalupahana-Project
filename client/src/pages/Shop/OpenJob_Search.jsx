@@ -58,7 +58,7 @@ const OpenJobSearch = () => {
         const newOldVehicle = "old";
     
         setTimeout(() => {
-          navigate("/shop/openJob/details" , {state: {vehicleNumber,NICnumber,oldVehicle : newOldVehicle}});
+          navigate("/shop/openJob/details" , {state: {vehicleNumber,NICnumber,oldVehicle:newOldVehicle}});
         }, 2500);
       }
     }catch(err){

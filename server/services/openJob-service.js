@@ -110,7 +110,7 @@ export const customerDataUpdateService = async (customerName,customerEmail,custo
 }
 //######################### update customer data - end   ###################################
 
-//######################### update customer data - start ###################################
+//######################### register customer data - start ###################################
 export const customerRegisterService = async (customerName,customerEmail,customerPhoneNumber,NICnumber) => {
     return new Promise( (resolve,reject) => {
 
@@ -129,7 +129,7 @@ export const customerRegisterService = async (customerName,customerEmail,custome
         })
     })
 }
-//######################### update customer data - end   ###################################
+//######################### register customer data - end   ###################################
 
 //######################## register vehicle - satrt  #########################################
 export const vehicleRegisterService = async (vehicleNumber,brand,model,fuleType,NICnumbe) => {
@@ -151,12 +151,12 @@ export const vehicleRegisterService = async (vehicleNumber,brand,model,fuleType,
 //######################## register vehicle - end    #########################################
 
 //######################## vehicle ownerShip change - satrt  #################################
-export const ownerChangeService = async (NICnumbe,vehicleNumber) => {
+export const ownerChangeService = async (NICnumber,vehicleNumber) => {
     return new Promise( (resolve,reject) => {
         const q = `UPDATE vehicle
                    SET NIC_NUMBER =? 
                    WHERE VEHICLE_NUMBER =?`;
-        db.query( q,[NICnumbe,vehicleNumber], (err,data) => {
+        db.query( q,[NICnumber,vehicleNumber], (err,data) => {
             if(err){
                 reject({message:"An error occurred!",error: err});
                 return;

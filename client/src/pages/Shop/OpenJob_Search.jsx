@@ -14,7 +14,6 @@ const OpenJobSearch = () => {
 
   const navigate = useNavigate();
 
-  
   //handle openJob Search change
   const handleOpenJobSearch = (e) => {
     setJobOpenNumber(e.target.value);
@@ -23,7 +22,8 @@ const OpenJobSearch = () => {
   //handle create profile for new vehices
   const handleCreateProfile = () => {
     const vehicleNumber = jobOpenNumber;
-    navigate("/shop/openJob/details" , {state:{vehicleNumber}});
+    const newOldVehicle = "notOld";
+    navigate("/shop/openJob/details" , {state:{vehicleNumber,oldVehicle:newOldVehicle}});
   }
 
   const handleSearchClick = async (e) => {
@@ -70,7 +70,9 @@ const OpenJobSearch = () => {
     <div className='flex items-center card gap-12 box-content w-2/3 h-32 mt-32'>
       <input type='text' placeholder='Enter vehicle number' className='rounded-lg p-2 ml-6 outline-none' 
       value={jobOpenNumber} onChange={handleOpenJobSearch}/>
-      <button className='bg-text-primary text-white px-6 py-2 rounded-lg' onClick={handleSearchClick}>Search</button>
+      <button className='bg-text-primary text-white px-6 py-2 rounded-lg' onClick={handleSearchClick}>
+       Search
+      </button>
     </div>
   );
 
@@ -78,7 +80,9 @@ const OpenJobSearch = () => {
     <div className='p-3 font-inter card gap-12 box-content w-2/3 h-32 mt-32'>
       <p className="flex justify-center py-6">New to shop. To create new profile click below button.</p>
       <div className="flex justify-center">
-         <button className='bg-text-primary text-white px-6 py-2 rounded-lg'onClick={handleCreateProfile}>Create Profile</button>
+         <button className='bg-text-primary text-white px-6 py-2 rounded-lg'onClick={handleCreateProfile}>
+           Create Profile
+         </button>
       </div>
    </div>
   );

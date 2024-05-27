@@ -58,18 +58,18 @@ export const customerDataUpdateController = async(req,res) => {
 }
 //######################### update customer data - end   ###################################
 
-//######################### update customer data - start ###################################
+//######################### register customer data - start ###################################
 export const customerRegisterController = async(req,res) => {
-    const {customerName,customerEmail,customerPhoneNumber,NICnumbe} = req.body;
+    const {customerName,customerEmail,customerPhoneNumber,NICnumber} = req.body;
 
     try{
-        const data = await customerRegisterService(customerName,customerEmail,customerPhoneNumber,NICnumbe);
+        const data = await customerRegisterService(customerName,customerEmail,customerPhoneNumber,NICnumber);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json("Server side error!");
+        return res.status(500).json("server side error!");
     }
 }
-//######################### update customer data - end   ###################################
+//######################### register customer data - end   ###################################
 
 //######################## register vehicle - satrt  #########################################
 export const vehicleRegisterController = async (req,res) => {
@@ -85,9 +85,9 @@ export const vehicleRegisterController = async (req,res) => {
 
 //######################## vehicle ownerShip change - satrt  #################################
 export const ownerChangeController = async (req,res) => {
-    const {NICnumbe,vehicleNumber} = req.body;
+    const {NICnumber,vehicleNumber} = req.body;
     try{
-        const data = await ownerChangeService(NICnumbe,vehicleNumber);
+        const data = await ownerChangeService(NICnumber,vehicleNumber);
         return res.status(200).json(data);
     }catch(err){
         return res.status(500).json("server side error!");

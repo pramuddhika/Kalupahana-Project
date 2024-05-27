@@ -73,9 +73,9 @@ export const customerRegisterController = async(req,res) => {
 
 //######################## register vehicle - satrt  #########################################
 export const vehicleRegisterController = async (req,res) => {
-    const {vehicleNumber,brand,model,fuleType,NICnumbe} = req.body;
+    const {vehicleNumber,brand,model,fuleType,NICnumber} = req.body;
     try{
-        const data = await vehicleRegisterService(vehicleNumber,brand,model,fuleType,NICnumbe);
+        const data = await vehicleRegisterService(vehicleNumber,brand,model,fuleType,NICnumber);
         return res.status(200).json(data);
     }catch(err){
         return res.status(500).json("server side error!");

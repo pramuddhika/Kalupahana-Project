@@ -132,12 +132,12 @@ export const customerRegisterService = async (customerName,customerEmail,custome
 //######################### register customer data - end   ###################################
 
 //######################## register vehicle - satrt  #########################################
-export const vehicleRegisterService = async (vehicleNumber,brand,model,fuleType,NICnumbe) => {
+export const vehicleRegisterService = async (vehicleNumber,brand,model,fuleType,NICnumber) => {
     return new Promise( (resolve,reject) => {
         const q = `INSERT INTO vehicle
                    (VEHICLE_NUMBER,BARND,MODEL,FULE_TYPE,NIC_NUMBER)
                    VALUES (?,?,?,?,?)`;
-        db.query(q,[vehicleNumber,brand,model,fuleType,NICnumbe],(err,data) => {
+        db.query(q,[vehicleNumber,brand,model,fuleType,NICnumber],(err,data) => {
             if(err){
                 reject({message:"An error occurred!", error:err});
                 return;

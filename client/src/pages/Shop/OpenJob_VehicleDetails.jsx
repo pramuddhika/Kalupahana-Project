@@ -1,14 +1,13 @@
 import ShopHeader from "../components/ShopHeader";
 import register from '../assets/newVehicleAdd.svg';
-import { useState } from "react";
-import { useLocation,useNavigate } from "react-router-dom";
-import { validateHumanNIC } from '../Validation/InputFeilds.js';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
-import {validateContactNumber,validateHumanName,validateEmail} from '../Validation/InputFeilds.js';
+import { useState} from "react";
+import { useLocation,useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import {validateContactNumber,validateHumanName,validateEmail,validateHumanNIC} from '../Validation/InputFeilds.js';
 
 const OpenJob_VehicleDetails = () => {
 
@@ -19,6 +18,7 @@ const OpenJob_VehicleDetails = () => {
   const [vehicleNumber] = useState(location.state?.vehicleNumber);
   const [NICnumber,setNICnumber] = useState(location.state?.NICnumber);
   const [oldVehicle] = useState(location.state?.oldVehicle);
+  const [initNIC] =useState(location.state?.NICnumber);
 
   const [customerName,setCustomerName] = useState("");
   const [customerEmail,setCustomerEmail] = useState("");
@@ -31,7 +31,7 @@ const OpenJob_VehicleDetails = () => {
   const [newCustomer,setNewCustomer] = useState("");
 
   const navigate = useNavigate();
-  
+
   //fule type options
   const fuleTypes = [
     {value:'petrol', label:'Petrol'},
@@ -39,6 +39,7 @@ const OpenJob_VehicleDetails = () => {
     {value:'hybrid', label:'Hybrid'},
     {value:'eletric', label:'Eletric'}
   ]
+
   //get option value to the fule type
   const handleSeleteOption = (option) => {
     setSelectedFuleType(option);
@@ -64,10 +65,10 @@ const OpenJob_VehicleDetails = () => {
     setInitData("");
   }
   
-  //############ handle NIC search - check customer is new to system ###############################################
+  //handle NIC search - check customer is new to system 
   const handleNICNumber = async (e) => {
     e.preventDefault();
-    
+
     //validate NIC number
     const NICerror =  validateHumanNIC(NICnumber);
     if(NICerror){
@@ -89,6 +90,7 @@ const OpenJob_VehicleDetails = () => {
         },2000);
         return;
       }
+
       //if customer is not new 
       if(resCustomer.data.checkCustomer.length === 0){
         toast.error("Something wrong!");
@@ -109,11 +111,11 @@ const OpenJob_VehicleDetails = () => {
         setISOldCustomer(false);
         return;
       }
+
     }catch(err){
       toast.error(err.response.data.message);
     }
   }
-  //################################################################################################################
   
   //check customer details are change or not
   const checkDataChange = () => {
@@ -125,7 +127,7 @@ const OpenJob_VehicleDetails = () => {
   }
 
 
-  //######################## customer data handel ##################################################################
+  //customer data handel
   const handleCustomethOtherDetails = async (e) => {
     e.preventDefault();
 
@@ -147,13 +149,11 @@ const OpenJob_VehicleDetails = () => {
       return;
     }
 
-    console.log(oldVehicle,newCustomer,NICnumber);
-
-
     const result = checkDataChange();
+    //handel - [registered vehicle] - [registered customer]-[owner not change]
+    if(oldVehicle === "old" && newCustomer === "old" && (initNIC === NICnumber)){
 
-    if(oldVehicle === "old" && newCustomer === "old"){
-      //handel - [registered vehicle] - [registered customer](when customer data not change)
+      //when customer data not change
       if(result === "same"){
         toast.info("No changes to update!");
         setTimeout( ()=> {
@@ -162,26 +162,76 @@ const OpenJob_VehicleDetails = () => {
         },2500)
         return;
       }
-      //handel - [registered vehicle] - [registered customer](when customer data change)
+
+      //when customer data change
       else{
         try{
           const res = await axios.put('/api/openjob/updateCustomer',{customerName,customerEmail,customerPhoneNumber,NICnumber});
           toast.success(res.data.message);
+
+          setTimeout( ()=> {
+            handelClearData();
+            navigate("/shop/openJob/prerepair");
+          },2500)
+          return;
+
         }catch(err){
           toast.error(err.response.data.message);
         }
-        setTimeout( ()=> {
-          handelClearData();
-          navigate("/shop/openJob/prerepair");
-        },2500)
-        return;
       }
     }
-    //handel - [registered vehicle] - [not registered customer]
-    if( oldVehicle === "old" && newCustomer === "notOld"){
 
-       //register the new customer
-       try{
+    //handel - [registered vehicle] - [registered customer]-[owner change]
+    if(oldVehicle === "old" && newCustomer === "old" && (initNIC !== NICnumber)){
+      //when customer data not change
+      if(result === "same"){
+        //change ownership
+        try{
+          const owner = await  axios.put('/api/openjob/ownerChange', {NICnumber,vehicleNumber});
+          toast.success(owner.data.message);
+
+          setTimeout( ()=> {
+            handelClearData();
+            navigate("/shop/openJob/prerepair");
+          },2500)
+          return;
+
+        }catch(err){
+          toast.error(err.response.data);
+        }
+      }
+      //when customer data change
+      else{
+        //update customer data
+        try{
+          const res = await axios.put('/api/openjob/updateCustomer',{customerName,customerEmail,customerPhoneNumber,NICnumber});
+          toast.success(res.data.message);
+          
+          //change ownership
+          try{
+            const owner = await  axios.put('/api/openjob/ownerChange', {NICnumber,vehicleNumber});
+            toast.success(owner.data.message);
+  
+            setTimeout( ()=> {
+              handelClearData();
+              navigate("/shop/openJob/prerepair");
+            },2500)
+            return;
+  
+          }catch(err){
+            toast.error(err.response.data);
+          }
+        }catch(err){
+          toast.error(err.response.data.message);
+        }
+      }
+    }
+
+    //handel - [registered vehicle] - [not registered customer]
+    if( oldVehicle === "old" && newCustomer === "notOld"  && (initNIC === NICnumber)){
+
+      //register the new customer
+      try{
         const res = await axios.post('/api/openjob/registerCustomer', {customerName,customerEmail,customerPhoneNumber,NICnumber});
         toast.success(res.data.message);
 
@@ -199,29 +249,101 @@ const OpenJob_VehicleDetails = () => {
         }catch(err){
           toast.error(err.response.data);
         }
-       }catch(err){
+      }catch(err){
         toast.error(err.response.data);
-       }
       }
+    }
 
-      //handel - [not registered vehicle] - ( [registered customer] || [not registered customer])
-      if( oldVehicle === "notOld"){
-        setIsCustomerVisible(false);
-      }  
+    //handel - [not registered vehicle] - ( [registered customer] || [not registered customer])
+    if( oldVehicle === "notOld"){
+      setIsCustomerVisible(false);
+    }  
   }
-  //################################################################################################################
-
+  
+  //go back
   const handleCustomerDetailBack = () => {
     setISOldCustomer(true);
   }
 
-  const handleVehicleDetails = (e) => {
+  // vehicle data form inputs handels
+  const handleVehicleDetails = async(e) => {
     e.preventDefault();
-    console.log(customerName,customerEmail,customerPhoneNumber,NICnumber,vehicleNumber,model,brand,fuleType);
-    handelClearData();
-    console.log(customerName,customerEmail,customerPhoneNumber,NICnumber,vehicleNumber,model,brand,fuleType);
+
+    const result = checkDataChange();
+
+    //handel - [not registered vehicle] - [registered customer]
+    if( oldVehicle === "notOld" && newCustomer === "old"){
+
+      //handel - [not registered vehicle] - [registered customer](when customer data not change)
+      if(result === "same"){
+        
+        try{
+          const res = await axios.post('/api/openjob/registerVehicle',{vehicleNumber,brand,model,fuleType,NICnumber});
+          toast.success(res.data.message);
+  
+          setTimeout( ()=> {
+            handelClearData();
+            navigate("/shop/openJob/prerepair");
+          },2500)
+          return;
+  
+        }catch(err){
+          toast.error(err.response.data);
+        }
+      
+      //handel - [not registered vehicle] - [registered customer](when customer data change)  
+      }else{
+        //handel update customer data
+        try{
+          const res = await axios.put('/api/openjob/updateCustomer',{customerName,customerEmail,customerPhoneNumber,NICnumber});
+          toast.success(res.data.message);
+
+          //handel register vehicle
+          try{
+            await axios.post('/api/openjob/registerVehicle',{vehicleNumber,brand,model,fuleType,NICnumber});
+            toast.success("Vehicle Registered!");
+
+            setTimeout( ()=> {
+              handelClearData();
+              navigate("/shop/openJob/prerepair");
+            },2500)
+            return;
+
+          }catch(err){
+            toast.error(err.response.data);
+          }
+        }catch(err){
+          toast.error(err.response.data);
+        }
+      }
+    }
+
+    //handel - [not registered vehicle] - [not registered customer]
+    if( oldVehicle === "notOld" && newCustomer === "notOld"){
+      //register customer
+      try{
+        await axios.post('/api/openjob/registerCustomer', {customerName,customerEmail,customerPhoneNumber,NICnumber});
+        //register vehicle
+        try{
+          await axios.post('/api/openjob/registerVehicle',{vehicleNumber,brand,model,fuleType,NICnumber});
+          toast.success("Vehicle Registered!");
+
+          setTimeout( ()=> {
+            handelClearData();
+            navigate("/shop/openJob/prerepair");
+          },2500)
+          return;
+
+        }catch(err){
+          toast.error(err.response.data);
+        }
+      }catch(err){
+        toast.error(err.response.data);
+      }
+    }
   }
 
+  //go back
   const handleVehicleDetailsBack = () => {
     setIsCustomerVisible(true);
   }
@@ -247,44 +369,45 @@ const OpenJob_VehicleDetails = () => {
   </div>
   );
 
-  //get customer other detail
+  //get customer detail
   const otherDetails = (
-  <div className="card gap-12 box-content w-5/6 h-88 ">
-    <p className="topic ml-4 text-2xl mt-5">Customer Details</p>
+    <div className="card gap-12 box-content w-5/6 h-88 ">
+      <p className="topic ml-4 text-2xl mt-5">Customer Details</p>
 
-    <form className="p-4 mt-7">
+      <form className="p-4 mt-7">
 
-      <div className="flex justify-center items-center p-2 mt-3">
-        <div className="w-36 mainStyle"><p>Customer Name:</p></div>
-        <div className="basis-1/2">
-          <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={customerName} 
-          onChange={ (e)=> setCustomerName(e.target.value)} placeholder="Name here" maxLength={20}/>
+        <div className="flex justify-center items-center p-2 mt-3">
+          <div className="w-36 mainStyle"><p>Customer Name:</p></div>
+          <div className="basis-1/2">
+            <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={customerName} 
+            onChange={ (e)=> setCustomerName(e.target.value)} placeholder="Name here" maxLength={20}/>
+          </div>
         </div>
+
+        <div className="flex justify-center items-center p-2">
+          <div className="w-36 mainStyle"><p>Email:</p></div>
+          <div className="basis-1/2">
+            <input type="email" className="input rounded-lg ml-4 p-2 w-60" value={customerEmail} 
+            onChange={ (e)=> setCustomerEmail(e.target.value)} placeholder="Email here" maxLength={55}/>
+          </div>
+        </div>
+
+        <div className="flex justify-center items-center p-2">
+          <div className="w-36 mainStyle"><p>Contact Number:</p></div>
+          <div className="basis-1/2">
+            <input type="number" className="input rounded-lg ml-4 p-2 w-60" value={customerPhoneNumber}   
+            onChange={ (e)=> setCustomerPhoneNumber(e.target.value)} placeholder="07_ _ _ _ _ _ _ _" maxLength={10}/>
+          </div>
+        </div>
+
+      </form>
+
+      <div className="flex justify-center gap-6 mt-4 mb-4">
+        <button className="btn btn-warning" onClick={handleCustomerDetailBack}>Backr</button>
+        <button className="btn btn-normal px-5" onClick={handleCustomethOtherDetails}>Next</button>
       </div>
 
-      <div className="flex justify-center items-center p-2">
-        <div className="w-36 mainStyle"><p>Email:</p></div>
-        <div className="basis-1/2">
-          <input type="email" className="input rounded-lg ml-4 p-2 w-60" value={customerEmail} 
-          onChange={ (e)=> setCustomerEmail(e.target.value)} placeholder="Email here" maxLength={55}/>
-        </div>
-      </div>
-
-      <div className="flex justify-center items-center p-2">
-        <div className="w-36 mainStyle"><p>Contact Number:</p></div>
-        <div className="basis-1/2">
-          <input type="number" className="input rounded-lg ml-4 p-2 w-60" value={customerPhoneNumber}   
-          onChange={ (e)=> setCustomerPhoneNumber(e.target.value)} placeholder="07_ _ _ _ _ _ _ _" maxLength={10}/>
-        </div>
-      </div>
-
-    </form>
-
-    <div className="flex justify-center gap-6 mt-4 mb-4">
-      <button className="btn btn-warning" onClick={handleCustomerDetailBack}>Backr</button>
-      <button className="btn btn-normal px-5" onClick={handleCustomethOtherDetails}>Next</button>
     </div>
-  </div>
   );
 
   //controll customer data input forms
@@ -346,10 +469,9 @@ const OpenJob_VehicleDetails = () => {
     </div>
   );
 
-
   return (
     <div>
-      <ShopHeader pageName="New Vehicle Registration"/>
+      <ShopHeader pageName="Vehicle Information"/>
       <div className="h-9 bg-side-nav-bg border-b-2 "/>
 
       <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>

@@ -8,6 +8,7 @@ import { useState} from "react";
 import { useLocation,useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import {validateContactNumber,validateHumanName,validateEmail,validateHumanNIC} from '../Validation/InputFeilds.js';
+import {validateVehicleBrand,validateVehicleModel} from '../Validation/VehicleData.js';
 
 const OpenJob_VehicleDetails = () => {
 
@@ -131,21 +132,13 @@ const OpenJob_VehicleDetails = () => {
   const handleCustomethOtherDetails = async (e) => {
     e.preventDefault();
 
-    //validate iser inputs
+    //validate user inputs
     const nameError = validateHumanName(customerName);
     const emailError = validateEmail(customerEmail);
     const phoneError = validateContactNumber(customerPhoneNumber);
 
-    if(nameError){
-      toast.warning(nameError);
-      return;
-    }
-    if(emailError){
-      toast.warning(emailError);
-      return;
-    }
-    if(phoneError){
-      toast.warning(phoneError);
+    if(nameError || emailError || phoneError){
+      toast.warning(nameError || emailError || phoneError);
       return;
     }
 
@@ -270,6 +263,15 @@ const OpenJob_VehicleDetails = () => {
     e.preventDefault();
 
     const result = checkDataChange();
+
+    //validate user inputs
+    const modelError = validateVehicleModel(model);
+    const brandError = validateVehicleBrand(brand);
+
+    if(brandError || modelError){
+      toast.warning(brandError || modelError);
+      return;
+    }
 
     //handel - [not registered vehicle] - [registered customer]
     if( oldVehicle === "notOld" && newCustomer === "old"){

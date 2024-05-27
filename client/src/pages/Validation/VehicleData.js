@@ -39,3 +39,38 @@ export const validateVehicleFault = (vehicleFault) => {
 };
 //########################################################################
 
+//################## validate vehicle brand ##############################
+export const validateVehicleBrand  = (vehicleBrand) => {
+  const regexBrand = /^[a-zA-Z]*$/;
+
+  // Check if vehicleBrand is empty
+  if(!vehicleBrand.length){
+   return ("Vehicle brand can't be empty!");
+  }
+
+  // Check if vehicleBrand only contains letters
+  if(!regexBrand.test(vehicleBrand)){
+   return ("Vehicle brand should only contain letters");
+  }
+
+  return null;
+};
+//########################################################################
+
+//############### validate vehicle model #################################
+export const validateVehicleModel = (vehicleModel) => {
+  const regexModel = /^[a-zA-Z0-9]*$/;
+
+  // Check if vehicleModel is empty
+  if(!vehicleModel.length){
+   return ("Vehicle model can't be empty!");
+  }
+
+  // Check if vehicleModel only contains letters and numbers
+  if(!regexModel.test(vehicleModel)){
+   return ("Vehicle model should only contain letters and numbers");
+  }
+
+  return null;
+};
+//########################################################################

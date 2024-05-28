@@ -41,13 +41,6 @@ const Update_EditDetails = () => {
                     </div>
                  </div>
 
-                 <div className="flex justify-center p-2">
-                    <div className="basis-1/4"><p className="mt-3">Note:</p></div>
-                    <div className="basis-1/2">
-                      <textarea rows="5" className="input rounded-lg ml-4 p-2 w-60"/>
-                    </div>
-                 </div>
-
                </form>
               </div>
 

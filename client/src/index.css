@@ -5,6 +5,12 @@
 body {
   -webkit-text-size-adjust: 100%;
 }
+:root{
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; 
+}
 
 /*########################### remove number input up&don arrows html2canvas################*/
 /* Chrome, Safari, Edge, Opera */

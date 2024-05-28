@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useCallback } from "react";
 import ShopHeader from "../components/ShopHeader";
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
+import { useDropzone } from 'react-dropzone';
 
 const PreRepairAssessment = () => {
 
@@ -14,6 +15,7 @@ const PreRepairAssessment = () => {
   const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const [preDocId, setPreDocId] = useState(null);
   const [jobId,setJobId] = useState(null);
+  const [files, setFiles] = useState([]);
   const [additionalNote,setAdditionalNote] = useState('');
   const [vehicleFault,setVehicleFault] = useState('');
   const [otherItems,setOtherItems] = useState('');
@@ -50,6 +52,25 @@ const PreRepairAssessment = () => {
     fetchJobId();
   },[]);
 
+  const onDrop = useCallback(acceptedFiles => {
+    if (files.length + acceptedFiles.length > 10) {
+      alert('You can only upload up to 10 images.');
+      return;
+    }
+
+    setFiles(prev => [...prev, ...acceptedFiles.map(file => Object.assign(file, {
+      preview: URL.createObjectURL(file)
+    }))]);
+  }, [files]);
+
+  const {getRootProps, getInputProps} = useDropzone({onDrop, accept: 'image/*'});
+
+  const removeFile = file => () => {
+    const newFiles = [...files]; 
+    newFiles.splice(newFiles.indexOf(file), 1);
+    setFiles(newFiles);
+  };
+
   //handle check box selection
   const handleCheckboxChange = (e) => {
     setCheckList({
@@ -73,6 +94,7 @@ const PreRepairAssessment = () => {
     setOtherItems('');
     setAdditionalNote('');
     setVehicleFault('');
+    setFiles([]);
   }
 
   return (
@@ -195,11 +217,25 @@ const PreRepairAssessment = () => {
         </div>
 
         <div className="card w-10/12 p-2 mt-7">
-          <p className="topic my-3">Scratch marks in body</p>
-          <div className="flex">
-            <input type="file" className="input rounded-lg w-11/12 ml-9 mb-3"/>
-          </div>
+         <p className="topic my-3">Scratch marks in body</p>
+         <div {...getRootProps({className: 'dropzone'})}>
+         <input {...getInputProps()} />
+          <p>Drag  drop some files here, or click to select files</p>
+      
+          <aside>
+        <div className="flex flex-wrap">
+          {files.map(file => (
+            <div key={file.name} className="w-1/5 p-1">
+              <div className="flex flex-col justify-center items-center">
+                <img src={file.preview} alt="preview" className="img-thumbnail mt-2" height={200} width={200} />
+                <button onClick={removeFile(file)} className="btn btn-warning p-1">Remove</button>
+              </div>
+            </div>
+          ))}
         </div>
+      </aside>
+      </div>
+    </div>
 
         <div className="card w-10/12 p-2 mt-7">
           <p className="topic my-3">Vehicle fault</p>

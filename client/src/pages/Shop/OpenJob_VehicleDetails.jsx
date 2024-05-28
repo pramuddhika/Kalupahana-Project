@@ -70,7 +70,7 @@ const OpenJob_VehicleDetails = () => {
   const movingToDocument = () => {
     setTimeout( ()=> {
       handelClearData();
-      navigate("/shop/openJob/prerepair");
+      navigate("/shop/openJob/prerepair", {state:{vehicleNumber,customerName,customerEmail,customerPhoneNumber}});
     },2500)
     return;
   }

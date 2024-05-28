@@ -4,6 +4,7 @@ import SideNav from './pages/components/SideNav'
 import Web from './pages/Web/Web'
 import Login from './pages/Web/Login'
 import BookNow from './pages/Web/BookNow'
+import FeedbacksSheet from './pages/Web/Feedbacks'
 
 import Booking from './pages/Shop/Booking'
 import OpenJob from './pages/Shop/OpenJob'
@@ -48,6 +49,7 @@ const ShopLayout = () => {
 const router = createBrowserRouter([
   { path:'/',                element:<Web/>    },
   { path:'/login' ,          element:<Login/>  },
+  { path:'/feedback',        element:<FeedbacksSheet/>},
   { path:'/booknow',         element:<BookNow/>},
   { path: '/shop' ,          element:<ShopLayout/> ,  
     children:[

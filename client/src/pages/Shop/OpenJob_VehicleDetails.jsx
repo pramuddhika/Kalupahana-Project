@@ -65,6 +65,15 @@ const OpenJob_VehicleDetails = () => {
     setNewCustomer("");
     setInitData("");
   }
+
+  //moving pre-repair document
+  const movingToDocument = () => {
+    setTimeout( ()=> {
+      handelClearData();
+      navigate("/shop/openJob/prerepair");
+    },2500)
+    return;
+  }
   
   //handle NIC search - check customer is new to system 
   const handleNICNumber = async (e) => {
@@ -149,11 +158,7 @@ const OpenJob_VehicleDetails = () => {
       //when customer data not change
       if(result === "same"){
         toast.info("No changes to update!");
-        setTimeout( ()=> {
-          handelClearData();
-          navigate("/shop/openJob/prerepair");
-        },2500)
-        return;
+        movingToDocument();
       }
 
       //when customer data change
@@ -161,13 +166,7 @@ const OpenJob_VehicleDetails = () => {
         try{
           const res = await axios.put('/api/openjob/updateCustomer',{customerName,customerEmail,customerPhoneNumber,NICnumber});
           toast.success(res.data.message);
-
-          setTimeout( ()=> {
-            handelClearData();
-            navigate("/shop/openJob/prerepair");
-          },2500)
-          return;
-
+          movingToDocument();
         }catch(err){
           toast.error(err.response.data.message);
         }
@@ -182,13 +181,7 @@ const OpenJob_VehicleDetails = () => {
         try{
           const owner = await  axios.put('/api/openjob/ownerChange', {NICnumber,vehicleNumber});
           toast.success(owner.data.message);
-
-          setTimeout( ()=> {
-            handelClearData();
-            navigate("/shop/openJob/prerepair");
-          },2500)
-          return;
-
+          movingToDocument();
         }catch(err){
           toast.error(err.response.data);
         }
@@ -204,13 +197,7 @@ const OpenJob_VehicleDetails = () => {
           try{
             const owner = await  axios.put('/api/openjob/ownerChange', {NICnumber,vehicleNumber});
             toast.success(owner.data.message);
-  
-            setTimeout( ()=> {
-              handelClearData();
-              navigate("/shop/openJob/prerepair");
-            },2500)
-            return;
-  
+            movingToDocument();
           }catch(err){
             toast.error(err.response.data);
           }
@@ -232,13 +219,7 @@ const OpenJob_VehicleDetails = () => {
         try{
           const owner = await  axios.put('/api/openjob/ownerChange', {NICnumber,vehicleNumber});
           toast.success(owner.data.message);
-
-          setTimeout( ()=> {
-            handelClearData();
-            navigate("/shop/openJob/prerepair");
-          },2500)
-          return;
-
+          movingToDocument();
         }catch(err){
           toast.error(err.response.data);
         }
@@ -282,13 +263,7 @@ const OpenJob_VehicleDetails = () => {
         try{
           const res = await axios.post('/api/openjob/registerVehicle',{vehicleNumber,brand,model,fuleType,NICnumber});
           toast.success(res.data.message);
-  
-          setTimeout( ()=> {
-            handelClearData();
-            navigate("/shop/openJob/prerepair");
-          },2500)
-          return;
-  
+          movingToDocument();
         }catch(err){
           toast.error(err.response.data);
         }
@@ -304,13 +279,7 @@ const OpenJob_VehicleDetails = () => {
           try{
             await axios.post('/api/openjob/registerVehicle',{vehicleNumber,brand,model,fuleType,NICnumber});
             toast.success("Vehicle Registered!");
-
-            setTimeout( ()=> {
-              handelClearData();
-              navigate("/shop/openJob/prerepair");
-            },2500)
-            return;
-
+            movingToDocument();
           }catch(err){
             toast.error(err.response.data);
           }
@@ -329,13 +298,7 @@ const OpenJob_VehicleDetails = () => {
         try{
           await axios.post('/api/openjob/registerVehicle',{vehicleNumber,brand,model,fuleType,NICnumber});
           toast.success("Vehicle Registered!");
-
-          setTimeout( ()=> {
-            handelClearData();
-            navigate("/shop/openJob/prerepair");
-          },2500)
-          return;
-
+          movingToDocument();
         }catch(err){
           toast.error(err.response.data);
         }

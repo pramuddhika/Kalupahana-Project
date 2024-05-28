@@ -4,7 +4,10 @@ const Feedbacks = () => {
     return (
         <div>
             <ShopHeader pageName="Feedbacks"/>
-            feedbacks
+
+            
+             
+
         </div>
     );
 };

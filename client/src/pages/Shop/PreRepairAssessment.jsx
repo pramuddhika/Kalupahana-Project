@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShopHeader from "../components/ShopHeader";
 import { useLocation } from "react-router-dom";
+import axios from 'axios';
 
 const PreRepairAssessment = () => {
 
@@ -9,7 +10,10 @@ const PreRepairAssessment = () => {
   const [customerName] = useState(location.state?.customerName);
   const [customerEmail] = useState(location.state?.customerEmail);
   const [customerPhoneNumber] = useState(location.state?.customerPhoneNumber);
-
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const [preDocId, setPreDocId] = useState(null);
+  const [jobId,setJobId] = useState(null);
   const [additionalNote,setAdditionalNote] = useState('');
   const [vehicleFault,setVehicleFault] = useState('');
   const [otherItems,setOtherItems] = useState('');
@@ -20,6 +24,31 @@ const PreRepairAssessment = () => {
     toolBox:"no",
     jumperCable:"no"
   });
+
+  //fetch pre-repair-documet id
+  const fetchPreRepaitDocId =  async() => {
+    try{
+      const docId = await axios.get('/api/openjob/generatePreRepairId');
+      setPreDocId(docId.data.PreRepairDocumentId);
+    }catch(err){
+      console.log('Error fetching data:',err);
+    }
+  };
+
+  //fetch Job id
+  const fetchJobId =  async() => {
+    try{
+      const docId = await axios.get('/api/openjob/generateJobId');
+      setJobId(docId.data.JobId);
+    }catch(err){
+      console.log('Error fetching data:',err);
+    }
+  };
+
+  useEffect ( () => {
+    fetchPreRepaitDocId();
+    fetchJobId();
+  },[]);
 
   //handle check box selection
   const handleCheckboxChange = (e) => {
@@ -34,7 +63,8 @@ const PreRepairAssessment = () => {
     e.preventDefault();
 
     // console.log(additionalNote,vehicleFault,otherItems);
-     console.log(checkList);
+    //  console.log(checkList);
+    console.log(preDocId,dateString,jobId)
   }
 
   //handle data clear
@@ -58,19 +88,19 @@ const PreRepairAssessment = () => {
 
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Vehicle Number: </p>
-              <input className="input rounded-lg w-60 p-1" value={vehicleNumber} readOnly/>
+              <input className="input rounded-lg w-60 p-1 pl-3" value={vehicleNumber} readOnly/>
             </div>
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Customer Name: </p>
-              <input className="input rounded-lg w-60 p-1" value={customerName} readOnly/>
+              <input className="input rounded-lg w-60 p-1 pl-3" value={customerName} readOnly/>
             </div>
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Customer Email: </p>
-              <input className="input rounded-lg w-60 p-1" value={customerEmail} readOnly/>
+              <input className="input rounded-lg w-60 p-1 pl-3" value={customerEmail} readOnly/>
             </div>
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Phone Number: </p>
-              <input className="input rounded-lg w-60 p-1" value={customerPhoneNumber} readOnly/>
+              <input className="input rounded-lg w-60 p-1 pl-3" value={customerPhoneNumber} readOnly/>
             </div>
 
           </div>
@@ -79,15 +109,15 @@ const PreRepairAssessment = () => {
 
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Document Number: </p>
-              <input className="input rounded-lg w-60 p-1" readOnly/>
+              <input className="input rounded-lg w-60 p-1 text-center" value={preDocId} readOnly/>
             </div>
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Repair Job Number: </p>
-              <input className="input rounded-lg w-60 p-1" readOnly/>
+              <input className="input rounded-lg w-60 p-1 text-center" value={jobId} readOnly/>
             </div>
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Date : </p>
-              <input className="input rounded-lg w-60 p-1" readOnly/>
+              <input className="input rounded-lg w-60 p-1 text-center" value={dateString} readOnly/>
             </div>
 
           </div>

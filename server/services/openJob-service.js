@@ -168,3 +168,55 @@ export const ownerChangeService = async (NICnumber,vehicleNumber) => {
     })
 }
 //######################## vehicle ownerShip change - end    #################################
+
+//#################### generate pre repair document id - start ###############################
+export const generatePreRepairDocumentIdService = () => {
+    return new Promise((resolve, reject) => {
+      const q = 'SELECT MAX(DOCUMENT_ID) as maxId FROM pre_repair_document';
+      db.query(q, (err, data) => {
+        if (err) {
+          reject({ message: "An error occurred!", error: err });
+          return;
+        }
+  
+        const maxId = data[0].maxId;
+        let newId;
+  
+        if (maxId) {
+          const numericPart = parseInt(maxId.split('-')[2], 10);
+          const newNumericPart = String(numericPart + 1).padStart(7, '0');
+          newId = `PRE-DOC-${newNumericPart}`;
+        } else {
+          newId = 'PRE-DOC-0000001';
+        }
+        resolve({PreRepairDocumentId: newId });
+      });
+    });
+  }
+  //#################### generate pre repair document id - end   ###############################
+
+  //#################### generate repair job document id - start ###############################
+export const generateJobIdService = () => {
+    return new Promise((resolve, reject) => {
+      const q = 'SELECT MAX(JOB_ID) as maxJobId FROM records';
+      db.query(q, (err, data) => {
+        if (err) {
+          reject({ message: "An error occurred!", error: err });
+          return;
+        }
+  
+        const maxJobId = data[0].maxJobId;
+        let newId;
+  
+        if (maxJobId) {
+          const numericPart = parseInt(maxJobId.split('-')[2], 10);
+          const newNumericPart = String(numericPart + 1).padStart(7, '0');
+          newId = `RJN-${newNumericPart}`;
+        } else {
+          newId = 'RJN-0000001';
+        }
+        resolve({JobId: newId });
+      });
+    });
+  }
+  //#################### generate repair job document id - end   ###############################

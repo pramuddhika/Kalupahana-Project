@@ -5,7 +5,9 @@ import {checkBookingController,
         customerDataUpdateController,
         customerRegisterController,
         vehicleRegisterController,
-        ownerChangeController} from '../controllers/openJob-controller.js';
+        ownerChangeController,
+        generatePreRepairDocumentIdController,
+        generateJobIdController} from '../controllers/openJob-controller.js';
 
 
 const router = express.Router();
@@ -24,6 +26,10 @@ router.post('/registerCustomer', customerRegisterController);
 router.post('/registerVehicle', vehicleRegisterController);
 //change vehicle owner  data
 router.put('/ownerChange', ownerChangeController);
+// generate pre-repair document  id
+router.get('/generatePreRepairId', generatePreRepairDocumentIdController);
+// generate job id
+router.get('/generateJobId', generateJobIdController);
 
 
 export default router;

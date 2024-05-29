@@ -14,7 +14,8 @@ import {checkBookingController,
         addRecordDataController,
         addPreRepairDataController,
         addOtherItemsDataController,
-        addImagesDataController
+        addImagesDataController,
+        checkVehicleReopeningJobController
        } from '../controllers/openJob-controller.js';
 
 
@@ -53,6 +54,8 @@ router.put('/ownerChange', ownerChangeController);
 router.get('/generatePreRepairId', generatePreRepairDocumentIdController);
 //generate job id
 router.get('/generateJobId', generateJobIdController);
+//check vehicle do not have not close record
+router.get('/checkVehicleReopeningJob/:vehicleNumber' , checkVehicleReopeningJobController);
 
 
 //add data to pre-repair document

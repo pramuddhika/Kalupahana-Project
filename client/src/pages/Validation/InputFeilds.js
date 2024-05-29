@@ -20,7 +20,7 @@ export const validateInputField = (inputValue) => {
   const emptyFieldRegex = /^\s*$/;
 
   if (emptyFieldRegex.test(inputValue)) {
-    return 'All fields required!';
+    return 'required!';
   }
 
   return null;
@@ -75,4 +75,23 @@ export const validateEmail = (email) => {
   return null;
 }
 //####################################################################
+
+//############### handle file selection #################################
+export const validateFileType = (files) => {
+  const acceptedFileTypes = /(\.jpg|\.jpeg|\.png)$/i;
+  const invalidFiles = [];
+
+  files.forEach(file => {
+    if (!acceptedFileTypes.exec(file.name)) {
+        invalidFiles.push(file.name);
+    }
+  });
+
+  if (invalidFiles.length > 0) {
+    return ("Suported for only .jpg, .jpeg & .png");
+  }
+
+return null;
+}
+//#######################################################################
   

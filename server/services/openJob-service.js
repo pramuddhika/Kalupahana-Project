@@ -1,4 +1,6 @@
+import { resolve } from 'path';
 import {db} from '../.env';
+import { rejects } from 'assert';
 
 //############## check vehicle is online book vechicle or not ########################
 export const  checkBookingService = async(jobOpenNumber) => {
@@ -222,6 +224,27 @@ export const generateJobIdService = () => {
   );
 }
 //#################### generate repair job document id - end   ###############################
+
+//################### check vehicle not have open job - start #####################################
+export const checkVehicleReopeningJobService = async(vehicleNumber) => {
+    return new Promise( (resolve,reject) => {
+
+        const q = `SELECT * FROM records
+                   WHERE VEHICLE_NUMBER = ? AND END_DATE IS NULL`
+        
+        db.query(q,[vehicleNumber], (err,data) => {
+            if(err){
+                reject({message:err})
+            }else if (data.length === 0){
+                resolve({message:"NO JOB"});
+            }else{
+                resolve({message:"ONGOING"})
+            }
+        })
+    })
+}
+//################### check vehicle not have open job - end   #####################################
+
 
 
 

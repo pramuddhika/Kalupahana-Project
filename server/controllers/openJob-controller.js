@@ -10,7 +10,8 @@ import {checkBookingService,
         addRecordDataService,
         addPreRepairDataService,
         addOtherItemsDataService,
-        addImagesDataService
+        addImagesDataService,
+        checkVehicleReopeningJobService
     } from '../services/openJob-service.js';
 
 //################# before open job check vehicle is booked one - start ###################
@@ -124,6 +125,21 @@ export const generateJobIdController = async(req,res) => {
 }
 //#################### generate repair job id - end   ###############################
 
+//################### check vehicle not have open job - start #####################################
+export const checkVehicleReopeningJobController = async(req,res) => {
+    const{vehicleNumber} = req.params;
+    
+    try{
+        const data = await checkVehicleReopeningJobService(vehicleNumber);
+        return res.status(200).json(data);
+    }catch(err){
+        console.log(err.message)
+        return res.status(500).json("Server side error!");
+    }
+}
+//################### check vehicle not have open job - end   #####################################
+
+
 
 
 //################### add data to pre-repair   - start ##############################
@@ -155,7 +171,6 @@ export const addOtherItemsDataController = async (req, res) => {
         return res.status(500).json("Server side error!");
     }
 }
-
 //################### add data to check list tabel - end   ##############################
 
 //################### add data to scrath mark table - start ##############################

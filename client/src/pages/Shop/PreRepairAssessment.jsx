@@ -6,6 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import {XCircleIcon} from '@heroicons/react/24/solid';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import {validateInputField,validateFileType} from '../Validation/InputFeilds';
 
 
 const PreRepairAssessment = () => {
@@ -86,6 +87,30 @@ const PreRepairAssessment = () => {
   //handle data submit
   const handleDataSubmit = async(e) => {
     e.preventDefault();
+    
+    const emptyFaultError = validateInputField(vehicleFault);
+    const ImageError      =  validateFileType(files);
+
+    //handle imge inputs
+    if(ImageError){
+      toast.warning(ImageError);
+      return;
+    }
+    //handle vehicle fault
+    if(emptyFaultError){
+      toast.warning("Vehicle fault is required!");
+      return;
+    }
+
+    //check vehicle has open job or not
+    try{
+      const res = await axios.get(`/api/openjob/checkVehicleReopeningJob/${vehicleNumber}`);
+      if(res.data.message === "ONGOING")
+        toast.warning("This vehicle has ongoing job.")
+      return;
+    }catch(err){
+      console.log("Error:",err);
+    }
 
     
     //create pre-repair document
@@ -283,7 +308,7 @@ const PreRepairAssessment = () => {
           <div className="flex justify-center">
             <div {...getRootProps()} className="w-11/12 min-h-32 border-dashed border-2 border-gray-400 mb-3">
               <input {...getInputProps()} style={{ display: 'none' }} />
-              {files.length === 0 && <p className="text-center text-gray-500 mt-12">Drag & drop images here, or click to select files</p>}
+              {files.length === 0 && <p className="text-center text-gray-500 mt-12">Drag & drop images here, or click to select images</p>}
              <aside>
                <div className="flex flex-wrap">
                  {files.map(file => (

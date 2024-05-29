@@ -223,6 +223,68 @@ export const generateJobIdService = () => {
 }
 //#################### generate repair job document id - end   ###############################
 
+
+
+//################### add data to pre-repair   - start #######################################
+export const addPreRepairDataService = async (preDocId,vehicleFault,additionalNote,spareTire,tireJack,lugWrench,toolBox,jumperCable) => {
+    return new Promise( (resolve,reject) => {
+        
+        const q = `INSERT INTO pre_repair_document
+                   (DOCUMENT_ID,VEHICLE_FAULT,ADDITIONAL_NOTE,SPARE_TIRE,TIRE_JACK,LUG_WRENCH,TOOL_BOX,JUMPER_CABLES)
+                   VALUES (?,?,?,?,?,?,?,?)`;
+                   
+        db.query(q,[preDocId,vehicleFault,additionalNote,spareTire,tireJack,lugWrench,toolBox,jumperCable],(err,data) => {
+            if(err){
+                reject({err});
+                return;
+            }else{ 
+                resolve({message:"data added!"});
+                return;
+            }
+        })
+    })
+}
+//################### add data to pre-repair   - end   #######################################
+
+//################### add data to check list tabel - start ###################################
+export const addOtherItemsDataService = (preDocId, item) => {
+    return new Promise((resolve, reject) => {
+        const query = `INSERT INTO check_list (PREREPAIR_DOC_ID, ITEM_NAME) VALUES (?, ?)`;
+
+        db.query(query, [preDocId, item], (err, results) => {
+            if (err) {
+                console.error("Database query error:", err);
+                reject({ message: "Database query error", error: err });
+            } else {
+                resolve({ message: "Item added successfully", item });
+            }
+        });
+    });
+}
+
+//################### add data to check list tabel - end   ###################################
+
+//################### add data to scrath mark table - start ##################################
+export const  addImagesDataService = (preDocId, images) => {
+    return new Promise((resolve, reject) => {
+
+        const q = `INSERT INTO scratch_marks 
+                   (PREREPAIR_DOC_ID, IMAGE) 
+                   VALUES ?`;
+
+        const values = images.map(image => [preDocId, image]);
+        db.query(q, [values], (err, data) => {
+            if (err) {
+                reject({err});
+            } else {
+                resolve({message:"added!"});
+            }
+        });
+    });
+}
+//################### add data to scrath mark table - end   ##################################
+
+
 //################### add data to record table - start  ######################################
 export const addRecordDataService = async (jobId,vehicleNumber,dateString,preDocId) => {
     return new Promise( (resolve,reject) => {

@@ -7,7 +7,11 @@ import {checkBookingService,
         ownerChangeService,
         generatePreRepairDocumentIdService,
         generateJobIdService,
-        addRecordDataService} from '../services/openJob-service.js';
+        addRecordDataService,
+        addPreRepairDataService,
+        addOtherItemsDataService,
+        addImagesDataService
+    } from '../services/openJob-service.js';
 
 //################# before open job check vehicle is booked one - start ###################
 export const checkBookingController = async(req,res) => {
@@ -119,6 +123,54 @@ export const generateJobIdController = async(req,res) => {
     }
 }
 //#################### generate repair job id - end   ###############################
+
+
+
+//################### add data to pre-repair   - start ##############################
+export const addPreRepairDataController = async(req,res) => {
+    const {preDocId,vehicleFault,additionalNote,checkList} = req.body;
+    const {spareTire, tireJack, lugWrench, toolBox, jumperCable} = checkList;
+    
+    try{
+        const data = await addPreRepairDataService(preDocId,vehicleFault,additionalNote,spareTire,tireJack,lugWrench,toolBox,jumperCable);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json("Server side error!");
+    }
+}
+//################### add data to pre-repair   - end   ##############################
+
+//################### add data to check list tabel - start ##############################
+export const addOtherItemsDataController = async (req, res) => {
+    const { preDocId, otherItems } = req.body;
+
+    const items = otherItems.split(',').map(item => item.trim()).filter(item => item.length > 0);
+
+    try {
+        const promises = items.map(item => addOtherItemsDataService(preDocId, item));
+        const data = await Promise.all(promises);
+        return res.status(200).json(data);
+    } catch (err) {
+        console.error("Error adding other items data:", err);
+        return res.status(500).json("Server side error!");
+    }
+}
+
+//################### add data to check list tabel - end   ##############################
+
+//################### add data to scrath mark table - start ##############################
+export const addImagesDataController = async(req,res) => {
+    const {preDocId} = req.body;
+    
+    try {
+        const images = req.files.map(file => file.filename);
+        await addImagesDataService(preDocId, images);
+        return res.status(200).json(data);
+    } catch (err) {
+        return res.status(500).json("Server side error");
+    }
+}
+//################### add data to scrath mark table - end   ##############################
 
 //################### add data to record table - start ##############################
 export const addRecordDataController = async(req,res) => {

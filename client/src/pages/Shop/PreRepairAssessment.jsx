@@ -87,17 +87,54 @@ const PreRepairAssessment = () => {
   const handleDataSubmit = async(e) => {
     e.preventDefault();
 
-    // console.log(additionalNote,vehicleFault,otherItems);
-    //  console.log(checkList);
-    // console.log(preDocId,dateString,jobId)
+    
+    //create pre-repair document
+    try{
+     await axios.post('/api/openjob/addPreRepairData', {preDocId,vehicleFault,additionalNote,checkList});
 
-    //data data to records table
-    // try{
-    //   const res = await axios.post('/api/openjob/addRecordData', {jobId,vehicleNumber,dateString,preDocId});
-    //   console.log(res.data.message)
-    // }catch(err){
-    //   console.log(err)
-    // }
+     //if other items are available add them to db 
+     if(otherItems.length !== 0 ){
+       try{
+         await axios.post('/api/openjob/addOtherItemsData', {preDocId,otherItems})
+       }catch(err){
+         console.log("Error in adding other items:",err);
+         toast.error("An error occurs!");
+         return;
+       }
+     }
+
+     // if images are selected do image update
+     if(files.length !== 0 ){
+        try {
+          const formData = new FormData();
+          formData.append('preDocId', preDocId);
+          files.forEach(file => {formData.append('images', file);});
+          await axios.post('/api/openjob/addImagesData', formData, {
+            headers: {'Content-Type': 'multipart/form-data'}});
+        }catch (err) {
+          console.log("Error in images uploading:",err);
+          toast.error("An error occurs!");
+          return;
+        }
+      }
+
+      // add job data to record table
+      try{
+        await axios.post('/api/openjob/addRecordData', {jobId,vehicleNumber,dateString,preDocId});
+        
+        //call modal here
+
+      }catch(err){
+        console.log("Error in open record :",err)
+        toast.error("An error occurs!");
+        return;
+      }
+
+    }catch(err){
+      console.log("Error in pre-repair document data entering:",err);
+      toast.error("An error occurs!");
+      return;
+    }
   }
 
   //handle data clear

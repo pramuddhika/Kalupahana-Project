@@ -1,4 +1,7 @@
 import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 import {checkBookingController,
         checkRegisteredVehicleController,
         checkCustomerController,
@@ -8,10 +11,29 @@ import {checkBookingController,
         ownerChangeController,
         generatePreRepairDocumentIdController,
         generateJobIdController,
-        addRecordDataController} from '../controllers/openJob-controller.js';
+        addRecordDataController,
+        addPreRepairDataController,
+        addOtherItemsDataController,
+        addImagesDataController
+       } from '../controllers/openJob-controller.js';
+
 
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+   destination: (req, file, cb) => {
+     cb(null, 'images');
+   },
+     filename: (req, file, cb) => {
+     const uniqueName = `${file.fieldname}_${uuidv4()}${path.extname(file.originalname)}`;
+     cb(null, uniqueName);
+   }
+});
+    
+const upload = multer({
+    storage: storage 
+});
 
 //check vehicle is in booking table or not
 router.put('/checkbooking', checkBookingController);
@@ -32,6 +54,13 @@ router.get('/generatePreRepairId', generatePreRepairDocumentIdController);
 //generate job id
 router.get('/generateJobId', generateJobIdController);
 
+
+//add data to pre-repair document
+router.post('/addPreRepairData', addPreRepairDataController);
+//add data to check list tabel
+ router.post('/addOtherItemsData', addOtherItemsDataController);
+//add imges to scrath mark table
+router.post('/addImagesData' , upload.array('images'), addImagesDataController);
 //add data to the record table
 router.post('/addRecordData' , addRecordDataController);
 

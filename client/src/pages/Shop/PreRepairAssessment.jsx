@@ -103,7 +103,7 @@ const PreRepairAssessment = () => {
        }
      }
 
-     // if images are selected do image update
+     // if images are selected, do image update
      if(files.length !== 0 ){
         try {
           const formData = new FormData();
@@ -121,7 +121,7 @@ const PreRepairAssessment = () => {
       // add job data to record table
       try{
         await axios.post('/api/openjob/addRecordData', {jobId,vehicleNumber,dateString,preDocId});
-        
+        toast.success("done")
         //call modal here
 
       }catch(err){

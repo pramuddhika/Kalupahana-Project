@@ -164,10 +164,10 @@ export const addImagesDataController = async(req,res) => {
     
     try {
         const images = req.files.map(file => file.filename);
-        await addImagesDataService(preDocId, images);
+        const data = await addImagesDataService(preDocId, images);
         return res.status(200).json(data);
     } catch (err) {
-        return res.status(500).json("Server side error");
+        return res.status(500).json(err.message);
     }
 }
 //################### add data to scrath mark table - end   ##############################

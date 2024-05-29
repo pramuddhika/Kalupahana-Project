@@ -275,7 +275,7 @@ export const  addImagesDataService = (preDocId, images) => {
         const values = images.map(image => [preDocId, image]);
         db.query(q, [values], (err, data) => {
             if (err) {
-                reject({err});
+                reject(err);
             } else {
                 resolve({message:"added!"});
             }

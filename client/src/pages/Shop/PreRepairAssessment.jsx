@@ -84,12 +84,20 @@ const PreRepairAssessment = () => {
   };
 
   //handle data submit
-  const handleDataSubmit = (e) => {
+  const handleDataSubmit = async(e) => {
     e.preventDefault();
 
     // console.log(additionalNote,vehicleFault,otherItems);
     //  console.log(checkList);
-    console.log(preDocId,dateString,jobId)
+    // console.log(preDocId,dateString,jobId)
+
+    //data data to records table
+    // try{
+    //   const res = await axios.post('/api/openjob/addRecordData', {jobId,vehicleNumber,dateString,preDocId});
+    //   console.log(res.data.message)
+    // }catch(err){
+    //   console.log(err)
+    // }
   }
 
   //handle data clear

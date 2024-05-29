@@ -6,7 +6,8 @@ import {checkBookingService,
         vehicleRegisterService,
         ownerChangeService,
         generatePreRepairDocumentIdService,
-        generateJobIdService} from '../services/openJob-service.js';
+        generateJobIdService,
+        addRecordDataService} from '../services/openJob-service.js';
 
 //################# before open job check vehicle is booked one - start ###################
 export const checkBookingController = async(req,res) => {
@@ -118,3 +119,16 @@ export const generateJobIdController = async(req,res) => {
     }
 }
 //#################### generate repair job id - end   ###############################
+
+//################### add data to record table - start ##############################
+export const addRecordDataController = async(req,res) => {
+    const {jobId,vehicleNumber,dateString,preDocId} = req.body;
+
+    try{
+        const data = await addRecordDataService(jobId,vehicleNumber,dateString,preDocId);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json("Server side error!");
+    }
+}
+//################### add data to record table - end   ##############################

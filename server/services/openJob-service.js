@@ -191,11 +191,12 @@ export const generatePreRepairDocumentIdService = () => {
         }
         resolve({PreRepairDocumentId: newId });
       });
-    });
-  }
-  //#################### generate pre repair document id - end   ###############################
+    }
+  );
+}
+//#################### generate pre repair document id - end   ###############################
 
-  //#################### generate repair job document id - start ###############################
+//#################### generate repair job document id - start ###############################
 export const generateJobIdService = () => {
     return new Promise((resolve, reject) => {
       const q = 'SELECT MAX(JOB_ID) as maxJobId FROM records';
@@ -217,6 +218,28 @@ export const generateJobIdService = () => {
         }
         resolve({JobId: newId });
       });
-    });
-  }
-  //#################### generate repair job document id - end   ###############################
+    }
+  );
+}
+//#################### generate repair job document id - end   ###############################
+
+//################### add data to record table - start  ######################################
+export const addRecordDataService = async (jobId,vehicleNumber,dateString,preDocId) => {
+    return new Promise( (resolve,reject) => {
+        
+        const q = `INSERT INTO records
+                   (JOB_ID,VEHICLE_NUMBER,START_DATE,PRE_REPAIR_DOC_ID)
+                   VALUES (?,?,?,?)`;
+                   
+        db.query(q,[jobId,vehicleNumber,dateString,preDocId],(err,data) => {
+            if(err){
+                reject({err});
+                return;
+            }else{ 
+                resolve({message:"data added!"});
+                return;
+            }
+        })
+    })
+}
+//################### add data to record table - end    ######################################

@@ -7,7 +7,8 @@ import {checkBookingController,
         vehicleRegisterController,
         ownerChangeController,
         generatePreRepairDocumentIdController,
-        generateJobIdController} from '../controllers/openJob-controller.js';
+        generateJobIdController,
+        addRecordDataController} from '../controllers/openJob-controller.js';
 
 
 const router = express.Router();
@@ -26,10 +27,13 @@ router.post('/registerCustomer', customerRegisterController);
 router.post('/registerVehicle', vehicleRegisterController);
 //change vehicle owner  data
 router.put('/ownerChange', ownerChangeController);
-// generate pre-repair document  id
+//generate pre-repair document  id
 router.get('/generatePreRepairId', generatePreRepairDocumentIdController);
-// generate job id
+//generate job id
 router.get('/generateJobId', generateJobIdController);
+
+//add data to the record table
+router.post('/addRecordData' , addRecordDataController);
 
 
 export default router;

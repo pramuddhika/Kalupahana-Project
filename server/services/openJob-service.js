@@ -211,9 +211,9 @@ export const generateJobIdService = () => {
         if (maxJobId) {
           const numericPart = parseInt(maxJobId.split('-')[2], 10);
           const newNumericPart = String(numericPart + 1).padStart(7, '0');
-          newId = `RJN-${newNumericPart}`;
+          newId = `KM-JN-${newNumericPart}`;
         } else {
-          newId = 'RJN-0000001';
+          newId = 'KM-JN-0000001';
         }
         resolve({JobId: newId });
       });

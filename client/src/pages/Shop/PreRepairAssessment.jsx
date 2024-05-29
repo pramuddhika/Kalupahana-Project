@@ -3,6 +3,10 @@ import ShopHeader from "../components/ShopHeader";
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
+import {XCircleIcon} from '@heroicons/react/24/solid';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const PreRepairAssessment = () => {
 
@@ -51,20 +55,20 @@ const PreRepairAssessment = () => {
     fetchPreRepaitDocId();
     fetchJobId();
   },[]);
-
+  
+  //handle image upload
   const onDrop = useCallback(acceptedFiles => {
     if (files.length + acceptedFiles.length > 10) {
-      alert('You can only upload up to 10 images.');
+      toast.warning('You can only upload up to 10 images.');
       return;
     }
-
     setFiles(prev => [...prev, ...acceptedFiles.map(file => Object.assign(file, {
       preview: URL.createObjectURL(file)
     }))]);
   }, [files]);
 
   const {getRootProps, getInputProps} = useDropzone({onDrop, accept: 'image/*'});
-
+  
   const removeFile = file => () => {
     const newFiles = [...files]; 
     newFiles.splice(newFiles.indexOf(file), 1);
@@ -101,6 +105,9 @@ const PreRepairAssessment = () => {
     <div>
       <ShopHeader pageName="Pre-repair Assessment"/>
       <div className="h-9 bg-side-nav-bg border-b-2 "/>
+
+      <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+
         
       <div className="flex flex-col items-center justify-center mt-7">
         
@@ -201,8 +208,12 @@ const PreRepairAssessment = () => {
             <div className="w-1/2">
               <p className="mainStyle mb-1">Other items:</p>
               <div className="relative font-inter">
-                <textarea rows={3} className=" w-10/12 ml-10 rounded-lg input p-2" value={otherItems} onChange={ (e)=> setOtherItems(e.target.value)} maxLength={100} placeholder="Separate each item by a comma(,)"/>
-                <div className="absolute bottom-2 right-14 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">{otherItems.length}/100</div>
+                <textarea rows={3} className=" w-10/12 ml-10 rounded-lg input p-2" 
+                value={otherItems} onChange={ (e)=> setOtherItems(e.target.value)} maxLength={100} 
+                placeholder="Separate each item by a comma(,)"/>
+                <div className="absolute bottom-2 right-14 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">
+                 {otherItems.length}/100
+                </div>
               </div>
             </div>
           </div>
@@ -211,31 +222,40 @@ const PreRepairAssessment = () => {
         <div className="card w-10/12 p-2 mt-7">
           <p className="topic my-3">Additional note</p>
           <div className="relative flex justify-center">
-            <textarea rows={3} className="input rounded-lg w-11/12 mb-3 p-2" maxLength={200} placeholder="Not essential" value={additionalNote} onChange={ (e) => setAdditionalNote(e.target.value)}/>
-            <div className="absolute bottom-3 right-12 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">{additionalNote.length}/200</div>
+            <textarea rows={3} className="input rounded-lg w-11/12 mb-3 p-2" maxLength={200} placeholder="Not essential" 
+            value={additionalNote} onChange={ (e) => setAdditionalNote(e.target.value)}/>
+            <div className="absolute bottom-3 right-12 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">
+             {additionalNote.length}/200
+            </div>
           </div>
         </div>
 
         <div className="card w-10/12 p-2 mt-7">
-         <p className="topic my-3">Scratch marks in body</p>
-         <div {...getRootProps({className: 'dropzone'})}>
-         <input {...getInputProps()} />
-          <p>Drag  drop some files here, or click to select files</p>
-      
-          <aside>
-        <div className="flex flex-wrap">
-          {files.map(file => (
-            <div key={file.name} className="w-1/5 p-1">
-              <div className="flex flex-col justify-center items-center">
-                <img src={file.preview} alt="preview" className="img-thumbnail mt-2" height={200} width={200} />
-                <button onClick={removeFile(file)} className="btn btn-warning p-1">Remove</button>
-              </div>
-            </div>
-          ))}
+          <div className="flex items-center gap-3">
+            <p className="topic my-3">Scratch marks in body</p>
+            <p className="text-gray-500">{files.length}/10</p>
+          </div>
+          <div className="flex justify-center">
+            <div {...getRootProps()} className="w-11/12 min-h-32 border-dashed border-2 border-gray-400 mb-3">
+              <input {...getInputProps()} style={{ display: 'none' }} />
+              {files.length === 0 && <p className="text-center text-gray-500 mt-12">Drag & drop images here, or click to select files</p>}
+             <aside>
+               <div className="flex flex-wrap">
+                 {files.map(file => (
+                   <div key={file.name} className="w-1/5 p-1">
+                     <div className="relative">
+                       <img src={file.preview} alt="preview" className="img-thumbnail mt-2"  width={200} />
+                       <button onClick={removeFile(file)} className="absolute top-0 right-0">
+                         <XCircleIcon className="h-9 bg-red-600 p-1 text-white rounded-xl"/>
+                       </button>
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </aside>
+           </div>
+         </div>
         </div>
-      </aside>
-      </div>
-    </div>
 
         <div className="card w-10/12 p-2 mt-7">
           <p className="topic my-3">Vehicle fault</p>

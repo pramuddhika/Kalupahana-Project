@@ -32,32 +32,31 @@ const MechanicsUpdate = () => {
   });
   
   // Fetch mechanic specialist area to the select list
-  const fetchMechanicSpecialistArea = async () => {
-    try {
-      const res = await axios.get('/api/settings/getlist');
-      setMechanicsList(res.data);
-      //main area create as editabke
-      if (selectedRow?.mainArea) {
-        const initialMainArea = res.data.find(list => list.area === selectedRow.mainArea);
-        if (initialMainArea) {
-          setMainAreaOption({ value: initialMainArea.area, label: initialMainArea.area });
-        }
-      }
-      //sub area create as editable
-      if (selectedRow?.subArea) {
-        const initialSubArea = res.data.find(list => list.area === selectedRow.subArea);
-        if (initialSubArea) {
-          setSubAreaOption({ value: initialSubArea.area, label: initialSubArea.area });
-        }
-      }
-    }catch (err) {
-      console.log('Error of fetching data: ', err);
-    }
-  }
-
   useEffect(() => {
+    const fetchMechanicSpecialistArea = async () => {
+      try {
+        const res = await axios.get('/api/settings/getlist');
+        setMechanicsList(res.data);
+        //main area create as editabke
+        if (selectedRow?.mainArea) {
+          const initialMainArea = res.data.find(list => list.area === selectedRow.mainArea);
+          if (initialMainArea) {
+            setMainAreaOption({ value: initialMainArea.area, label: initialMainArea.area });
+          }
+        }
+        //sub area create as editable
+        if (selectedRow?.subArea) {
+          const initialSubArea = res.data.find(list => list.area === selectedRow.subArea);
+          if (initialSubArea) {
+            setSubAreaOption({ value: initialSubArea.area, label: initialSubArea.area });
+          }
+        }
+      }catch (err) {
+        console.log('Error of fetching data: ', err);
+      }
+    }
     fetchMechanicSpecialistArea();
-  },[]);
+  }, [selectedRow.mainArea, selectedRow.subArea]);
 
   // Handle mechanic data update
   const handleMechanicDataUpdate = (e) => {

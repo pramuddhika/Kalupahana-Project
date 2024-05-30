@@ -143,23 +143,24 @@ export const checkVehicleReopeningJobController = async(req,res) => {
 
 
 //################### add data to pre-repair   - start ##############################
-export const addPreRepairDataController = async(req,res) => {
-    const {preDocId,vehicleFault,additionalNote,checkList} = req.body;
-    const {spareTire, tireJack, lugWrench, toolBox, jumperCable} = checkList;
-    
-    try{
-        const data = await addPreRepairDataService(preDocId,vehicleFault,additionalNote,spareTire,tireJack,lugWrench,toolBox,jumperCable);
+export const addPreRepairDataController = async (req, res) => {
+    const { preDocId, vehicleFault, additionalNote, checkList } = req.body;
+    const { spareTire, tireJack, lugWrench, toolBox, jumperCable } = checkList;
+
+    try {
+        const data = await addPreRepairDataService(preDocId, vehicleFault, additionalNote, spareTire, tireJack, lugWrench, toolBox, jumperCable);
         return res.status(200).json(data);
-    }catch(err){
+    } catch (err) {
         return res.status(500).json("Server side error!");
     }
-}
+};
+
 //################### add data to pre-repair   - end   ##############################
 
 //################### add data to check list tabel - start ##############################
 export const addOtherItemsDataController = async (req, res) => {
     const { preDocId, otherItems } = req.body;
-
+    
     const items = otherItems.split(',').map(item => item.trim()).filter(item => item.length > 0);
 
     try {
@@ -190,7 +191,7 @@ export const addImagesDataController = async(req,res) => {
 //################### add data to record table - start ##############################
 export const addRecordDataController = async(req,res) => {
     const {jobId,vehicleNumber,dateString,preDocId} = req.body;
-
+    console.log("record")
     try{
         const data = await addRecordDataService(jobId,vehicleNumber,dateString,preDocId);
         return res.status(200).json(data);

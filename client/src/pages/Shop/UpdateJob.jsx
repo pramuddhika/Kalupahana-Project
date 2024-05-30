@@ -1,7 +1,7 @@
 import { Route,Routes } from "react-router-dom";
 import Menu from './Update_Menu';
 import Search from './Update_Search';
-import Edit from './Update_EditDetails';
+import MoreData from './Update_MoreData';
 
 
 const UpdateJob = () => {
@@ -11,7 +11,7 @@ const UpdateJob = () => {
     <Routes>
       <Route path="" element={<Search/>}/>
       <Route path="menu" element={<Menu/>}/>
-      <Route path="edit" element={<Edit/>}/>
+      <Route path="moredata" element={<MoreData/>}/>
     </Routes>
       
     </div>

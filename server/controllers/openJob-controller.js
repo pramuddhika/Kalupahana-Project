@@ -191,7 +191,6 @@ export const addImagesDataController = async(req,res) => {
 //################### add data to record table - start ##############################
 export const addRecordDataController = async(req,res) => {
     const {jobId,vehicleNumber,dateString,preDocId} = req.body;
-    console.log("record")
     try{
         const data = await addRecordDataService(jobId,vehicleNumber,dateString,preDocId);
         return res.status(200).json(data);

@@ -72,3 +72,30 @@ export const updateMechanicService = (employeeName,contactNumber,livingArea,join
     })
 }
 //########################### update mechanic data -  end   ####################################
+
+//######################## generate employee ID - start ###############################
+export const generateEmployeeNumberService = () => {
+    return new Promise((resolve, reject) => {
+      const q = 'SELECT MAX(EMPLOYEE_ID) as maxId FROM mechanic';
+      db.query(q, (err, data) => {
+        if (err) {
+          reject({ message: "An error occurred!", error: err });
+          return;
+        }
+  
+        const maxId = data[0].maxId;
+        let newId;
+  
+        if (maxId) {
+          const numericPart = parseInt(maxId.split('-')[1], 10);
+          const newNumericPart = String(numericPart + 1).padStart(6, '0');
+          newId = `EID-${newNumericPart}`;
+        } else {
+          newId = 'EID-000001';
+        }
+        resolve({EmployeeId: newId });
+      });
+    }
+  );
+}
+//######################## generate employee ID - end   ###############################

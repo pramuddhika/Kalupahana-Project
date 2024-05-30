@@ -8,6 +8,8 @@ import customStyles from '../components/SelectStyle';
 import axios from 'axios';
 import { toast,ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { validateContactNumber,validateHumanName,validateInputField } from "../Validation/InputFeilds";
+
 
 const MechanicsUpdate = () => {
 
@@ -26,11 +28,9 @@ const MechanicsUpdate = () => {
     joinDate: selectedRow?.joinDate || '',
     mainArea: selectedRow?.mainArea || '',
     subArea: selectedRow?.subArea || '',
-    resignDate: selectedRow?.resignDate || null,
+    resignDate: null,
   });
-
   
-
   // Fetch mechanic specialist area to the select list
   const fetchMechanicSpecialistArea = async () => {
     try {
@@ -91,46 +91,39 @@ const MechanicsUpdate = () => {
   const handleUpdateData = async (e) => {
     e.preventDefault();
 
-    console.log(newDetails)
-
-    //user data validation
-    const { employeeName,contactNumber } = newDetails;
-    const nameRegex = /^[a-zA-Z\s]*$/;
-    const teleRegex = /^07[0-8]\d{7}$/;
-    const emptyStringRegex = /^$/;
-
-    if (!nameRegex.test(employeeName)) {
-     toast.warning("Invalid employee name!");
-     return;
+    //use input validation
+    const contactNumberErr = validateContactNumber(newDetails.contactNumber);
+    const nameErr = validateHumanName(newDetails.employeeName);
+    const livingErr = validateInputField(newDetails.livingArea);
+    const mainErr = validateInputField(newDetails.mainArea);
+  
+    if(nameErr || contactNumberErr || livingErr){
+      toast.warning(nameErr || contactNumberErr || "Living area can't empty!");
+      return;
     }
-    if (emptyStringRegex.test(newDetails.employeeName)) {
-     toast.warning("Name can't be empty!");
-     return;
-    }
-    if(!teleRegex.test(contactNumber)){
-     toast.warning("Invalid contact number!");
-     return;
-    }
-    if (emptyStringRegex.test(newDetails.livingArea)) {
-     toast.warning("Living area can't be empty!");
-     return;
-    }
-    if (newDetails.resignDate) {
-      let resignDate = new Date(newDetails.resignDate);
-      let currentDate = new Date();
-    
-      if(resignDate > currentDate){
-        toast.warning("Resign date can't be a future date!");
-        return;
-      }
-    }
-    if (emptyStringRegex.test(newDetails.mainArea)) {
-     toast.warning("Main specialist area can't be empty!");
-     return;
+    if(mainErr){
+      toast.warning("Main Specialist Area can'y be empty!");
+      return;
     }
     if (newDetails.mainArea === newDetails.subArea){
       toast.warning("Please select different specialist areas!")
       return;
+    }
+    if(newDetails.joinDate > newDetails.resignDate){
+      toast.warning("Invalied termination date!");
+      return;
+    }
+    if (newDetails.resignDate) {
+      let resignDate = new Date(newDetails.resignDate);
+      let currentDate = new Date();
+      if(resignDate > currentDate){
+        toast.warning("Termination date can't be a future date!");
+        return;
+      }
+    }
+    // stop data base error
+    if (newDetails.subArea === "") {
+      newDetails.subArea = null;
     }
     
     //handle data  update 
@@ -202,7 +195,7 @@ const MechanicsUpdate = () => {
               />
             </div>
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Resign Date :</p>
+              <p className="basis-1/3 text-text-primary font-semibold">Termination date :</p>
               <input type="date" name="resignDate" value={newDetails.resignDate} className="input rounded-lg p-2 w-56" onChange={handleMechanicDataUpdate} />
             </div>
             <div className="flex justify-end my-3 mr-10 gap-8">

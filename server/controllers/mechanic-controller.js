@@ -1,9 +1,11 @@
-import {addMechanicService,getMechanicService,updateMechanicService} from '../services/mechanic-service.js';
+import {addMechanicService,
+        getMechanicService,
+        updateMechanicService,
+        generateEmployeeNumberService} from '../services/mechanic-service.js';
 
 //############################### add mechanic - start ########################
 export const addMechanicController = async (req,res) => {
     const {employeeId,employeeName,contactNumber,livingArea,joinDate,mainArea,subArea} = req.body;
-    console.log(subArea);
     try{
         const data = await addMechanicService(employeeId,employeeName,contactNumber,livingArea,joinDate,mainArea,subArea);
         return res.status(200).json(data);
@@ -40,3 +42,14 @@ export const updateMechanicController = async (req,res) => {
     }
 }
 //######################### update mechanic data - end   ##############################
+
+//######################## generate employee ID - start ###############################
+export const generateEmployeeNumberController = async(req,res) => {
+    try{
+        const data = await generateEmployeeNumberService();
+        return res.json(data);
+    }catch(err){
+        return res.status(500).json("Server side error!");
+    }
+}
+//######################## generate employee ID - end   ###############################

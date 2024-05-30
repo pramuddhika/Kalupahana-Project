@@ -8,6 +8,7 @@ import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
 import { toast,ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { validateContactNumber,validateHumanName,validateInputField } from "../Validation/InputFeilds";
 
 const MechanicsAdd = () => {
 
@@ -34,8 +35,22 @@ const MechanicsAdd = () => {
     }
   }
 
+  //fetch mechanic id
+  const fetchEmployeeId = async () => {
+    try{
+      const res = await axios.get('/api/mechanic/generateEmployeeId');
+      setAddMechanic(prevState => ({
+        ...prevState,
+        employeeId: res.data.EmployeeId
+      }));
+    }catch(err){
+      console.log('Error fetting Employee ID:', err);
+    }
+  }
+
   useEffect( ()=> {
     fetchMechanicSpeacialistArea();
+    fetchEmployeeId();
   },[]);
 
   //prepare main specialist area list
@@ -70,50 +85,35 @@ const MechanicsAdd = () => {
     e.preventDefault();
     
     //use input validation
-    const { employeeName, employeeId,contactNumber } = addMechanic;
-    const nameRegex = /^[a-zA-Z\s]*$/;
-    const idRegex = /^[A-Z]+-\d+$/;
-    const teleRegex = /^07[0-8]\d{7}$/;
-    const emptyStringRegex = /^$/;
-
-    if (!idRegex.test(employeeId)) {
-     toast.warning("Invalid employee ID!");
-     return;
+    const contactNumberErr = validateContactNumber(addMechanic.contactNumber);
+    const nameErr = validateHumanName(addMechanic.employeeName);
+    const livingErr = validateInputField(addMechanic.livingArea);
+    const joinErr = validateInputField(addMechanic.joinDate);
+    const mainErr = validateInputField(addMechanic.mainArea);
+  
+    if(nameErr || contactNumberErr || livingErr){
+      toast.warning(nameErr || contactNumberErr || "Living area can't empty!");
+      return;
     }
-    if (!nameRegex.test(employeeName)) {
-     toast.warning("Invalid employee name!");
-     return;
+    if(joinErr){
+      toast.warning("Join date can't be empty!");
+      return;
     }
-    if (emptyStringRegex.test(addMechanic.employeeName)) {
-     toast.warning("Name can't be empty!");
-     return;
-    }
-    if(!teleRegex.test(contactNumber)){
-     toast.warning("Invalid contact number!");
-     return;
-    }
-    if (emptyStringRegex.test(addMechanic.livingArea)) {
-     toast.warning("Living area can't be empty!");
-     return;
-    }
-    if (emptyStringRegex.test(addMechanic.joinDate)) {
-     toast.warning("Join date can't be empty!");
-     return;
-    }
-    let joinDate = new Date(addMechanic.joinDate);
+    let date = new Date(addMechanic.joinDate);
     let currentDate = new Date();
-    if(joinDate > currentDate){
+    if(date > currentDate){
      toast.warning("Join date can't be a future date!");
      return;
     }
-    if (emptyStringRegex.test(addMechanic.mainArea)) {
-     toast.warning("Main specialist area can't be empty!");
-     return;
+    if(mainErr){
+      toast.warning("Main Specialist Area can'y be empty!");
+      return;
     }
     if (addMechanic.mainArea === addMechanic.subArea){
       toast.warning("Please select different specialist areas!")
       return;
     }
+    // stop data base error
     if (addMechanic.subArea === "") {
       addMechanic.subArea = null;
     }
@@ -149,8 +149,8 @@ const MechanicsAdd = () => {
                  
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Employee Id : </p>
-              <input type="text" name="employeeId" value={addMechanic.employeeId} onChange={handleMechanicAdd} 
-              className="input rounded-lg p-2 w-56" maxLength={10} placeholder="EID - XXXX" required/>
+              <input type="text" name="employeeId" value={addMechanic.employeeId}
+              className="input rounded-lg p-2 w-56" readOnly/>
             </div>
 
             <div className="flex items-center ml-3 my-3">

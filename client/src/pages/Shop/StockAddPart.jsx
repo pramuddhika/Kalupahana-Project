@@ -215,7 +215,7 @@ const StockAddPart = () => {
      {/**search bar - end */}
 
      <div className="flex justify-center overflow-auto max-h-80">
-      <table className="mx-auto font-inter mt-4 w-12/12">
+      <table className="mx-auto font-inter mt-4 w-full">
         <tr className='bg-text-primary text-white'>
           <th className="border-2 border-black">Part ID</th>
           <th className="border-2 border-black">Part Name</th>

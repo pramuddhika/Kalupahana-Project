@@ -33,12 +33,22 @@ const MechanicsMenu = () => {
   }
 
   const handleEditClick = () => {
+
     //if user not select employee stop moving  edit page
     if(JSON.stringify(selectedRow) === JSON.stringify({})){
       toast.warning('Please select an employee');
       return;
     }
-    navigate('/shop/mechanics/update',{ state: { selectedRow } });
+    //if employee alredy resign csn not be edit data
+    if(!selectedRow.resignDate){
+      navigate('/shop/mechanics/update',{ state: { selectedRow } });
+      return;
+    } else {
+      toast.info("A retired employee");
+      return;
+    }
+
+    
   };
 
  
@@ -130,8 +140,8 @@ const MechanicsMenu = () => {
             </div>
 
             <div className="flex items-center ml-3 my-3">
-              <p className="basis-1/3 text-text-primary font-semibold">Resign Date : </p>
-              <input type="text" value={selectedRow.employeeId ? (selectedRow.resignDate ? selectedRow.resignDate : "Not Added ") : " "} 
+              <p className="basis-1/3 text-text-primary font-semibold">Termination date : </p>
+              <input type="text" value={selectedRow.employeeId ? (selectedRow.resignDate ? selectedRow.resignDate : "Not Added") : " "} 
               className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
             </div>
 

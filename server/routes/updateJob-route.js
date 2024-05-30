@@ -4,6 +4,6 @@ import { getJobUpdateDataController } from "../controllers/updateJob-controller.
 const router = express.Router();
 
 //check ongoing jobs
-router.get('/checkJobs/:vehicleNumber', getJobUpdateDataController);
+router.get('/checkJobs/:updateNumber', getJobUpdateDataController);
 
 export default router;

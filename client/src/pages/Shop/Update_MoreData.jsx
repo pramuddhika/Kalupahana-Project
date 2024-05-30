@@ -10,7 +10,7 @@ const Update_MoreDetails = () => {
           <ShopHeader pageName="More Details"/>
           <div className="h-9 bg-side-nav-bg border-b-2"/>
           
-            <div className="flex flex-col justify-center items-center mt-4">
+            <div className="flex flex-col justify-center items-center mt-10">
               <div className="flex card justify-center w-10/12 p-8">
                 <div className="w-1/2">
 
@@ -81,7 +81,7 @@ const Update_MoreDetails = () => {
                   <div className="flex items-center p-2">
                    <div className="ml-16 w-32"><p className="mainStyle">Vehicle Fault:</p></div>
                    <div className="w-9/12">
-                     <textarea rows={4} className="input rounded-lg ml-5 p-2 w-full" readOnly/>
+                     <textarea rows={3} className="input rounded-lg ml-5 p-2 w-full" readOnly/>
                    </div>
                   </div>
           

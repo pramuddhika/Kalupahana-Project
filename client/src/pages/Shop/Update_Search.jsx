@@ -12,7 +12,7 @@ const Update_Search = () => {
   
   const { setUpdateJobData } = useContext(UpdateJobContext);
 
-  const [updateNumber,setUpdateNumber] = useState(null);
+  const [updateNumber,setUpdateNumber] = useState('');
   const navigate = useNavigate();
  
   const handleNumberSearch = async(e) => {

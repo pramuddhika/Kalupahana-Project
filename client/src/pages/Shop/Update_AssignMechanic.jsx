@@ -1,6 +1,30 @@
+import { useEffect, useState,useContext } from "react";
 import Details from "../components/Details";
+import axios from "axios";
+import { UpdateJobContext } from "./UpdateJobContext";
+
 
 const Update_AssignMechanic = () => {
+
+  const { updateJobData} = useContext(UpdateJobContext);
+  const [tableList,setTableList] = useState(null);
+
+  const updateJobId = updateJobData[0].jobId;
+
+  //fetch data for table
+  const fetchTableData = async() => {
+    try{
+      const res = await axios.get(`/api/updatejob/getAllocatedMechanics/${updateJobId}`);
+      setTableList(res.data);
+    }catch(err){
+      console.log('Error fetching data:',err);
+    }
+  }
+
+  useEffect( ()=> {
+    fetchTableData();
+  },[]);
+
   return (
     <div className="flex flex-row mt-7">
         
@@ -51,16 +75,26 @@ const Update_AssignMechanic = () => {
            <th className="border-2 border-black w-2/3">Status</th>
           </tr>
 
-          <tr className="text-center">
-            <td className="border-2 border-black"> test data</td>
-            <td className="border-2 border-black"> test data</td>
-            <td className="border-2 border-black"> test data</td>
-          </tr>
+          {tableList === null || tableList.length === 0 || tableList.message === "Data can't found!" ? (
+            <tr>
+              <td colSpan="3" className='text-center border-2 border-black py-2 mainStyle'>No Mechanic allocated!</td>
+            </tr>
+          ):(
+            tableList && tableList.map ( (allocatedList,index) => 
+              <tr key={index} className="text-center">
+                <td className="border-2 border-black">{allocatedList.employeeId}</td>
+                <td className="border-2 border-black">{allocatedList.employeeName}</td>
+                <td className="border-2 border-black">{allocatedList.jobStatus}</td>
+             </tr>
+            )
+          )}
+
+          
                       
         </table>
       </div>
-        </div>
-        {/**table - end */}
+      </div>
+      {/**table - end */}
 
       </div>
 

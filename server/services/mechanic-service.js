@@ -14,7 +14,7 @@ export const addMechanicService = (employeeId,employeeName,contactNumber,livingA
             }else if(data && data.lenght === 0){
                 reject(new Error('Data can not be found!'));
             }else {
-                resolve("Added!");
+                resolve("Registered successfully!");
             }
         })
     })

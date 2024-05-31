@@ -1,4 +1,6 @@
+import { resolve } from 'path';
 import {db} from '../.env';
+import { rejects } from 'assert';
 
 //############################ get job update main data set - start ##############################
 export const generateJobIdService = async(updateNumber) => {
@@ -7,7 +9,7 @@ export const generateJobIdService = async(updateNumber) => {
                        FROM records
                        WHERE VEHICLE_NUMBER = ? AND END_DATE IS NULL`;
 
-     const getInfo = `SELECT r.JOB_ID, p.VEHICLE_FAULT, v.MODEL, v.FULE_TYPE, c.CUSTOMER_NAME, c.EMAIL, c.PHONE_NUMBER
+        const getInfo = `SELECT r.JOB_ID, p.VEHICLE_FAULT, v.MODEL, v.FULE_TYPE, c.CUSTOMER_NAME, c.EMAIL, c.PHONE_NUMBER
                        FROM records r
                        JOIN vehicle v ON r.VEHICLE_NUMBER = v.VEHICLE_NUMBER
                        JOIN customer c ON v.NIC_NUMBER = c.NIC_NUMBER
@@ -46,3 +48,29 @@ export const generateJobIdService = async(updateNumber) => {
     })
 }
 //############################ get job update main data set - end   ##############################
+
+//########################### get allocated mechaic list - start   ###############################
+export const getAllocatedMechanicsService = async(updateJobId) => {
+    return new Promise ( (resolve,rejects) => {
+        const q = `SELECT w.EMPLOYEE_ID, w.STATUS, m.EMPLOYEE_NAME
+                   FROM work_allocation w
+                   INNER JOIN mechanic m ON w.EMPLOYEE_ID = m.EMPLOYEE_ID
+                   WHERE w.JOB_ID = ?`;
+        
+        db.query(q,[updateJobId],(err,data) => {
+            if(err){
+                rejects({message:err})
+            }else if( !data || data.length === 0 ){
+                rejects({message:"Data can't found!"});
+            }else{
+                const allocatedList = data.map(list => ({
+                    employeeId : list.EMPLOYEE_ID,
+                    employeeName : list.EMPOLYEE_NAME,
+                    jobStatus : list.STATUS
+                }));
+                resolve({allocatedList});
+            }
+        })
+    })
+}
+//########################### get allocated mechaic list - end     ###############################

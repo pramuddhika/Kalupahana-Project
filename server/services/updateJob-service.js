@@ -34,7 +34,8 @@ export const generateJobIdService = async(updateNumber) => {
                         fule : item.FULE_TYPE,
                         customer : item.CUSTOMER_NAME,
                         email : item.EMAIL,
-                        phoneNumber : item.PHONE_NUMBER,  
+                        phoneNumber : item.PHONE_NUMBER,
+                        vehicleNumber: updateNumber  
                     }))
 
                     resolve({UpdateJobData});

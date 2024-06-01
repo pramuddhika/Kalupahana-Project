@@ -4,7 +4,8 @@ import {generateJobIdService,
         assignMechanicService,
         checkAssignMechanicService,
         getMechanicNoteService,
-        updateMechanicNoteService
+        updateMechanicNoteService,
+        sendUpdatesService
        } from '../services/updateJob-service.js';
 
 //############################ get job update main data set - start ##############################
@@ -91,3 +92,16 @@ export const updateMechanicNoteController = async(req,res) => {
     }
 }
 //######################### update mechanic note - end  ############################################
+
+//############################## send email - start ################################################
+export const sendUpdatesController = async (req, res) => {
+    const { updateCustomerMail, message} = req.body;
+  
+    try {
+      const data = await sendUpdatesService(updateCustomerMail,message);
+      return res.status(200).json(data);
+    } catch (err) {
+      return res.status(500).json({message:err.message});
+    }
+  };
+//############################## send email - end   ################################################

@@ -1,4 +1,4 @@
-import {db} from '../.env'
+import {db} from '../env.js';
 
 //#####################  Add resevation data - Start #######################################
 export const addBookingService = (vehicleNumber,contactNumber,vehicleFault,reservedDate) => {

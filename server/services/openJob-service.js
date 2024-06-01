@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import {db} from '../.env';
+import {db} from '../env.js';
 import { rejects } from 'assert';
 
 //############## check vehicle is online book vechicle or not ########################

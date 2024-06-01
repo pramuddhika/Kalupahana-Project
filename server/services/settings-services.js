@@ -1,4 +1,4 @@
-import {db} from '../.env';
+import {db} from '../env.js';
 
 //######################### get space data & borth notification times - start ############################
 export const getSettingsTableDataService = () => {

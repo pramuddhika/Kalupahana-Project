@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import {db} from '../.env';
+import {db} from '../env.js';
 import { rejects } from 'assert';
 import exp from 'constants';
 
@@ -194,3 +194,25 @@ export const updateMechanicNoteService = (note,status,updateJobId,updateNoteMecI
     })
 }
 //######################### update mechanic note - end  ############################################
+
+//############################## send email - start ################################################
+export const sendUpdatesService = async (updateCustomerMail, message) => {
+
+    let transporter = nodemailer.createTransport({
+      service: 'gmail', 
+      auth: {
+        user: EMAIL_USER,
+        pass: EMAIL_PASS,
+      },
+    });
+  
+    let mailOptions = {
+      from: EMAIL_USER,
+      to: updateCustomerMail,
+      subject:'Test',
+      text:message,
+    };
+  
+    return transporter.sendMail(mailOptions);
+  };
+//############################## send email - end   ################################################

@@ -1,4 +1,4 @@
-import {db} from '../.env';
+import {db} from '../env.js';
 
 //##################### add part details - satrt #########################
 export const addPartService = (partID,partName,partDescription) => {

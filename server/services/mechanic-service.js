@@ -1,4 +1,4 @@
-import {db} from '../.env';
+import {db} from '../env.js';
 
 //############################### add mechanic - start ########################
 export const addMechanicService = (employeeId,employeeName,contactNumber,livingArea,joinDate,mainArea,subArea) => {

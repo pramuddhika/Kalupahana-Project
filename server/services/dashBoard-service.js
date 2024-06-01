@@ -1,4 +1,4 @@
-import {db} from '../.env';
+import {db} from '../env.js';
 
 //################# get number of oline booking -start #############################
 export const bookingNumberService = () => {

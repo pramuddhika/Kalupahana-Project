@@ -104,22 +104,70 @@ export const getInChargeMechanicsService = () => {
 
 //########################### assign mechnic to job - start ######################################
 export const assignMechanicService  = (selectId,updateJobId) => {
-    return new Promise ( ( resolve,rejects) => {
+    return new Promise ( ( resolve,reject) => {
         const q = `INSERT INTO work_allocation
                    (EMPLOYEE_ID,JOB_ID)
                    VALUES (?,?)`;
 
-        db.query(q,[selectId,updateJobId], (err,data) => {
-            if(err.code == 'ER_DUP_ENTRY'){
-                resolve({message:'Mechanic alread assigned'});
+        db.query(q, [selectId, updateJobId], (err, data) => {
+            if (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    resolve({ message: 'Mechanic already assigned' });
+                } else {
+                    reject({ message: err.message });
+                }
+            } else {
+                resolve({ message: "Work allocated" });
             }
-            else if(err){
-                rejects({message:err});
-            }
-            else {
-                resolve({message:"Work allocated"});
+        });
+                
+    })
+}
+//########################### assign mechnic to job - end   ######################################
+
+//########################## check assign or not - start #########################################
+export const checkAssignMechanicService = (updateNoteMecId,updateJobId) => {
+    return new Promise ( (resolve,rejects) => {
+        const q = `SELECT STATUS 
+                   FROM work_allocation
+                   WHERE EMPLOYEE_ID = ? AND JOB_ID =? `;
+
+        db.query(q,[updateNoteMecId,updateJobId], (err,data) => {
+            if(err){
+                rejects({message:"Error!"})
+            }else if( !data || data.length === 0 ){
+                rejects({message:"Not assign mechanic for this vehicle"});
+            }else{
+                const jobStatus = data.map(list => ({
+                    status : list.STATUS
+                }))
+                resolve({jobStatus});
             }
         })
     })
 }
-//########################### assign mechnic to job - end   ######################################
+//########################## check assign or not - end   #########################################
+
+//######################### get mechanic note - Start  ############################################
+export const getMechanicNoteService = (updateJobId) => {
+    return new Promise ( (resolve,rejects) => {
+        const q = `SELECT EMPLOYEE_ID,MECHANIC_NOTE 
+                   FROM work_allocation
+                   WHERE JOB_ID =? `;
+
+        db.query(q,[updateJobId], (err,data) => {
+            if(err){
+                rejects({message:"Error!"})
+            }else if( !data || data.length === 0 ){
+                rejects({message:"No note"});
+            }else{
+                const jobNote = data.map(list => ({
+                    mecId : list.EMPLOYEE_ID,
+                    mecNote : list.MECHANIC_NOTE
+                }))
+                resolve({jobNote});
+            }
+        })
+    })
+}
+//######################### get mechanic note - end    ############################################

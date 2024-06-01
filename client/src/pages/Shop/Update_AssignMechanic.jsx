@@ -16,21 +16,24 @@ const Update_AssignMechanic = () => {
   const [selectedMechanic, setSelectedMechanic] = useState(null);
   const [selectId,setSelectId] = useState(null);
   const [refresh,setRefresh] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
-  const updateJobId = updateJobData[0].jobId;
+  const  updateJobId= updateJobData[0].jobId;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [tableDataRes, mechanicRes] = await Promise.all([
-          axios.get(`/api/updatejob/getAllocatedMechanics/${updateJobId}`),
-          axios.get('/api/updatejob/getInChargeMechanics')
-        ]);
-  
+        const tableDataRes = await axios.get(`/api/updatejob/getAllocatedMechanics/${updateJobId}`);
         setTableList(tableDataRes.data.allocatedList);
+      } catch (err) {
+        console.log('Error fetching allocated mechanics:', err);
+      }
+      
+      try {
+        const mechanicRes = await axios.get('/api/updatejob/getInChargeMechanics');
         setMechanic(mechanicRes.data.mechanicsList);
       } catch (err) {
-        console.log('Error fetching data:', err);
+        console.log('Error fetching in charge mechanics:', err);
       }
     }
     fetchData();
@@ -38,6 +41,7 @@ const Update_AssignMechanic = () => {
 
   // Handle mechanic selection
   const handleMechanicChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
     if (selectedOption) {
       const selected = mechanic.find(m => `${m.mecId} - ${m.mecName}` === selectedOption.label);
       setSelectedMechanic(selected);
@@ -46,6 +50,7 @@ const Update_AssignMechanic = () => {
       setSelectedMechanic(null);
     }
   }
+
 
   //make option arry
   const option = mechanic ? mechanic.map(item => ({
@@ -65,10 +70,12 @@ const Update_AssignMechanic = () => {
       const res = await axios.post('/api/updatejob/addMechanic', {selectId,updateJobId});
       setRefresh(!refresh);
       toast.success(res.data.message);
-      setSelectId(null);
+      setSelectId(null)
+      setSelectedMechanic(null);
+      setSelectedOption(null);
      }catch(err){
       toast.error(err.response.data.message);
-      console.log(err.response.data.message)
+      
      }
   }
 
@@ -90,6 +97,7 @@ const Update_AssignMechanic = () => {
             options={option}
             isClearable
             styles={customStyles}
+            value={selectedOption}
             onChange={handleMechanicChange}
             placeholder='Search by Name or Id'/>
           </div>
@@ -135,7 +143,7 @@ const Update_AssignMechanic = () => {
             </tr>
           ):(
             tableList && tableList.map ( (allocatedList,index) => (
-              <tr key={index} className="text-center">
+              <tr key={index} className="text-center mainStyle">
                 <td className="border-2 border-black">{allocatedList.employeeId}</td>
                 <td className="border-2 border-black">{allocatedList.employeeName}</td>
                 <td className="border-2 border-black">{allocatedList.jobStatus}</td>

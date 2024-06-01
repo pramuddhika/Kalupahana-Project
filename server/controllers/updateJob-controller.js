@@ -1,7 +1,9 @@
 import {generateJobIdService,
         getAllocatedMechanicsService,
         getInChargeMechanicsService,
-        assignMechanicService 
+        assignMechanicService,
+        checkAssignMechanicService,
+        getMechanicNoteService
        } from '../services/updateJob-service.js';
 
 //############################ get job update main data set - start ##############################
@@ -49,7 +51,30 @@ export const assignMechanicController = async(req,res) => {
         return res.status(200).json(data);
     }catch(err){
         return res.status(500).json({message:"Server side error"});
-        
     }
 }
 //########################### assign mechnic to job - end   ######################################
+
+//########################## check assign or not - start #########################################
+export const checkAssignMechanicController = async(req,res) => {
+    const {updateNoteMecId,updateJobId} = req.params;
+    try{
+        const data = await checkAssignMechanicService(updateNoteMecId,updateJobId);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json({message:err.message});
+    }
+}
+//########################## check assign or not - end   #########################################
+
+//######################### get mechanic note - Start  ############################################
+export const getMechanicNoteController = async(req,res) => {
+    const {updateJobId} = req.params;
+    try{
+        const data = await getMechanicNoteService(updateJobId);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json({message:err.message});
+    }
+}
+//######################### get mechanic note - end    ############################################

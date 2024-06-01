@@ -2,7 +2,9 @@ import express from "express";
 import { getJobUpdateDataController,
          getAllocatedMechanicsController,
          getInChargeMechanicsController,
-         assignMechanicController
+         assignMechanicController,
+         checkAssignMechanicController,
+         getMechanicNoteController
  } from "../controllers/updateJob-controller.js";
 
 const router = express.Router();
@@ -15,5 +17,9 @@ router.get('/getAllocatedMechanics/:updateJobId', getAllocatedMechanicsControlle
 router.get('/getInChargeMechanics', getInChargeMechanicsController);
 //asign mechanic to job
 router.post('/addMechanic', assignMechanicController);
+//check mechanic is assign to job or not
+router.get('/checkAssign/:updateNoteMecId/:updateJobId', checkAssignMechanicController);
+//get mechanic notes
+router.get('/mechanicNotes/:updateJobId', getMechanicNoteController);
 
 export default router;

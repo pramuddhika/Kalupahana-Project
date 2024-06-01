@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import {db} from '../.env';
 import { rejects } from 'assert';
+import exp from 'constants';
 
 //############################ get job update main data set - start ##############################
 export const generateJobIdService = async(updateNumber) => {
@@ -61,11 +62,11 @@ export const getAllocatedMechanicsService = async(updateJobId) => {
             if(err){
                 rejects({message:err})
             }else if( !data || data.length === 0 ){
-                rejects({message:"Data can't found!"});
+                rejects({message:"Data can't found"});
             }else{
                 const allocatedList = data.map(list => ({
                     employeeId : list.EMPLOYEE_ID,
-                    employeeName : list.EMPOLYEE_NAME,
+                    employeeName : list.EMPLOYEE_NAME,
                     jobStatus : list.STATUS
                 }));
                 resolve({allocatedList});
@@ -74,3 +75,51 @@ export const getAllocatedMechanicsService = async(updateJobId) => {
     })
 }
 //########################### get allocated mechaic list - end     ###############################
+
+//########################### get inCharge mechanic data - start   ###############################
+export const getInChargeMechanicsService = () => {
+    return new Promise ( (resolve,rejects) => {
+        const q = `SELECT EMPLOYEE_ID,EMPLOYEE_NAME,MAIN_AREA,SUB_AREA
+                   FROM mechanic
+                   WHERE RESIGN_DATE IS NULL`
+
+        db.query(q,(err,data)=> {
+            if(err){
+                rejects({message:"Error!"})
+            }else if( !data || data.length === 0 ){
+                rejects({message:"Data can't found"});
+            }else{
+                const mechanicsList = data.map(list => ({
+                    mecId : list.EMPLOYEE_ID,
+                    mecName : list.EMPLOYEE_NAME,
+                    main : list.MAIN_AREA,
+                    sub : list.SUB_AREA
+                }));
+                resolve({mechanicsList});
+            }
+        })
+    })
+}
+//########################### get inChange mechanic data - end     ###############################
+
+//########################### assign mechnic to job - start ######################################
+export const assignMechanicService  = (selectId,updateJobId) => {
+    return new Promise ( ( resolve,rejects) => {
+        const q = `INSERT INTO work_allocation
+                   (EMPLOYEE_ID,JOB_ID)
+                   VALUES (?,?)`;
+
+        db.query(q,[selectId,updateJobId], (err,data) => {
+            if(err.code == 'ER_DUP_ENTRY'){
+                resolve({message:'Mechanic alread assigned'});
+            }
+            else if(err){
+                rejects({message:err});
+            }
+            else {
+                resolve({message:"Work allocated"});
+            }
+        })
+    })
+}
+//########################### assign mechnic to job - end   ######################################

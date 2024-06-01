@@ -2,33 +2,82 @@ import { useEffect, useState,useContext } from "react";
 import Details from "../components/Details";
 import axios from "axios";
 import { UpdateJobContext } from "./UpdateJobContext";
+import Select from 'react-select';
+import customStyles from '../components/SelectStyle';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Update_AssignMechanic = () => {
 
   const { updateJobData} = useContext(UpdateJobContext);
-  const [tableList,setTableList] = useState(null);
+  const [tableList,setTableList] = useState('');
+  const [mechanic,setMechanic] = useState(null);
+  const [selectedMechanic, setSelectedMechanic] = useState(null);
+  const [selectId,setSelectId] = useState(null);
+  const [refresh,setRefresh] = useState(false);
 
   const updateJobId = updateJobData[0].jobId;
 
-  //fetch data for table
-  const fetchTableData = async() => {
-    try{
-      const res = await axios.get(`/api/updatejob/getAllocatedMechanics/${updateJobId}`);
-      setTableList(res.data);
-    }catch(err){
-      console.log('Error fetching data:',err);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [tableDataRes, mechanicRes] = await Promise.all([
+          axios.get(`/api/updatejob/getAllocatedMechanics/${updateJobId}`),
+          axios.get('/api/updatejob/getInChargeMechanics')
+        ]);
+  
+        setTableList(tableDataRes.data.allocatedList);
+        setMechanic(mechanicRes.data.mechanicsList);
+      } catch (err) {
+        console.log('Error fetching data:', err);
+      }
+    }
+    fetchData();
+  }, [refresh, updateJobId]);
+
+  // Handle mechanic selection
+  const handleMechanicChange = (selectedOption) => {
+    if (selectedOption) {
+      const selected = mechanic.find(m => `${m.mecId} - ${m.mecName}` === selectedOption.label);
+      setSelectedMechanic(selected);
+      setSelectId(selected.mecId);
+    } else {
+      setSelectedMechanic(null);
     }
   }
 
-  useEffect( ()=> {
-    fetchTableData();
-  },[]);
+  //make option arry
+  const option = mechanic ? mechanic.map(item => ({
+    label: `${item.mecId} - ${item.mecName}`
+  })):[];
+
+  //handle mechanic assign
+  const handleAssignMechanic = async() => {
+
+    //if no selected mechanic stop the precess
+    if(selectId === null){
+      toast.warning("Plesae selecte a mechanic!");
+      return;
+    }
+
+     try{
+      const res = await axios.post('/api/updatejob/addMechanic', {selectId,updateJobId});
+      setRefresh(!refresh);
+      toast.success(res.data.message);
+      setSelectId(null);
+     }catch(err){
+      toast.error(err.response.data.message);
+      console.log(err.response.data.message)
+     }
+  }
 
   return (
     <div className="flex flex-row mt-7">
         
       <div className="flex flex-col justify-center items-center basis-2/3">
+
+      <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
 
         {/**input data form - start */}
         <div className="h-48 card w-11/12 p-2 mt-5">
@@ -36,24 +85,29 @@ const Update_AssignMechanic = () => {
           <p className="topic ">Assign Mechanics</p>
 
           <div className="flex items-center font-inter gap-2 mt-3">
-            <p className="text-text-primary font-semibold w-48 pl-4">Employee Name OR Id: </p>
-            <input type="text" className="input p-2 rounded-lg w-96" placeholder="Search by Name or Id"/>
+            <p className="text-text-primary font-semibold w-48 pl-4">Employee Name or ID: </p>
+            <Select className="w-96"
+            options={option}
+            isClearable
+            styles={customStyles}
+            onChange={handleMechanicChange}
+            placeholder='Search by Name or Id'/>
           </div>
 
           <div className="flex justify-center mt-4 pl-4">
             <div className="flex flex-col gap-2 w-8/12">
               <div className="flex items-center gap-3">
                 <p className="mainStyle">Main Specialist Area</p>
-                <input className="input p-1 rounded-lg w-80" readOnly/>
+                <input className="input p-1 rounded-lg w-80 pl-4" value={selectedMechanic ? selectedMechanic.main : ''} readOnly/>
               </div>
               <div className="flex gap-3 items-center">
                  <p className="mainStyle">Sub Sepecialist Area</p>
-                 <input className="input p-1 rounded-lg w-80" readOnly/>
+                 <input className="input p-1 rounded-lg w-80 pl-4" value={selectedMechanic ? selectedMechanic.sub : ''} readOnly/>
               </div>
             </div>
 
             <div className="flex items-end justify-end w-2/12">
-              <button className="btn btn-normal">
+              <button className="btn btn-normal" onClick={handleAssignMechanic}>
                 Assign
               </button>
             </div>
@@ -75,18 +129,18 @@ const Update_AssignMechanic = () => {
            <th className="border-2 border-black w-2/3">Status</th>
           </tr>
 
-          {tableList === null || tableList.length === 0 || tableList.message === "Data can't found!" ? (
+          { (tableList === null || tableList.length === 0) ? (
             <tr>
-              <td colSpan="3" className='text-center border-2 border-black py-2 mainStyle'>No Mechanic allocated!</td>
+              <td colSpan="3" className='text-center border-2 border-black py-2 mainStyle'>No Mechanic allocated</td>
             </tr>
           ):(
-            tableList && tableList.map ( (allocatedList,index) => 
+            tableList && tableList.map ( (allocatedList,index) => (
               <tr key={index} className="text-center">
                 <td className="border-2 border-black">{allocatedList.employeeId}</td>
                 <td className="border-2 border-black">{allocatedList.employeeName}</td>
                 <td className="border-2 border-black">{allocatedList.jobStatus}</td>
              </tr>
-            )
+            ))
           )}
 
           

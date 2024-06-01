@@ -1,7 +1,9 @@
 import { resolve } from 'path';
 import {db} from '../env.js';
+import nodemailer from 'nodemailer';
 import { rejects } from 'assert';
 import exp from 'constants';
+const { EMAIL_USER, EMAIL_PASS } = process.env;
 
 //############################ get job update main data set - start ##############################
 export const generateJobIdService = async(updateNumber) => {
@@ -198,21 +200,24 @@ export const updateMechanicNoteService = (note,status,updateJobId,updateNoteMecI
 //############################## send email - start ################################################
 export const sendUpdatesService = async (updateCustomerMail, message) => {
 
-    let transporter = nodemailer.createTransport({
-      service: 'gmail', 
-      auth: {
-        user: EMAIL_USER,
-        pass: EMAIL_PASS,
-      },
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: EMAIL_USER,
+          pass: EMAIL_PASS
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
     });
-  
-    let mailOptions = {
-      from: EMAIL_USER,
-      to: updateCustomerMail,
-      subject:'Test',
-      text:message,
+      
+    var mailOptions = {
+        from: EMAIL_USER,
+        to: updateCustomerMail,
+        subject: 'Kalupahana Motors - Repair update',
+        text: message
     };
-  
+   
     return transporter.sendMail(mailOptions);
-  };
+};
 //############################## send email - end   ################################################

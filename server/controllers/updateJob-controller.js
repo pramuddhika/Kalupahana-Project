@@ -3,7 +3,8 @@ import {generateJobIdService,
         getInChargeMechanicsService,
         assignMechanicService,
         checkAssignMechanicService,
-        getMechanicNoteService
+        getMechanicNoteService,
+        updateMechanicNoteService
        } from '../services/updateJob-service.js';
 
 //############################ get job update main data set - start ##############################
@@ -38,7 +39,7 @@ export const getInChargeMechanicsController = async(req,res) => {
         const data = await getInChargeMechanicsService();
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json({message:"Server side error"});
+        return res.status(500).json({message:err.message});
     }
 }
 //########################### get inChange mechanic data - end     ###############################
@@ -78,3 +79,15 @@ export const getMechanicNoteController = async(req,res) => {
     }
 }
 //######################### get mechanic note - end    ############################################
+
+//######################### update mechnic note - satrt ############################################
+export const updateMechanicNoteController = async(req,res) => {
+    const {note,status,updateJobId,updateNoteMecId} = req.body;
+    try{
+        const data = await updateMechanicNoteService(note,status,updateJobId,updateNoteMecId);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json({message:err.message});
+    }
+}
+//######################### update mechanic note - end  ############################################

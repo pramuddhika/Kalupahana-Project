@@ -52,7 +52,7 @@ export const generateJobIdService = async(updateNumber) => {
 
 //########################### get allocated mechaic list - start   ###############################
 export const getAllocatedMechanicsService = async(updateJobId) => {
-    return new Promise ( (resolve,rejects) => {
+    return new Promise ( (resolve,reject) => {
         const q = `SELECT w.EMPLOYEE_ID, w.STATUS, m.EMPLOYEE_NAME
                    FROM work_allocation w
                    INNER JOIN mechanic m ON w.EMPLOYEE_ID = m.EMPLOYEE_ID
@@ -60,9 +60,9 @@ export const getAllocatedMechanicsService = async(updateJobId) => {
         
         db.query(q,[updateJobId],(err,data) => {
             if(err){
-                rejects({message:err})
+                reject({message:err})
             }else if( !data || data.length === 0 ){
-                rejects({message:"Data can't found"});
+                reject({message:"Data can't found"});
             }else{
                 const allocatedList = data.map(list => ({
                     employeeId : list.EMPLOYEE_ID,
@@ -78,16 +78,16 @@ export const getAllocatedMechanicsService = async(updateJobId) => {
 
 //########################### get inCharge mechanic data - start   ###############################
 export const getInChargeMechanicsService = () => {
-    return new Promise ( (resolve,rejects) => {
+    return new Promise ( (resolve,reject) => {
         const q = `SELECT EMPLOYEE_ID,EMPLOYEE_NAME,MAIN_AREA,SUB_AREA
                    FROM mechanic
                    WHERE RESIGN_DATE IS NULL`
 
         db.query(q,(err,data)=> {
             if(err){
-                rejects({message:"Error!"})
+                reject({message:err})
             }else if( !data || data.length === 0 ){
-                rejects({message:"Data can't found"});
+                reject({message:"Data can't found"});
             }else{
                 const mechanicsList = data.map(list => ({
                     mecId : list.EMPLOYEE_ID,
@@ -114,7 +114,7 @@ export const assignMechanicService  = (selectId,updateJobId) => {
                 if (err.code === 'ER_DUP_ENTRY') {
                     resolve({ message: 'Mechanic already assigned' });
                 } else {
-                    reject({ message: err.message });
+                    reject({ message:"Error!"});
                 }
             } else {
                 resolve({ message: "Work allocated" });
@@ -127,19 +127,20 @@ export const assignMechanicService  = (selectId,updateJobId) => {
 
 //########################## check assign or not - start #########################################
 export const checkAssignMechanicService = (updateNoteMecId,updateJobId) => {
-    return new Promise ( (resolve,rejects) => {
-        const q = `SELECT STATUS 
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT STATUS,MECHANIC_NOTE 
                    FROM work_allocation
                    WHERE EMPLOYEE_ID = ? AND JOB_ID =? `;
 
         db.query(q,[updateNoteMecId,updateJobId], (err,data) => {
             if(err){
-                rejects({message:"Error!"})
+                reject({message:"Error!"})
             }else if( !data || data.length === 0 ){
-                rejects({message:"Not assign mechanic for this vehicle"});
+                reject({message:"Not assign mechanic for this vehicle"});
             }else{
                 const jobStatus = data.map(list => ({
-                    status : list.STATUS
+                    status : list.STATUS,
+                    note:list.MECHANIC_NOTE
                 }))
                 resolve({jobStatus});
             }
@@ -150,20 +151,20 @@ export const checkAssignMechanicService = (updateNoteMecId,updateJobId) => {
 
 //######################### get mechanic note - Start  ############################################
 export const getMechanicNoteService = (updateJobId) => {
-    return new Promise ( (resolve,rejects) => {
-        const q = `SELECT EMPLOYEE_ID,MECHANIC_NOTE 
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT EMPLOYEE_ID,MECHANIC_NOTE,STATUS
                    FROM work_allocation
                    WHERE JOB_ID =? `;
 
         db.query(q,[updateJobId], (err,data) => {
             if(err){
-                rejects({message:"Error!"})
+                reject({message:"Error!"})
             }else if( !data || data.length === 0 ){
-                rejects({message:"No note"});
+                reject({message:"No note"});
             }else{
                 const jobNote = data.map(list => ({
                     mecId : list.EMPLOYEE_ID,
-                    mecNote : list.MECHANIC_NOTE
+                    mecNote : list.MECHANIC_NOTE,
                 }))
                 resolve({jobNote});
             }
@@ -171,3 +172,25 @@ export const getMechanicNoteService = (updateJobId) => {
     })
 }
 //######################### get mechanic note - end    ############################################
+
+//######################### update mechnic note - satrt ############################################
+export const updateMechanicNoteService = (note,status,updateJobId,updateNoteMecId) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `UPDATE work_allocation
+                   SET MECHANIC_NOTE = ?,STATUS =?
+                   WHERE JOB_ID = ? AND EMPLOYEE_ID = ? `;
+
+        db.query(q,[note,status,updateJobId,updateNoteMecId], (err,data) => {
+            if (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    resolve({message:'Already updated!'});
+                } else {
+                    reject({message:err.message});
+                }
+            } else {
+                resolve({message:"Successfully updated!"});
+            }
+        })
+    })
+}
+//######################### update mechanic note - end  ############################################

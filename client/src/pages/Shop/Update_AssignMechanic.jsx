@@ -75,7 +75,6 @@ const Update_AssignMechanic = () => {
       setSelectedOption(null);
      }catch(err){
       toast.error(err.response.data.message);
-      
      }
   }
 
@@ -118,13 +117,10 @@ const Update_AssignMechanic = () => {
               <button className="btn btn-normal" onClick={handleAssignMechanic}>
                 Assign
               </button>
-            </div>
-             
+            </div>  
           </div>
-
         </div>
         {/**input data form -end */}
-
 
         {/**table - start */}
         <div className="box-content h-80 card mt-5 w-11/12 p-2">
@@ -146,13 +142,15 @@ const Update_AssignMechanic = () => {
               <tr key={index} className="text-center mainStyle">
                 <td className="border-2 border-black">{allocatedList.employeeId}</td>
                 <td className="border-2 border-black">{allocatedList.employeeName}</td>
-                <td className="border-2 border-black">{allocatedList.jobStatus}</td>
+                <td className={`border-2 border-black 
+                  ${allocatedList.jobStatus === 'complete' ? 'bg-green-400 text-black' : 
+                  allocatedList.jobStatus === 'withdraw' ? 'bg-red-400 text-black' : 
+                  allocatedList.jobStatus === 'waiting' ? 'bg-yellow-400 text-black' : ''}`}>
+                  {allocatedList.jobStatus}
+                </td>
              </tr>
             ))
-          )}
-
-          
-                      
+          )}          
         </table>
       </div>
       </div>

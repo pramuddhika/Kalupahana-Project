@@ -6,7 +6,10 @@ import { getJobUpdateDataController,
          checkAssignMechanicController,
          getMechanicNoteController,
          updateMechanicNoteController,
-         sendUpdatesController
+         sendUpdatesController,
+         generateMessageIdController,
+         addMessageController,
+         getSendMesageController
  } from "../controllers/updateJob-controller.js";
 
 const router = express.Router();
@@ -25,8 +28,15 @@ router.get('/checkAssign/:updateNoteMecId/:updateJobId', checkAssignMechanicCont
 router.get('/mechanicNotes/:updateJobId', getMechanicNoteController);
 //update mechanic note and status
 router.put('/updateMechanicNote', updateMechanicNoteController);
+
 //send email
 router.post('/sendUpdates', sendUpdatesController);
+//generate message Id
+router.get('/generateMessageId', generateMessageIdController);
+//add send message to data base
+router.post('/addMessage', addMessageController);
+//get send message from db
+router.get('/getSendMessage/:updateJobId' , getSendMesageController);
 
 
 export default router;

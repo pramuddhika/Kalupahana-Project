@@ -5,7 +5,10 @@ import {generateJobIdService,
         checkAssignMechanicService,
         getMechanicNoteService,
         updateMechanicNoteService,
-        sendUpdatesService
+        sendUpdatesService,
+        generateMessageIdService,
+        addMessageService,
+        getSendMesageService
        } from '../services/updateJob-service.js';
 
 //############################ get job update main data set - start ##############################
@@ -96,13 +99,48 @@ export const updateMechanicNoteController = async(req,res) => {
 //############################## send email - start ################################################
 export const sendUpdatesController = async (req, res) => {
     const { updateCustomerMail, message} = req.body;
-  
+   
     try {
       const data = await sendUpdatesService(updateCustomerMail,message);
       return res.status(200).json(data);
     } catch (err) {
-      console.log(err)
       return res.status(500).json({message:err.message});
     }
   };
 //############################## send email - end   ################################################
+
+//######################## generate message ID - start ###############################
+export const  generateMessageIdController = async(req,res) => {
+    try{
+        const data = await generateMessageIdService();
+        return res.json(data);
+    }catch(err){
+        return res.status(500).json({message:err.message});
+    }
+}
+//######################## generate message ID - end   ###############################
+
+//############################## add message - start ################################################
+export const addMessageController = async (req, res) => {
+    const { messageId,updateJobId,message} = req.body;
+   
+    try {
+      const data = await addMessageService(messageId,updateJobId,message);
+      return res.status(200).json(data);
+    } catch (err) {
+      return res.status(500).json({message:err.message});
+    }
+  };
+//############################## add message - end   ################################################
+
+//######################### get send message - Start  ############################################
+export const getSendMesageController = async(req,res) => {
+    const {updateJobId} = req.params;
+    try{
+        const data = await getSendMesageService(updateJobId);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json({message:err.message});
+    }
+}
+//######################### get send message - end    ############################################

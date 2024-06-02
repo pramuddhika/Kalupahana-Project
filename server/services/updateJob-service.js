@@ -214,10 +214,92 @@ export const sendUpdatesService = async (updateCustomerMail, message) => {
     var mailOptions = {
         from: EMAIL_USER,
         to: updateCustomerMail,
-        subject: 'Kalupahana Motors - Repair update',
+        subject: 'Kalupahana Motors - Repair Update',
         text: message
     };
    
-    return transporter.sendMail(mailOptions);
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, data) => {
+            if (err) {
+                reject({message:'Error!'});
+            } else {
+                resolve({message:'Success!'});
+            }
+        });
+    });
+    
 };
 //############################## send email - end   ################################################
+
+//######################## generate message ID - start ###############################
+export const generateMessageIdService = () => {
+    return new Promise((resolve, reject) => {
+      const q = 'SELECT MAX(SMS_ID) as maxId FROM sms';
+      db.query(q, (err, data) => {
+        if (err) {
+          reject({ message: "An error occurred!", error: err });
+          return;
+        }
+  
+        const maxId = data[0].maxId;
+        let newId;
+  
+        if (maxId) {
+          const numericPart = parseInt(maxId.split('-')[2], 15);
+          const newNumericPart = String(numericPart + 1).padStart(8, '0');
+          newId = `KM-MID-${newNumericPart}`;
+        } else {
+          newId = 'KM-MID-00000001';
+        }
+        resolve({MessageId: newId });
+      });
+    }
+  );
+}
+//######################## generate message ID - end   ###############################
+
+//############################## add message - start ################################################
+export const addMessageService  = (messageId,updateJobId,message) => {
+    return new Promise ( ( resolve,reject) => {
+        const q = `INSERT INTO sms
+                   (SMS_ID,JOB_ID,MESSAGE)
+                   VALUES (?,?,?)`;
+
+        db.query(q, [messageId,updateJobId,message], (err, data) => {
+            if (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    resolve({ message: 'Message already assigned' });
+                } else {
+                    reject({ message:"Error!"});
+                }
+            } else {
+                resolve({ message: "Message send successfully!" });
+            }
+        });        
+    })
+}
+//############################## add message - end   ################################################
+
+//######################### get mechanic note - Start  ############################################
+export const getSendMesageService = (updateJobId) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT SMS_ID,MESSAGE
+                   FROM sms
+                   WHERE JOB_ID =? `;
+
+        db.query(q,[updateJobId], (err,data) => {
+            if(err){
+                reject({message:"Error!"})
+            }else if( !data || data.length === 0 ){
+                reject({message:"No Message"});
+            }else{
+                const message = data.map(list => ({
+                    messageId : list.SMS_ID,
+                    message : list.MESSAGE
+                }))
+                resolve({message});
+            }
+        })
+    })
+}
+//######################### get mechanic note - end    ############################################

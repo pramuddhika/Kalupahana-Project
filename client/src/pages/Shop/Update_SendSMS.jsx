@@ -1,17 +1,38 @@
-import { useState,useContext } from "react";
+import { useState,useContext, useEffect } from "react";
 import { UpdateJobContext } from "./UpdateJobContext";
 import Details from "../components/Details";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const Update_SendSMS = () => {
 
   const [message,setMessage] = useState('');
   const { updateJobData } = useContext(UpdateJobContext);
+  const [messageId,setMessageId] = useState(null);
+  const [refresh,setRefresh] = useState(false);
+  const [tableData,settableData] = useState(null);
 
   const updateJobId = updateJobData[0].jobId;
   const updateCustomerMail = updateJobData[0].email;
-
+  
+  //get data from db
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [messageIdRes, messageRes] = await Promise.all([
+          axios.get('/api/updatejob/generateMessageId'),
+          axios.get(`/api/updatejob/getSendMessage/${updateJobId}`)
+        ]);
+  
+        setMessageId(messageIdRes.data.MessageId);
+        settableData(messageRes.data.message);
+      } catch (err) {
+        console.log("Error fetching data:", err);
+      }
+    }
+    fetchData();
+  }, [refresh, updateJobId]);
   
 
   const handelMessageChange = (e) =>{
@@ -24,14 +45,28 @@ const Update_SendSMS = () => {
   }
 
   //handle submit 
-  const handleSubmitButton = () =>{
+  const handleSubmitButton = async() =>{
     //stop empty mesage sending
     if(message.length === 0){
       toast.warning("Can't send empty message!");
       return;
     }
-    console.log(updateCustomerMail)
-    console.log(message);
+    
+    try{
+      const sendEmail = await axios.post('/api/updatejob/sendUpdates',{updateCustomerMail, message});
+      if (sendEmail.data.message === "Success!"){
+        try{
+          const sendTodb = await axios.post('/api/updatejob/addMessage',{messageId,updateJobId,message});
+          toast.success(sendTodb.data.message);
+          handelClearButton();
+          setRefresh(!refresh);
+        }catch(err){
+          toast.error(err.response.message);
+        }
+      }
+    }catch(err){
+      toast.error(err.response.message);
+    }
   }
 
   return (
@@ -64,16 +99,31 @@ const Update_SendSMS = () => {
           <p className="topic">Previous Updates</p>
           <div className="flex justify-center overflow-auto max-h-72">
             <table className="mx-auto font-inter mt-4 w-11/12">
+             <thead>
               <tr className='bg-text-primary text-white'>
                 <th className="border-2 border-black w-1/3">Meaasge ID</th>
                 <th className="border-2 border-black w-2/3">Message</th>
               </tr>
+             </thead>
 
-              <tr className="text-center mainStyle">
-                <td className="border-2 border-black"> test data</td>
-                <td className="border-2 border-black text-start pl-2"> test data</td>
-              </tr>             
-
+              <tbody>
+                {
+                  (tableData === null || tableData.length === 0) ? (
+                    <tr>
+                      <td colSpan="2" className='text-center border-2 border-black py-2 mainStyle'>
+                        No Note Available
+                      </td>
+                    </tr>
+                  ) : (
+                    tableData && tableData.map((message, index) => (
+                      <tr key={index} className="text-center mainStyle">
+                        <td className="border-2 border-black">{message.messageId}</td>
+                        <td className="border-2 border-black text-start pl-2">{message.message}</td>
+                      </tr>
+                    ))
+                  )
+                }
+              </tbody>         
             </table>
           </div>
         </div>

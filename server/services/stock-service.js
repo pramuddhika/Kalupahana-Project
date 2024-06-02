@@ -121,7 +121,7 @@ export const searchPartService = (searchID) => {
 export const todayPurchasesService = () => {
     return new Promise ( (resolve, reject) => {
 
-        const q = `SELECT PART_ID,DATE_FORMAT(DATE, '%Y-%m-%d') as DATE,QUANTITY 
+        const q = `SELECT PART_ID,DATE_FORMAT(DATE, '%Y-%m-%d') as DATE,QUANTITY,UNIT 
                    FROM purchases 
                    WHERE MONTH(DATE) = MONTH(CURDATE()) AND YEAR(DATE) = YEAR(CURDATE())`;
         
@@ -132,7 +132,8 @@ export const todayPurchasesService = () => {
                 const purchases = data.map (part => ({
                     partID : part.PART_ID,
                     date : part.DATE,
-                    quantity : part.QUANTITY
+                    quantity : part.QUANTITY,
+                    unit:part.UNIT
                 }));
                 resolve(purchases);
             }
@@ -142,14 +143,14 @@ export const todayPurchasesService = () => {
 //###################### get today purchases - end   #########################
 
 //###################### Add Purchases - start ############################
-export const AddPurchasesService = async (partID,dates,units) => {
+export const AddPurchasesService = async (partID,dates,units,unit) => {
     return new Promise ( (resolve, reject) => {
 
         const insert = `INSERT INTO purchases 
-                        (PART_ID,DATE,QUANTITY) 
-                        VALUES(?,?,?)`;
+                        (PART_ID,DATE,QUANTITY,UNIT) 
+                        VALUES(?,?,?,?)`;
 
-        db.query(insert, [partID,dates,units],(err,data) => {
+        db.query(insert, [partID,dates,units,unit],(err,data) => {
             if(err){
                 reject(err);
                 return;

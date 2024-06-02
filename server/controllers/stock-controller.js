@@ -85,9 +85,9 @@ export const todayPurchases  = async (req,res) =>{
 
 //###################### add purchases - start ###############################
 export const AddPurchases = async (req,res) => {
-    const {partID,dates,units} = req.body;
+    const {partID,dates,units,unit} = req.body;
     try{
-        const data = await AddPurchasesService(partID,dates,units);
+        const data = await AddPurchasesService(partID,dates,units,unit);
         return res.status(200).json(data);
     }catch(err){
         if (err.code == 'ER_DUP_ENTRY') {

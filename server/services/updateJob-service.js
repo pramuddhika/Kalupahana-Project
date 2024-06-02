@@ -116,7 +116,7 @@ export const assignMechanicService  = (selectId,updateJobId) => {
                 if (err.code === 'ER_DUP_ENTRY') {
                     resolve({ message: 'Mechanic already assigned' });
                 } else {
-                    reject({ message:"Error!"});
+                    reject({ message:"Server side error!"});
                 }
             } else {
                 resolve({ message: "Work allocated" });

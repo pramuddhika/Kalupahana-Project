@@ -4,16 +4,12 @@ import {addPartService,getId_NameService,searchPartService,deletePartService,edi
 
 //##################### add part details - satrt #########################
 export const addPart = async (req,res) => {
-    const {partID,partName,partDescription} = req.body;
+    const {partID,partName,partDescription,partUnit} = req.body;
     try{
-        const data = await addPartService(partID,partName,partDescription);
+        const data = await addPartService(partID,partName,partDescription,partUnit);
         return res.status(200).json(data);
     }catch(err){
-        if (err.code == 'ER_DUP_ENTRY') {
-            return res.status(409).json('Part Id or Part Name alread taken!');
-        } else {
-            return res.status(500).json('Server side error!');
-        }
+        return res.status(500).json(err);
     }
 }
 //##################### add part details - end  #########################

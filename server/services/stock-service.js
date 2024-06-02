@@ -1,18 +1,22 @@
 import {db} from '../env.js';
 
 //##################### add part details - satrt #########################
-export const addPartService = (partID,partName,partDescription) => {
+export const addPartService = (partID,partName,partDescription,partUnit) => {
     return new Promise ( (resolve,reject) => {
 
         const q = `INSERT INTO spare_parts 
-                   (PART_ID,PART_NAME,DESCRIPTION) 
-                   VALUES (?,?,?) `;
+                   (PART_ID,PART_NAME,DESCRIPTION,UNIT) 
+                   VALUES (?,?,?,?) `;
 
-        db.query( q, [partID,partName,partDescription], (err,data) => {
-            if(err){
-                reject(err);
-            }else{
-                resolve('part added!');
+        db.query( q, [partID,partName,partDescription,partUnit], (err,data) => {
+            if (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    reject({ message: 'Part exists!' });
+                } else {
+                    reject({ message:"Server side error!"});
+                }
+            } else {
+                resolve({ message: "Part Added!" });
             }
         });
     });

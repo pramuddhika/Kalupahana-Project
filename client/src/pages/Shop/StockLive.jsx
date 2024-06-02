@@ -234,7 +234,7 @@ pdf.autoTable(columns, tableData, {
                 <td className="border-2 border-black text-center py-3">{partDetails.partID}</td>
                 <td className="border-2 border-black text-start py-3 pl-3">{partDetails.partName}</td>
                 <td className="border-y-2 border-l-2 border-black text-right py-3">{partDetails.quantity}</td>
-                <td className="border-y-2 border-r-2 border-black py-3 text-left">{partDetails.unit}</td>
+                <td className="border-y-2 border-r-2 border-black py-3 w-8 text-left">{partDetails.unit}</td>
               </tr>
             ))
           )}

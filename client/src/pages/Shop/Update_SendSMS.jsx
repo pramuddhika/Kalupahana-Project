@@ -18,20 +18,25 @@ const Update_SendSMS = () => {
   
   //get data from db
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchMessageId = async () => {
       try {
-        const [messageIdRes, messageRes] = await Promise.all([
-          axios.get('/api/updatejob/generateMessageId'),
-          axios.get(`/api/updatejob/getSendMessage/${updateJobId}`)
-        ]);
-  
-        setMessageId(messageIdRes.data.MessageId);
-        settableData(messageRes.data.message);
+        const messageId = await axios.get('/api/updatejob/generateMessageId');
+        setMessageId(messageId.data.MessageId);
       } catch (err) {
-        console.log("Error fetching data:", err);
+        console.log("Error fetching messageId:", err);
       }
     }
-    fetchData();
+  
+    const fetchMessage = async () => {
+      try {
+        const message = await axios.get(`/api/updatejob/getSendMessage/${updateJobId}`);
+        settableData(message.data.message);
+      } catch (err) {
+        console.log("Error fetching message:", err);
+      }
+    }
+    fetchMessageId();
+    fetchMessage();
   }, [refresh, updateJobId]);
   
 
@@ -61,6 +66,7 @@ const Update_SendSMS = () => {
           handelClearButton();
           setRefresh(!refresh);
         }catch(err){
+          console.log(err)
           toast.error(err.response.data.message);
         }
       }

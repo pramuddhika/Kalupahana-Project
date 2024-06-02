@@ -197,7 +197,7 @@ const StockAddPurchases = () => {
                   <td className="border-2 border-black">{purchases.partID}</td>
                   <td className='border-2 border-black'>{purchases.date}</td>
                   <td className="border-y-2 border-l-2 text-end border-black">{purchases.quantity}</td>
-                  <td className="border-y-2 border-r-2 text-start border-black">{purchases.unit}</td>
+                  <td className="border-y-2 border-r-2 text-start w-12 border-black">{purchases.unit}</td>
                   <td className="border-2 border-black cursor-pointer" onClick={() => handleDeleteClick(purchases)}>
                     <TrashIcon className='text-red-600 h-5 mx-auto' />
                   </td>

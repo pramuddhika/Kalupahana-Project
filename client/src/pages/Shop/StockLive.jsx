@@ -155,21 +155,21 @@ const StockLive = () => {
     pdf.text(dateText, pageWidth - dateTextWidth - 26, 35);
   
     // Get table data
-    const tableData = tabledetails.map(item => [item.partID,item.partName,item.quantity]); 
-    const columns = ['Part ID','Part Name','Quantity']; 
-  
-    // Add table to PDF
-    pdf.autoTable(columns, tableData, {
-      startY: 45, 
-      margin: { horizontal: (pageWidth * 0.25) / 2 },
-      styles: { halign: 'center' },
-      // Center the content of the Part ID and quantity
-      columnStyles: {
-        0: { halign: 'center' }, 
-        1: {halign: 'start'},
-        2: { halign: 'center' }
-      } 
-    });
+const tableData = tabledetails.map(item => [item.partID, item.partName, `${item.quantity} ${item.unit}`]); 
+const columns = ['Part ID', 'Part Name', 'Quantity']; 
+
+// Add table to PDF
+pdf.autoTable(columns, tableData, {
+  startY: 45, 
+  margin: { horizontal: (pageWidth * 0.25) / 2 },
+  styles: { halign: 'center' },
+  // Center the content of the Part ID and quantity
+  columnStyles: {
+    0: { halign: 'center' }, 
+    1: {halign: 'start'},
+    2: { halign: 'center' }
+  } 
+});
     // Get current date and time and format it as a string
     const date = new Date();
     const dateTimeString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
@@ -221,7 +221,7 @@ const StockLive = () => {
           <tr className="bg-text-primary text-white h-12">
             <th className="w-1/4 border-2 border-black">Part ID</th>
             <th className="w-1/2 border-2 border-black">Part Name</th>
-            <th className="w-1/4 border-2 border-black">Quantity</th>
+            <th colSpan={2} className="w-1/4 border-2 border-black">Quantity</th>
           </tr>
 
           {tabledetails == null || tabledetails.length == 0 ? (
@@ -233,7 +233,8 @@ const StockLive = () => {
               <tr key={index} className="bg-gray-300 p-2">
                 <td className="border-2 border-black text-center py-3">{partDetails.partID}</td>
                 <td className="border-2 border-black text-start py-3 pl-3">{partDetails.partName}</td>
-                <td className="border-2 border-black text-center py-3">{partDetails.quantity}</td>
+                <td className="border-y-2 border-l-2 border-black text-right py-3">{partDetails.quantity}</td>
+                <td className="border-y-2 border-r-2 border-black py-3 text-left">{partDetails.unit}</td>
               </tr>
             ))
           )}

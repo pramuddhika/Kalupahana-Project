@@ -27,22 +27,23 @@ export const addPartService = (partID,partName,partDescription,partUnit) => {
 export const getId_NameService = () => {
     return new Promise ( (resolve,reject) => {
 
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY,UNIT
                    FROM spare_parts`;
 
         db.query( q, (err,data) => {
             if(err){
-                reject(err);
+                reject({ message:"Server side error!"});
             }else if ( !data || data.length === 0){
-                reject(new Error ('Data can not be found!'))
+                reject({message:'Data can not be found!'});
             }else {
                 const partDetails = data.map(part => ({
                     partID : part.PART_ID,
                     partName : part.PART_NAME,
                     description: part.DESCRIPTION,
+                    unit:part.UNIT,
                     quantity: part.QUANTITY
                 }));
-                resolve(partDetails);
+                resolve({partDetails});
             }
         } )
     })

@@ -21,7 +21,7 @@ const StockLive = () => {
   const fetchTableData =  async () => {
     try{
       const res = await axios.get('/api/stock/get');
-      setTableDetails(res.data);
+      setTableDetails(res.data.partDetails);
     }catch(err){
       console.log('Error fetching data:',err);
     }

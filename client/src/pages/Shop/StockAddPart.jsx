@@ -27,7 +27,7 @@ const StockAddPart = () => {
   const fetchPartDetails = async () => {
     try {
       const res = await axios.get("/api/stock/get");
-      setDetails(res.data);
+      setDetails(res.data.partDetails);
     } catch (err) {
       console.log('Error fetching data: ', err);
     }
@@ -311,19 +311,19 @@ const StockAddPart = () => {
         <div onClick={(e) => e.stopPropagation()}>
           <p className="font-bold pb-2 text-text-primary text-2xl text-center mb-3">Part Details Update</p>
 
-          <div className="flex fornt-inter items-center mb-4 w-88">
-            <p className="w-24 text-text-primary font-semibold">Part Id:</p>
-            <input type="text" value={editPartID} maxLength="20" readOnly className="input w-64 rounded-lg p-2 pl-4  border-2" />
+          <div className="flex fornt-inter items-center mb-4 w-88 mainStyle">
+            <p className="w-24">Part Id:</p>
+            <input type="text" value={editPartID} maxLength="20" readOnly className="input w-64 rounded-lg p-2 pl-4 border-2" />
           </div>
 
-          <div className="flex fornt-inter items-center mb-4 w-88">
-            <p className="w-24 text-text-primary font-semibold">Part Name:</p>
+          <div className="flex fornt-inter items-center mb-4 w-88 mainStyle">
+            <p className="w-24">Part Name:</p>
             <input type="text" value={editPartName} maxLength="100" onChange={handlePartNameEditChange}
               className="input w-64 rounded-lg p-2 pl-4 border-2" />
           </div>
 
-          <div className="flex fornt-inter ">
-            <p className="w-24 text-text-primary font-semibold mt-3">Description:</p>
+          <div className="flex fornt-inter mainStyle">
+            <p className="w-24 mt-3">Description:</p>
             <div className='relative bg-white rounded-lg'>
               <textarea rows={4} value={editPartDescription} onChange={handlePartDescriptionEditChange}
                 className="input w-64 rounded-lg p-2 pl-4 pr-2 border-2" maxLength="120" />

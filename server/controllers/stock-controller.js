@@ -20,7 +20,7 @@ export const getId_Name = async (req,res) => {
         const data = await getId_NameService();
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json(err.message);
+        return res.status(500).json(err);
     }
 }
 //##################### get part name & ID - end   #######################

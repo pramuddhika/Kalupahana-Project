@@ -33,7 +33,7 @@ const StockAddPurchases = () => {
   const fetchIDs = async () => {
     try{
       const res = await axios.get('/api/stock/get');
-      setDetails(res.data);
+      setDetails(res.data.partDetails);
     }catch(err){
       console.log('Error fetching data:',err);
     }

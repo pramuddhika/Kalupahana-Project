@@ -29,7 +29,7 @@ const Update_Search = () => {
       const res = await axios.get(`/api/updatejob/checkJobs/${updateNumber}`);
       console.log(res.data.message);
       if(res.data.message === "No ongoing job!"){
-        toast.warn(res.data.message);
+        toast.warning(res.data.message);
         return;
       }else{
         setUpdateJobData(res.data.UpdateJobData);

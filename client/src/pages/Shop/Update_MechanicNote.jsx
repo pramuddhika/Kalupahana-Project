@@ -114,7 +114,7 @@ const Update_MechanicNote = () => {
       toast.success(res.data.message);
       setFindMechanic(true);
     }catch(err){
-      toast.error(err.response.data.message)
+      toast.error(err.response.data.message);
     }
   };
 

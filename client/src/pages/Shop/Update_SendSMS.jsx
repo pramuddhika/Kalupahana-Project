@@ -54,18 +54,18 @@ const Update_SendSMS = () => {
     
     try{
       const sendEmail = await axios.post('/api/updatejob/sendUpdates',{updateCustomerMail, message});
-      if (sendEmail.data.message === "Success!"){
+      if (sendEmail.data.message === "success!"){
         try{
           const sendTodb = await axios.post('/api/updatejob/addMessage',{messageId,updateJobId,message});
           toast.success(sendTodb.data.message);
           handelClearButton();
           setRefresh(!refresh);
         }catch(err){
-          toast.error(err.response.message);
+          toast.error(err.response.data.message);
         }
       }
     }catch(err){
-      toast.error(err.response.message);
+      toast.error(err.response.data.message);
     }
   }
 

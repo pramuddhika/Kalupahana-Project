@@ -19,7 +19,7 @@ export const getJobUpdateDataController = async(req,res) => {
         const data = await generateJobIdService(updateNumber);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json({message:"Server side error!"});
+        return res.status(500).json({err});
     }
 }
 //############################ get job update main data set - end   ##############################
@@ -32,7 +32,7 @@ export const getAllocatedMechanicsController = async(req,res) => {
         const data = await getAllocatedMechanicsService(updateJobId);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json({message:err.message});
+        return res.status(500).json({err});
     }
 }
 //########################### get allocated mechaic list - end     ###############################
@@ -43,7 +43,7 @@ export const getInChargeMechanicsController = async(req,res) => {
         const data = await getInChargeMechanicsService();
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json({message:err.message});
+        return res.status(500).json({err});
     }
 }
 //########################### get inChange mechanic data - end     ###############################
@@ -55,7 +55,7 @@ export const assignMechanicController = async(req,res) => {
         const data = await assignMechanicService(selectId,updateJobId);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json({message:"Server side error"});
+        return res.status(500).json({err});
     }
 }
 //########################### assign mechnic to job - end   ######################################
@@ -67,7 +67,7 @@ export const checkAssignMechanicController = async(req,res) => {
         const data = await checkAssignMechanicService(updateNoteMecId,updateJobId);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json({message:err.message});
+        return res.status(500).json({err});
     }
 }
 //########################## check assign or not - end   #########################################
@@ -79,7 +79,7 @@ export const getMechanicNoteController = async(req,res) => {
         const data = await getMechanicNoteService(updateJobId);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json({message:err.message});
+        return res.status(500).json({err});
     }
 }
 //######################### get mechanic note - end    ############################################
@@ -91,7 +91,7 @@ export const updateMechanicNoteController = async(req,res) => {
         const data = await updateMechanicNoteService(note,status,updateJobId,updateNoteMecId);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json({message:err.message});
+        return res.status(500).json({err});
     }
 }
 //######################### update mechanic note - end  ############################################
@@ -104,7 +104,7 @@ export const sendUpdatesController = async (req, res) => {
       const data = await sendUpdatesService(updateCustomerMail,message);
       return res.status(200).json(data);
     } catch (err) {
-      return res.status(500).json({message:err.message});
+      return res.status(500).json({err});
     }
   };
 //############################## send email - end   ################################################
@@ -115,7 +115,7 @@ export const  generateMessageIdController = async(req,res) => {
         const data = await generateMessageIdService();
         return res.json(data);
     }catch(err){
-        return res.status(500).json({message:err.message});
+        return res.status(500).json({err});
     }
 }
 //######################## generate message ID - end   ###############################
@@ -128,7 +128,7 @@ export const addMessageController = async (req, res) => {
       const data = await addMessageService(messageId,updateJobId,message);
       return res.status(200).json(data);
     } catch (err) {
-      return res.status(500).json({message:err.message});
+      return res.status(500).json({err});
     }
   };
 //############################## add message - end   ################################################
@@ -140,7 +140,7 @@ export const getSendMesageController = async(req,res) => {
         const data = await getSendMesageService(updateJobId);
         return res.status(200).json(data);
     }catch(err){
-        return res.status(500).json({message:err.message});
+        return res.status(500).json({err});
     }
 }
 //######################### get send message - end    ############################################

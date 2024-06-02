@@ -21,7 +21,7 @@ export const generateJobIdService = async(updateNumber) => {
 
         db.query(check,[updateNumber],(err,data)=>{
             if(err){
-                reject({err});
+                reject({message:"Server side error!"});
                 return;
             } else if (data.length === 0 ){
                 resolve({message:"No ongoing job!"});
@@ -30,7 +30,7 @@ export const generateJobIdService = async(updateNumber) => {
 
             db.query(getInfo,[updateNumber],(err,data) => {
                 if(err){
-                    reject({err});
+                    reject({message:"Server side error!"});
                 }else{
                     const UpdateJobData = data.map(item => ({
                         jobId : item.JOB_ID,
@@ -62,7 +62,7 @@ export const getAllocatedMechanicsService = async(updateJobId) => {
         
         db.query(q,[updateJobId],(err,data) => {
             if(err){
-                reject({message:err})
+                reject({message:"Server side error!"})
             }else if( !data || data.length === 0 ){
                 reject({message:"Data can't found"});
             }else{
@@ -87,7 +87,7 @@ export const getInChargeMechanicsService = () => {
 
         db.query(q,(err,data)=> {
             if(err){
-                reject({message:err})
+                reject({message:"Server side error!"})
             }else if( !data || data.length === 0 ){
                 reject({message:"Data can't found"});
             }else{
@@ -114,7 +114,7 @@ export const assignMechanicService  = (selectId,updateJobId) => {
         db.query(q, [selectId, updateJobId], (err, data) => {
             if (err) {
                 if (err.code === 'ER_DUP_ENTRY') {
-                    resolve({ message: 'Mechanic already assigned' });
+                    reject({ message: 'Mechanic already assigned' });
                 } else {
                     reject({ message:"Server side error!"});
                 }
@@ -136,7 +136,7 @@ export const checkAssignMechanicService = (updateNoteMecId,updateJobId) => {
 
         db.query(q,[updateNoteMecId,updateJobId], (err,data) => {
             if(err){
-                reject({message:"Error!"})
+                reject({message:"Server side error!"})
             }else if( !data || data.length === 0 ){
                 reject({message:"Not assign mechanic for this vehicle"});
             }else{
@@ -160,7 +160,7 @@ export const getMechanicNoteService = (updateJobId) => {
 
         db.query(q,[updateJobId], (err,data) => {
             if(err){
-                reject({message:"Error!"})
+                reject({message:"Server side error!"})
             }else if( !data || data.length === 0 ){
                 reject({message:"No note"});
             }else{
@@ -185,9 +185,9 @@ export const updateMechanicNoteService = (note,status,updateJobId,updateNoteMecI
         db.query(q,[note,status,updateJobId,updateNoteMecId], (err,data) => {
             if (err) {
                 if (err.code === 'ER_DUP_ENTRY') {
-                    resolve({message:'Already updated!'});
+                    reject({message:'Already updated!'});
                 } else {
-                    reject({message:err.message});
+                    reject({message:"Server side error!"});
                 }
             } else {
                 resolve({message:"Successfully updated!"});
@@ -221,9 +221,9 @@ export const sendUpdatesService = async (updateCustomerMail, message) => {
     return new Promise((resolve, reject) => {
         transporter.sendMail(mailOptions, (err, data) => {
             if (err) {
-                reject({message:'Error!'});
+                reject({message:'Server side error!'});
             } else {
-                resolve({message:'Success!'});
+                resolve({message:'success!'});
             }
         });
     });
@@ -237,7 +237,7 @@ export const generateMessageIdService = () => {
       const q = 'SELECT MAX(SMS_ID) as maxId FROM sms';
       db.query(q, (err, data) => {
         if (err) {
-          reject({ message: "An error occurred!", error: err });
+          reject({message:"Server side error!"});
           return;
         }
   
@@ -268,9 +268,9 @@ export const addMessageService  = (messageId,updateJobId,message) => {
         db.query(q, [messageId,updateJobId,message], (err, data) => {
             if (err) {
                 if (err.code === 'ER_DUP_ENTRY') {
-                    resolve({ message: 'Message already assigned' });
+                    reject({message: 'Message already assigned'});
                 } else {
-                    reject({ message:"Error!"});
+                    reject({message:"Server side error!"});
                 }
             } else {
                 resolve({ message: "Message send successfully!" });
@@ -289,7 +289,7 @@ export const getSendMesageService = (updateJobId) => {
 
         db.query(q,[updateJobId], (err,data) => {
             if(err){
-                reject({message:"Error!"})
+                reject({message:"Server side error!"})
             }else if( !data || data.length === 0 ){
                 reject({message:"No Message"});
             }else{

@@ -43,7 +43,7 @@ export const  checkRegisteredVehicleController = async(req,res) => {
 //#################### get customer data - satrt ##########################################
 export const checkCustomerController = async(req,res) => {
     const {NICnumber} = req.params;
-
+    
     try{
         const data = await checkCustomerService(NICnumber);
         return res.status(200).json(data);
@@ -69,7 +69,6 @@ export const customerDataUpdateController = async(req,res) => {
 //######################### register customer data - start ###################################
 export const customerRegisterController = async(req,res) => {
     const {customerName,customerEmail,customerPhoneNumber,NICnumber} = req.body;
-
     try{
         const data = await customerRegisterService(customerName,customerEmail,customerPhoneNumber,NICnumber);
         return res.status(200).json(data);

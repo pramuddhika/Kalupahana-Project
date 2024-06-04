@@ -208,16 +208,17 @@ const OpenJob_VehicleDetails = () => {
     }
 
     //handel - [registered vehicle] - [not registered customer]
-    if( oldVehicle === "old" && newCustomer === "notOld"  && (initNIC === NICnumber)){
-
+    if( oldVehicle === "old" && newCustomer === "notOld"  && (initNIC !== NICnumber)){
+      console.log('k')
       //register the new customer
       try{
+        console.log(customerName,customerEmail,customerPhoneNumber,NICnumber)
         const res = await axios.post('/api/openjob/registerCustomer', {customerName,customerEmail,customerPhoneNumber,NICnumber});
         toast.success(res.data.message);
-
         //change vehicle ownership in data base
         try{
           const owner = await  axios.put('/api/openjob/ownerChange', {NICnumber,vehicleNumber});
+          
           toast.success(owner.data.message);
           movingToDocument();
         }catch(err){

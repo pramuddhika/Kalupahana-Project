@@ -6,6 +6,7 @@ import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { validateQuantity } from "../Validation/InputFeilds"; 
 
 const Update_UsePart = () => {
 
@@ -67,9 +68,22 @@ const Update_UsePart = () => {
     setUnits(e.target.value);
   }
 
+  //handle clear click
+  const handleClearClick = () =>{
+    setSelectedPart(null)
+    setUnit('')
+    setUnits('')
+  }
+
   //handle Add button
   const handleAddClick = async(e) => {
     e.preventDefault();
+
+    const quntityErr = validateQuantity(units);
+    if(quntityErr){
+      toast.warning(quntityErr);
+      return;
+    }
     
     try{
      const res = await axios.post('/api/updatejob/addUseParts', {partID,updateJobId,units});
@@ -111,8 +125,9 @@ const Update_UsePart = () => {
             </div>
           </div>
 
-          <div className="flex justify-end mr-20">
+          <div className="flex justify-end gap-5 mt-2 mr-15">
             <button className="btn btn-normal" onClick={handleAddClick}>Add</button>
+            <button className="btn btn-warning" onClick={handleClearClick}>Clear</button>
           </div>
 
         </div>

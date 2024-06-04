@@ -94,4 +94,26 @@ export const validateFileType = (files) => {
 return null;
 }
 //#######################################################################
+
+//############### validate quntity value ################################
+export const validateQuantity = (quantity) => {
+  // Check if quantity is empty
+  if (!quantity) {
+    return ("Quantity cannot be empty");
+  }
+
+  // Check if quantity is negative
+  if (quantity < 0) {
+    return ("Quantity cannot be negative");
+  }
+
+  const quantityRegex = /^(\d{1,3}(\.\d{1,2})?)$/;
+  
+  if (!quantityRegex.test(quantity)) {
+    return ("Invalid quantity");
+  }
+
+  return null;
+}
+//#######################################################################
   

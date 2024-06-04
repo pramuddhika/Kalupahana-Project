@@ -8,7 +8,9 @@ import {generateJobIdService,
         sendUpdatesService,
         generateMessageIdService,
         addMessageService,
-        getSendMesageService
+        getSendMesageService,
+        addUsePartsService,
+        getUsePartsService
        } from '../services/updateJob-service.js';
 
 //############################ get job update main data set - start ##############################
@@ -143,3 +145,28 @@ export const getSendMesageController = async(req,res) => {
     }
 }
 //######################### get send message - end    ############################################
+
+//###################### add use parts - start ##################################################
+export const addUsePartsController = async (req,res) => {
+    const {partID,updateJobId,units} = req.body;
+    try{
+        const data = await addUsePartsService(partID,updateJobId,units);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err);
+        
+    }
+}
+//###################### add use parts - end   #################################################
+
+//######################### get use parts - Start  #############################################
+export const getUsePartsController = async(req,res) => {
+    const {updateJobId} = req.params;
+    try{
+        const data = await getUsePartsService(updateJobId);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err);
+    }
+}
+//######################### get use parts - end    #############################################

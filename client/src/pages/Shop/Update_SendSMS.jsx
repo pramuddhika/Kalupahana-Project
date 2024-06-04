@@ -81,7 +81,7 @@ const Update_SendSMS = () => {
         <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light" />
 
         <div className="h-48 card mt-5 w-11/12 p-2">
-          <p className="topic">Send SMS Update</p>
+          <p className="topic">Send E-mail Update</p>
           <div className="flex justify-between ">
             <div className="relative flex gap-10 my-4 ml-16 mainStyle">
               <p>Message: </p>

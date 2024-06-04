@@ -187,7 +187,7 @@ const StockAddPurchases = () => {
               <th className="border-2 border-black">Action</th>
             </tr>
 
-            {tableList == null || tableList.length == 0 ? (
+            {tableList === null || tableList.length === 0 ? (
               <tr>
                 <td colSpan="5" className='text-center border-2 border-black py-2 mainStyle'>No data to display</td>
               </tr>

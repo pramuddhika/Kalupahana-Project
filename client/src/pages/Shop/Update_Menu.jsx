@@ -25,7 +25,7 @@ const Update_Menu = () => {
              <button className={`${activeTopic === 'MechanicNote' ? 'topic':'text-gray-500'}`}
               onClick={()=> handleTopicClick('MechanicNote')}>MechanicNote</button>
              <button className={`${activeTopic === 'SendSMS' ? 'topic':'text-gray-500'}`}
-              onClick={()=> handleTopicClick('SendSMS')}>SMS Updates</button>
+              onClick={()=> handleTopicClick('SendSMS')}>Job Updates</button>
              <button className={`${activeTopic === 'CloseJob' ? 'topic':'text-gray-500'}`}
               onClick={()=> handleTopicClick('CloseJob')}>Close Job</button>
            </div>

@@ -121,9 +121,10 @@ export const searchPartService = (searchID) => {
 export const todayPurchasesService = () => {
     return new Promise ( (resolve, reject) => {
 
-        const q = `SELECT PART_ID,DATE_FORMAT(DATE, '%Y-%m-%d') as DATE,QUANTITY,UNIT 
-                   FROM purchases 
-                   WHERE MONTH(DATE) = MONTH(CURDATE()) AND YEAR(DATE) = YEAR(CURDATE())`;
+        const q = `SELECT p.PART_ID, DATE_FORMAT(p.DATE, '%Y-%m-%d') as DATE, p.QUANTITY, sp.UNIT 
+                   FROM purchases p
+                   INNER JOIN spare_parts sp ON p.PART_ID = sp.PART_ID
+                   WHERE MONTH(p.DATE) = MONTH(CURDATE()) AND YEAR(p.DATE) = YEAR(CURDATE())`;
         
         db.query(q,(err,data) => {
             if(err){
@@ -143,14 +144,14 @@ export const todayPurchasesService = () => {
 //###################### get today purchases - end   #########################
 
 //###################### Add Purchases - start ############################
-export const AddPurchasesService = async (partID,dates,units,unit) => {
+export const AddPurchasesService = async (partID,dates,units) => {
     return new Promise ( (resolve, reject) => {
 
         const insert = `INSERT INTO purchases 
-                        (PART_ID,DATE,QUANTITY,UNIT) 
-                        VALUES(?,?,?,?)`;
+                        (PART_ID,DATE,QUANTITY) 
+                        VALUES(?,?,?)`;
 
-        db.query(insert, [partID,dates,units,unit],(err,data) => {
+        db.query(insert, [partID,dates,units],(err,data) => {
             if(err){
                 reject(err);
                 return;

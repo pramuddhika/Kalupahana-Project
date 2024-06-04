@@ -303,3 +303,53 @@ export const getSendMesageService = (updateJobId) => {
     })
 }
 //######################### get mechanic note - end    ############################################
+
+//##################### add part details - satrt #################################################
+export const addUsePartsService = (partID,updateJobId,units) => {
+    return new Promise ( (resolve,reject) => {
+
+        const q = `INSERT INTO used_part 
+                   (PART_ID,JOB_ID,QUANTITY) 
+                   VALUES (?,?,?) `;
+
+        db.query( q, [partID,updateJobId,units], (err,data) => {
+            if (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    reject({ message: 'Part exists!' });
+                } else {
+                    reject({ message:"Server side error!"});
+                }
+            } else {
+                resolve({ message: "Part updated!" });
+            }
+        });
+    });
+}
+//##################### add part details - end   #################################################
+
+//######################### get mechanic note - Start  ############################################
+export const getUsePartsService = (updateJobId) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT u.PART_ID,u.QUANTITY,s.PART_NAME,s.UNIT
+                   FROM used_part u
+                   INNER JOIN spare_parts s ON u.PART_ID = s.PART_ID
+                   WHERE u.JOB_ID =? `;
+
+        db.query(q,[updateJobId], (err,data) => {
+            if(err){
+                reject({message:"Server side error!"})
+            }else if( !data || data.length === 0 ){
+                reject({message:"No note"});
+            }else{
+                const useParts = data.map(list => ({
+                    partId : list.PART_ID,
+                    PartName : list.PART_NAME,
+                    partQuntity : list.QUANTITY,
+                    partUnit : list.UNIT
+                }))
+                resolve({useParts});
+            }
+        })
+    })
+}
+//######################### get mechanic note - end    ############################################

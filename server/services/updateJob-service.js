@@ -305,29 +305,34 @@ export const getSendMesageService = (updateJobId) => {
 //######################### get mechanic note - end    ############################################
 
 //##################### add part details - satrt #################################################
-export const addUsePartsService = (partID,updateJobId,units) => {
-    return new Promise ( (resolve,reject) => {
+export const addUsePartsService = (partID, updateJobId, units) => {
+    return new Promise((resolve, reject) => {
+      const usepart = `INSERT INTO used_part (PART_ID, JOB_ID, QUANTITY)
+                       VALUES (?, ?, ?)
+                       ON DUPLICATE KEY UPDATE QUANTITY = QUANTITY + VALUES(QUANTITY)`;
 
-        const q = `INSERT INTO used_part 
-                   (PART_ID,JOB_ID,QUANTITY) 
-                   VALUES (?,?,?) `;
+      const stock = `UPDATE spare_parts 
+                    SET QUANTITY = QUANTITY - ? 
+                    WHERE PART_ID = ?`;
+  
+      db.query(usepart, [partID, updateJobId, units], (err, data) => {
+        if (err) {
+          reject({ message: "Server side error!" });
+        }
 
-        db.query( q, [partID,updateJobId,units], (err,data) => {
+        db.query(stock, [units,partID],(err,data) => {
             if (err) {
-                if (err.code === 'ER_DUP_ENTRY') {
-                    reject({ message: 'Part exists!' });
-                } else {
-                    reject({ message:"Server side error!"});
-                }
-            } else {
+                reject({ message: "Server side error!" });
+            }else {
                 resolve({ message: "Part updated!" });
             }
-        });
+        })
+      });
     });
 }
 //##################### add part details - end   #################################################
 
-//######################### get mechanic note - Start  ############################################
+//######################### get use part details - Start  ############################################
 export const getUsePartsService = (updateJobId) => {
     return new Promise ( (resolve,reject) => {
         const q = `SELECT u.PART_ID,u.QUANTITY,s.PART_NAME,s.UNIT
@@ -352,4 +357,4 @@ export const getUsePartsService = (updateJobId) => {
         })
     })
 }
-//######################### get mechanic note - end    ############################################
+//######################### get use part details - end    ############################################

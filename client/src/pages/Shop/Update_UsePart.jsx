@@ -1,5 +1,5 @@
 import Details from "../components/Details";
-import { useState,useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { UpdateJobContext } from "./UpdateJobContext";
 import axios from "axios";
 import Select from 'react-select';
@@ -21,29 +21,30 @@ const Update_UsePart = () => {
 
   const updateJobId = updateJobData[0].jobId;
 
-  // Fetch part IDs and details
-  const fetchIDs = async () => {
-    try {
-      const res = await axios.get('/api/stock/get');
-      setDetails(res.data.partDetails);
-    } catch (err) {
-      console.log('Error fetching data:', err);
-    }
-  }
-
-  //Fetch table data
-  const fetcgTableData = async() => {
-    try{
-      const res = await axios.get(`/api/updatejob/getusePArts/${updateJobId}`);
-      setTableData(res.data.useParts);
-    }catch(err){
-      console.log(err.response.data.message)
-    }
-  }
-
+  
   useEffect(() => {
+    // Fetch part IDs and details
+    const fetchIDs = async () => {
+      try {
+        const res = await axios.get('/api/stock/get');
+        setDetails(res.data.partDetails);
+      } catch (err) {
+        console.log('Error fetching data:', err);
+      }
+    }
+  
+    //Fetch table data
+    const fetchTableData = async() => {
+      try{
+        const res = await axios.get(`/api/updatejob/getusePArts/${updateJobId}`);
+        setTableData(res.data.useParts);
+      }catch(err){
+        console.log(err.response.data.message)
+      }
+    }
+  
     fetchIDs();
-    fetcgTableData();
+    fetchTableData();
   }, [refresh])
 
   
@@ -89,6 +90,7 @@ const Update_UsePart = () => {
      const res = await axios.post('/api/updatejob/addUseParts', {partID,updateJobId,units});
      toast.success(res.data.message);
      setRefresh(!refresh);
+     handleClearClick();
     }catch(err){
      toast.error(err.response.data.message)
     } 
@@ -120,14 +122,14 @@ const Update_UsePart = () => {
           <div className="flex items-center w-10/12 font-inter gap-2 mt-4">
             <p className="text-text-primary font-semibold w-4/12 ml-14 pl-1">Quantity: </p>
             <div className="flex items-center gap-3">
-              <input type="number" className="input p-2 rounded-lg w-48 ml-1" value={units} onChange={handleQuantityChange} placeholder="XXX.XX" />
+              <input type="number" className="input p-2 rounded-lg w-48 ml-1 text-center" value={units} onChange={handleQuantityChange} placeholder="XXX.XX" />
               <input type="text" id="unit" className="input p-2 rounded-lg w-24" value={unit} readOnly/>
             </div>
           </div>
 
-          <div className="flex justify-end gap-5 mt-2 mr-15">
-            <button className="btn btn-normal" onClick={handleAddClick}>Add</button>
+          <div className="flex justify-end gap-5 mt-2 mr-8">
             <button className="btn btn-warning" onClick={handleClearClick}>Clear</button>
+            <button className="btn btn-normal" onClick={handleAddClick}>Add</button>
           </div>
 
         </div>

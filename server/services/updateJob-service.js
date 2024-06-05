@@ -358,3 +358,30 @@ export const getUsePartsService = (updateJobId) => {
     })
 }
 //######################### get use part details - end    ############################################
+
+//#################### generate post repair document id - start ###############################
+export const generateJobCloseIdService = () => {
+    return new Promise((resolve, reject) => {
+      const q = 'SELECT MAX(DOCUMENT_ID) as maxId FROM post_repair_document';
+      db.query(q, (err, data) => {
+        if (err) {
+          reject({ message: "An error occurred!", error: err });
+          return;
+        }
+  
+        const maxId = data[0].maxId;
+        let newId;
+  
+        if (maxId) {
+          const numericPart = parseInt(maxId.split('-')[2], 10);
+          const newNumericPart = String(numericPart + 1).padStart(7, '0');
+          newId = `POS-DOC-${newNumericPart}`;
+        } else {
+          newId = 'POS-DOC-0000001';
+        }
+        resolve({PostRepairDocumentId: newId });
+      });
+    }
+  );
+}
+//#################### generate post repair document id - end   ###############################

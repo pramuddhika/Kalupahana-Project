@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../components/Modal';
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
+import { validateQuantity } from "../Validation/InputFeilds"; 
 
 const StockAddPart = () => {
   const [details, setDetails] = useState(null);
@@ -111,10 +112,12 @@ const StockAddPart = () => {
       toast.error('Part Name cannot be empty');
       return;
     }
-    if (!inputs.partUnit) {
-      toast.error('Part Unit cannot be empty');
+    const quntityErr = validateQuantity(inputs.partUnit);
+    if(quntityErr){
+      toast.error(quntityErr);
       return;
     }
+
     //send data to server
     try {
       const res = await axios.post('/api/stock/add', inputs);

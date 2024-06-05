@@ -11,7 +11,9 @@ import { getJobUpdateDataController,
          addMessageController,
          getSendMesageController,
          addUsePartsController,
-         getUsePartsController
+         getUsePartsController,
+         generateJobCloseIdController,
+         addCloseJobDataController
  } from "../controllers/updateJob-controller.js";
 
 const router = express.Router();
@@ -46,6 +48,11 @@ router.get('/getSendMessage/:updateJobId' , getSendMesageController);
 router.post('/addUseParts', addUsePartsController);
 //get use part data
 router.get('/getusePArts/:updateJobId', getUsePartsController);
+
+//generate doc id
+router.get('/generateJobCloseId', generateJobCloseIdController);
+//add close jon data
+router.post('/addCloseJonData', addCloseJobDataController);
 
 
 

@@ -45,7 +45,7 @@ const Update_UsePart = () => {
   
     fetchIDs();
     fetchTableData();
-  }, [refresh])
+  },[refresh])
 
   
   // Make option array for part IDs

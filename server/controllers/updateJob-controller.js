@@ -10,7 +10,8 @@ import {generateJobIdService,
         addMessageService,
         getSendMesageService,
         addUsePartsService,
-        getUsePartsService
+        getUsePartsService,
+        generateJobCloseIdService
        } from '../services/updateJob-service.js';
 
 //############################ get job update main data set - start ##############################
@@ -170,3 +171,20 @@ export const getUsePartsController = async(req,res) => {
     }
 }
 //######################### get use parts - end    #############################################
+
+//#################### generate post repair document id - start ###############################
+export const generateJobCloseIdController = async(req,res) => {
+    try{
+        const data = await generateJobCloseIdService();
+        return res.json(data);
+    }catch(err){
+        return res.status(500).json("Server side error!");
+    }
+}
+//#################### generate post repair document id - end   ###############################
+
+//#################### add job close data - start #############################################
+export const  addCloseJobDataController = async(req,res) => {
+    const {postDocId,newBatteryHealth,newEnginePerformance,newTireCondition,newFluidLevels,instructions,shopOwnerNote} = req.body;
+}
+//#################### add job close data - end   #############################################

@@ -132,7 +132,6 @@ export const checkVehicleReopeningJobController = async(req,res) => {
         const data = await checkVehicleReopeningJobService(vehicleNumber);
         return res.status(200).json(data);
     }catch(err){
-        console.log(err.message)
         return res.status(500).json("Server side error!");
     }
 }
@@ -167,7 +166,6 @@ export const addOtherItemsDataController = async (req, res) => {
         const data = await Promise.all(promises);
         return res.status(200).json(data);
     } catch (err) {
-        console.error("Error adding other items data:", err);
         return res.status(500).json("Server side error!");
     }
 }

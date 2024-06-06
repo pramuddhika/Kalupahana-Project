@@ -1,12 +1,14 @@
 import { useEffect, useState, useCallback } from "react";
 import ShopHeader from "../components/ShopHeader";
-import { useLocation } from "react-router-dom";
+import { useLocation,Link } from "react-router-dom";
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { XCircleIcon } from '@heroicons/react/24/solid';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { validateInputField, validateFileType } from '../Validation/InputFeilds';
+import Modal from '../components/Modal';
+import PreRepairDoc from "../components/PreRepairDoc";
 
 const PreRepairAssessment = () => {
   const location = useLocation();
@@ -22,6 +24,7 @@ const PreRepairAssessment = () => {
   const [additionalNote, setAdditionalNote] = useState('');
   const [vehicleFault, setVehicleFault] = useState('');
   const [otherItems, setOtherItems] = useState('');
+  const [jobOpenModal,setJobOpenModal] = useState(false);
   const [checkList, setCheckList] = useState({
     spareTire: "no",
     tireJack: "no",
@@ -114,7 +117,8 @@ const PreRepairAssessment = () => {
 
       await axios.post('/api/openjob/addRecordData', { jobId, vehicleNumber, dateString, preDocId });
       toast.success("Job open successfully");
-      handleDataClear();
+      setJobOpenModal(true);
+      // handleDataClear();
     } catch (err) {
       console.error("Error submitting data:", err);
       toast.error("An error occurred while submitting the data.");
@@ -303,6 +307,46 @@ const PreRepairAssessment = () => {
           <button className="btn btn-normal" onClick={handleDataSubmit}>Submit</button>
         </div>
       </div>
+
+      <Modal open={jobOpenModal} >
+        <div>
+          <div onClick={(e) => e.stopPropagation()}>
+            <p className="font-bold pb-2 text-text-primary text-2xl text-center">Job Open Successfully</p>
+                
+            <div className='text-center pt-2'>
+              <p className='mainStyle'>Please select an option,</p>
+            </div>
+                
+            <div className="flex justify-center">
+              <PreRepairDoc
+                vehicleNumber={vehicleNumber}
+                customerName={customerName}
+                customerEmail={customerEmail}
+                customerPhoneNumber={customerPhoneNumber}
+                preDocId={preDocId}
+                jobId={jobId}
+                dateString={dateString}
+                checkList={checkList}
+                otherItems={otherItems}
+                additionalNote={additionalNote}
+                files={files}
+                vehicleFault={vehicleFault}
+              />
+            </div>
+
+            <div className="flex justify-center">
+              <Link to = {'/shop/updateJob'}>
+                <button className="btn btn-normal w-40 mx-auto mt-2">Back</button>
+              </Link>
+            </div>
+
+          </div>
+        </div>
+      </Modal>
+
+
+
+
     </div>
 
     

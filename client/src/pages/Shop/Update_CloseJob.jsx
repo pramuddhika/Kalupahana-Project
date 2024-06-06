@@ -7,7 +7,7 @@ import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../components/Modal';
 import { Link } from 'react-router-dom';
-import PostRepairDoc from '../components/PostRepairDoc';
+import PostRepairDocument from '../components/PostRepairDocument';
 
 const Update_CloseJob = () => {
 
@@ -79,7 +79,6 @@ const Update_CloseJob = () => {
                         newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId})
           setJobCloseModal(true);
         }catch(err){
-          console.log(err.response.data)
           toast.error(err.response.data.message)
         }
       }
@@ -228,7 +227,7 @@ const Update_CloseJob = () => {
             </div>
                 
             <div className="flex justify-center">
-            <PostRepairDoc
+            <PostRepairDocument
                 vehicleNumber={vehicleNumber}
                 customerName={customerName}
                 customerEmail={customerEmail}
@@ -243,10 +242,6 @@ const Update_CloseJob = () => {
                 instructions={instructions}
                 shopOwnerNote={shopOwnerNote}
               /> 
-            </div>
-
-            <div className="flex justify-center">
-              <button className="btn btn-normal w-40 mx-auto mt-2">Send Document</button>
             </div>
 
             <div className="flex justify-center">

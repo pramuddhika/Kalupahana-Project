@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import PropTypes from 'prop-types';
 
-const PostRepairDoc = ({
+const PostRepairDocument = ({
   vehicleNumber,
   customerName,
   customerEmail,
@@ -83,7 +83,7 @@ const PostRepairDoc = ({
 };
 
 
-PostRepairDoc.propTypes = {
+PostRepairDocument.propTypes = {
   vehicleNumber: PropTypes.string.isRequired,
   customerName: PropTypes.string.isRequired,
   customerEmail: PropTypes.string.isRequired,
@@ -107,5 +107,5 @@ PostRepairDoc.propTypes = {
   shopOwnerNote: PropTypes.string.isRequired
 };
 
-export default PostRepairDoc;
+export default PostRepairDocument;
 

@@ -233,7 +233,9 @@ pdf.autoTable(columns, tableData, {
               <tr key={index} className="bg-gray-300 p-2">
                 <td className="border-2 border-black text-center py-3">{partDetails.partID}</td>
                 <td className="border-2 border-black text-start py-3 pl-3">{partDetails.partName}</td>
-                <td className="border-y-2 border-l-2 border-black text-right py-3">{partDetails.quantity}</td>
+                <td className="border-y-2 border-l-2 border-black text-right py-3">
+                  {partDetails.unit === 'U' ? String(partDetails.quantity).split('.')[0] : partDetails.quantity}
+                </td>
                 <td className="border-y-2 border-r-2 border-black py-3 w-8 text-left">{partDetails.unit}</td>
               </tr>
             ))

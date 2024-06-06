@@ -196,7 +196,9 @@ const StockAddPurchases = () => {
                 <tr key={index} className="text-center mainStyle">
                   <td className="border-2 border-black">{purchases.partID}</td>
                   <td className='border-2 border-black'>{purchases.date}</td>
-                  <td className="border-y-2 border-l-2 text-end border-black">{purchases.quantity}</td>
+                  <td className="border-y-2 border-l-2 text-end border-black">
+                    {purchases.unit === 'U' ? String(purchases.quantity).split('.')[0] : purchases.quantity}
+                  </td>
                   <td className="border-y-2 border-r-2 text-start w-12 border-black">{purchases.unit}</td>
                   <td className="border-2 border-black cursor-pointer" onClick={() => handleDeleteClick(purchases)}>
                     <TrashIcon className='text-red-600 h-5 mx-auto' />
@@ -213,19 +215,22 @@ const StockAddPurchases = () => {
         <div onClick={(e) => e.stopPropagation()}>
           <p className="font-bold pb-2 text-red-600 text-2xl text-center mb-3">Delete purchase Details</p>
 
-          <div className="flex fornt-inter items-center mb-4">
-            <p className="w-24 text-text-primary font-semibold">Part Id:</p>
+          <div className="flex fornt-inter items-center mb-4 mainStyle">
+            <p className="w-24 font-semibold">Part Id:</p>
             <input type="text" value={selectedRow.partID} readOnly className="input w-40 border-2 rounded-lg py-2 pl-4" />
           </div>
 
-          <div className="flex fornt-inter items-center mb-4">
-            <p className="w-24 text-text-primary font-semibold">Date:</p>
+          <div className="flex fornt-inter items-center mb-4 mainStyle">
+            <p className="w-24 font-semibold">Date:</p>
             <input type="text" value={selectedRow.date} readOnly className="input w-40 border-2 rounded-lg py-2 pl-4" />
           </div>
 
-          <div className="flex fornt-inter">
-            <p className="w-24 text-text-primary font-semibold mt-3">Quantity:</p>
-            <input type='text' value={selectedRow.quantity} readOnly className="input w-40 border-2 rounded-lg py-2 pl-4" />
+          <div className="flex fornt-inter mainStyle">
+            <p className="w-24 font-semibold mt-3">Quantity:</p>
+            <div className='flex'>
+              <input type='text' value={selectedRow.unit === 'U' ? String(selectedRow.quantity).split('.')[0] : selectedRow.quantity} readOnly className="input w-20 border-y-2 border-l-2 rounded-lg rounded-r-none py-2 pl-4" />
+              <input type='text' value={selectedRow.unit} readOnly className="input w-20 border-y-2 border-r-2 rounded-lg rounded-l-none text-start py-2 pl-4" />
+            </div>
           </div>
 
           <div className="flex justify-center gap-8 mt-4">

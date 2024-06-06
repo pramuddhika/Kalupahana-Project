@@ -228,7 +228,9 @@ const StockAddPurchases = () => {
           <div className="flex fornt-inter mainStyle">
             <p className="w-24 font-semibold mt-3">Quantity:</p>
             <div className='flex'>
-              <input type='text' value={selectedRow.unit === 'U' ? String(selectedRow.quantity).split('.')[0] : selectedRow.quantity} readOnly className="input w-20 border-y-2 border-l-2 rounded-lg rounded-r-none py-2 pl-4" />
+              <input type='text' readOnly className="input w-20 border-y-2 border-l-2 rounded-lg rounded-r-none py-2 pl-4"
+               value={selectedRow.unit === 'U' ? String(selectedRow.quantity).split('.')[0] : selectedRow.quantity} 
+              />
               <input type='text' value={selectedRow.unit} readOnly className="input w-20 border-y-2 border-r-2 rounded-lg rounded-l-none text-start py-2 pl-4" />
             </div>
           </div>

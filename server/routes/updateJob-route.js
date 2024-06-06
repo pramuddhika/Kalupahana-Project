@@ -53,7 +53,7 @@ router.get('/getusePArts/:updateJobId', getUsePartsController);
 //generate doc id
 router.get('/generateJobCloseId', generateJobCloseIdController);
 //add close jon data
-router.post('/addCloseJonData', addCloseJobDataController);
+router.post('/addCloseJobData', addCloseJobDataController);
 //check mechanic's are still working or not
 router.get('/chekMechanic/:updateJobId', checkWorkingMechanisController)
 

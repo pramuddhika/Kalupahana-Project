@@ -5,8 +5,12 @@ import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Modal from '../components/Modal';
+import { Link } from 'react-router-dom';
+import PostRepairDoc from '../components/PostRepairDoc';
 
 const Update_CloseJob = () => {
+
   const { updateJobData } = useContext(UpdateJobContext);
   const today = new Date();
   const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
@@ -17,6 +21,7 @@ const Update_CloseJob = () => {
   const [enginePerformance, setEnginePerformance] = useState(null);
   const [tireCondition, setTireCondition] = useState(null);
   const [fluidLevels, setFluidLevels] = useState(null);
+  const [jobCloseModal,setJobCloseModal] = useState(false);
 
   const updateJobId = updateJobData[0].jobId;
   const vehicleNumber = updateJobData[0].vehicleNumber;
@@ -62,26 +67,25 @@ const Update_CloseJob = () => {
         return;
       }
       if(checkMechanics.data.message === "No"){
-
-        let newBatteryHealth = batteryHealth.value;
-        let newEnginePerformance = enginePerformance.value;
-        let newFluidLevels = fluidLevels.value;
-        let newTireCondition = tireCondition.value;
-
+       
+        let newBatteryHealth = batteryHealth ? batteryHealth.value : null;
+        let newEnginePerformance = enginePerformance ? enginePerformance.value : null;
+        let newFluidLevels = fluidLevels ? fluidLevels.value : null;
+        let newTireCondition = tireCondition ? tireCondition.value : null;
+    
         //close job
         try{
-        const res = await axios.post('/api/updatejob/addCloseJonData',{postDocId,newBatteryHealth,newEnginePerformance,newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId})
-          toast.success(res.data.message);
+        await axios.post('/api/updatejob/addCloseJobData',{postDocId,newBatteryHealth,newEnginePerformance,
+                        newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId})
+          setJobCloseModal(true);
         }catch(err){
+          console.log(err.response.data)
           toast.error(err.response.data.message)
         }
       }
-
     }catch(err){
-      toast.error(err.response.data.message)
-    }
-
-    
+      console.log(err.response.data.message)
+    } 
   };
 
   return (
@@ -213,6 +217,48 @@ const Update_CloseJob = () => {
         <button className="btn btn-warning" onClick={handleClear}>Clear</button>
         <button className="btn btn-normal" onClick={handleSubmit}>Submit</button>
       </div>
+
+      <Modal open={jobCloseModal} >
+        <div>
+          <div onClick={(e) => e.stopPropagation()}>
+            <p className="font-bold pb-2 text-text-primary text-2xl text-center">Job Close successfully</p>
+                
+            <div className='text-center pt-2'>
+              <p className='mainStyle'>Please select an option,</p>
+            </div>
+                
+            <div className="flex justify-center">
+            <PostRepairDoc
+                vehicleNumber={vehicleNumber}
+                customerName={customerName}
+                customerEmail={customerEmail}
+                customerPhoneNumber={customerPhoneNumber}
+                postDocId={postDocId}
+                updateJobId={updateJobId}
+                dateString={dateString}
+                batteryHealth={batteryHealth}
+                enginePerformance={enginePerformance}
+                tireCondition={tireCondition}
+                fluidLevels={fluidLevels}
+                instructions={instructions}
+                shopOwnerNote={shopOwnerNote}
+              /> 
+            </div>
+
+            <div className="flex justify-center">
+              <button className="btn btn-normal w-40 mx-auto mt-2">Send Document</button>
+            </div>
+
+            <div className="flex justify-center">
+              <Link to = {'/shop/updateJob'}>
+                <button className="btn btn-normal w-40 mx-auto mt-2">Back</button>
+              </Link>
+            </div>
+
+          </div>
+        </div>
+      </Modal>
+
     </div>
   );
 };

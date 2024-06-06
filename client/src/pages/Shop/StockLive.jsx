@@ -155,8 +155,8 @@ const StockLive = () => {
     pdf.text(dateText, pageWidth - dateTextWidth - 26, 35);
   
     // Get table data
-const tableData = tabledetails.map(item => [item.partID, item.partName, `${item.quantity} ${item.unit}`]); 
-const columns = ['Part ID', 'Part Name', 'Quantity']; 
+    const tableData = tabledetails.map(item => [item.partID, item.partName, `${item.quantity} ${item.unit}`]); 
+    const columns = ['Part ID', 'Part Name', 'Quantity']; 
 
 // Add table to PDF
 pdf.autoTable(columns, tableData, {

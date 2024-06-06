@@ -192,7 +192,6 @@ export const  addCloseJobDataController = async(req,res) => {
        const data = await addCloseJobDataService(postDocId,newBatteryHealth,newEnginePerformance,newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId);
        return res.json(data);
     }catch(err){
-       console.log(err)
        return res.status(500).json(err);
     }
 }

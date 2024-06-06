@@ -11,7 +11,9 @@ import {generateJobIdService,
         getSendMesageService,
         addUsePartsService,
         getUsePartsService,
-        generateJobCloseIdService
+        generateJobCloseIdService,
+        addCloseJobDataService,
+        checkWorkingMechanisService
        } from '../services/updateJob-service.js';
 
 //############################ get job update main data set - start ##############################
@@ -185,6 +187,25 @@ export const generateJobCloseIdController = async(req,res) => {
 
 //#################### add job close data - start #############################################
 export const  addCloseJobDataController = async(req,res) => {
-    const {postDocId,newBatteryHealth,newEnginePerformance,newTireCondition,newFluidLevels,instructions,shopOwnerNote} = req.body;
+    const {postDocId,newBatteryHealth,newEnginePerformance,newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId} = req.body;
+    try{
+       const data = await addCloseJobDataService(postDocId,newBatteryHealth,newEnginePerformance,newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId);
+       return res.json(data);
+    }catch(err){
+       console.log(err)
+       return res.status(500).json(err);
+    }
 }
 //#################### add job close data - end   #############################################
+
+//######################### get onging mechanics jobs - Start  #############################################
+export const checkWorkingMechanisController = async(req,res) => {
+    const {updateJobId} = req.params;
+    try{
+        const data = await checkWorkingMechanisService(updateJobId);
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err);
+    }
+}
+//######################### get ongong mechnics jobs - end    #############################################

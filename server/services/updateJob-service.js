@@ -385,3 +385,51 @@ export const generateJobCloseIdService = () => {
   );
 }
 //#################### generate post repair document id - end   ###############################
+
+//#################### add job close data - start #############################################
+export const addCloseJobDataService = (postDocId,newBatteryHealth,newEnginePerformance,newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId) => {
+    return new Promise((resolve, reject) => {
+      const docData = `INSERT INTO post_repair_document 
+                       (DOCUMENT_ID,BATTERY_HEALTH,ENGINE_PERFORMANCE,TIRE_CONDITION,FLUID_LEVELS,MECHANIC_INSTRUCTION,SHOP_OWNER_NOTE)
+                       VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+      const closeJob = `UPDATE records 
+                       SET END_DATE = ?, POST_REPAIR_DOC_ID = ?
+                       WHERE JOB_ID = ?`;
+  
+      db.query(docData, [postDocId,newBatteryHealth,newEnginePerformance,newTireCondition,newFluidLevels,instructions,shopOwnerNote], (err, data) => {
+        if (err) {
+          reject({message:"Server side error!"});
+        }
+
+        db.query(closeJob, [dateString,postDocId,updateJobId],(err,data) => {
+            if (err) {
+                reject({message:"Server side error!"});
+            }else {
+                resolve({message: "Job closed!" });
+            }
+        })
+      });
+    });
+}
+//#################### add job close data - end   #############################################
+
+//######################### get ongonig mechnis jobs - Start  ############################################
+export const checkWorkingMechanisService = (updateJobId) => {
+    return new Promise ( (resolve,reject) => {
+        const q = `SELECT *
+                   FROM work_allocation
+                   WHERE STATUS = 'in progress' AND JOB_ID = ?`;
+
+        db.query(q,[updateJobId], (err,data) => {
+            if(err){
+                reject({message:"Server side error!"})
+            }else if( !data || data.length === 0 ){
+                resolve({message:"No"});
+            }else{
+                resolve({message:"Yes"});
+            }
+        })
+    })
+}
+//######################### get onging mechnic jobs - end    ############################################

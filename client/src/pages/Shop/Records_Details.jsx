@@ -2,8 +2,15 @@
 
 const Records_Details = () => {
     return (
-        <div>
-            <p>content for show recodes details</p>
+        <div className="flex">
+          <div className="basis-1/3 ">
+
+          </div>
+
+          <div className="basis-2/3">
+
+          </div>
+
         </div>
     );
 };

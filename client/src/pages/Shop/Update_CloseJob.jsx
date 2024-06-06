@@ -3,6 +3,8 @@ import { UpdateJobContext } from "./UpdateJobContext";
 import axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Update_CloseJob = () => {
   const { updateJobData } = useContext(UpdateJobContext);
@@ -49,26 +51,44 @@ const Update_CloseJob = () => {
     setFluidLevels(null);
   };
 
-  const handleSubmit = () => {
-    console.log(
-      vehicleNumber,
-      customerName,
-      customerEmail,
-      customerPhoneNumber,
-      postDocId,
-      updateJobId,
-      dateString,
-      batteryHealth.value,
-      enginePerformance.value,
-      tireCondition.value,
-      fluidLevels.value,
-      instructions,
-      shopOwnerNote
-    );
+  const handleSubmit = async() => {
+    
+    
+
+    try{
+      const checkMechanics = await axios.get(`/api/updatejob/chekMechanic/${updateJobId}`);
+      if(checkMechanics.data.message === "Yes"){
+        toast.warning('Mechanics are still working oni this job!');
+        return;
+      }
+      if(checkMechanics.data.message === "No"){
+
+        let newBatteryHealth = batteryHealth.value;
+        let newEnginePerformance = enginePerformance.value;
+        let newFluidLevels = fluidLevels.value;
+        let newTireCondition = tireCondition.value;
+
+        //close job
+        try{
+        const res = await axios.post('/api/updatejob/addCloseJonData',{postDocId,newBatteryHealth,newEnginePerformance,newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId})
+          toast.success(res.data.message);
+        }catch(err){
+          toast.error(err.response.data.message)
+        }
+      }
+
+    }catch(err){
+      toast.error(err.response.data.message)
+    }
+
+    
   };
 
   return (
     <div className="flex flex-col items-center justify-center mt-7">
+
+      <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+
       <div className="flex card w-10/12 p-2">
         <div className="w-1/2">
           <div className="flex justify-center items-center gap-4">

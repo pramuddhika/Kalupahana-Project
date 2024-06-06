@@ -13,7 +13,8 @@ import { getJobUpdateDataController,
          addUsePartsController,
          getUsePartsController,
          generateJobCloseIdController,
-         addCloseJobDataController
+         addCloseJobDataController,
+         checkWorkingMechanisController
  } from "../controllers/updateJob-controller.js";
 
 const router = express.Router();
@@ -53,6 +54,8 @@ router.get('/getusePArts/:updateJobId', getUsePartsController);
 router.get('/generateJobCloseId', generateJobCloseIdController);
 //add close jon data
 router.post('/addCloseJonData', addCloseJobDataController);
+//check mechanic's are still working or not
+router.get('/chekMechanic/:updateJobId', checkWorkingMechanisController)
 
 
 

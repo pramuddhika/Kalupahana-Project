@@ -208,7 +208,6 @@ export const getImagesController = async(req,res) => {
         const imageUrls = data.message.map(image => `http://localhost:${PORT}/images/${image.IMAGE}`);
         return res.status(200).json({imageUrls});
     }catch(err){
-        console.log(err)
         return res.status(500).json(err);
     }
 }

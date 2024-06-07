@@ -11,8 +11,10 @@ import {checkBookingService,
         addPreRepairDataService,
         addOtherItemsDataService,
         addImagesDataService,
-        checkVehicleReopeningJobService
+        checkVehicleReopeningJobService,
+        getImagesService
     } from '../services/openJob-service.js';
+import {PORT} from '../env.js';
 
 //################# before open job check vehicle is booked one - start ###################
 export const checkBookingController = async(req,res) => {
@@ -196,3 +198,18 @@ export const addRecordDataController = async(req,res) => {
     }
 }
 //################### add data to record table - end   ##############################
+
+//################## get imges from db - start ######################################
+export const getImagesController = async(req,res) => {
+    const {preDocId} = req.params;
+    
+    try{
+        const data = await getImagesService(preDocId);
+        const imageUrls = data.message.map(image => `http://localhost:${PORT}/images/${image.IMAGE}`);
+        return res.status(200).json({imageUrls});
+    }catch(err){
+        console.log(err)
+        return res.status(500).json(err);
+    }
+}
+//################## get imges from db - end   ######################################

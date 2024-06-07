@@ -55,7 +55,7 @@ router.get('/generateJobCloseId', generateJobCloseIdController);
 //add close jon data
 router.post('/addCloseJobData', addCloseJobDataController);
 //check mechanic's are still working or not
-router.get('/chekMechanic/:updateJobId', checkWorkingMechanisController)
+router.get('/chekMechanic/:updateJobId', checkWorkingMechanisController);
 
 
 

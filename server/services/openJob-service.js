@@ -328,3 +328,25 @@ export const addRecordDataService = async (jobId,vehicleNumber,dateString,preDoc
     })
 }
 //################### add data to record table - end    ######################################
+
+//################## get imges from db - start ######################################
+export const getImagesService = async (preDocId) => {
+    return new Promise((resolve, reject) => {
+        const q = `SELECT IMAGE
+                   FROM scratch_marks
+                   WHERE PREREPAIR_DOC_ID = ?`;
+
+        db.query(q, [preDocId], (err, data) => {
+            if (err) {
+                reject({ message: `Error querying the database: ${err.message}` });
+                return;
+            } else if (data.length === 0) {
+                reject({ message: `No images found for preDocId: ${preDocId}` });
+                return;
+            } else {
+                resolve({message:data});
+            }
+        });
+    });
+};
+//################## get imges from db - end   ######################################

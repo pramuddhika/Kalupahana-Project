@@ -15,7 +15,8 @@ import {checkBookingController,
         addPreRepairDataController,
         addOtherItemsDataController,
         addImagesDataController,
-        checkVehicleReopeningJobController
+        checkVehicleReopeningJobController,
+        getImagesController
        } from '../controllers/openJob-controller.js';
 
 
@@ -66,6 +67,10 @@ router.post('/addPreRepairData', addPreRepairDataController);
 router.post('/addImagesData' , upload.array('images'), addImagesDataController);
 //add data to the record table
 router.post('/addRecordData' , addRecordDataController);
+
+
+//get images id from db
+router.get('/getImages/:preDocId', getImagesController);
 
 
 export default router;

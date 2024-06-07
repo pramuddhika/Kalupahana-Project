@@ -16,6 +16,9 @@ app.use(cors());
 
 app.use(express.json());
 
+// Serve static files from the 'images' directory
+app.use('/images', express.static('images'));
+
 //parths - shop
 app.use('/api/settings', settingsRoutes);
 app.use('/api/booking', bookingRoutes);

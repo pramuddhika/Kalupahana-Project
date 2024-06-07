@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { validateInputField, validateFileType } from '../Validation/InputFeilds';
 import Modal from '../components/Modal';
-import PreRepairDoc from "../components/PreRepairDoc";
+import PreRepairDocument from "../components/PreRepairDocument";
 
 const PreRepairAssessment = () => {
   const location = useLocation();
@@ -318,7 +318,7 @@ const PreRepairAssessment = () => {
             </div>
                 
             <div className="flex justify-center">
-              <PreRepairDoc
+              <PreRepairDocument
                 vehicleNumber={vehicleNumber}
                 customerName={customerName}
                 customerEmail={customerEmail}
@@ -329,7 +329,6 @@ const PreRepairAssessment = () => {
                 checkList={checkList}
                 otherItems={otherItems}
                 additionalNote={additionalNote}
-                files={files}
                 vehicleFault={vehicleFault}
               />
             </div>

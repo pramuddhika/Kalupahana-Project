@@ -36,6 +36,17 @@ const OpenJobSearch = () => {
       return;
     }
 
+    //check vehicle has current ongoing job
+    try {
+      const { data: checkVehicle } = await axios.get(`/api/openjob/checkVehicleReopeningJob/${jobOpenNumber}`);
+      if (checkVehicle.message === "ONGOING") {
+        toast.warning("This vehicle has an ongoing job.");
+        return;
+      }
+      }catch(err){
+        console.log('Checking ongoing job err: ',err);
+      }
+
     //check vehicle is online booked one or not 
     //change status when it's online booked vehicle
     try{

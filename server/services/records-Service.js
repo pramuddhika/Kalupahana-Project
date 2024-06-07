@@ -1,6 +1,27 @@
 import { resolve } from "path"
 import {db} from '../env.js';
 
+//################################## check record data - start ############################
+export const checkVehicleService = (searchNumber) => {
+    return new Promise( (resolve,reject) => {
+        const record = `SELECT *
+                        FROM records
+                        WHERE VEHICLE_NUMBER = ?`;
+
+        db.query(record,[searchNumber], (err,data)=> {
+            if(err){
+                reject({message:'Server side error!'});
+                return;
+            }else if(data.length === 0){
+                reject({message:'No data founed!'});
+                return;
+            }else{
+                resolve({message:'record exist'});
+            }
+        })
+    })
+}
+//################################## check record data - end   ############################
 
 //################################## get record data - start ############################
 export const getRecordsDataService = (recordNumber) => {

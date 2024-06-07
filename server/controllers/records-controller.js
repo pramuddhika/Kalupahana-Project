@@ -5,8 +5,7 @@ import {getRecordsDataService,
 //################################## check record data - start ############################
 export const checkVehicleController = async(req,res) => {
     const{searchNumber} = req.params;
-    console.log(searchNumber);
- 
+    
     try{
      const data = await checkVehicleService(searchNumber);
      return res.status(200).json(data);
@@ -15,7 +14,7 @@ export const checkVehicleController = async(req,res) => {
     }
  }
  //################################## check record data - end   ############################
- 
+
 //################################## get record data - start ############################
 export const getRecordsDataController = async(req,res) => {
    const{recordNumber} = req.params;

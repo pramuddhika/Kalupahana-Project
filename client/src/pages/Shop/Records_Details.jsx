@@ -1,25 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
+import axios from 'axios';
 
-const Records_Details = () => {
+import PropTypes from 'prop-types';
+
+const Records_Details = ({searchNumber}) => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [data,setData] = useState(null);
 
-  // Make selection options
+  const recordNumbe = searchNumber;
+
+  useEffect( ()=> {
+    const fetchData = async() => {
+      const res = await axios.get(`/api/records/getData/${recordNumbe}`)
+      setData(res.data.record)
+    }
+    fetchData()
+  },[recordNumbe]);
+
+
+  console.log(data)
   const options = [
     { value: 'PreRepair', label: 'PreRepair Assessment' },
     { value: 'PostRepair', label: 'PostRepair Assessment' },
     { value: 'MecNote', label: "Mechanic's Note" }
   ];
 
-  // Handle change in selection
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
   };
 
-  // Render content based on the selected option
   const renderContent = () => {
     if (!selectedOption) {
       return <p>No selection made.</p>;
@@ -38,20 +51,20 @@ const Records_Details = () => {
   };
 
   const PreRepairDoc = () => {
-    return(
+    return (
       <p>Content for PreRepair Assessment.</p>
     );
   };
 
   const PostRepairDoc = () => {
-    return(
+    return (
       <p>Content for PostRepair Assessment.</p>
     );
   };
 
   const MecNote = () => {
-    return(
-      <p>Content for PostRepair Assessment.</p>
+    return (
+      <p>Content for MechaniC Note.</p>
     );
   };
 
@@ -62,19 +75,19 @@ const Records_Details = () => {
       <div className="flex card justify-center mt-1 mx-1">
         <div className="flex p-2 gap-4 mainStyle items-center">
           <p>Vehicle Number:</p>
-          <input type="text" readOnly className="input rounded-lg p-1 w-32" />
+          <input type="text" readOnly className="input rounded-lg p-1 w-32 text-center" value={searchNumber} />
         </div>
         <div className="flex p-2 gap-4 mainStyle">
           <p>Customer Name:</p>
-          <input type="text" readOnly className="input rounded-lg p-1 w-40" />
+          <input type="text" readOnly className="input rounded-lg p-1 w-40 text-center" />
         </div>
         <div className="flex p-2 gap-4 mainStyle">
           <p>Phone Number:</p>
-          <input type="text" readOnly className="input rounded-lg p-1 w-36" />
+          <input type="text" readOnly className="input rounded-lg p-1 w-36 text-center" />
         </div>
         <div className="flex p-2 gap-4 mainStyle">
           <p>Customer Email:</p>
-          <input type="text" readOnly className="input rounded-lg p-1 w-64" />
+          <input type="text" readOnly className="input rounded-lg p-1 w-64 text-center" />
         </div>
       </div>
 
@@ -129,5 +142,12 @@ const Records_Details = () => {
     </>
   );
 };
+
+
+Records_Details.propTypes = {
+  searchNumber: PropTypes.string.isRequired
+};
+
+
 
 export default Records_Details;

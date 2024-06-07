@@ -8,6 +8,7 @@ import stockRoutes from './routes/stock-route.js';
 import mechanicRoutes from './routes/mechanic-route.js';
 import openJobRoutes from './routes/openJob-route.js';
 import updateJobRoutes from './routes/updateJob-route.js';
+import recordsRoutes from './routes/records-router.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use('/api/mechanic', mechanicRoutes);
 //parths - jobs
 app.use('/api/openjob', openJobRoutes);
 app.use('/api/updatejob', updateJobRoutes);
+app.use('/api/records', recordsRoutes);
 
 //parths - dashboard
 app.use('/api/dashboard', dashBoardRoutes);

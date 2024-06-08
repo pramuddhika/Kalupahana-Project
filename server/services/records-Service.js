@@ -1,5 +1,5 @@
 import { resolve } from "path"
-import {db} from '../env.js';
+import {db,PORT} from '../env.js';
 
 //################################## check record data - start ############################
 export const checkVehicleService = (searchNumber) => {
@@ -32,14 +32,16 @@ export const getRecordsDataService = (recordNumber) => {
                         w.EMPLOYEE_ID,w.MECHANIC_NOTE,
                         p.BATTERY_HEALTH,p.ENGINE_PERFORMANCE,p.TIRE_CONDITION,p.FLUID_LEVELS,p.MECHANIC_INSTRUCTION,p.SHOP_OWNER_NOTE,
                         pr.VEHICLE_FAULT,pr.ADDITIONAL_NOTE,pr.SPARE_TIRE,pr.TIRE_JACK,pr.LUG_WRENCH,pr.TOOL_BOX,pr.JUMPER_CABLES,
-                        ch.ITEM_NAME
+                        ch.ITEM_NAME,
+                        s.IMAGE
                         FROM records r
                         LEFT JOIN vehicle v              ON r.VEHICLE_NUMBER = v.VEHICLE_NUMBER
                         LEFT JOIN customer c             ON v.NIC_NUMBER = c.NIC_NUMBER
                         LEFT JOIN work_allocation w      ON r.JOB_ID = w.JOB_ID
                         LEFT JOIN post_repair_document p ON r.POST_REPAIR_DOC_ID = p.DOCUMENT_ID
                         LEFT JOIN pre_repair_document pr ON r.PRE_REPAIR_DOC_ID = pr.DOCUMENT_ID
-                        LEFT JOIN check_list ch          ON r.PRE_REPAIR_DOC_ID = ch.PREREPAIR_DOC_ID   
+                        LEFT JOIN check_list ch          ON r.PRE_REPAIR_DOC_ID = ch.PREREPAIR_DOC_ID
+                        LEFT JOIN scratch_marks s        ON r.PRE_REPAIR_DOC_ID = s.PREREPAIR_DOC_ID   
                         WHERE r.VEHICLE_NUMBER = ?`;
 
         db.query(recordQuery, [recordNumber], (err, data) => {
@@ -76,6 +78,7 @@ export const getRecordsDataService = (recordNumber) => {
                             toolBox: list.TOOL_BOX,
                             jumperCables: list.JUMPER_CABLES,
                             otheritems:[],
+                            scratchMarks:[],
                             workAllocation: []
                         };
                     }
@@ -91,6 +94,11 @@ export const getRecordsDataService = (recordNumber) => {
                           acc[list.JOB_ID].otheritems += ' ' + list.ITEM_NAME+',';
                         } else {
                           acc[list.JOB_ID].otheritems = list.ITEM_NAME;
+                        }
+                    }
+                    if(list.IMAGE){
+                        if(acc[list.JOB_ID].scratchMarks){
+                            acc[list.JOB_ID].scratchMarks +=' '+`http://localhost:${PORT}/images/${list.IMAGE}`+',';
                         }
                     }
 

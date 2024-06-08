@@ -97,6 +97,30 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
             </tr>
 
             <tr>
+              <td colSpan={4} className='text-start pt-4'>Scratch Marks</td>
+            </tr>
+            <tr>
+              <td colSpan={4} className='tabled py-2'>
+              {
+  (selectedRow?.scratchMarks && selectedRow.scratchMarks.length > 0)
+    ? <>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          {selectedRow.scratchMarks.split(',').slice(0, 5).map((url, index) => 
+            <img key={index} src={url.trim()} style={{width: '20%'}}/>
+          )}
+        </div>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          {selectedRow.scratchMarks.split(',').slice(5, 10).map((url, index) => 
+            <img key={index+5} src={url.trim()} style={{width: '20%'}} />
+          )}
+        </div>
+      </>
+    : 'No images'
+}
+              </td>
+            </tr>
+
+            <tr>
               <td colSpan={4} className='text-start pt-4'>Additional Note</td>
             </tr>
             <tr>

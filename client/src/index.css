@@ -56,5 +56,13 @@ input[type=number] {
     .mainStyle{
        @apply text-text-primary font-medium; 
     }
+
+    .tableh{
+        @apply bg-text-primary text-white text-center border-2 border-black py-1;
+    }
+
+    .tabled{
+        @apply border-2 border-black;
+    }
 }
 

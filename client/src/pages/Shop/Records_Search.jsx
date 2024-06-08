@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useState } from "react";
 import axios from 'axios';
 import records from "../assets/records.svg";
+import { validateVehicleNumber } from '../Validation/VehicleData';
 
 const Records_Search = ({ setActiveTopic, setSearchNumber }) => {
   const [searchNumberInput, setSearchNumberInput] = useState("");
@@ -14,6 +15,13 @@ const Records_Search = ({ setActiveTopic, setSearchNumber }) => {
 
   const handleSearchNumberClick = async (e) => {
     e.preventDefault();
+
+    const NumberErr = validateVehicleNumber(searchNumberInput);
+    if(NumberErr){
+      toast.warning(NumberErr);
+      return;
+    }
+
     try {
       const res = await axios.get(`/api/records/checkVehicle/${searchNumberInput}`);
       

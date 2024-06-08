@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer,toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import {ArrowUturnLeftIcon} from '@heroicons/react/24/solid';
+import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const Records_Details = ({ setActiveTopic, searchNumber }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -13,13 +15,14 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
   const [selectedRow, setSelectedRow] = useState(null);
 
   const recordNumber = searchNumber;
+  const updateCustomerMail = data && data[0].email;
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`/api/records/getData/${recordNumber}`)
-      setData(res.data.record)
-    }
-    fetchData()
+      const res = await axios.get(`/api/records/getData/${recordNumber}`);
+      setData(res.data.record);
+    };
+    fetchData();
   }, [recordNumber]);
 
   const options = [
@@ -57,6 +60,20 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
     }
   };
 
+  const convertImagesToBase64 = async (urls) => {
+    const base64Promises = urls.map(url =>
+      fetch(url)
+        .then(response => response.blob())
+        .then(blob => new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        }))
+    );
+    return Promise.all(base64Promises);
+  };
+
   const PreRepairDoc = () => {
     return (
       <>
@@ -69,12 +86,14 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
               <td className='tableh w-1/4'>Date</td>
               <td className='w-1/4 tabled'>{selectedRow?.startDate || 'On going job'}</td>
             </tr>
+            <tr><td></td></tr>
+
             <tr>
               <td colSpan={4} className='text-start pt-4'>Check List</td>
             </tr>
             <tr className='text-center'>
               <td className='tableh'>Spare Tire</td>
-              <td className='tabled'>{selectedRow?.spareTire || 'No'}</td>
+              <td className='tabled'>{selectedRow?.spareTire || 'Not checked'}</td>
               <td className='tableh'>Tire Jack</td>
               <td className='tabled'>{selectedRow?.tireJack || 'Not checked'}</td>
             </tr>
@@ -88,6 +107,8 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
               <td className='tableh'>Jumper Cables</td>
               <td className='tabled'>{selectedRow?.jumperCables || 'Not checked'}</td>
             </tr>
+            <tr><td></td></tr><tr><td></td></tr>
+           
 
             <tr>
               <td colSpan={4} className='text-start pt-4'>Other Items</td>
@@ -95,30 +116,7 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
             <tr>
               <td colSpan={4} className='tabled py-2'>{(selectedRow?.otheritems && selectedRow.otheritems.length > 0) ? selectedRow.otheritems : 'No items'}</td>
             </tr>
-
-            <tr>
-              <td colSpan={4} className='text-start pt-4'>Scratch Marks</td>
-            </tr>
-            <tr>
-              <td colSpan={4} className='tabled py-2'>
-              {
-  (selectedRow?.scratchMarks && selectedRow.scratchMarks.length > 0)
-    ? <>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-          {selectedRow.scratchMarks.split(',').slice(0, 5).map((url, index) => 
-            <img key={index} src={url.trim()} style={{width: '20%'}}/>
-          )}
-        </div>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-          {selectedRow.scratchMarks.split(',').slice(5, 10).map((url, index) => 
-            <img key={index+5} src={url.trim()} style={{width: '20%'}} />
-          )}
-        </div>
-      </>
-    : 'No images'
-}
-              </td>
-            </tr>
+         
 
             <tr>
               <td colSpan={4} className='text-start pt-4'>Additional Note</td>
@@ -126,12 +124,38 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
             <tr>
               <td colSpan={4} className='tabled py-2'>{selectedRow?.additionalNote || 'No note'}</td>
             </tr>
+     
 
             <tr>
               <td colSpan={4} className='text-start pt-4'>vehicleFaultehicle Fault</td>
             </tr>
             <tr>
               <td colSpan={4} className='tabled py-2'>{selectedRow?.vehicleFault || 'No note'}</td>
+            </tr>
+           
+
+            <tr>
+              <td colSpan={4} className='text-start pt-4'>Scratch Marks</td>
+            </tr>
+            <tr>
+              <td colSpan={4} className='tabled py-2'>
+              {
+               (selectedRow?.scratchMarks && selectedRow.scratchMarks.length > 0)
+               ? <>
+                   <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                      {selectedRow.scratchMarks.split(',').slice(0, 5).map((url, index) => 
+                      <img key={index} src={url.trim()} style={{width: '20%'}}/>
+                      )}
+                   </div>
+                   <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                     {selectedRow.scratchMarks.split(',').slice(5, 10).map((url, index) => 
+                     <img key={index+5} src={url.trim()} style={{width: '20%'}} />
+                     )}
+                   </div>
+                 </>
+               : 'No images'
+              }
+              </td>
             </tr>
 
           </tbody>
@@ -152,6 +176,7 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
               <td className='tableh w-1/4'>Date</td>
               <td className='w-1/4 tabled'>{selectedRow?.endDate || 'On going job'}</td>
             </tr>
+            <tr><td></td></tr>
             <tr>
               <td colSpan={4} className='text-start pt-4'>Vehicle State</td>
             </tr>
@@ -167,12 +192,15 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
               <td className='tableh'>Tire Condition</td>
               <td className='tabled'>{selectedRow?.tireCondition || 'Not checked'}</td>
             </tr>
+            <tr><td></td></tr>
+
             <tr>
               <td colSpan={4} className='text-start pt-4'>Mechanic Instruction</td>
             </tr>
             <tr>
               <td colSpan={4} className='tabled py-2'>{selectedRow?.mechanicInstruction || 'No note'}</td>
             </tr>
+
             <tr>
               <td colSpan={4} className='text-start pt-4'>Shop Owner Note</td>
             </tr>
@@ -186,31 +214,156 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
   };
 
   const MecNote = () => {
-    if (!selectedRow || !selectedRow.workAllocation || selectedRow.workAllocation.length === 0) {
-      return <p>No data to display</p>;
-    }
-
     return (
       <>
+        <p className='topic'>Mechanic&#39;s Note</p>
         <table className="mx-auto font-inter mt-4 w-11/12">
-          <thead>
-            <tr className='bg-text-primary text-white'>
-              <th className="border-2 border-black w-1/3">Employee ID</th>
-              <th className="border-2 border-black w-2/3">Message</th>
-            </tr>
-          </thead>
-          <tbody>
-            {selectedRow.workAllocation.map((work, index) => (
-              <tr key={index} className="text-center mainStyle">
-                <td className="border-2 border-black">{work.employeeId}</td>
-                <td className="border-2 border-black text-start pl-2">{work.mechNote}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <thead>
+         <tr className="bg-text-primary text-white">
+           <th className="border-2 border-black">Employee ID</th>
+           <th className="border-2 border-black">Note</th>
+         </tr>
+        </thead>
+        <tbody>
+          {selectedRow.workAllocation.length === 0 ? (
+          <tr>
+            <td colSpan="2" className="text-center tabled">No notes</td>
+          </tr>
+          ) : (
+          selectedRow.workAllocation.map((work, index) => (
+          <tr key={index} className="text-center mainStyle">
+            <td className="border-2 border-black">{work.employeeId}</td>
+            <td className="border-2 border-black text-start pl-2">{work.mechNote}</td>
+          </tr>
+          ))
+         )}
+        </tbody>
+       </table>
       </>
     );
   };
+  //pdf download
+  const handleDownload = async () => {
+    if (!selectedOption) {
+      toast.warning('No document selected!');
+      return;
+    }
+    
+    const doc = new jsPDF();
+
+    if (selectedOption.value === 'PreRepair') {
+     doc.text('PreRepair Assessment', 10, 10);
+     doc.autoTable({ html: '.PreRepairDoc table' 
+     });
+
+     if (selectedRow?.scratchMarks && selectedRow.scratchMarks.length > 0) {
+       const imageUrls = selectedRow.scratchMarks.split(',');
+       const base64Images = await convertImagesToBase64(imageUrls);
+
+       let yPosition = doc.autoTable.previous.finalY + 5; 
+
+       base64Images.forEach((img, index) => {
+         if (index % 5 === 0 && index !== 0) {
+           yPosition += 35;
+          }
+         doc.addImage(img, 'JPEG', 20 + (index % 5) * 33, yPosition, 30, 30);
+        });
+      }
+   }
+    
+    else if (selectedOption.value === 'PostRepair') {
+      if (selectedRow.postDoc === null) {
+        toast.info('Job is not finished!');
+        return;
+      }
+      doc.text('PostRepair Assessment', 10, 10);
+
+      if (selectedRow?.ownerSignature) {
+        const ownerSignature = await convertImagesToBase64([selectedRow.ownerSignature]);
+        doc.addImage(ownerSignature[0], 'JPEG', 10, 20, 50, 20);
+      }
+
+      doc.autoTable({ html: '.PostRepairDoc table' });
+
+    } else {
+      toast.warning('No document selected!');
+      return;
+    }
+
+    const date = new Date().toISOString().slice(0, 19).replace('T', '_');
+    const fileName = `${selectedOption.label}_${date}.pdf`;
+
+    doc.save(fileName);
+  };
+  //handle send email
+  const handleEmail = async() => {
+    if (!selectedOption) {
+      toast.warning('Please select the document before emailing.');
+      return;
+    }
+
+    if(selectedOption.value === 'PreRepair'){
+      const message = `
+      PreRepair Assessment
+      --------------------
+      Document Id: ${selectedRow?.preDoc || 'On going job'}
+      Date       : ${selectedRow?.startDate || 'On going job'}
+
+      Check List
+      --------------------
+      Spare Tire   : ${selectedRow?.spareTire || 'No'}
+      Tire Jack    : ${selectedRow?.tireJack || 'Not checked'}
+      Lug Wrench   : ${selectedRow?.lugWrench || 'Not checked'}
+      Tool Box     : ${selectedRow?.toolBox || 'Not checked'}
+      Jumper Cables: ${selectedRow?.jumperCables || 'Not checked'}
+      Other Items  : ${selectedRow?.otheritems && selectedRow.otheritems.length > 0 ? selectedRow.otheritems : 'No items'}
+
+      Additional Note: 
+      ${selectedRow?.additionalNote || 'No note'}
+
+      Vehicle Fault  : 
+      ${selectedRow?.vehicleFault || 'No note'}
+
+      Scratch Marks  : ${selectedRow?.scratchMarks && selectedRow.scratchMarks.length > 0 ? 'Present' : 'No scratch marks'}
+      `;
+      try{
+        const sendEmail = await axios.post('/api/updatejob/sendUpdates',{updateCustomerMail, message});
+        toast.success(sendEmail.data.message);
+        return;
+      }catch(err){
+        toast.error(err.response.data.message);
+      }   
+    }
+
+    if(selectedOption.value === 'PostRepair'){
+      const message = `
+      PostRepair Assessment
+      ---------------------
+      Document Id: ${selectedRow?.postDoc || 'On going job'}
+      Date       : ${selectedRow?.endDate || 'On going job'}
+
+      Vehicle State
+      ---------------------
+      Battery Health    : ${selectedRow?.batteryHealth || 'Not checked'}
+      Engine Performance: ${selectedRow?.enginePerformance || 'Not checked'}
+      Fluid Levels      : ${selectedRow?.fluidLevels || 'Not checked'}
+      Tire Condition    : ${selectedRow?.tireCondition || 'Not checked'}
+
+      Mechanic Instruction:
+      ${selectedRow?.mechanicInstruction || 'No note'}
+
+      Shop Owner Note     :
+      ${selectedRow?.shopOwnerNote || 'No note'}
+      `;
+      try{
+        const sendEmail = await axios.post('/api/updatejob/sendUpdates',{updateCustomerMail, message});
+        toast.success(sendEmail.data.message);
+        return;
+      }catch(err){
+        toast.error(err.response.data.message);
+      }
+    }
+  }
 
   return (
     <>
@@ -231,7 +384,7 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
         </div>
         <div className="flex p-2 gap-4 mainStyle">
           <p>Customer Email:</p>
-          <input type="text" readOnly className="input rounded-lg p-1 w-64 text-center" value={data && data[0].email} />
+          <input type="text" readOnly className="input rounded-lg p-1 w-64 text-center" value={updateCustomerMail} />
         </div>
       </div>
 
@@ -251,13 +404,14 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
             />
             <button
               className={`btn btn-normal ${selectedOption?.value === 'MecNote' ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={selectedOption?.value === 'MecNote'}
+              disabled={selectedOption?.value === 'MecNote'} onClick={handleEmail}
             >
               Email
             </button>
             <button
               className={`btn btn-normal ${selectedOption?.value === 'MecNote' ? 'opacity-50 cursor-not-allowed' : ''}`}
               disabled={selectedOption?.value === 'MecNote'}
+              onClick={handleDownload}
             >
               Download
             </button>
@@ -296,7 +450,9 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
         </div>
 
         <div className='basis-7/12 card h-[36rem] p-4 mx-1 overflow-auto'>
-          {renderContent()}
+          <div className={`${selectedOption?.value === 'PreRepair' ? 'PreRepairDoc' : ''} ${selectedOption?.value === 'PostRepair' ? 'PostRepairDoc' : ''} ${selectedOption?.value === 'MecNote' ? 'MecNote' : ''}`}>
+            {renderContent()}
+          </div>
         </div>
       </div>
     </>

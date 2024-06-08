@@ -59,7 +59,7 @@ const Update_SendSMS = () => {
     
     try{
       const sendEmail = await axios.post('/api/updatejob/sendUpdates',{updateCustomerMail, message});
-      if (sendEmail.data.message === "success!"){
+      if (sendEmail.data.message === "Email sent!"){
         try{
           const sendTodb = await axios.post('/api/updatejob/addMessage',{messageId,updateJobId,message});
           toast.success(sendTodb.data.message);

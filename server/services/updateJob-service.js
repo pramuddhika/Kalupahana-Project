@@ -223,7 +223,7 @@ export const sendUpdatesService = async (updateCustomerMail, message) => {
             if (err) {
                 reject({message:'Server side error!'});
             } else {
-                resolve({message:'success!'});
+                resolve({message:'Email sent!'});
             }
         });
     });

@@ -59,7 +59,60 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
 
   const PreRepairDoc = () => {
     return (
-      <p>Content for PreRepair Assessment.</p>
+      <>
+        <p className='topic'>PreRepair Assessment</p>
+        <table className='mx-auto font-inter mt-4 w-11/12'>
+          <tbody>
+            <tr className='text-center'>
+              <td className='tableh w-1/4'>Document Id</td>
+              <td className='w-1/4 tabled'>{selectedRow?.preDoc || 'On going job'}</td>
+              <td className='tableh w-1/4'>Date</td>
+              <td className='w-1/4 tabled'>{selectedRow?.startDate || 'On going job'}</td>
+            </tr>
+            <tr>
+              <td colSpan={4} className='text-start pt-4'>Check List</td>
+            </tr>
+            <tr className='text-center'>
+              <td className='tableh'>Spare Tire</td>
+              <td className='tabled'>{selectedRow?.spareTire || 'No'}</td>
+              <td className='tableh'>Tire Jack</td>
+              <td className='tabled'>{selectedRow?.tireJack || 'Not checked'}</td>
+            </tr>
+            <tr className='text-center'>
+              <td className='tableh'>Lug Wrench</td>
+              <td className='tabled'>{selectedRow?.lugWrench || 'Not checked'}</td>
+              <td className='tableh'>Tool Box</td>
+              <td className='tabled'>{selectedRow?.toolBox || 'Not checked'}</td>
+            </tr>
+            <tr className='text-center'>
+              <td className='tableh'>Jumper Cables</td>
+              <td className='tabled'>{selectedRow?.jumperCables || 'Not checked'}</td>
+            </tr>
+
+            <tr>
+              <td colSpan={4} className='text-start pt-4'>Other Items</td>
+            </tr>
+            <tr>
+              <td colSpan={4} className='tabled py-2'>{(selectedRow?.otheritems && selectedRow.otheritems.length > 0) ? selectedRow.otheritems : 'No items'}</td>
+            </tr>
+
+            <tr>
+              <td colSpan={4} className='text-start pt-4'>Additional Note</td>
+            </tr>
+            <tr>
+              <td colSpan={4} className='tabled py-2'>{selectedRow?.additionalNote || 'No note'}</td>
+            </tr>
+
+            <tr>
+              <td colSpan={4} className='text-start pt-4'>vehicleFaultehicle Fault</td>
+            </tr>
+            <tr>
+              <td colSpan={4} className='tabled py-2'>{selectedRow?.vehicleFault || 'No note'}</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </>
     );
   };
 

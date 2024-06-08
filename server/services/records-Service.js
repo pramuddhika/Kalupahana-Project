@@ -26,17 +26,20 @@ export const checkVehicleService = (searchNumber) => {
 //################################## get record data - start ############################
 export const getRecordsDataService = (recordNumber) => {
     return new Promise((resolve, reject) => {
-        const recordQuery = `SELECT r.JOB_ID,r.PRE_REPAIR_DOC_ID,r.POST_REPAIR_DOC_ID,DATE_FORMAT(r.START_DATE, '%Y-%m-%d') as START_DATE,DATE_FORMAT(r.END_DATE, '%Y-%m-%d') as END_DATE,
+        const recordQuery = `SELECT 
+                        r.JOB_ID,r.PRE_REPAIR_DOC_ID,r.POST_REPAIR_DOC_ID,DATE_FORMAT(r.START_DATE, '%Y-%m-%d') as START_DATE,DATE_FORMAT(r.END_DATE, '%Y-%m-%d') as END_DATE,
                         c.CUSTOMER_NAME,c.EMAIL,c.PHONE_NUMBER,
                         w.EMPLOYEE_ID,w.MECHANIC_NOTE,
                         p.BATTERY_HEALTH,p.ENGINE_PERFORMANCE,p.TIRE_CONDITION,p.FLUID_LEVELS,p.MECHANIC_INSTRUCTION,p.SHOP_OWNER_NOTE,
-                        pr.VEHICLE_FAULT,pr.ADDITIONAL_NOTE,pr.SPARE_TIRE,pr.TIRE_JACK,pr.LUG_WRENCH,pr.TOOL_BOX,pr.JUMPER_CABLES
+                        pr.VEHICLE_FAULT,pr.ADDITIONAL_NOTE,pr.SPARE_TIRE,pr.TIRE_JACK,pr.LUG_WRENCH,pr.TOOL_BOX,pr.JUMPER_CABLES,
+                        ch.ITEM_NAME
                         FROM records r
-                        LEFT JOIN vehicle v         ON r.VEHICLE_NUMBER = v.VEHICLE_NUMBER
-                        LEFT JOIN customer c        ON v.NIC_NUMBER = c.NIC_NUMBER
-                        LEFT JOIN work_allocation w ON r.JOB_ID = w.JOB_ID
+                        LEFT JOIN vehicle v              ON r.VEHICLE_NUMBER = v.VEHICLE_NUMBER
+                        LEFT JOIN customer c             ON v.NIC_NUMBER = c.NIC_NUMBER
+                        LEFT JOIN work_allocation w      ON r.JOB_ID = w.JOB_ID
                         LEFT JOIN post_repair_document p ON r.POST_REPAIR_DOC_ID = p.DOCUMENT_ID
-                        LEFT JOIN pre_repair_document pr ON r.JOB_ID = pr.DOCUMENT_ID
+                        LEFT JOIN pre_repair_document pr ON r.PRE_REPAIR_DOC_ID = pr.DOCUMENT_ID
+                        LEFT JOIN check_list ch          ON r.PRE_REPAIR_DOC_ID = ch.PREREPAIR_DOC_ID   
                         WHERE r.VEHICLE_NUMBER = ?`;
 
         db.query(recordQuery, [recordNumber], (err, data) => {
@@ -72,6 +75,7 @@ export const getRecordsDataService = (recordNumber) => {
                             lugWrench: list.LUG_WRENCH,
                             toolBox: list.TOOL_BOX,
                             jumperCables: list.JUMPER_CABLES,
+                            otheritems:[],
                             workAllocation: []
                         };
                     }
@@ -81,6 +85,13 @@ export const getRecordsDataService = (recordNumber) => {
                             employeeId: list.EMPLOYEE_ID,
                             mechNote: list.MECHANIC_NOTE
                         });
+                    }
+                    if(list.ITEM_NAME){
+                       if(acc[list.JOB_ID].otheritems){
+                          acc[list.JOB_ID].otheritems += ' ' + list.ITEM_NAME+',';
+                        } else {
+                          acc[list.JOB_ID].otheritems = list.ITEM_NAME;
+                        }
                     }
 
                     return acc;

@@ -1,6 +1,7 @@
 import {
     getvehicleCategoryService,
-    getvehicleBrandsService
+    getvehicleBrandsService,
+    completeJobsService
        } from '../services/summary-service.js';
 
 //######################  get vehicle data by groups - start ##############################
@@ -24,3 +25,14 @@ export const getvehicleBrandsController = async(req,res) => {
     }
 }
 //######################  get vehicle data by brands - end   ##############################
+
+//######################  get number og complete jobs - start ##############################
+export const completeJobsController = async(req,res) => {
+    try{
+        const data = await completeJobsService();
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err);
+    }
+}
+//######################  get number og complete job  - end   ##############################

@@ -49,3 +49,25 @@ export const getvehicleBrandsService = () => {
     })
 }
 //##########################  get vehicle data by brands - end   ##############################
+
+//##########################  get number og complete job - start ##############################
+export const completeJobsService = () => {
+    return new Promise( (resolve,reject) => {
+        const q = `SELECT COUNT(END_DATE) AS NUMBER
+                   FROM records`;
+
+        db.query(q,(err,data) => {
+            if(err){
+                reject({ message:"Server side error!"});
+            }else if ( !data || data.length === 0){
+                reject({message:'Data can not be found!'});
+            }else {
+                const completeJobs = data.map(list => ({
+                    jobs : list.NUMBER,
+                }));
+                resolve({completeJobs});
+            }
+        })
+    })
+}
+//##########################  get number og complete job - end   ##############################

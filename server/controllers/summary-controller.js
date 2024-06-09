@@ -4,7 +4,9 @@ import {
     completeJobsService,
     getHolidaysService,
     getEmployeeCountService,
-    getDetailEmployeeService
+    getDetailEmployeeService,
+    jobDatesCounterService,
+    mechanicNotesService
        } from '../services/summary-service.js';
 
 //######################  get vehicle data by groups - start ##############################
@@ -72,3 +74,25 @@ export const getDetailEmployeeController = async(req,res) => {
     }
 }
 //######################  get details employe count  - end   ##############################
+
+//######################  get job dates count - start ##############################
+export const jobDatesCounterController = async(req,res) => {
+    try{
+        const data = await jobDatesCounterService();
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err);
+    }
+}
+//######################  get job dates count  - end   ##############################
+
+//######################  get mechanic notes - start ##############################
+export const mechanicNotesControllerr = async(req,res) => {
+    try{
+        const data = await mechanicNotesService();
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err);
+    }
+}
+//######################  get mechanic notes  - end   ##############################

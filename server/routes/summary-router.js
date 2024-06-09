@@ -5,7 +5,9 @@ import {
     completeJobsController,
     getHolidayscontroller,
     getEmployeeCountController,
-    getDetailEmployeeController
+    getDetailEmployeeController,
+    jobDatesCounterController,
+    mechanicNotesControllerr
     } from '../controllers/summary-controller.js';
 
 const router = express.Router();
@@ -22,5 +24,9 @@ router.get('/getHolidays', getHolidayscontroller);
 router.get('/employeeCount',getEmployeeCountController);
 //employee details count
 router.get('/detailEmployee', getDetailEmployeeController);
+//get jobs date count
+router.get('/getJobdates', jobDatesCounterController);
+//mechanic job notes
+router.get('/mechanicsNotes', mechanicNotesControllerr);
 
 export default router;

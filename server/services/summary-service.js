@@ -112,11 +112,9 @@ export const getHolidaysService = () => {
 export const getEmployeeCountService = () => {
     return new Promise((resolve, reject) => {
         const q = `
-            SELECT 
-                SUM(IF(RESIGN_DATE IS NULL, 1, 0)) AS IN_COUNT,
-                SUM(IF(RESIGN_DATE IS NOT NULL, 1, 0)) AS OUT_COUNT
-            FROM 
-                mechanic`;
+            SELECT SUM(IF(RESIGN_DATE IS NULL, 1, 0)) AS IN_COUNT,
+                   SUM(IF(RESIGN_DATE IS NOT NULL, 1, 0)) AS OUT_COUNT
+            FROM mechanic`;
 
         db.query(q, (err, data) => {
             if (err) {
@@ -139,14 +137,10 @@ export const getEmployeeCountService = () => {
 export const getDetailEmployeeService = () => {
     return new Promise((resolve, reject) => {
         const q = `
-            SELECT 
-                MAIN_AREA,
-                SUM(IF(RESIGN_DATE IS NULL, 1, 0)) AS IN_COUNT,
-                SUM(IF(RESIGN_DATE IS NOT NULL, 1, 0)) AS OUT_COUNT
-            FROM 
-                mechanic
-            GROUP BY
-                MAIN_AREA`;
+            SELECT MAIN_AREA,SUM(IF(RESIGN_DATE IS NULL, 1, 0)) AS IN_COUNT,
+                   SUM(IF(RESIGN_DATE IS NOT NULL, 1, 0)) AS OUT_COUNT
+            FROM mechanic
+            GROUP BY MAIN_AREA`;
 
         db.query(q, (err, data) => {
             if (err) {
@@ -165,3 +159,58 @@ export const getDetailEmployeeService = () => {
     })
 }
 //##########################  get details  employee number - end   ##############################
+
+//##########################  get job dates count - start ##############################
+export const jobDatesCounterService = () => {
+    return new Promise((resolve, reject) => {
+        const q = `
+            SELECT VEHICLE_NUMBER,JOB_ID,DATEDIFF(CURDATE(), START_DATE) AS ACTIVE_DAYS
+            FROM records
+            WHERE END_DATE IS NULL`;
+
+        db.query(q, (err, data) => {
+            if (err) {
+                reject({ message: "Server side error!" });
+            } else if (!data || data.length === 0) {
+                reject({ message: 'Data can not be found!' });
+            } else {
+                const jobDetails = data.map(row => ({
+                    vehicleNumber: row.VEHICLE_NUMBER,
+                    jobId: row.JOB_ID,
+                    activeDays: row.ACTIVE_DAYS,
+                }));
+                resolve({ jobDetails });
+            }
+        })
+    })
+}
+//##########################  get job dates count - end   ##############################
+
+//##########################  get mechanic note - start ##############################
+export const mechanicNotesService = () => {
+    return new Promise((resolve, reject) => {
+        const q = `
+            SELECT w.MECHANIC_NOTE,w.EMPLOYEE_ID,w.STATUS,
+                   r.VEHICLE_NUMBER
+            FROM work_allocation w
+            JOIN records r ON w.JOB_ID = r.JOB_ID
+            WHERE w.STATUS NOT IN ('complete', 'withdraw')`;
+
+        db.query(q, (err, data) => {
+            if (err) {
+                reject({ message: "Server side error!" });
+            } else if (!data || data.length === 0) {
+                reject({ message: 'Data can not be found!' });
+            } else {
+                const mechanicNotes = data.map(row => ({
+                    mechanicNote: row.MECHANIC_NOTE,
+                    employeeId: row.EMPLOYEE_ID,
+                    status: row.STATUS,
+                    vehicleNumber: row.VEHICLE_NUMBER,
+                }));
+                resolve({ mechanicNotes });
+            }
+        })
+    })
+}
+//##########################  get mechanic note - end   ##############################

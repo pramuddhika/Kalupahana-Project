@@ -9,6 +9,7 @@ import mechanicRoutes from './routes/mechanic-route.js';
 import openJobRoutes from './routes/openJob-route.js';
 import updateJobRoutes from './routes/updateJob-route.js';
 import recordsRoutes from './routes/records-router.js';
+import summaryRoutes from './routes/summary-router.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -33,6 +34,9 @@ app.use('/api/records', recordsRoutes);
 
 //parths - dashboard
 app.use('/api/dashboard', dashBoardRoutes);
+
+//parths - owner
+app.use('/api/summary', summaryRoutes);
 
 
 app.listen(PORT, () => {

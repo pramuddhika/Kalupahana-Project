@@ -2,7 +2,10 @@ import express from 'express';
 import {
     getvehicleCategoryController,
     getvehicleBrandsController,
-    completeJobsController
+    completeJobsController,
+    getHolidayscontroller,
+    getEmployeeCountController,
+    getDetailEmployeeController
     } from '../controllers/summary-controller.js';
 
 const router = express.Router();
@@ -13,5 +16,11 @@ router.get('/vehiclegroups', getvehicleCategoryController);
 router.get('/vehicleBrands', getvehicleBrandsController);
 //get completed number of jobs
 router.get('/completeJobs', completeJobsController);
+//geta holidays
+router.get('/getHolidays', getHolidayscontroller);
+//emaployee count
+router.get('/employeeCount',getEmployeeCountController);
+//employee details count
+router.get('/detailEmployee', getDetailEmployeeController);
 
 export default router;

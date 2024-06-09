@@ -214,3 +214,30 @@ export const mechanicNotesService = () => {
     })
 }
 //##########################  get mechanic note - end   ##############################
+
+//##########################  get dates - start ##############################
+export const getDatesService = () => {
+    return new Promise((resolve, reject) => {
+        const startDatesQuery = `SELECT DATE_FORMAT(START_DATE, '%Y-%m-%d') as START_DATE FROM records`;
+        const endDatesQuery = `SELECT DATE_FORMAT(END_DATE, '%Y-%m-%d') as END_DATE FROM records WHERE END_DATE IS NOT NULL`;
+        const reservedDatesQuery = `SELECT DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE FROM booking`;
+
+        Promise.all([
+            new Promise((res, rej) => db.query(startDatesQuery, (err, data) => err ? rej(err) : res(data))),
+            new Promise((res, rej) => db.query(endDatesQuery, (err, data) => err ? rej(err) : res(data))),
+            new Promise((res, rej) => db.query(reservedDatesQuery, (err, data) => err ? rej(err) : res(data)))
+        ]).then(([startDatesData, endDatesData, reservedDatesData]) => {
+            if (!startDatesData || !endDatesData || !reservedDatesData) {
+                reject({ message: 'Data can not be found!' });
+            } else {
+                const startDates = startDatesData.map(row => row.START_DATE);
+                const endDates = endDatesData.map(row => row.END_DATE);
+                const reservedDates = reservedDatesData.map(row => row.RESERVED_DATE);
+                resolve({ startDates, endDates, reservedDates });
+            }
+        }).catch(err => {
+            reject({ message:err.message });
+        });
+    })
+}
+//##########################  get mechanic note - end   ##############################

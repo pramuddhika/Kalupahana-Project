@@ -13,11 +13,6 @@ export const db = mysql.createPool({
 export const EMAIL_USER = process.env.EMAIL_USER;
 export const EMAIL_PASS = process.env.EMAIL_PASS;
 
-export const API = process.env.API;
-export const CLIENT_ID = process.env.CLIENT_ID;
-export const CLIENT_SECRET = process.env.CLIENT_SECRET;
-export const REDIRECT_URIS = process.env.REDIRECT_URIS;
-
 
 export const PORT = process.env.PORT || 8000;
 

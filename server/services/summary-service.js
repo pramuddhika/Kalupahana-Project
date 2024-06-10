@@ -76,7 +76,7 @@ export const completeJobsService = () => {
 export const getHolidaysService = () => {
     return new Promise((resolve, reject) => {
         const q = `
-            SELECT  m.MONTH, IFNULL(h.NUMBER, 0) AS NUMBER
+            SELECT m.MONTH, IFNULL(h.NUMBER, 0) AS NUMBER
             FROM (
                 SELECT 1 AS MONTH UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL
                 SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL
@@ -84,7 +84,7 @@ export const getHolidaysService = () => {
                 SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12
             ) AS m
             LEFT JOIN (
-                SELECT  MONTH(HOLIDATE) AS MONTH, COUNT(HOLIDATE) AS NUMBER
+                SELECT MONTH(HOLIDATE) AS MONTH, COUNT(HOLIDATE) AS NUMBER
                 FROM holidays
                 WHERE YEAR(HOLIDATE) = YEAR(CURDATE())
                 GROUP BY MONTH(HOLIDATE)
@@ -97,8 +97,9 @@ export const getHolidaysService = () => {
             } else if (!data || data.length === 0) {
                 reject({ message: 'Data can not be found!' });
             } else {
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 const completeJobs = data.map(list => ({
-                    month: list.MONTH,
+                    month: monthNames[list.MONTH - 1],
                     count: list.NUMBER,
                 }));
                 resolve({ completeJobs });
@@ -218,9 +219,9 @@ export const mechanicNotesService = () => {
 //##########################  get dates - start ##############################
 export const getDatesService = () => {
     return new Promise((resolve, reject) => {
-        const startDatesQuery = `SELECT DATE_FORMAT(START_DATE, '%Y-%m-%d') as START_DATE FROM records`;
-        const endDatesQuery = `SELECT DATE_FORMAT(END_DATE, '%Y-%m-%d') as END_DATE FROM records WHERE END_DATE IS NOT NULL`;
-        const reservedDatesQuery = `SELECT DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE FROM booking`;
+        const startDatesQuery = `SELECT DATE_FORMAT(START_DATE, '%m-%d') as START_DATE FROM records`;
+        const endDatesQuery = `SELECT DATE_FORMAT(END_DATE, '%m-%d') as END_DATE FROM records WHERE END_DATE IS NOT NULL`;
+        const reservedDatesQuery = `SELECT DATE_FORMAT(RESERVED_DATE, '%m-%d') as RESERVED_DATE FROM booking`;
 
         Promise.all([
             new Promise((res, rej) => db.query(startDatesQuery, (err, data) => err ? rej(err) : res(data))),

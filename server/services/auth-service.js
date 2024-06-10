@@ -34,13 +34,13 @@ export const loginService = (userName, password) => {
             if (err) {
                 reject({ message: 'Server side error!' });
             } else if (users.length === 0) {
-                reject(new Error({ message: 'User not found' }));
+                reject({ message:'user name or password wrong!'});
             } else {
                 const user = users[0];
                 const passwordMatch = bcrypt.compareSync(password, user.PASSWORD);
 
                 if (!passwordMatch) {
-                    reject(new Error({ message: 'User name or password wrong!' }));
+                    reject({ message: 'user name or password wrong!' });
                 } else {
                     const token = jwt.sign(
                         { id: user.ID, type: user.USER_TYPE, name: user.USER_NAME },
@@ -49,7 +49,7 @@ export const loginService = (userName, password) => {
                             expiresIn: user.USER_TYPE === 'shop_owner' ? '30m' : '2h'
                         }
                     );
-                    resolve({ token, user: {type: user.USER_TYPE, name: user.USER_NAME, email: user.EMAIL } });
+                    resolve({ token, user: {type: user.USER_TYPE, name: user.USER_NAME} });
                 }
             }
         });

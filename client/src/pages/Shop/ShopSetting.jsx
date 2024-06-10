@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {TrashIcon} from '@heroicons/react/24/solid';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SideNav from '../components/SideNav';
 
 const ShopSetting = () => {
 
@@ -237,10 +238,16 @@ const ShopSetting = () => {
   
   
   return (
-    <div>
+
+    <div className="flex h-screen">
+      <div className="w-[180px]">
+        <SideNav />
+      </div>
+      <div className="w-calc">
+      <div>
       <ShopHeader pageName="Settings"/>
             
-      <div className="h-9 bg-side-nav-bg border-b-2"/>
+       <div className="h-9 bg-side-nav-bg border-b-2"/>
 
        <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
 
@@ -412,6 +419,10 @@ const ShopSetting = () => {
         {/**mechnicss specialist ares -end */}
 
     </div>
+      </div>
+    </div>
+
+    
   );
 };
 

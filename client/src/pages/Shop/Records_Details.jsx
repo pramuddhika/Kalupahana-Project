@@ -220,7 +220,7 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
         <table className="mx-auto font-inter mt-4 w-11/12">
         <thead>
          <tr className="bg-text-primary text-white">
-           <th className="border-2 border-black">Employee ID</th>
+           <th className="border-2 border-black w-48">Employee ID</th>
            <th className="border-2 border-black">Note</th>
          </tr>
         </thead>

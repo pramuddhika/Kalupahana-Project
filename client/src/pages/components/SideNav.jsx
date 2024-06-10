@@ -29,7 +29,7 @@ const SideNav = () => {
     });
   };
 
-  const [activeBar, setActiveBar] = useState('booking');
+  const [activeBar, setActiveBar] = useState('');
   const location = useLocation();
 
   useEffect(() => {

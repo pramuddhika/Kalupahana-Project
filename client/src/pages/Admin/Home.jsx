@@ -1,21 +1,27 @@
-import {UserIcon,ShieldCheckIcon,RectangleGroupIcon,CalendarDaysIcon,HandThumbUpIcon,ChartPieIcon} from '@heroicons/react/24/solid';
+import {ShieldCheckIcon,RectangleGroupIcon,CalendarDaysIcon,HandThumbUpIcon,ChartPieIcon} from '@heroicons/react/24/solid';
 import DashBoardBox from '../components/DashBoardBox';
 import {Link} from 'react-router-dom';
+import OwnerPagesHeader from "../components/OwnerPagesHeader";
+import { useState,useEffect} from 'react';
+
  
 const Home = () => {
+
+   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userItem = localStorage.getItem('user');
+
+    if (userItem) {
+      setUser(JSON.parse(userItem));
+    } else {
+      console.log('No user item in local storage');
+    }
+  }, []);
+   
     return (
         <div className='h-screen'>
-            {/**6wner header -start */}
-            <div className="flex h-16 w-full bg-side-nav-bg border-b-2 justify-between">
-             <p className="flex items-center font-inter font-bold pl-5 text-2xl text-text-primary">
-                Kalupahana Motors
-             </p>
-             <div className='flex items-center pr-5 gap-4'>
-                <p className='font-inter tex text-text-primary font-medium'>The Owner</p>
-                <UserIcon className='h-8 w-8 text-white bg-text-primary rounded-2xl p-1 '/>
-             </div>
-            </div>
-            {/**owner header -end */}
+            <OwnerPagesHeader pageName='Kalupahana Motors' userName={user ? user.name : ''}/>
 
             <DashBoardBox/>
 

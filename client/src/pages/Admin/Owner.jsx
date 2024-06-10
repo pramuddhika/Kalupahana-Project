@@ -8,6 +8,7 @@ import FeedbacksOwner from './Feedbacks';
 import Booking from './Booking';
 
 const Owner = () => {
+ 
   return (
     <div>
       

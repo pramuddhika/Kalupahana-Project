@@ -3,6 +3,7 @@ import { useState } from "react";
 import AddPurchases from "./StockAddPurchases";
 import AddPart from "./StockAddPart";
 import LiveStock from "./StockLive";
+import SideNav from '../components/SideNav';
 
 
 const Stock = () => {
@@ -14,7 +15,13 @@ const Stock = () => {
     };
 
     return (
-        <div>
+
+        <div className="flex h-screen">
+      <div className="w-[180px]">
+        <SideNav />
+      </div>
+      <div className="w-calc">
+      <div>
             <ShopHeader pageName="Stock" />
             
             {/**start sub navbar */}
@@ -34,6 +41,10 @@ const Stock = () => {
                 {activeTopic === 'LiveStock' && <LiveStock/>}
             </div>
         </div>
+      </div>
+    </div>
+
+        
     );
 };
 

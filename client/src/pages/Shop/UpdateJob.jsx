@@ -4,6 +4,7 @@ import Menu from './Update_Menu';
 import Search from './Update_Search';
 import MoreData from './Update_MoreData';
 import { UpdateJobContext } from './UpdateJobContext';
+import SideNav from '../components/SideNav';
 
 const UpdateJob = () => {
   const [updateJobData, setUpdateJobData] = useState(
@@ -16,7 +17,12 @@ const UpdateJob = () => {
   }, [updateJobData]);
 
   return (
-    <UpdateJobContext.Provider value={{ updateJobData, setUpdateJobData }}>
+    <div className="flex h-screen">
+      <div className="w-[180px]">
+        <SideNav />
+      </div>
+      <div className="w-calc">
+      <UpdateJobContext.Provider value={{ updateJobData, setUpdateJobData }}>
       <div>
         <Routes>
           <Route path="" element={<Search/>}/>
@@ -25,6 +31,9 @@ const UpdateJob = () => {
         </Routes>
       </div>
     </UpdateJobContext.Provider>
+      </div>
+    </div>
+    
   );
 };
 

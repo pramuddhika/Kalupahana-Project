@@ -2,26 +2,13 @@ import {ShieldCheckIcon,RectangleGroupIcon,CalendarDaysIcon,HandThumbUpIcon,Char
 import DashBoardBox from '../components/DashBoardBox';
 import {Link} from 'react-router-dom';
 import OwnerPagesHeader from "../components/OwnerPagesHeader";
-import { useState,useEffect} from 'react';
 
  
 const Home = () => {
 
-   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const userItem = localStorage.getItem('user');
-
-    if (userItem) {
-      setUser(JSON.parse(userItem));
-    } else {
-      console.log('No user item in local storage');
-    }
-  }, []);
-   
     return (
         <div className='h-screen'>
-            <OwnerPagesHeader pageName='Kalupahana Motors' userName={user ? user.name : ''}/>
+            <OwnerPagesHeader pageName='Kalupahana Motors'/>
 
             <DashBoardBox/>
 

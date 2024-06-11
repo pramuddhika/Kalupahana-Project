@@ -45,7 +45,7 @@ const PreRepairDocument = ({
     const title = 'Kalupahana Motor Engineering';
     const titleWidth = pdf.getStringUnitWidth(title) * pdf.internal.getFontSize() / pdf.internal.scaleFactor;
     const titleX = (pageWidth - titleWidth) / 2;
-    pdf.text(title, titleX, 20);
+    pdf.text(title, titleX, 10);
 
     // Add subtitle
     pdf.setFontSize(12);
@@ -53,53 +53,52 @@ const PreRepairDocument = ({
     const subtitle = 'Mahingoda Junction Bus Stop, Ratnapura Road, Eheliyagoda. - 0773880154';
     const subtitleWidth = pdf.getStringUnitWidth(subtitle) * pdf.internal.getFontSize() / pdf.internal.scaleFactor;
     const subtitleX = (pageWidth - subtitleWidth) / 2;
-    pdf.text(subtitle, subtitleX, 26);
+    pdf.text(subtitle, subtitleX, 16);
 
     // Draw rectangles for sections
     pdf.setDrawColor(0, 0, 0);
-    pdf.rect(10, 40, 190, 45); // Section for basic details
-    pdf.rect(10, 85, 190, 30); // Section for checklist
-    pdf.rect(10, 115, 190, 30); // Section for other items
-    pdf.rect(10, 145, 190, 30); // Section for additional note
-    pdf.rect(10, 175, 190, 75); // Section for images
-    pdf.rect(10, 250, 190, 40); // Section for vehicle fault
+    pdf.rect(10, 20, 190, 40); // Section for basic details
+    pdf.rect(10, 60, 190, 25); // Section for checklist
+    pdf.rect(10, 85, 190, 30); // Section for other items
+    pdf.rect(10, 115, 190, 30); // Section for additional note
+    pdf.rect(10, 145, 190, 75); // Section for images
+    pdf.rect(10, 220, 190, 40); // Section for vehicle fault
 
     // Add basic details
     pdf.setFontSize(12);
-    pdf.text(`Vehicle Number: ${vehicleNumber}`, 15, 50);
-    pdf.text(`Customer Name: ${customerName}`, 15, 60);
-    pdf.text(`Customer Email: ${customerEmail}`, 15, 80);
-    pdf.text(`Phone Number: ${customerPhoneNumber}`, 15, 70);
-    pdf.text(`Document Number: ${preDocId}`, 120, 50);
-    pdf.text(`Repair Job Number: ${jobId}`, 120, 60);
-    pdf.text(`Date: ${dateString}`, 120, 70);
+    pdf.text(`Vehicle Number: ${vehicleNumber}`, 15, 25);
+    pdf.text(`Customer Name: ${customerName}`, 15, 35);
+    pdf.text(`Customer Email: ${customerEmail}`, 15, 55);
+    pdf.text(`Phone Number: ${customerPhoneNumber}`, 15, 45);
+    pdf.text(`Document Number: ${preDocId}`, 120, 25);
+    pdf.text(`Repair Job Number: ${jobId}`, 120, 35);
+    pdf.text(`Date: ${dateString}`, 120, 45);
 
     // Add checklist
-    pdf.text('Checklist:', 15, 90);
+    pdf.text('Checklist:', 15, 65);
     const checklistItems = ['spareTire', 'tireJack', 'lugWrench', 'toolBox', 'jumperCable'];
     checklistItems.forEach((item, index) => {
       const isChecked = checkList[item] === 'yes' ? '[x]' : '[o]';
       const itemLabel = item.replace(/([A-Z])/g, ' $1');
       const x = index < 3 ? 25 + (index * 70) : 25 + ((index - 3) * 70);
-      const y = index < 3 ? 100 : 110;
+      const y = index < 3 ? 70 : 80;
       pdf.text(`${isChecked} ${itemLabel}`, x, y);
     });
 
     // Add other items
-    pdf.text('Other items:', 15, 120);
-    pdf.text(otherItems || 'No items', 25, 125, { maxWidth: 150 });
+    pdf.text('Other items:', 15, 90);
+    pdf.text(otherItems || 'No items', 25, 95, { maxWidth: 150 });
 
     // Add additional note
-    pdf.text('Additional Note:', 15, 150);
-    pdf.text(additionalNote || 'No note', 25, 155, { maxWidth: 150 });
+    pdf.text('Additional Note:', 15, 120);
+    pdf.text(additionalNote || 'No note', 25, 125, { maxWidth: 150 });
 
     // Add images
-    // Add images
-    pdf.text('Scarth marks in body:', 15, 180);
+    pdf.text('Scarth marks in body:', 15, 150);
     if (images.length === 0) {
-      pdf.text('No images', 20, 185);
+      pdf.text('No images', 20, 155);
     } else {
-      let imageY = 185;
+      let imageY = 155;
       for (let i = 0; i < images.length; i += 5) {
       let imageX = 20;
       for (let j = i; j < i + 5 && j < images.length; j++) {
@@ -113,8 +112,19 @@ const PreRepairDocument = ({
     }
 
     // Add vehicle fault
-    pdf.text('Vehicle Fault:', 15, 255);
-    pdf.text(vehicleFault || 'None', 25, 260, { maxWidth: 150 });
+    pdf.text('Vehicle Fault:', 15, 225);
+    pdf.text(vehicleFault || 'None', 25, 230, { maxWidth: 150 });
+
+    //customer sentence
+    pdf.text('I confirm that all information provided is accurate and agree to comply with all rules',45,270,{ maxWidth: 160 });
+    pdf.text('and regulations set forth by Kalupahana Motor Engineering.',15 , 275);
+    
+    //signatures
+    pdf.text('---------------------------', 20,285);
+    pdf.text('---------------------------', 160,285);
+    pdf.text('Kalupahana Motors', 20,290);
+    pdf.text('Customer', 170,290 );
+
 
     // Add footer
     pdf.setFontSize(8);

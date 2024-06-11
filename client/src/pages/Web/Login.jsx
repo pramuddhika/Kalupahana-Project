@@ -12,26 +12,23 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleLoginClick = async (e) => {
-    e.preventDefault();
-    
-    try {
-        const response = await axios.post('/api/auth/login', { userName, password });
-        const { token, user } = response.data;
-        
-        // Save token and user info in local storage
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
-        
-        // Navigate based on user type
-        if (user.type === 'shop') {
-            navigate('/shop/booking');
-        } else if (user.type === 'owner') {
-            navigate('/owner');
+        e.preventDefault();
+        try {
+            const res = await axios.post('/api/auth/login', { userName, password });
+            const { token, user } = res.data;
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+            if (user.type === 'shop') {
+                navigate('/shop/booking');
+            } else if (user.type === 'owner') {
+                navigate('/owner');
+            } else {
+                setErr('Invalid user type');
+            }
+        } catch (err) {
+            setErr(err.response.data.message);
         }
-    } catch (err) {
-        setErr(err.response.data.message);
-    }
-};
+    };
 
     return (
         <div className="flex w-10/12 mx-auto h-screen">
@@ -67,10 +64,11 @@ const Login = () => {
                     <button 
                         className='flex justify-center bg-btn-primary font-inter font-semibold text-white text-lg p-2 rounded-lg w-32 mx-auto mt-5' 
                         onClick={handleLoginClick}
-                    >
-                        Log in
+                    > 
+                        Login
                     </button>
                     <p className='flex justify-center font-inter text-red-600 text-lg mt-4'>{err}</p>
+                    <p className='text-blue-400 text-center mt-2 italic text-sm'>Forgot password?</p>
                 </form>
             </div>
         </div>

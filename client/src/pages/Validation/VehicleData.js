@@ -3,10 +3,18 @@ export const validateVehicleNumber = (vehicleNumber) => {
   //vehicle number can contain 2 or 3 letters with 4 number
   //vehicle number can contain 2 or 3 numbers with 4 numbers
   //first part can't be '00' and last 4 digits can't be '0000'
-  const regexVehicleNumber = /^((?!00)[A-Z]{2,3}|(?!00)\d{2,3})-(?!0000)\d{4}$/;
+  //when first part start with 2 numbers, it can't start with 21, and 79
+  //when first part start with 3 numbers it can not between 200 to 207 number including these values
+  //when first part start with 2 letters it can not start with 'Q'
+  //when first part start with 3 letters it can not start with 'B'
+  const regexVehicleNumber = /^((?!00|21|79)[A-Z]{2,3}|(?!00|200|201|202|203|204|205|206|207)\d{2,3})-(?!0000)\d{4}$/;
   const motorcycleRegex = /^B[A-Z]{2}-\d{4}$/;
   const motorcycleNumbers = /^(8[0-9]|9[0-7]|1[0-5][0-6])-\d{4}$/;
   const motorcycleLetters = /^M[A-Z]-\d{4}$/;
+  const threeWheelNumbers = /^(21|79)\d{2}-\d{4}$/;
+  const threeWheelLetters = /^Q[A-Z]-\d{4}$/;
+  const threeWheelNumbers3 = /^2(00|01|02|03|04|05|06|07)\d{1}-\d{4}$/;
+  const threeWheelLetters3 = /^B[A-Z]{2}-\d{4}$/;
 
   //check empty vehicle number
   if(!vehicleNumber.length){
@@ -24,7 +32,10 @@ export const validateVehicleNumber = (vehicleNumber) => {
   if(motorcycleRegex.test(vehicleNumber) || motorcycleNumbers.test(vehicleNumber) || motorcycleLetters.test(vehicleNumber)){
     return ("Motorcycles are not repairing");
   }
-
+  //check if vehicle number is for a three-wheel
+  if(threeWheelNumbers.test(vehicleNumber) || threeWheelLetters.test(vehicleNumber) || threeWheelNumbers3.test(vehicleNumber) || threeWheelLetters3.test(vehicleNumber)){
+    return ("3-wheels are not repairing");
+  }
   return null;
 };
 //#########################################################################

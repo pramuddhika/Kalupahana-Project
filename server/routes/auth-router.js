@@ -1,6 +1,7 @@
 import express from 'express';
 import {registerController,
-    loginController
+    loginController,
+    verifyPinController
     } from '../controllers/auth-controller.js';
 
 const router = express.Router();
@@ -9,5 +10,7 @@ const router = express.Router();
 router.post('/register', registerController);
 //user login
 router.post('/login', loginController);
+//pin
+router.post('/verify-pin', verifyPinController);
 
 export default router;

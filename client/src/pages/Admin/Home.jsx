@@ -1,4 +1,8 @@
-import {ShieldCheckIcon,RectangleGroupIcon,CalendarDaysIcon,HandThumbUpIcon,ChartPieIcon} from '@heroicons/react/24/solid';
+import {ShieldCheckIcon,
+  RectangleGroupIcon,
+  CalendarDaysIcon,
+  HandThumbUpIcon,
+  ChartPieIcon} from '@heroicons/react/24/solid';
 import DashBoardBox from '../components/DashBoardBox';
 import {Link} from 'react-router-dom';
 import OwnerPagesHeader from "../components/OwnerPagesHeader";

@@ -30,15 +30,21 @@ export const validateInputField = (inputValue) => {
 
 //############### check human name #################################
 export const validateHumanName = (personName) => {
-  //name can only conatin lettters
-  const nameregex = /^[a-zA-Z\s]*$/;
-  
-  //check name is emapty
+  // Name should start with a capital letter and can only contain letters and spaces
+  const nameRegex = /^[A-Z][a-zA-Z\s]*$/;
+  const capitalLetterRegex = /^[A-Z]/;
+
+  // Check if name is empty
   if(!personName.length){
     return ("Name can't be empty!");
   }
-  if(!nameregex.test(personName)){
-    return ("Invalid name!");
+  // Check if name starts with a capital letter
+  if(!capitalLetterRegex.test(personName)){
+    return ("Name should start with a capital letter!");
+  }
+  // Check if name only contains letters and spaces
+  if(!nameRegex.test(personName)){
+    return ("Invalid name! Name can only contain letters and spaces.");
   }
   return null;
 }
@@ -46,15 +52,23 @@ export const validateHumanName = (personName) => {
 
 //################## check human NIC NUMBER #########################
 export const validateHumanNIC = (NICnumber) => {
-  //NIC can conatin 12 numbers or 9 numbers with 'V'
+  //NIC can contain 12 numbers or 9 numbers with 'V'
   const NICregex = /^(\d{12}|\d{9}V)$/;
 
-  //NIC can not be emapty
+  //NIC can not be empty
   if(!NICnumber.length){
     return("NIC number can't be empty!")
   }
   if(!NICregex.test(NICnumber)){
-    return("Invaild NIC number!");
+    return("Invalid NIC number!");
+  }
+  // If NIC number is 12 digits long, check the first 4 digits
+  if(NICnumber.length === 12 && parseInt(NICnumber.substring(0, 4)) > 2018){
+    return("Invalid NIC number!");
+  }
+  // If NIC number is 9 digits long with 'V', check the first 2 digits
+  if(NICnumber.length === 10 && (parseInt(NICnumber.substring(0, 2)) < 24 || parseInt(NICnumber.substring(0, 2)) > 99)){
+    return("Invalid NIC number!");
   }
   return null;
 }

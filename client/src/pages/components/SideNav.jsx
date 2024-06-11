@@ -37,18 +37,19 @@ const SideNav = () => {
     setActiveBar(currentPath);
   }, [location]);
 
+  const handleLogout = () => {
+    localStorage.clear();
+  };
+
   return (
     <div>
-
       <div className="fixed top-0 left-0 w-[180px] border-2 border-l-gray-400 bg-side-nav-bg h-screen">
-      
         <div className="font-inter text-text-primary p-4 mb-8">
           <p className="flex font-bold text-xl justify-center">Kalupahana</p>
           <p className="flex justify-end font-semibold mr-6">Motors</p>
         </div>
 
         <div className="font-inter text-text-primary">
-
           <Link to='/shop/booking'>
             <div className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
             ${activeBar === 'booking' ? 'text-white bg-text-primary':''}`} 
@@ -67,7 +68,6 @@ const SideNav = () => {
 
           {showSubset && (
           <div id='subset'>
-
             <Link to='/shop/openJob'>
               <div className={`flex pl-11 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
               ${activeBar === 'openJob' ? 'text-white bg-text-primary':''}`} 
@@ -94,7 +94,6 @@ const SideNav = () => {
                  <p>Record</p>
               </div>
             </Link>
-
           </div>)}
 
           <Link to='/shop/feedbacks'>
@@ -132,18 +131,15 @@ const SideNav = () => {
               <p className='flex items-center'>Settings</p>
             </div>
           </Link>
-
         </div>
 
         <div className="font-inter text-text-primary w-[180px]">
-
           <Link to='/'>
-            <div className='fixed flex pl-7 w-[180px] gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer bottom-10'>
+            <div className='fixed flex pl-7 w-[180px] gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer bottom-10' onClick={handleLogout}>
               <ArrowUturnLeftIcon className='h-6 w-6 '/>
               <p>Log out</p>                    
             </div>
           </Link>
-
         </div>
       </div>
     </div>

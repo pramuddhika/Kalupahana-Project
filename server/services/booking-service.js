@@ -139,3 +139,23 @@ export const changeDateService = (reservedDate,vehicleNumber) => {
     });
 };
 //##################### change booking Date - end   ###########################################
+
+//#####################  get total booking data - start ##################################
+export const totalBookingService = () => {
+   return new Promise((resolve, reject) => {
+    const q = `SELECT COUNT(*) AS count
+               FROM booking 
+               WHERE STATUS = 'started' OR STATUS = 'pending'`;
+
+    db.query(q, (err, data) => {
+        if (err) {
+            reject(err);
+        } else if (!data || data.length === 0) {
+            resolve({ count: 0 });
+        } else {
+            resolve({ count: data[0].count });
+        }
+    });
+});
+};
+//#####################  get total booking data - end   ###################################

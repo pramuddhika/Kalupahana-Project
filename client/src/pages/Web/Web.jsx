@@ -1,9 +1,36 @@
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/solid';
-import {Link} from 'react-router-dom';
+import {useNavigate,Link} from 'react-router-dom';
 import Hero from '../assets/Hero.svg';
 import Engine from '../assets/engine.svg';
+import { useState } from 'react';
+import Modal from '../components/Modal';
+import axios from 'axios';
+import Warning from '../assets/warning.svg';
 
 const Web = () => {
+
+   const [openErrorModel,setOpenErrorModel] = useState(false);
+   const [errorMessage, setErrorMessage] = useState('');
+   const navigate = useNavigate();
+
+   const handleBookingButton = async() =>{
+      try{
+        const res = await axios.get('/api/booking/allowe');
+        if(res.data.message === 'Can'){
+         navigate('/booknow');
+        }else if(res.data.message === 'Cannot'){
+          setErrorMessage('All were booked!, Try later!');
+          setOpenErrorModel(true);
+        }else{
+         setErrorMessage('Error occurred!');
+         setOpenErrorModel(true);
+        }
+      }catch(err){
+         setErrorMessage('Error occurred!');
+         setOpenErrorModel(true);
+      }
+   }
+
     return (
         <div>
            {/*hero section -start*/}
@@ -21,7 +48,7 @@ const Web = () => {
                  <p className='font-inter text-6xl font-bold text-white'>Kalupahana Motor <br/> Engineering</p>
                  <p className='font-inter font-medium mt-3 text-white'>Where Expertise Drives Excellence</p>
                  <button className='bg-btn-primary rounded-lg w-36 p-2 mt-4'>
-                    <p className='text-white font-inter font-semibold'>Book Now</p>
+                    <p className='text-white font-inter font-semibold' onClick={handleBookingButton}>Book Now</p>
                  </button>
               </div>
 
@@ -71,6 +98,20 @@ const Web = () => {
               <p className='p-2'>&copy;All Rights Reserved</p>
            </div>
            {/**footer-end */}
+
+           <Modal open={openErrorModel}>
+            <div>
+             <div onClick={(e) => e.stopPropagation()}>
+                <img src={Warning} className='h-44 mx-auto mb-2'/>
+                <div className='text-center pt-2'>
+                  <p className='text-red-700 font-semibold'>{errorMessage}</p>
+                </div>
+                <div className="flex justify-center">
+                 <button className="btn btn-warning mx-auto mt-2" onClick={() => setOpenErrorModel(false)}>Ok</button>
+               </div>
+              </div>
+            </div>
+          </Modal>
 
         </div>
     );

@@ -4,6 +4,8 @@ import { addBooking,
          cancelBooking,
          cancelChecking,
          todayBookingInfo,
+         totalBookingController,
+         allowedController,
          changeDate } from '../controllers/booking-controller.js';
 import {nextDates} from '../controllers/date-controller.js';
 
@@ -23,6 +25,10 @@ router.put('/cancel', cancelBooking);
 router.get('/nextdates', nextDates);
 //change booking date
 router.put('/changedate', changeDate);
+//check booking number
+router.get('/totalBooking', totalBookingController);
+//allow booking
+router.get('/allowe', allowedController)
 
 
 export default router;

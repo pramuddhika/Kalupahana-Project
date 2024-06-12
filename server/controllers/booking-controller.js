@@ -3,7 +3,9 @@ import { addBookingService,
          cancelBookingService,
          cancelCheckingService,
          getTodayBookings,
+         totalBookingService,
          changeDateService } from '../services/booking-service.js';
+import axios from 'axios';
 
 //#####################  Add resevation data - Start #######################################
 export const addBooking = async (req,res) => {
@@ -93,3 +95,40 @@ export const changeDate = async (req,res) => {
     }
 };
 //##################### change booking date - end  ########################################
+
+//#####################  get total booking number - start ##################################
+export const totalBookingController = async (req,res) => {
+    try {
+        const data = await totalBookingService();
+        return res.status(200).json(data);
+    }catch (err){
+        return res.status(500).json(err.message);
+    }
+};
+//#####################  get total booking number - end   ##################################
+
+//##################### allowed controller - start ##########################################
+export const allowedController = async(req,res) =>{
+    try {
+        // Fetch settings
+        const settingsResponse = await axios.get('http://localhost:8000/api/settings/getsettings');
+        const bookingSpace = settingsResponse.data[0].bookingSpace;
+
+        // Fetch total bookings
+        const bookingResponse = await axios.get('http://localhost:8000/api/booking/totalBooking');
+        const count = bookingResponse.data.count;
+
+        // Compare and return response
+        if (count < bookingSpace) {
+            return res.status(200).json({ message: 'Can' });
+        } else {
+            return res.status(200).json({ message: 'Cannot' });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error occurred' });
+    }
+};
+//##################### allowed controller - end   ##########################################
+
+

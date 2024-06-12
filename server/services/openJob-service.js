@@ -20,7 +20,7 @@ export const  checkBookingService = async(jobOpenNumber) => {
             }
 
             const changeStatus = `UPDATE booking
-                                  SET STATUS = 'completed'
+                                  SET STATUS = 'started'
                                   WHERE VEHICLE_NUMBER = ? AND STATUS='pending'`;
 
             db.query(changeStatus,[jobOpenNumber], (err,data)=> {

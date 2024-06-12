@@ -63,11 +63,7 @@ export const addHolidayController = async (req,res) => {
     const data = await addHolidayService(date);
     return res.status(200).json(data);
   }catch(err){
-    if (err.code == 'ER_DUP_ENTRY') {
-      return res.status(409).json('Date already exists as a holidays!');
-  } else {
-      return res.status(500).json('Server side error!');
-  }  
+      return res.status(500).json(err); 
   }
 };
 //########################### add holiday - end   ###########################################

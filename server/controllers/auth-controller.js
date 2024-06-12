@@ -5,10 +5,10 @@ import {registerService,
 
 //################## register user - start ###############################
 export const registerController = async(req,res) => {
-    const {type,name,password,email} = req.body;
+    const {type,name,password,email,pin,step} = req.body;
 
     try{
-        const data = await registerService(type,name,password,email);
+        const data = await registerService(type,name,password,email,pin,step);
         return res.status(200).json(data);
     }catch(err){
         return res.status(500).json(err);

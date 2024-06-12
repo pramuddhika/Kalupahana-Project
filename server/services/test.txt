@@ -1,0 +1,47 @@
+if (user.USER_TYPE === 'owner') {
+                        const generatePin = () => Math.floor(100000 + Math.random() * 900000).toString();
+                        const pin = generatePin();
+                        const q = `UPDATE users SET PIN = ? WHERE USER_TYPE = ?`;
+                        db.query(q, [pin, user.USER_TYPE], (err) => {
+                            if (err) {
+                                reject({ message:err.message});
+                            } else {
+                                var transporter = nodemailer.createTransport({
+                                    service: 'gmail',
+                                    auth: {
+                                      user: EMAIL_USER,
+                                      pass: EMAIL_PASS
+                                    },
+                                    tls: {
+                                      rejectUnauthorized: false
+                                    }
+                                });
+                                  
+                                var mailOptions = {
+                                    from: EMAIL_USER,
+                                    to: user.EMAIL,
+                                    subject: 'Your login PIN',
+                                    text: `Your PIN is ${pin}`
+                                };
+                               
+                                return new Promise((resolve, reject) => {
+                  transporter.sendMail(mailOptions, (err, data) => {
+                  if (err) {
+                    reject({message:err.message});
+                } else {
+                    resolve({message:'Email sent!'});
+                }
+                 });
+                }).catch(err => console.error(err));
+            }
+                        });
+                    } else {
+                        const token = jwt.sign(
+                            { id: user.ID, type: user.USER_TYPE, name: user.USER_NAME },
+                            JWT_SECRET,
+                            {
+                                expiresIn: user.USER_TYPE === 'shop_owner' ? '30m' : '2h'
+                            }
+                        );
+                        resolve({ token, user: { type: user.USER_TYPE, name: user.USER_NAME } });
+                    }

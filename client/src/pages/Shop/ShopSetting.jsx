@@ -177,9 +177,9 @@ const ShopSetting = () => {
     }
     try{
       const res = await axios.post('/api/settings/addholidays', {date});
-      toast.success(res.data);
+      toast.success(res.data.message);
     }catch(err){
-      toast.error(err.response.data);
+      toast.error(err.response.data.message);
     }finally{
       setRefresh(!refresh);
       setDate('');

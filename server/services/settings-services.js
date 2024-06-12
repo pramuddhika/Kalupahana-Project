@@ -86,16 +86,29 @@ export const recordCheckService  = (recordsTime) => {
 export const addHolidayService = (date) => {
     return new Promise ( (resolve,reject) => {
 
-        const q = `INSERT INTO holidays 
-                   (HOLIDATE) VALUES (?)`;
+        const addHolidat  = `INSERT INTO holidays (HOLIDATE) VALUES (?)`;
+        const checkbooking = `SELECT VEHICLE_NUMBER FROM booking
+                              WHERE RESERVED_DATE = ? AND STATUS = 'pending'`;
 
-        db.query(q, [date], (err,data) => {
+        db.query(checkbooking,[date],(err,data) => {
             if(err){
-                reject (err);
-            }else if(data && data.lenght === 0){
-                reject(new Error('Data can not be found!'));
-            }else {
-                resolve("Added!");
+                reject({message:'Server side error!'});
+            }else{
+                if(!data || data.length === 0){
+                    db.query(addHolidat,[date],(err,data) => {
+                        if(err){
+                            if (err.code === 'ER_DUP_ENTRY') {
+                                reject({ message: 'Already added!' });
+                            } else {
+                                reject({ message:"Server side error!"});
+                            }
+                        }else{
+                            resolve({message:'Date added!'});
+                        }
+                    })
+                }else{
+                    reject({message:"Can't added,Date is taken by customer!"});
+                }
             }
         })
     });

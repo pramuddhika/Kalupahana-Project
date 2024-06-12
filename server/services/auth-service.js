@@ -1,7 +1,9 @@
+import { rejects } from 'assert';
 import { db, JWT_SECRET, EMAIL_USER, EMAIL_PASS } from '../env.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
+import { resolve } from 'path';
 
 //################## register user - start ###############################
 export const registerService = (type, name, password, email,pin,step) => {
@@ -143,3 +145,27 @@ export const verifyPinService = (userName, pin) => {
     });
 };
 //################## verify pin - end ########################################
+
+//################ get securuty data - strat ###########################
+export const getSecurityDataService = () => {
+    return new Promise((resolve, reject) => {
+        const q = `SELECT USER_TYPE,EMAIL,STEP FROM users`;
+
+        db.query(q, (err, data) => {
+            if (err) {
+                reject({ message: 'Server side error!' });
+            } else if (data.length === 0) {
+                reject({ message: 'No data found!' });
+            } else {
+                const secuData = data.map(list => ({
+                    user: list.USER_TYPE,
+                    email: list.EMAIL,
+                    step: list.STEP
+                }));
+                resolve({ secuData });
+            }
+        });
+    });
+};
+//############### get security data - end    ###########################
+

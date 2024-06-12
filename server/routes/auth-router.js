@@ -1,7 +1,8 @@
 import express from 'express';
 import {registerController,
     loginController,
-    verifyPinController
+    verifyPinController,
+    getSecurityDataController
     } from '../controllers/auth-controller.js';
 
 const router = express.Router();
@@ -12,5 +13,7 @@ router.post('/register', registerController);
 router.post('/login', loginController);
 //pin
 router.post('/verify-pin', verifyPinController);
+//get security page data
+router.get('/getSecuritydata', getSecurityDataController);
 
 export default router;

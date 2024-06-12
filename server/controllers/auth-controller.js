@@ -1,6 +1,7 @@
 import {registerService,
        loginService,
-       verifyPinService
+       verifyPinService,
+       getSecurityDataService
     } from '../services/auth-service.js';
 
 //################## register user - start ###############################
@@ -36,9 +37,20 @@ export const verifyPinController = async(req,res) => {
         const data = await verifyPinService(userName, pin);
         return res.status(200).json(data);
     }catch(err){
-        console.log(err)
         return res.status(500).json(err);
     }
 }
 //################# pin - end ######################################
+
+//################ get securuty data - strat ###########################
+export const getSecurityDataController = async(req,res) => {
+    try{
+        const data = await getSecurityDataService();
+        return res.status(200).json(data);
+    }catch(err){
+        console.log(err)
+        return res.status(500).json(err);
+    }
+}
+//############### get security data - end    ###########################
 

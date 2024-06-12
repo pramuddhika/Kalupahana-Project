@@ -24,14 +24,16 @@ const Update_UsePart = () => {
   
   useEffect(() => {
     // Fetch part IDs and details
-    const fetchIDs = async () => {
-      try {
-        const res = await axios.get('/api/stock/get');
-        setDetails(res.data.partDetails);
-      } catch (err) {
-        console.log('Error fetching data:', err);
-      }
+   const fetchIDs = async () => {
+    try {
+      const res = await axios.get('/api/stock/get');
+      const filteredData = res.data.partDetails.filter(item => parseFloat(item.quantity) > 0);
+      setDetails(filteredData);
+    } catch (err) {
+      console.log('Error fetching data:', err);
     }
+  };
+    
   
     //Fetch table data
     const fetchTableData = async() => {

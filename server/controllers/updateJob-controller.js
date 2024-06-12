@@ -15,6 +15,7 @@ import {generateJobIdService,
         addCloseJobDataService,
         checkWorkingMechanisService
        } from '../services/updateJob-service.js';
+import axios from 'axios';
 
 //############################ get job update main data set - start ##############################
 export const getJobUpdateDataController = async(req,res) => {
@@ -150,16 +151,29 @@ export const getSendMesageController = async(req,res) => {
 //######################### get send message - end    ############################################
 
 //###################### add use parts - start ##################################################
-export const addUsePartsController = async (req,res) => {
-    const {partID,updateJobId,units} = req.body;
-    try{
-        const data = await addUsePartsService(partID,updateJobId,units);
-        return res.status(200).json(data);
-    }catch(err){
-        return res.status(500).json(err);
+export const addUsePartsController = async (req, res) => {
+    const { partID, updateJobId, units } = req.body;
+    try {
+        // Fetch part details
+        const response = await axios.get('http://localhost:8000/api/stock/get');
+        const partDetails = response.data.partDetails;
         
+        // Find the part with the given partID
+        const part = partDetails.find(item => item.partID === partID);
+
+        // If part not found or quantity is less than units, throw error
+        if (!part || parseFloat(part.quantity) < units) {
+            return res.status(400).json({ message: 'Insufficient quantity' });
+        }
+
+        // If quantity is sufficient, proceed with addUsePartsService
+        const data = await addUsePartsService(partID, updateJobId, units);
+        return res.status(200).json(data);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
     }
-}
+};
 //###################### add use parts - end   #################################################
 
 //######################### get use parts - Start  #############################################

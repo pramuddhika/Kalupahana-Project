@@ -62,6 +62,15 @@ const BookNow = () => {
       setOpenErrorModel(true);
       return;
     }
+    //check vehicle has ongoni repair job
+    let jobOpenNumber = booking.vehicleNumber;
+    console.log(jobOpenNumber);
+    const { data: checkVehicle } = await axios.get(`/api/openjob/checkVehicleReopeningJob/${jobOpenNumber}`);
+      if (checkVehicle.message === "ONGOING") {
+        setErrorMessage("This vehicle has an ongoing job");
+        setOpenErrorModel(true);
+        return;
+      }
     
     // handle submission
     try{

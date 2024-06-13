@@ -68,7 +68,6 @@ const Login = () => {
                         Login
                     </button>
                     <p className='flex justify-center font-inter text-red-600 text-lg mt-4'>{err}</p>
-                    <p className='text-blue-400 text-center mt-2 italic text-sm'>Forgot password?</p>
                 </form>
             </div>
         </div>

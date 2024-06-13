@@ -241,3 +241,26 @@ export const getNextDateCountService = () => {
     })
 }
 //######################### get nextday count -end   ############################################
+
+//######################### get nextday numbers -start ############################################
+export const getNextDateNumberService = () => {
+    return new Promise ( (resolve,rejects) => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const formattedTomorrow = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
+
+        const q = `SELECT VEHICLE_NUMBER FROM booking WHERE STATUS = 'pending' AND RESERVED_DATE = '${formattedTomorrow}'`;
+
+        db.query(q,(err,data) => {
+            if (err) {
+                rejects({ message: 'Server side error' });
+            } else {
+                const numbers = data.map(list => ({
+                    numbers: list.VEHICLE_NUMBER
+                }))
+                resolve({numbers});
+            }
+        })
+    })
+}
+//######################### get nextday numbers -end   ############################################

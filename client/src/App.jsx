@@ -9,7 +9,6 @@ import Booking from './pages/Shop/Booking';
 import OpenJob from './pages/Shop/OpenJob';
 import UpdateJob from './pages/Shop/UpdateJob';
 import Records from './pages/Shop/Records';
-import Feedbacks from './pages/Shop/Feedbacks';
 import Mechanics from './pages/Shop/Mechanics';
 import MechanicsMenu from './pages/Shop/MechanicsMenu';
 import MechanicsAdd from './pages/Shop/MechanicsAdd';
@@ -22,12 +21,12 @@ import VehicleDetails from './pages/Shop/OpenJob_VehicleDetails';
 import VehicleSearch from './pages/Shop/OpenJob_Search';
 import PreRepair from './pages/Shop/PreRepairAssessment';
 import MoreData from './pages/Shop/Update_MoreData';
+import TodayRecords from './pages/Shop/TodayRecords';
 
 import Home from './pages/Admin/Home';
 import Security from './pages/Admin/Security';
 import StockOwner from './pages/Admin/Stock';
 import Summary from './pages/Admin/Summary';
-import FeedbacksOwner from './pages/Admin/Feedbacks';
 import BookingOwner from './pages/Admin/Booking';
 
 import ProtectedRoute from './pages/components/ProtectedRoute'; 
@@ -48,7 +47,7 @@ const router = createBrowserRouter([
     children: [
       { path: 'booking', element: <Booking /> },
       { path: 'stock', element: <Stock /> },
-      { path: 'feedbacks', element: <Feedbacks /> },
+      { path: 'today', element: <TodayRecords/>},
       {
         path: 'mechanics/*',
         element: <Mechanics />,
@@ -92,7 +91,6 @@ const router = createBrowserRouter([
       { path: 'security', element: <Security /> },
       { path: 'stock', element: <StockOwner /> },
       { path: 'summary', element: <Summary /> },
-      { path: 'feedbacks', element: <FeedbacksOwner /> },
       { path: 'booking', element: <BookingOwner /> },
     ],
   },

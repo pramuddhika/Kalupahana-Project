@@ -8,6 +8,7 @@ import {getSettingsTableDataService,
         deleteSpecialistAreaService,
         getHolidayService,
         getNextDateCountService,
+        getNextDateNumberService,
         deleteHolidayService} from '../services/settings-services.js';
 
 //############################ get space data & borth notification times - start ######################################
@@ -145,5 +146,16 @@ export const getNextDateCountController = async(req,res) => {
   }
 }
 //######################### get nextdate count - end   #########################################
+
+//######################### get nextdate nubers - start #########################################
+export const getNextDateNumberController = async(req,res) => {
+  try{
+    const data = await getNextDateNumberService();
+    return res.status(200).json(data);
+  }catch(err){
+    return res.status(500).json(err);
+  }
+}
+//######################### get nextdate numbers - end   #########################################
 
 

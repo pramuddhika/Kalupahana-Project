@@ -11,6 +11,9 @@ const Security = () => {
     const [ownerEmail, setOwnerEmail] = useState('');
     const [ownerStep, setOwnerStep] = useState(null);
     const [shopStep, setShopStep] = useState(null);
+    const [accountType, setAccountType] = useState(null);
+    const [newPassword, setNewPassword] = useState('');
+    const [reEnteredPassword, setReEnteredPassword] = useState('');
 
     useEffect(() => {
         fetch('/api/auth/getSecuritydata')
@@ -28,6 +31,15 @@ const Security = () => {
 
     const handleEmailChange = (e) => {
         setOwnerEmail(e.target.value);
+    };
+
+    const handlePasswordChange = () => {
+        if (newPassword !== reEnteredPassword) {
+            toast.error('New password and re-entered password do not match');
+        } else {
+            console.log(`Account Type: ${accountType.value}, New Password: ${newPassword}`);
+            handleClear();
+        }
     };
 
     const handleEmailSubmit = () => {
@@ -60,6 +72,12 @@ const Security = () => {
         { value: 'shop', label: 'Shop Account' }
     ];
 
+    const handleClear = () => {
+        setAccountType(null);
+        setNewPassword('');
+        setReEnteredPassword('');
+    };
+
     return (
         <div>
             <OwnerPagesHeader pageName="Security" />
@@ -71,28 +89,34 @@ const Security = () => {
                     <div className="flex justify-center items-center w-11/12">
                         <div className="box-content w-10/12 card mt-6 p-6">
                             <p className="topic text-xl">Change password</p>
+
                             <div className="ml-12 mt-2">
                                 <div className="flex items-center ml-3 my-2">
                                     <p className="basis-1/3 text-text-primary font-semibold">Account Type</p>
                                     <Select className="w-56 text-center"
-                                        options={Accounts}
-                                        isClearable
-                                        styles={customStyles}
+                                      options={Accounts}
+                                      isClearable
+                                      styles={customStyles}
+                                      value={accountType}
+                                      onChange={selectedOption => setAccountType(selectedOption)}
                                     />
                                 </div>
                                 <div className="flex items-center ml-3 my-2">
                                     <p className="basis-1/3 text-text-primary font-semibold">New password </p>
-                                    <input type="text" className="input rounded-lg p-2 w-56" maxLength={20} required />
+                                    <input type="text" className="input rounded-lg p-2 w-56" maxLength={20} 
+                                    required onChange={e => setNewPassword(e.target.value)} />
                                 </div>
                                 <div className="flex items-center ml-3 my-1">
                                     <p className="basis-1/3 text-text-primary font-semibold">Re-enter passsword</p>
-                                    <input type="text" className="input rounded-lg p-2 w-56" maxLength={20} required />
+                                    <input type="text" className="input rounded-lg p-2 w-56" maxLength={20} 
+                                    required onChange={e => setReEnteredPassword(e.target.value)}  />
                                 </div>
                                 <div className="flex justify-center my-3 gap-5">
-                                    <button className="btn btn-warning">Clear</button>
-                                    <button className="btn btn-normal">Change password</button>
+                                    <button className="btn btn-warning" onClick={handleClear}>Clear</button>
+                                    <button className="btn btn-normal" onClick={handlePasswordChange}>Change password</button>
                                 </div>
                             </div>
+
                             <p className="topic text-xl">Two-step Verification</p>
                             <div className="ml-12">
                                 <div className="flex items-center ml-3 my-3">

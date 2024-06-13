@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   Cog8ToothIcon,
   ArrowUturnLeftIcon,
-  HandThumbUpIcon,
   BookmarkIcon,
   BriefcaseIcon,
   WrenchScrewdriverIcon,
@@ -95,15 +94,6 @@ const SideNav = () => {
               </div>
             </Link>
           </div>)}
-
-          <Link to='/shop/feedbacks'>
-            <div className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
-            ${activeBar === 'feedbacks' ? 'text-white bg-text-primary':''}`} 
-            onClick={() => setActiveBar('feedbacks')}>
-              <HandThumbUpIcon className='h-6 w-6 '/>
-              <p>Feedbacks</p>
-            </div>
-          </Link>
 
           <Link to='/shop/mechanics'>
             <div className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 

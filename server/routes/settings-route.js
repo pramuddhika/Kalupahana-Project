@@ -9,6 +9,7 @@ import { getSettingsTableDataController,
         deleteSpecialistAreaController,
         getHolidayController,
         getNextDateCountController,
+        getNextDateNumberController,
         deleteHolidayController} from '../controllers/settings-controller.js';
 
 const router = express.Router();
@@ -36,6 +37,8 @@ router.delete('/deletearea/:deleteArea', deleteSpecialistAreaController);
 
 //get nextday count
 router.get('/getNextDateCount', getNextDateCountController);
+//get nextday vehicle numbers
+router.get('/getNextDateNumbers', getNextDateNumberController);
 
 
 export default router;

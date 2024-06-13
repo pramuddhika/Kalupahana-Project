@@ -419,7 +419,7 @@ export const checkWorkingMechanisService = (updateJobId) => {
     return new Promise ( (resolve,reject) => {
         const q = `SELECT *
                    FROM work_allocation
-                   WHERE STATUS = 'in progress' AND JOB_ID = ?`;
+                   WHERE STATUS IN ('in progress', 'waiting') AND JOB_ID = ?`;
 
         db.query(q,[updateJobId], (err,data) => {
             if(err){

@@ -242,11 +242,11 @@ export const getNextDateCountService = () => {
 }
 //######################### get nextday count -end   ############################################
 
-//######################### get nextday numbers -start ############################################
+//######################### get today numbers -start ############################################
 export const getNextDateNumberService = () => {
     return new Promise ( (resolve,rejects) => {
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setDate(tomorrow.getDate());
         const formattedTomorrow = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
 
         const q = `SELECT VEHICLE_NUMBER FROM booking WHERE STATUS = 'pending' AND RESERVED_DATE = '${formattedTomorrow}'`;
@@ -263,4 +263,4 @@ export const getNextDateNumberService = () => {
         })
     })
 }
-//######################### get nextday numbers -end   ############################################
+//######################### get today numbers -end   ############################################

@@ -75,6 +75,8 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
   };
 
   const PreRepairDoc = () => {
+    let scratchMarks = selectedRow?.scratchMarks || [];
+
     return (
       <>
         <p className='topic'>PreRepair Assessment</p>
@@ -87,7 +89,7 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
               <td className='w-1/4 tabled'>{selectedRow?.startDate || 'On going job'}</td>
             </tr>
             <tr><td></td></tr>
-
+  
             <tr>
               <td colSpan={4} className='text-start pt-4'>Check List</td>
             </tr>
@@ -108,61 +110,57 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
               <td className='tabled'>{selectedRow?.jumperCables || 'Not checked'}</td>
             </tr>
             <tr><td></td></tr><tr><td></td></tr>
-           
-
+            
             <tr>
               <td colSpan={4} className='text-start pt-4'>Other Items</td>
             </tr>
             <tr>
-              <td colSpan={4} className='tabled py-2'>{(selectedRow?.otheritems && selectedRow.otheritems.length > 0) ? selectedRow.otheritems : 'No items'}</td>
+              <td colSpan={4} className='tabled py-2'>{(selectedRow?.otheritems && selectedRow.otheritems.length > 0) ? selectedRow.otheritems.join(', ') : 'No items'}</td>
             </tr>
-         
-
+            
             <tr>
               <td colSpan={4} className='text-start pt-4'>Additional Note</td>
             </tr>
             <tr>
               <td colSpan={4} className='tabled py-2'>{selectedRow?.additionalNote || 'No note'}</td>
             </tr>
-     
-
+        
             <tr>
-              <td colSpan={4} className='text-start pt-4'>vehicleFaultehicle Fault</td>
+              <td colSpan={4} className='text-start pt-4'>Vehicle Fault</td>
             </tr>
             <tr>
               <td colSpan={4} className='tabled py-2'>{selectedRow?.vehicleFault || 'No note'}</td>
             </tr>
-           
-
+  
             <tr>
               <td colSpan={4} className='text-start pt-4'>Scratch Marks</td>
             </tr>
             <tr>
               <td colSpan={4} className='tabled py-2'>
-              {
-               (selectedRow?.scratchMarks && selectedRow.scratchMarks.length > 0)
-               ? <>
-                   <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                      {selectedRow.scratchMarks.split(',').slice(0, 5).map((url, index) => 
-                      <img key={index} src={url.trim()} style={{width: '20%'}}/>
-                      )}
-                   </div>
-                   <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                     {selectedRow.scratchMarks.split(',').slice(5, 10).map((url, index) => 
-                     <img key={index+5} src={url.trim()} style={{width: '20%'}} />
-                     )}
-                   </div>
-                 </>
-               : 'No images'
-              }
+                {
+                  scratchMarks.length > 0
+                  ? <>
+                      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                        {scratchMarks.slice(0, 5).map((url, index) => 
+                          <img key={index} src={url.trim()} style={{width: '20%'}} alt={`scratch ${index}`} />
+                        )}
+                      </div>
+                      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                        {scratchMarks.slice(5, 10).map((url, index) => 
+                          <img key={index + 5} src={url.trim()} style={{width: '20%'}} alt={`scratch ${index + 5}`} />
+                        )}
+                      </div>
+                    </>
+                  : 'No images'
+                }
               </td>
             </tr>
-
           </tbody>
         </table>
       </>
     );
   };
+  
 
   const PostRepairDoc = () => {
     return (

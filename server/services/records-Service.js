@@ -84,22 +84,39 @@ export const getRecordsDataService = (recordNumber) => {
                     }
 
                     if (list.EMPLOYEE_ID || list.MECHANIC_NOTE) {
-                        acc[list.JOB_ID].workAllocation.push({
-                            employeeId: list.EMPLOYEE_ID,
-                            mechNote: list.MECHANIC_NOTE
-                        });
+                     let existingEntry = acc[list.JOB_ID].workAllocation.find(entry => 
+                     entry.employeeId === list.EMPLOYEE_ID && entry.mechNote === list.MECHANIC_NOTE
+                    );
+
+                    if (!existingEntry) {
+                      acc[list.JOB_ID].workAllocation.push({
+                      employeeId: list.EMPLOYEE_ID,
+                      mechNote: list.MECHANIC_NOTE
+                     });
                     }
-                    if(list.ITEM_NAME){
-                       if(acc[list.JOB_ID].otheritems){
-                          acc[list.JOB_ID].otheritems += ' ' + list.ITEM_NAME+',';
-                        } else {
-                          acc[list.JOB_ID].otheritems = list.ITEM_NAME;
+                    }
+                   if(list.ITEM_NAME){
+                     if(acc[list.JOB_ID].otheritems){
+                     // Check if the item already exists in the array
+                          if(!acc[list.JOB_ID].otheritems.includes(list.ITEM_NAME)){
+                          // If it doesn't exist, add it
+                          acc[list.JOB_ID].otheritems.push(list.ITEM_NAME);
+                          }
+                      } else {
+                           acc[list.JOB_ID].otheritems = [list.ITEM_NAME];
                         }
                     }
                     if(list.IMAGE){
-                        if(acc[list.JOB_ID].scratchMarks){
-                            acc[list.JOB_ID].scratchMarks +=' '+`http://localhost:${PORT}/images/${list.IMAGE}`+',';
+                      let imageUrl = `http://localhost:${PORT}/images/${list.IMAGE}`;
+                      if(acc[list.JOB_ID].scratchMarks){
+                         // Check if the image URL already exists in the array
+                        if(!acc[list.JOB_ID].scratchMarks.includes(imageUrl)){
+                         // If it doesn't exist, add it
+                         acc[list.JOB_ID].scratchMarks.push(imageUrl);
                         }
+                    } else {
+                        acc[list.JOB_ID].scratchMarks = [imageUrl];
+                    }
                     }
 
                     return acc;

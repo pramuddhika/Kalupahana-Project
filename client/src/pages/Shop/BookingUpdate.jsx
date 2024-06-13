@@ -55,22 +55,29 @@ const BookingUpdate = () => {
       toast.error(err.response.data);
     }
   }
-  //change resevation date
-  const handleDateChangeCkick = async () => {
-    //check date is change
-    if(reservedDate === initialReservedDate){
-      toast.warning('Nothing to update!');
-      return;
-    }
-    try{
-      await axios.put('/api/booking/changedate',{reservedDate,vehicleNumber});
-      toast.success('New date updated!');
-      setSearchNumner('');
-      setSearchBarVisible(true);
-    }catch(err){
-      toast.warning(err);
-    }
+  //change reservation date
+const handleDateChangeCkick = async () => {
+  //check date is change
+  if(reservedDate === initialReservedDate){
+    toast.warning('Nothing to update!');
+    return;
   }
+  try {
+  const res = await axios.put('/api/booking/changedate', {reservedDate, vehicleNumber});
+  if (res.status === 200) {
+    toast.success('New date updated!');
+    setSearchNumner('');
+    setSearchBarVisible(true);
+  }
+} catch (error) {
+  if (error.response && error.response.status === 400) {
+    toast.warning(error.response.data);
+  } else {
+    console.log(error);
+    toast.error('Server side Error!');
+  }
+}
+}
 
   const serachBar = (
     <div className='flex items-center card gap-12 box-content w-2/3 h-32 mt-2'>

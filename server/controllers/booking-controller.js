@@ -81,16 +81,16 @@ export const cancelBooking = async (req,res) => {
 export const changeDate = async (req,res) => {
     const {reservedDate,vehicleNumber} = req.body;
 
-    // //validate inputs
-    // if (!vehicleNumber || !contactNumber || !message || !date) {
-    //     return res.status(400).json('An error occurs!');
-    // }
-
     try{
+        const response = await axios.get('http://localhost:8000/api/settings/getholidays');
+        const holidays = response.data.map(item => item.holidays);
+        if (holidays.includes(reservedDate)) {
+            return res.status(400).json('That\'s a holiday');
+        }
+
         const data = await changeDateService(reservedDate,vehicleNumber);
         res.json(data);
     }catch(err){
-        console.log(err);
         res.status(500).json('Server side Error!');
     }
 };

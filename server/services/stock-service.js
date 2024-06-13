@@ -206,7 +206,7 @@ export const DeletePurchasesService = async (partid,date,quantity) => {
 export const availblePartsService = () => {
     return new Promise ( (resolve,reject) => {
 
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY,UNIT 
                    FROM spare_parts 
                    WHERE QUANTITY > 0`;
 
@@ -219,7 +219,8 @@ export const availblePartsService = () => {
                 const partDetails = data.map(part => ({
                     partID : part.PART_ID,
                     partName : part.PART_NAME,
-                    quantity: part.QUANTITY
+                    quantity: part.QUANTITY,
+                    unit:part.UNIT
                 }));
                 resolve(partDetails);
             }
@@ -232,7 +233,7 @@ export const availblePartsService = () => {
 export const notAvailableService = () => {
     return new Promise ( (resolve,reject) => {
 
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY,UNIT
                    FROM spare_parts 
                    WHERE QUANTITY = 0`;
 
@@ -245,7 +246,8 @@ export const notAvailableService = () => {
                 const partDetails = data.map(part => ({
                     partID : part.PART_ID,
                     partName : part.PART_NAME,
-                    quantity: part.QUANTITY
+                    quantity: part.QUANTITY,
+                    unit:part.UNIT
                 }));
                 resolve(partDetails);
             }
@@ -257,7 +259,7 @@ export const notAvailableService = () => {
 //##################### filter low 2 high parts - start   ########################
 export const LowToHighService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY,UNIT 
                    FROM spare_parts 
                    ORDER BY QUANTITY ASC`;
 
@@ -270,7 +272,8 @@ export const LowToHighService = () => {
                 const partDetails = data.map(part => ({
                     partID : part.PART_ID,
                     partName : part.PART_NAME,
-                    quantity: part.QUANTITY
+                    quantity: part.QUANTITY,
+                    unit:part.UNIT
                 }));
                 resolve(partDetails);
             }
@@ -282,7 +285,7 @@ export const LowToHighService = () => {
 //##################### filter high 2 low parts - start   ########################
 export const HighToLowService = () => {
     return new Promise ( (resolve,reject) => {
-        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY 
+        const q = `SELECT PART_ID,PART_NAME,DESCRIPTION,QUANTITY,UNIT 
                    FROM spare_parts 
                    ORDER BY QUANTITY DESC`;
 
@@ -295,7 +298,8 @@ export const HighToLowService = () => {
                 const partDetails = data.map(part => ({
                     partID : part.PART_ID,
                     partName : part.PART_NAME,
-                    quantity: part.QUANTITY
+                    quantity: part.QUANTITY,
+                    unit:part.UNIT
                 }));
                 resolve(partDetails);
             }

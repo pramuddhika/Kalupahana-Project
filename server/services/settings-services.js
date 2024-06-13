@@ -1,4 +1,6 @@
+import { resolve } from 'path';
 import {db} from '../env.js';
+import { rejects } from 'assert';
 
 //######################### get space data & borth notification times - start ############################
 export const getSettingsTableDataService = () => {
@@ -217,3 +219,25 @@ export const deleteSpecialistAreaService = (deleteAres) => {
     })
 }
 //########################## delete specialist Area - send  ######################################
+
+//######################### get nextday count -start ############################################
+export const getNextDateCountService = () => {
+    return new Promise ( (resolve,rejects) => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const formattedTomorrow = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
+
+        const q = `SELECT COUNT(*) AS count FROM booking WHERE STATUS = 'pending' AND RESERVED_DATE = '${formattedTomorrow}'`;
+
+        db.query(q,(err,data) => {
+            if (err) {
+                reject({ message: 'Server side error' });
+            } else if (data.length === 0) {
+                resolve({ count: 0 });
+            } else {
+                resolve({ count: data[0].count });
+            }
+        })
+    })
+}
+//######################### get nextday count -end   ############################################

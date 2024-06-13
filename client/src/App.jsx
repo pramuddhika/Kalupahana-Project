@@ -32,14 +32,12 @@ import BookingOwner from './pages/Admin/Booking';
 
 import ProtectedRoute from './pages/components/ProtectedRoute'; 
 import ShopLayout from './pages/components/ShopLayout';
-import TestComponent from './pages/components/TestComponent'; 
 
 const router = createBrowserRouter([
   { path: '/', element: <Web /> },
   { path: '/login', element: <Login /> },
   { path: '/feedback', element: <FeedbacksSheet /> },
   { path: '/booknow', element: <BookNow /> },
-  { path: '/test', element: <TestComponent /> },
   {
     path: '/shop/*',
     element: (

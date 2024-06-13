@@ -8,6 +8,7 @@ import { getSettingsTableDataController,
         getSpecialistAreaController,
         deleteSpecialistAreaController,
         getHolidayController,
+        getNextDateCountController,
         deleteHolidayController} from '../controllers/settings-controller.js';
 
 const router = express.Router();
@@ -32,6 +33,9 @@ router.post('/Addspecialistarea', AddSpecialistAreaController);
 router.get('/getlist', getSpecialistAreaController)
 //delete mechanic specialist ares
 router.delete('/deletearea/:deleteArea', deleteSpecialistAreaController);
+
+//get nextday count
+router.get('/getNextDateCount', getNextDateCountController);
 
 
 export default router;

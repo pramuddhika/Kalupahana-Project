@@ -1,21 +1,33 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import useSettings from '../hooks/useSettings';
-import Notification from './Next';
 import { Outlet } from 'react-router-dom';
+import Modal from '../components/Modal';
+import useSettings from '../hooks/useSettings';
+import axios from 'axios';
 
 const ShopLayout = () => {
   const location = useLocation();
   const settings = useSettings();
-  const [showNotification, setShowNotification] = useState(false);
+  const [showNextDayNotification, setShowNextDayNotification] = useState(false);
+  const [nextDayCount, setNextDayCount] = useState(0);
 
   useEffect(() => {
+    const fetchNextDateCount = async () => {
+      try {
+        const response = await axios.get('/api/settings/getNextDateCount');
+        setNextDayCount(response.data.count);
+      } catch (error) {
+        console.error('Error fetching next day count:', error);
+      }
+    };
+
     const checkTime = () => {
       const currentTime = new Date().toTimeString().slice(0, 5);
       if (settings && settings.nextdayTime === currentTime && location.pathname.startsWith('/shop')) {
-        setShowNotification(true);
+        setShowNextDayNotification(true);
+        fetchNextDateCount();
       } else {
-        setShowNotification(false);
+        setShowNextDayNotification(false);
       }
     };
 
@@ -29,7 +41,18 @@ const ShopLayout = () => {
 
   return (
     <div>
-      {showNotification && <Notification message="It's time for the next day's task!" />}
+      <Modal open={showNextDayNotification} onClose={() => setShowNextDayNotification(false)}>
+        <div onClick={(e) => e.stopPropagation()}>
+          <div className='text-center pt-2'>
+            <p className='mainStyle'>Get ready for tomorrow</p>
+            <p className='text-7xl text-green-500 font-semibold'>{nextDayCount}</p>
+            <p className='mainStyle'>Vehicles will arrive.</p>
+          </div>
+          <div className="flex justify-center">
+            <button className="btn btn-warning mx-auto mt-2" onClick={() => setShowNextDayNotification(false)}>Ok</button>
+          </div>
+        </div>
+      </Modal>
       <Outlet />
     </div>
   );

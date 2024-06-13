@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 function Notification({ message }) {
-  console.log('Notification message:', message); // Add this line
+  console.log('Notification message:', message);
   return (
     <div className="notification">
     

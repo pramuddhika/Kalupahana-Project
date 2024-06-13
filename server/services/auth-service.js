@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import { resolve } from 'path';
+import exp from 'constants';
 
 //################## register user - start ###############################
 export const registerService = (type, name, password, email,pin,step) => {
@@ -168,4 +169,27 @@ export const getSecurityDataService = () => {
     });
 };
 //############### get security data - end    ###########################
+
+//############## change pass -start ####################################
+export const changePassService = (user,newPassword) => {
+    return new Promise((resolve, reject) => {
+
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(newPassword, salt);
+
+        const q = `UPDATE users SET password = ? WHERE USER_TYPE = ?`;
+
+        db.query(q,[hashedPassword,user],(err,data) => {
+            if(err){
+                reject({message:err.message});
+            }else{
+                resolve({message:'Password updated!'});
+            }
+        })
+
+      
+    })
+    
+}
+//############## change pass - end  ####################################
 

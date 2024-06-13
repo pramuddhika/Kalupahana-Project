@@ -1,6 +1,7 @@
 import {registerService,
        loginService,
        verifyPinService,
+       changePassService,
        getSecurityDataService
     } from '../services/auth-service.js';
 
@@ -53,4 +54,18 @@ export const getSecurityDataController = async(req,res) => {
     }
 }
 //############### get security data - end    ###########################
+
+//############## change pass -start ####################################
+export const  changePassController = async(req,res) => {
+    const {user,newPassword} = req.body;
+
+    try{
+        const data = await changePassService(user,newPassword);
+       
+        return res.status(200).json(data);
+    }catch(err){
+        return res.status(500).json(err);
+    }
+}
+//############## change pass - end  ####################################
 

@@ -2,6 +2,7 @@ import express from 'express';
 import {registerController,
     loginController,
     verifyPinController,
+    changePassController,
     getSecurityDataController
     } from '../controllers/auth-controller.js';
 
@@ -15,5 +16,7 @@ router.post('/login', loginController);
 router.post('/verify-pin', verifyPinController);
 //get security page data
 router.get('/getSecuritydata', getSecurityDataController);
+//change password
+router.put('/changePass', changePassController);
 
 export default router;

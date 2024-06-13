@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import {validatePassword} from '../Validation/InputFeilds';
 
 const Security = () => {
     // const [data, setData] = useState(null);
@@ -35,7 +36,18 @@ const Security = () => {
     // };
 
     const handlePasswordChange = async() => {
-        const user = accountType.value;
+        const user = accountType ? accountType.value : null;
+
+        // Check if any of the fields are empty
+        if (!newPassword || !reEnteredPassword || !user) {
+          toast.error('All fields must be filled out');
+          return;
+        }
+
+        const passErr = validatePassword(newPassword);
+        if(passErr){
+            toast.warning(passErr);
+        }
 
         if (newPassword !== reEnteredPassword) {
             toast.error('New password and re-entered password do not match');
@@ -89,6 +101,7 @@ const Security = () => {
 
     return (
         <div>
+           <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
             <OwnerPagesHeader pageName="Security" />
             <div className="flex justify-center">
                 <div className="w-1/2">
@@ -168,7 +181,7 @@ const Security = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light"/>
+            
         </div>
     );
 };

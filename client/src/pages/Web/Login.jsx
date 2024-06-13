@@ -13,6 +13,13 @@ const Login = () => {
 
     const handleLoginClick = async (e) => {
         e.preventDefault();
+
+        // Check if any of the fields are empty
+        if (!userName || !password) {
+          setErr('All fields must be filled out');
+          return;
+        }
+        
         try {
             const res = await axios.post('/api/auth/login', { userName, password });
             const { token, user } = res.data;

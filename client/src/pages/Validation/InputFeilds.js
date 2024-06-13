@@ -130,4 +130,15 @@ export const validateQuantity = (quantity) => {
   return null;
 }
 //#######################################################################
-  
+
+//################# validate password ##################################
+export const validatePassword = (password) => {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  if (!passwordRegex.test(password)) {
+    return ("Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be at least 8 characters in length.");
+  }
+
+  return null;
+}
+//######################################################################

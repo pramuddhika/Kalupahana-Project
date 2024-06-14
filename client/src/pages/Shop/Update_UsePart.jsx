@@ -87,6 +87,13 @@ const Update_UsePart = () => {
       toast.warning(quntityErr);
       return;
     }
+
+    // Step 1 & 2: Check if unit type is 'U' and units is not a whole number
+    if(unit === 'U' && !Number.isInteger(Number(units))){
+      // Step 3: Show warning message
+      toast.warning("Units must be a whole number when unit type is 'U'");
+      return;
+    }
     
     try{
      const res = await axios.post('/api/updatejob/addUseParts', {partID,updateJobId,units});

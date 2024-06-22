@@ -3,7 +3,7 @@ import { useState } from 'react';
 import BookingDashboard from './BookingDashboard';
 import BookingUpdate from './BookingUpdate';
 import BookingReserved from './BookingReserved';
-import SideNav from '../components/SideNav';
+
 
 const Booking = () => {
 
@@ -25,11 +25,7 @@ const Booking = () => {
   return (
     <div className=''>
 
-      <div className="flex h-screen">
-        <div className="w-[180px]">
-           <SideNav />
-        </div>
-        <div className="w-calc">
+      
 
           <ShopHeader pageName={getPageName()}/>
 
@@ -52,8 +48,7 @@ const Booking = () => {
             {activeTopic === 'TodayList' && <BookingReserved/>}
           </div>
 
-        </div>
-      </div>
+        
     </div>
   );
 };

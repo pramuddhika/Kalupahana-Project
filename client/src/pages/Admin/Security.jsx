@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import OwnerPagesHeader from "../components/OwnerPagesHeader";
+import OwnerPagesHeader from "../components/Owner-Pages-Header";
 import securityIm from '../assets/security.svg';
 import customStyles from '../components/SelectStyle';
 import Select from 'react-select';

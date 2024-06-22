@@ -3,8 +3,8 @@ import {ShieldCheckIcon,
         CalendarDaysIcon,
         ChartPieIcon} from '@heroicons/react/24/solid';
 import DashBoardBox from '../components/DashBoardBox';
-import OwnerPagesHeader from "../components/OwnerPagesHeader";
-import OwnerHomeCard from '../components/OwnerHomeCard';
+import OwnerPagesHeader from "../components/Owner-Pages-Header";
+import OwnerHomeCard from '../components/Owner-Home-Card';
 
  
 const Home = () => {

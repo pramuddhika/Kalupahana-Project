@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
 import useSettings from '../hooks/useSettings';
 import axios from 'axios';
+import SideNav from './SideNav';
 
 const ShopLayout = () => {
   const location = useLocation();
@@ -98,7 +99,15 @@ const ShopLayout = () => {
         </div>
       </Modal>
 
-      <Outlet />
+      <div className='flex h-screen'>
+        <div className="w-[180px]">
+          <SideNav/>
+        </div>
+        <div className="w-calc">
+         <Outlet />
+        </div>
+      </div>
+      
     </div>
   );
 };

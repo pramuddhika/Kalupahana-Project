@@ -1,4 +1,4 @@
-import OwnerPagesHeader from "../components/OwnerPagesHeader";
+import OwnerPagesHeader from "../components/Owner-Pages-Header";
 import LiveStock from '../Shop/StockLive';
 
 const Stock = () => {

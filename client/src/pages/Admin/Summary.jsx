@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import axios from 'axios';
-import OwnerPagesHeader from "../components/OwnerPagesHeader";
+import OwnerPagesHeader from "../components/Owner-Pages-Header";
 import { Chart as ChartJS, 
          ArcElement, Tooltip, 
          Legend, BarElement, 

@@ -1,16 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  Cog8ToothIcon,
-  ArrowUturnLeftIcon,
-  BookmarkIcon,
-  BriefcaseIcon,
-  WrenchScrewdriverIcon,
-  InboxIcon,
-  IdentificationIcon,
-  ChartBarIcon,
-  FolderPlusIcon,
-} from '@heroicons/react/24/solid';
+import {Cog8ToothIcon,ArrowUturnLeftIcon,BookmarkIcon,BriefcaseIcon,WrenchScrewdriverIcon,
+  InboxIcon,IdentificationIcon,ChartBarIcon,FolderPlusIcon,} from '@heroicons/react/24/solid';
+import PropTypes from 'prop-types';
 
 const SideNav = () => {
   const [showSubset, setShowSubset] = useState(() => {
@@ -40,6 +32,19 @@ const SideNav = () => {
     localStorage.clear();
   };
 
+  const NavItem = ({ to, icon: Icon, label, isActive, onClick, additionalClasses = '' }) => (
+    <Link to={to}>
+      <div 
+        className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
+        ${isActive ? 'text-white bg-text-primary' : ''} ${additionalClasses}`} 
+        onClick={onClick}
+      >
+        <Icon className='h-6 w-6' />
+        <p className='flex items-center'>{label}</p>
+      </div>
+    </Link>
+  );
+
   return (
     <div>
       <div className="fixed top-0 left-0 w-[180px] border-2 border-l-gray-400 bg-side-nav-bg h-screen">
@@ -49,14 +54,14 @@ const SideNav = () => {
         </div>
 
         <div className="font-inter text-text-primary">
-          <Link to='/shop/booking'>
-            <div className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
-            ${activeBar === 'booking' ? 'text-white bg-text-primary':''}`} 
-            onClick={() => setActiveBar('booking')}>
-              <BookmarkIcon className='h-6 w-6'/>
-              <p className='flex items-center'>Booking</p>
-            </div>
-          </Link>
+
+          <NavItem 
+            to='/shop/booking'
+            icon={BookmarkIcon}
+            label='Booking'
+            isActive={activeBar === 'booking'}
+            onClick={() => setActiveBar('booking')}
+          />
 
           <div className={`flex pl-7 gap-1 rounded-lg p-2 cursor-pointer hover:text-white hover:bg-text-primary
           ${showSubset ? 'border border-gray-300 font-bold' : ''}`} 
@@ -66,74 +71,81 @@ const SideNav = () => {
           </div>
 
           {showSubset && (
-          <div id='subset'>
-            <Link to='/shop/openJob'>
-              <div className={`flex pl-11 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
-              ${activeBar === 'openJob' ? 'text-white bg-text-primary':''}`} 
-              onClick={() => setActiveBar('openJob')}>
-                <FolderPlusIcon className='h-6 w-6'/>
-                <p>Open</p>
-              </div>
-            </Link>
-
-            <Link to='/shop/updateJob'>
-              <div className={`flex pl-11 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
-              ${activeBar === 'updateJob' ? 'text-white bg-text-primary':''}`} 
-              onClick={() => setActiveBar('updateJob')}>
-                 <ChartBarIcon className='h-6 w-6'/>
-                 <p>Update</p>
-              </div>
-            </Link>
-
-            <Link to='/shop/records'>
-              <div className={`flex pl-11 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
-              ${activeBar === 'records' ? 'text-white bg-text-primary':''}`} 
-              onClick={() => setActiveBar('records')}>
-                 <IdentificationIcon className='h-6 w-6'/>
-                 <p>Record</p>
-              </div>
-            </Link>
-          </div>)}
-
-          <Link to='/shop/mechanics'>
-            <div className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
-            ${activeBar === 'mechanics' ? 'text-white bg-text-primary':''}`} 
-            onClick={() => setActiveBar('mechanics')}>
-              <WrenchScrewdriverIcon className='h-6 w-6 '/>
-              <p>Mechanics</p>
+            <div id='subset'>
+              <NavItem 
+                to='/shop/openJob'
+                icon={FolderPlusIcon}
+                label='Open'
+                isActive={activeBar === 'openJob'}
+                onClick={() => setActiveBar('openJob')}
+                additionalClasses='pl-11'
+              />
+              <NavItem 
+                to='/shop/updateJob'
+                icon={ChartBarIcon}
+                label='Update'
+                isActive={activeBar === 'updateJob'}
+                onClick={() => setActiveBar('updateJob')}
+                additionalClasses='pl-11'
+              />
+              <NavItem 
+                to='/shop/records'
+                icon={IdentificationIcon}
+                label='Record'
+                isActive={activeBar === 'records'}
+                onClick={() => setActiveBar('records')}
+                additionalClasses='pl-11'
+              />
             </div>
-          </Link>
+          )}
 
-          <Link to='/shop/stock'>
-            <div className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
-            ${activeBar === 'stock' ? 'text-white bg-text-primary':''}`} 
-            onClick={() => setActiveBar('stock')}>
-              <InboxIcon className='h-6 w-6 '/>
-              <p>Stock</p>
-            </div>
-          </Link>
+          <NavItem 
+            to='/shop/mechanics'
+            icon={WrenchScrewdriverIcon}
+            label='Mechanics'
+            isActive={activeBar === 'mechanics'}
+            onClick={() => setActiveBar('mechanics')}
+          />
+          <NavItem 
+            to='/shop/stock'
+            icon={InboxIcon}
+            label='Stock'
+            isActive={activeBar === 'stock'}
+            onClick={() => setActiveBar('stock')}
+          />
+          <NavItem 
+            to='/shop/setting'
+            icon={Cog8ToothIcon}
+            label='Settings'
+            isActive={activeBar === 'setting'}
+            onClick={() => setActiveBar('setting')}
+          />
 
-          <Link to='/shop/setting'>
-            <div className={`flex pl-7 gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer 
-            ${activeBar === 'setting' ? 'text-white bg-text-primary':''}`} 
-            onClick={() => setActiveBar('setting')}>
-              <Cog8ToothIcon className='h-6 w-6'/>
-              <p className='flex items-center'>Settings</p>
-            </div>
-          </Link>
         </div>
 
         <div className="font-inter text-text-primary w-[180px]">
           <Link to='/'>
-            <div className='fixed flex pl-7 w-[180px] gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer bottom-10' onClick={handleLogout}>
+            <div className='fixed flex pl-7 w-[180px] gap-1 hover:text-white hover:bg-text-primary rounded-lg p-2 cursor-pointer bottom-10' 
+              onClick={handleLogout}>
               <ArrowUturnLeftIcon className='h-6 w-6 '/>
               <p>Log out</p>                    
             </div>
           </Link>
         </div>
+
       </div>
     </div>
   );
+};
+
+
+SideNav.propTypes = {
+  to: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
+  label: PropTypes.string.isRequired,
+  isActive: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+  additionalClasses: PropTypes.string,
 };
 
 export default SideNav;

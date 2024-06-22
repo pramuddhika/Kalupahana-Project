@@ -1,13 +1,13 @@
 import {ChevronLeftIcon} from '@heroicons/react/24/solid';
 import { Link,useNavigate} from 'react-router-dom';
 import { useState,useEffect } from 'react';
-import axios from 'axios';
 import Modal from '../components/Modal';
 import completed from '../assets/completed.svg';
 import Warning from '../assets/warning.svg';
 import {validateVehicleNumber,validateVehicleFault} from '../Validation/VehicleData';
 import {validateContactNumber,validateInputField} from '../Validation/InputFeilds';
-
+import { getNextDates, addBooking} from '../api/Shop-Booking';
+import { checkVehicleOngoingJob } from '../api/Shop-OpenJob';
 
 const BookNow = () => {
 
@@ -31,15 +31,17 @@ const BookNow = () => {
 
   const navigate = useNavigate();
 
-  //get next 3 dayes in yyyy-mm-dd format
   useEffect(() => {
-    axios.get('/api/booking/nextdates')
-        .then(response => {
-            setDates(response.data.dates);
-        })
-        .catch(error => {
-            console.error('Error fetching dates', error);
-        });
+    const fetchDates = async () => {
+      try {
+        const dates = await getNextDates();
+        setDates(dates);
+      } catch (error) {
+        console.error('Error fetching dates', error);
+      }
+    };
+
+    fetchDates();
   }, []);
 
   const handleSubmit = async e => {
@@ -62,25 +64,40 @@ const BookNow = () => {
       setOpenErrorModel(true);
       return;
     }
-    //check vehicle has ongoni repair job
-    let jobOpenNumber = booking.vehicleNumber;
-    console.log(jobOpenNumber);
-    const { data: checkVehicle } = await axios.get(`/api/openjob/checkVehicleReopeningJob/${jobOpenNumber}`);
-      if (checkVehicle.message === "ONGOING") {
-        setErrorMessage("This vehicle has an ongoing job");
-        setOpenErrorModel(true);
-        return;
-      }
-    
-    // handle submission
-    try{
-      await axios.post('/api/booking/add', booking);
-      setOpenModel(true);
-    }catch(err){
-      setErrorMessage(err.response.data);
-      setOpenErrorModel(true);
-    }
+// Check vehicle has ongoing repair job
+const jobOpenNumber = booking.vehicleNumber;
+try {
+  const checkVehicle = await checkVehicleOngoingJob(jobOpenNumber);
+  if (checkVehicle === "ONGOING") {
+    setErrorMessage("This vehicle has an ongoing job");
+    setOpenErrorModel(true);
+    return;
+  }
+
+  // Handle submission
+  await addBooking(booking);
+  setOpenModel(true);
+} catch (err) {
+  setErrorMessage(err.response?.data || 'An error occurred');
+  setOpenErrorModel(true);
+}
   };
+
+
+  const ModalContent = ({ title,message,messageStyle,image, buttonLabel, onButtonClick,buttonStyles }) => (
+    <div>
+      <div onClick={(e) => e.stopPropagation()}>
+        <p className='font-bold pb-2 text-text-primary text-2xl text-center'>{title}</p>
+        <img src={image} className='h-44 mx-auto' />
+        <div className='text-center pt-2'>
+          <p className={messageStyle}>{message}</p>
+        </div>
+        <div className="flex justify-center">
+          <button className={buttonStyles} onClick={onButtonClick}>{buttonLabel}</button>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="flex justify-center items-center bg-text-primary h-screen">
@@ -140,7 +157,7 @@ const BookNow = () => {
 
           </form>
 
-          <Modal open={openModel} >
+          {/* <Modal open={openModel} >
             <div>
              <div onClick={(e) => e.stopPropagation()}>
                 <p className="font-bold pb-2 text-text-primary text-2xl text-center">Completed!</p>
@@ -168,7 +185,29 @@ const BookNow = () => {
                </div>
               </div>
             </div>
-          </Modal>
+          </Modal> */}
+
+          <Modal open={openModel}>
+          <ModalContent 
+            title="Completed!"
+            message="If you need to cancel your reservation for any reason, please contact the shop directly." 
+            image={completed} 
+            buttonLabel="Ok"
+            buttonStyles = "btn btn-normal mx-auto mt-2"
+            onButtonClick={() => { setOpenModel(false); navigate("/"); }} 
+          />
+        </Modal>
+
+        <Modal open={openErrorModel}>
+          <ModalContent 
+            messageStyle = "text-red-700 font-semibold"
+            message={errorMessage} 
+            image={Warning} 
+            buttonLabel="Ok"
+            buttonStyles = "btn btn-warning mx-auto mt-2"
+            onButtonClick={() => setOpenErrorModel(false)} 
+          />
+        </Modal>
 
       </div>
     </div>

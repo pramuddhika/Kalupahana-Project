@@ -1,5 +1,3 @@
-
-
 const Feedbacks = () => {
     return (
         <div>

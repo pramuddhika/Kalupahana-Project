@@ -23,6 +23,7 @@ export const nextDates = async (req, res) => {
 
         // Return only the first 3 remaining dates
         const result = filteredDates.slice(0, 3);
+        console.log({ dates: result })
         res.json({ dates: result });
 
     } catch (err) {

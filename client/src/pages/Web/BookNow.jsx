@@ -6,7 +6,7 @@ import completed from '../assets/completed.svg';
 import Warning from '../assets/warning.svg';
 import {validateVehicleNumber,validateVehicleFault} from '../Validation/VehicleData';
 import {validateContactNumber,validateInputField} from '../Validation/InputFeilds';
-import { getNextDates, addBooking} from '../api/Shop-Booking';
+import { getNextDates, addBooking } from '../api/Shop-Booking';
 import { checkVehicleOngoingJob } from '../api/Shop-OpenJob';
 
 const BookNow = () => {
@@ -84,8 +84,9 @@ try {
   };
 
 
-  const ModalContent = ({ title,message,messageStyle,image, buttonLabel, onButtonClick,buttonStyles }) => (
-    <div>
+  
+  const ModalContent = ({title, message, messageStyle, image, buttonLabel, onButtonClick, buttonStyles}) => {
+    return(
       <div onClick={(e) => e.stopPropagation()}>
         <p className='font-bold pb-2 text-text-primary text-2xl text-center'>{title}</p>
         <img src={image} className='h-44 mx-auto' />
@@ -96,8 +97,8 @@ try {
           <button className={buttonStyles} onClick={onButtonClick}>{buttonLabel}</button>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <div className="flex justify-center items-center bg-text-primary h-screen">
@@ -157,37 +158,11 @@ try {
 
           </form>
 
-          {/* <Modal open={openModel} >
-            <div>
-             <div onClick={(e) => e.stopPropagation()}>
-                <p className="font-bold pb-2 text-text-primary text-2xl text-center">Completed!</p>
-                <img src={completed} className='h-44 mx-auto'/>
-                <div className='text-center pt-2'>
-                  <p>If you need to cancel your reservation for any reason,</p>
-                  <p>Please contact the shop directly</p>
-                </div>
-                <div className="flex justify-center">
-                <button className="btn btn-normal mx-auto mt-2" onClick={() => { setOpenModel(false); navigate("/"); }}>Ok</button>
-               </div>
-              </div>
-            </div>
-          </Modal>
+          
 
-          <Modal open={openErrorModel}>
-            <div>
-             <div onClick={(e) => e.stopPropagation()}>
-                <img src={Warning} className='h-44 mx-auto mb-2'/>
-                <div className='text-center pt-2'>
-                  <p className='text-red-700 font-semibold'>{errorMessage}</p>
-                </div>
-                <div className="flex justify-center">
-                 <button className="btn btn-warning mx-auto mt-2" onClick={() => setOpenErrorModel(false)}>Ok</button>
-               </div>
-              </div>
-            </div>
-          </Modal> */}
+          
 
-          <Modal open={openModel}>
+        <Modal open={openModel}>
           <ModalContent 
             title="Completed!"
             message="If you need to cancel your reservation for any reason, please contact the shop directly." 
@@ -213,5 +188,7 @@ try {
     </div>
   );
 };
+
+
 
 export default BookNow;

@@ -8,6 +8,63 @@ import {validateVehicleNumber,validateVehicleFault} from '../Validation/VehicleD
 import {validateContactNumber,validateInputField} from '../Validation/InputFeilds';
 import { getNextDates, addBooking } from '../api/Shop-Booking';
 import { checkVehicleOngoingJob } from '../api/Shop-OpenJob';
+import PropTypes from 'prop-types';
+
+const InputField = ({label, type = "text", name, placeholder, value, onChange, maxLength}) => {
+  return(
+    <div className='flex flex-row justify-center mt-3'>
+    <div className='basis-1/4 font-semibold'>{label} :</div>
+    <div className='basis-1/2'>
+      <input 
+        type={type} 
+        name={name} 
+        onChange={onChange} 
+        placeholder={placeholder} 
+        value={value} 
+        className='input border-b-2 w-full' 
+        maxLength={maxLength} 
+      />
+    </div>
+  </div>
+  );
+}
+
+InputField.propTypes = {
+label: PropTypes.string.isRequired,
+type: PropTypes.string,
+name: PropTypes.string.isRequired,
+placeholder: PropTypes.string.isRequired,
+value: PropTypes.string.isRequired,
+onChange: PropTypes.func.isRequired,
+maxLength: PropTypes.number.isRequired
+};
+
+const ModalContent = ({title, message, messageStyle, image, buttonLabel, onButtonClick, buttonStyles}) => {
+  return(
+    <div onClick={(e) => e.stopPropagation()}>
+      <p className='font-bold pb-2 text-text-primary text-2xl text-center'>{title}</p>
+      <img src={image} className='h-44 mx-auto' />
+      <div className='text-center pt-2'>
+        <p className={messageStyle}>{message}</p>
+      </div>
+      <div className="flex justify-center">
+        <button className={buttonStyles} onClick={onButtonClick}>{buttonLabel}</button>
+      </div>
+    </div>
+  );
+}
+
+ModalContent.propTypes = {
+title: PropTypes.string,
+message: PropTypes.string.isRequired,
+messageStyle: PropTypes.string,
+image: PropTypes.string.isRequired,
+buttonLabel: PropTypes.string.isRequired,
+onButtonClick: PropTypes.func.isRequired,
+buttonStyles: PropTypes.string.isRequired
+};
+
+
 
 const BookNow = () => {
 
@@ -15,12 +72,7 @@ const BookNow = () => {
   const [openErrorModel,setOpenErrorModel] = useState(false);
   const [dates,setDates] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [booking,setBooking] = useState({
-    vehicleNumber:"",
-    contactNumber:"",
-    vehicleFault:"",
-    reservedDate:""
-  });
+  const [booking,setBooking] = useState({vehicleNumber:"", contactNumber:"", vehicleFault:"", reservedDate:""});
 
   const handleChange = (event) => {
     setBooking({
@@ -64,42 +116,24 @@ const BookNow = () => {
       setOpenErrorModel(true);
       return;
     }
-// Check vehicle has ongoing repair job
-const jobOpenNumber = booking.vehicleNumber;
-try {
-  const checkVehicle = await checkVehicleOngoingJob(jobOpenNumber);
-  if (checkVehicle === "ONGOING") {
-    setErrorMessage("This vehicle has an ongoing job");
-    setOpenErrorModel(true);
-    return;
-  }
-
-  // Handle submission
-  await addBooking(booking);
-  setOpenModel(true);
-} catch (err) {
-  setErrorMessage(err.response?.data || 'An error occurred');
-  setOpenErrorModel(true);
-}
+    // Check vehicle has ongoing repair job
+    const jobOpenNumber = booking.vehicleNumber;
+    try {
+      const checkVehicle = await checkVehicleOngoingJob(jobOpenNumber);
+      if (checkVehicle === "ONGOING") {
+      setErrorMessage("This vehicle has an ongoing job");
+      setOpenErrorModel(true);
+      return;
+      }
+      // Handle submission
+      await addBooking(booking);
+      setOpenModel(true);
+    } catch (err) {
+      setErrorMessage(err.response?.data || 'An error occurred');
+      setOpenErrorModel(true);
+    }
   };
-
-
   
-  const ModalContent = ({title, message, messageStyle, image, buttonLabel, onButtonClick, buttonStyles}) => {
-    return(
-      <div onClick={(e) => e.stopPropagation()}>
-        <p className='font-bold pb-2 text-text-primary text-2xl text-center'>{title}</p>
-        <img src={image} className='h-44 mx-auto' />
-        <div className='text-center pt-2'>
-          <p className={messageStyle}>{message}</p>
-        </div>
-        <div className="flex justify-center">
-          <button className={buttonStyles} onClick={onButtonClick}>{buttonLabel}</button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex justify-center items-center bg-text-primary h-screen">
 
@@ -114,27 +148,36 @@ try {
 
         <form className='font-inter mt-8' onSubmit={handleSubmit}>
 
-          <div className='flex flex-row justify-center mt-2'>
-            <div className='basis-1/4 font-semibold'> Vehicle Number :</div>
-             <div className='basis-1/2'>
-                <input type='text' name='vehicleNumber' onChange={handleChange} placeholder='XX - XXXX  or  XXX - XXXX' 
-                className='input border-b-2 w-full' maxLength={8} />
-             </div>
-          </div>
-
-          <div className='flex flex-row justify-center mt-3'>
-            <div className='basis-1/4 font-semibold'>Contact Number :</div>
-            <div className='basis-1/2'>
-              <input type='number' name='contactNumber' onChange={handleChange} placeholder='07........' 
-              className='input border-b-2 w-full' maxLength={10}/>
-            </div>
-          </div>
+          <InputField 
+            label="Vehicle Number" 
+            name="vehicleNumber" 
+            placeholder="XX - XXXX or XXX - XXXX" 
+            value={booking.vehicleNumber} 
+            onChange={handleChange} 
+            maxLength={8} 
+          />
+          <InputField 
+            label="Contact Number" 
+            type="number" 
+            name="contactNumber" 
+            placeholder="07........" 
+            value={booking.contactNumber} 
+            onChange={handleChange} 
+            maxLength={10} 
+          />
 
           <div className='flex flex-row justify-center mt-3'>
             <div className='basis-1/4 font-semibold'><p>Vehicle Fault :</p></div>
             <div className='basis-1/2 relative bg-white rounded-lg'>
-              <textarea id="message" rows="6" name='vehicleFault' onChange={handleChange} maxLength={200}
-              className="input block p-2.5 w-full rounded-lg border" placeholder="Write your identify fault here..."/>
+              <textarea 
+                id="message" 
+                rows="6" 
+                name='vehicleFault' 
+                onChange={handleChange} 
+                maxLength={200}
+                className="input block p-2.5 w-full rounded-lg border" 
+                placeholder="Write your identify fault here..."
+              />
               <div className="absolute bottom-0.5 right-0.5 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">
                {booking.vehicleFault.length}/200
               </div>
@@ -144,11 +187,15 @@ try {
           <div className='flex flex-row justify-center mt-3'>
             <div className='basis-1/4 font-semibold'><p>Date :</p></div>
             <div className='basis-1/2'>
-             <select name='reservedDate' className='input w-full border-2 rounded-lg p-2 text-gray-700' onChange={handleChange}>
-              <option>Select a date</option>
-              {dates.map((date, index) => (
+             <select 
+              name='reservedDate' 
+              className='input w-full border-2 rounded-lg p-2 text-gray-700' 
+              onChange={handleChange}
+              >
+               <option>Select a date</option>
+               {dates.map((date, index) => (
                 <option className='text-black' key={index} value={date}>{date}</option>))}
-             </select>
+              </select>
             </div>
           </div>
              
@@ -156,11 +203,7 @@ try {
            <button className='btn btn-normal' onClick={handleSubmit}>Submit</button>
           </div>
 
-          </form>
-
-          
-
-          
+        </form>
 
         <Modal open={openModel}>
           <ModalContent 
@@ -188,7 +231,5 @@ try {
     </div>
   );
 };
-
-
 
 export default BookNow;

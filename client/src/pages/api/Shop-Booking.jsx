@@ -22,4 +22,15 @@ export const addBooking = async (booking) => {
       throw err;
     }
 };
+
+// Function to check booking availability
+export const checkBookingAvailability = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/allowe`);
+    return response.data;
+  } catch (err) {
+    console.error('Error adding booking', err);
+    throw err;
+  }
+};
   

@@ -9,6 +9,7 @@ import {validateContactNumber,validateInputField} from '../Validation/InputFeild
 import { getNextDates, addBooking } from '../api/Shop-Booking';
 import { checkVehicleOngoingJob } from '../api/Shop-OpenJob';
 import PropTypes from 'prop-types';
+import ModalContent from '../components/template/ModalContent';
 
 const InputField = ({label, type = "text", name, placeholder, value, onChange, maxLength}) => {
   return(
@@ -38,33 +39,6 @@ value: PropTypes.string.isRequired,
 onChange: PropTypes.func.isRequired,
 maxLength: PropTypes.number.isRequired
 };
-
-const ModalContent = ({title, message, messageStyle, image, buttonLabel, onButtonClick, buttonStyles}) => {
-  return(
-    <div onClick={(e) => e.stopPropagation()}>
-      <p className='font-bold pb-2 text-text-primary text-2xl text-center'>{title}</p>
-      <img src={image} className='h-44 mx-auto' />
-      <div className='text-center pt-2'>
-        <p className={messageStyle}>{message}</p>
-      </div>
-      <div className="flex justify-center">
-        <button className={buttonStyles} onClick={onButtonClick}>{buttonLabel}</button>
-      </div>
-    </div>
-  );
-}
-
-ModalContent.propTypes = {
-title: PropTypes.string,
-message: PropTypes.string.isRequired,
-messageStyle: PropTypes.string,
-image: PropTypes.string.isRequired,
-buttonLabel: PropTypes.string.isRequired,
-onButtonClick: PropTypes.func.isRequired,
-buttonStyles: PropTypes.string.isRequired
-};
-
-
 
 const BookNow = () => {
 
@@ -112,7 +86,7 @@ const BookNow = () => {
      return;
     }
     if(reservedDateerror){
-      setErrorMessage(reservedDateerror);
+      setErrorMessage("Date can't be emapty");
       setOpenErrorModel(true);
       return;
     }
@@ -208,7 +182,7 @@ const BookNow = () => {
         <Modal open={openModel}>
           <ModalContent 
             title="Completed!"
-            message="If you need to cancel your reservation for any reason, please contact the shop directly." 
+            message="If you need to cancel your reservation for any reason,please contact the shop directly." 
             image={completed} 
             buttonLabel="Ok"
             buttonStyles = "btn btn-normal mx-auto mt-2"

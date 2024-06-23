@@ -1,9 +1,31 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Engine from '../assets/engine.svg';
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
+import { login } from '../api/auth';
+import PropTypes from 'prop-types';
+
+const CustomInput = ({ type, placeholder, value, onChange, maxLength }) => {
+    return (
+      <input
+        type={type}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        className='border-text-primary-600 border-b-2 w-full my-5 text-center text-xl font-inter outline-none'
+        value={value}
+        onChange={onChange}
+      />
+    );
+};
+
+CustomInput.propTypes = {
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  maxLength: PropTypes.number.isRequired,
+};
 
 const Login = () => {
     const [userName, setUserName] = useState('');
@@ -12,29 +34,28 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleLoginClick = async (e) => {
-        e.preventDefault();
+      e.preventDefault();
 
-        // Check if any of the fields are empty
-        if (!userName || !password) {
-          setErr('All fields must be filled out');
-          return;
-        }
+      // Check if any of the fields are empty
+      if (!userName || !password) {
+        setErr('All fields must be filled out');
+        return;
+      }
         
-        try {
-            const res = await axios.post('/api/auth/login', { userName, password });
-            const { token, user } = res.data;
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-            if (user.type === 'shop') {
-                navigate('/shop/booking');
-            } else if (user.type === 'owner') {
-                navigate('/owner');
-            } else {
-                setErr('Invalid user type');
-            }
-        } catch (err) {
-            setErr(err.response.data.message);
+      try {
+        const { token, user } = await login(userName, password);
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        if (user.type === 'shop') {
+            navigate('/shop/booking');
+        } else if (user.type === 'owner') {
+            navigate('/owner');
+        } else {
+            setErr('Invalid user type');
         }
+      } catch (err) {
+        setErr(err.response.data.message);
+      }
     };
 
     return (
@@ -52,27 +73,27 @@ const Login = () => {
                             Log in
                         </p>
                     </div>
-                    <input 
-                        type='text' 
-                        placeholder='User Name' 
-                        maxLength={20}
-                        className='border-text-primary-600 border-b-2 w-full my-5 text-center text-xl font-inter outline-none'
-                        value={userName} 
-                        onChange={e => setUserName(e.target.value)}
+
+                    <CustomInput
+                      type='text'
+                      placeholder='User Name'
+                      maxLength={20}
+                      value={userName}
+                      onChange={e => setUserName(e.target.value)}
                     />
-                    <input 
-                        type='password' 
-                        placeholder='Password' 
-                        maxLength={20}
-                        className='border-text-primary-600 border-b-2 w-full my-5 text-xl text-center font-inter outline-none'
-                        value={password} 
-                        onChange={e => setPassword(e.target.value)}
+                    <CustomInput
+                      type='password'
+                      placeholder='Password'
+                      maxLength={20}
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
                     />
+
                     <button 
-                        className='flex justify-center bg-btn-primary font-inter font-semibold text-white text-lg p-2 rounded-lg w-32 mx-auto mt-5' 
-                        onClick={handleLoginClick}
+                      className='flex justify-center bg-btn-primary font-inter font-semibold text-white text-lg p-2 rounded-lg w-32 mx-auto mt-5' 
+                      onClick={handleLoginClick}
                     > 
-                        Login
+                       Login
                     </button>
                     <p className='flex justify-center font-inter text-red-600 text-lg mt-4'>{err}</p>
                 </form>

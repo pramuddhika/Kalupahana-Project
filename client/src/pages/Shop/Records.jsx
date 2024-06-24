@@ -13,8 +13,12 @@ const Records = () => {
       <ShopHeader pageName="Check Records" />
       <div className="h-9 bg-side-nav-bg border-b-2"/>
 
-     {activeTopic === 'Records_Search'  && <Records_Search setActiveTopic={setActiveTopic} setSearchNumber={setSearchNumber}/>}
-     {activeTopic === 'Records_Details' && <Records_Details setActiveTopic={setActiveTopic} searchNumber={searchNumber}/>}
+     {activeTopic === 'Records_Search'  && 
+       <Records_Search setActiveTopic={setActiveTopic} setSearchNumber={setSearchNumber}/>
+     }
+     {activeTopic === 'Records_Details' && 
+        <Records_Details setActiveTopic={setActiveTopic} searchNumber={searchNumber}/>
+     }
 
     </div>
   );

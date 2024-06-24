@@ -33,4 +33,58 @@ export const checkBookingAvailability = async () => {
     throw err;
   }
 };
+
+// get today recervation list
+export const fetchTodayBookingDetails = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/today`);
+    return res.data;
+  } catch (err) {
+    console.error('Error fetching data:', err);
+    throw err;
+  }
+};
+
+// get all recervatio data
+export const fetchBookingDetails = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/showbooking`);
+    return res.data;
+  } catch (err) {
+    console.error('Error fetching data:', err);
+    throw err;
+  }
+};
+
+// checking booking vehicle
+export const checkBookingDetails = async (searchNumber) => {
+  try {
+    const res = await axios.get(`/api/booking/checking/${searchNumber}`);
+    return res.data;
+  } catch (err) {
+    console.error('Error fetching booking details:', err);
+    throw err;
+  }
+};
+
+// cancel booking
+export const cancelBooking = async (vehicleNumber) => {
+  try {
+    await axios.put('/api/booking/cancel', { vehicleNumber });
+  } catch (err) {
+    console.error('Error canceling booking:', err);
+    throw err;
+  }
+};
+
+// change booking date
+export const changeBookingDate = async (reservedDate, vehicleNumber) => {
+  try {
+    const res = await axios.put('/api/booking/changedate', { reservedDate, vehicleNumber });
+    return res;
+  } catch (err) {
+    console.error('Error changing booking date:', err);
+    throw err;
+  }
+};
   

@@ -4,9 +4,7 @@ import customStyles from '../components/SelectStyle';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
-import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
 import ShopHeader from '../components/ShopHeader';
-import { useNavigate } from 'react-router-dom';
 
 
 const TodayRecords = () => {
@@ -15,7 +13,6 @@ const TodayRecords = () => {
   const [data, setData] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedVehicleNumber, setSelectedVehicleNumber] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -247,9 +244,7 @@ const TodayRecords = () => {
       <div className="h-9 bg-side-nav-bg border-b-2"/>
 
       <div className="flex card justify-center gap-20 mt-1 mx-1 p-1">
-        <button className='btn btn-normal'>
-           <ArrowUturnLeftIcon className='h-6 w-6 ' onClick={() => navigate(-1)}/>
-        </button>
+       
         <div className="flex p-2 gap-4 mainStyle items-center">
           <p>Vehicle Number:</p>
           <Select className='w-56'

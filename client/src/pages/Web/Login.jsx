@@ -93,7 +93,7 @@ const Login = () => {
                       className='flex justify-center bg-btn-primary font-inter font-semibold text-white text-lg p-2 rounded-lg w-32 mx-auto mt-5' 
                       onClick={handleLoginClick}
                     > 
-                       Login
+                      Login
                     </button>
                     <p className='flex justify-center font-inter text-red-600 text-lg mt-4'>{err}</p>
                 </form>

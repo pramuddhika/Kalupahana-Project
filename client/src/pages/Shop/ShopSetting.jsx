@@ -1,239 +1,225 @@
 import ShopHeader from "../components/ShopHeader";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {TrashIcon} from '@heroicons/react/24/solid';
+import { TrashIcon } from '@heroicons/react/24/solid';
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { getSettings, getSpecialistAreaList, getHolidays,addHoliday,deleteHoliday,
+  updateSpaces, updateNextDayTime, updateRecordTime, addSpecialistArea, deleteSpecialistArea} from '../api/Shop-Settings';
 
 const ShopSetting = () => {
-
-  const [totalSpace, setTotalSpace] = useState (0);
-  const [currentTotalSpace,setCurrentTotalSpace] = useState(null);
-  const [bookingSpace,setBookingSpace] = useState(0);
-  const [currentBookingSpace,setCurrentBookingSpace] = useState(null);
+  const [totalSpace, setTotalSpace] = useState(0);
+  const [currentTotalSpace, setCurrentTotalSpace] = useState(null);
+  const [bookingSpace, setBookingSpace] = useState(0);
+  const [currentBookingSpace, setCurrentBookingSpace] = useState(null);
   const [nextdayTime, setNextdayTime] = useState(null);
-  const [initialNextdayTime,setInitialNextdayTime] = useState(null);
-  const [recordsTime,setRecordsTime] = useState(null);
-  const [initialRecordsTime,setInitialRecordsTime] = useState(null);
-  const [date,setDate] = useState(null);
-  const [speciallistArea,setSpecialistArea] = useState('');
-  const [list,setList] = useState(null);
-  const [days,setDays] = useState(null);
-  const [refresh,setRefresh] = useState(false);
+  const [initialNextdayTime, setInitialNextdayTime] = useState(null);
+  const [recordsTime, setRecordsTime] = useState(null);
+  const [initialRecordsTime, setInitialRecordsTime] = useState(null);
+  const [date, setDate] = useState(null);
+  const [speciallistArea, setSpecialistArea] = useState('');
+  const [list, setList] = useState(null);
+  const [days, setDays] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
-  //fetch setting table data
-  const fetchSettingData = async() => {
-    try{
-      const res = await axios.get('/api/settings/getsettings');
-      setTotalSpace(res.data[0].totalSpace);
-      setCurrentTotalSpace(res.data[0].totalSpace);
-      setBookingSpace(res.data[0].bookingSpace);
-      setCurrentBookingSpace(res.data[0].bookingSpace);
-      setInitialNextdayTime(res.data[0].nextdayTime);
-      setInitialRecordsTime(res.data[0].recordsTime);
-    }catch(err){
-      console.log('Error fetching data :' , err);
+  // Fetch setting data
+  const fetchSettingData = async () => {
+    try {
+      const data = await getSettings();
+      setTotalSpace(data[0].totalSpace);
+      setCurrentTotalSpace(data[0].totalSpace);
+      setBookingSpace(data[0].bookingSpace);
+      setCurrentBookingSpace(data[0].bookingSpace);
+      setInitialNextdayTime(data[0].nextdayTime);
+      setInitialRecordsTime(data[0].recordsTime);
+    } catch (err) {
+      console.log('Error fetching data:', err);
     }
-  }
+  };
 
-  //fetch specialoist Ares list to table
-  const fetchSpecialistArea = async() => {
-    try{
-      const res = await axios.get('/api/settings/getlist');
-      setList(res.data);
-    }catch(err){
-      console.log('Error fetching data :' , err);
+  // Fetch specialist area list
+  const fetchSpecialistArea = async () => {
+    try {
+      const data = await getSpecialistAreaList();
+      setList(data);
+    } catch (err) {
+      console.log('Error fetching data:', err);
     }
-  }
+  };
 
-  //fetching holidays to the table
-  const fetchHolidays = async() => {
-    try{
-      const res = await axios.get('/api/settings/getholidays');
-      setDays(res.data);
-    }catch(err){
-      console.log('Error fetching data :' , err)
+  // Fetch holidays
+  const fetchHolidays = async () => {
+    try {
+      const data = await getHolidays();
+      setDays(data);
+    } catch (err) {
+      console.log('Error fetching data:', err);
     }
-  }
+  };
 
-  useEffect ( ()=> {
+  useEffect(() => {
     fetchSettingData();
     fetchSpecialistArea();
     fetchHolidays();
     setNextdayTime(null);
     setRecordsTime(null);
-  },[refresh])
+  }, [refresh]);
 
-  //handle totalspace change
+  // Handle total space change
   const handleTotalSpaceChange = (e) => {
     setTotalSpace(e.target.value);
-  }
-  //handle booking space change
+  };
+
+  // Handle booking space change
   const handleBookingSpaceChnage = (e) => {
     setBookingSpace(e.target.value);
-  }
+  };
 
+  // Handle space submit
   const handleSpaceSubmit = async (e) => {
     e.preventDefault();
-   //check user change data
-   if( currentTotalSpace === totalSpace && currentBookingSpace === bookingSpace){
-    toast.warning('No changes to update!');
-    return;
-   }
-   //check values are positive
-   if( (totalSpace < 0 || bookingSpace< 0)){
-    toast.warning('Invalid number entered!')
-    setRefresh(!refresh);
-    return;
-   }
-   //check Spaces for Emergency repairs > 0
-   if( (totalSpace-bookingSpace) < 0 ) {
-    toast.warning('Wrong data Input!');
-    setRefresh(!refresh);
-    return;
-   }
-   try{
-    const res = await axios.put('/api/settings/updatespaces', {totalSpace,bookingSpace});
-    toast.success(res.data);
-   }catch(err){
-    toast.error(err.response.data);
-   }finally{
-    setRefresh(!refresh);
-   }
-  }
-  
-  //handle next day reservation notification time
-  const handleNextdayTimeChange = async (e) => {
-    setNextdayTime(e.target.value);
-  }
-  
-  //handel next day notification time update
-  const handleNexdayTimeSubmit = async (e) => {
-    e.preventDefault();
-    //check changes are make or not
-    if(nextdayTime === null){
+    if (currentTotalSpace === totalSpace && currentBookingSpace === bookingSpace) {
       toast.warning('No changes to update!');
       return;
     }
-    if(nextdayTime === initialNextdayTime ){
-      toast.warning('No changes to update!');
+    if (totalSpace < 0 || bookingSpace < 0) {
+      toast.warning('Invalid number entered!');
+      setRefresh(!refresh);
       return;
     }
-
-    try{
-      const res = await axios.put('/api/settings/updatenextdaytime', {nextdayTime});
-      setNextdayTime('');
-      toast.success(res.data);
-    }catch(err){
+    if (totalSpace - bookingSpace < 0) {
+      toast.warning('Wrong data input!');
+      setRefresh(!refresh);
+      return;
+    }
+    try {
+      const res = await updateSpaces(totalSpace, bookingSpace);
+      toast.success(res);
+    } catch (err) {
       toast.error(err.response.data);
-    }finally{
+    } finally {
       setRefresh(!refresh);
     }
-  }
+  };
 
-  //handle record time change
-  const handleRecordTimeChange = async (e) => {
-    setRecordsTime(e.target.value);
-  }
+  // Handle next day time change
+  const handleNextdayTimeChange = (e) => {
+    setNextdayTime(e.target.value);
+  };
 
-  //handle record time update
-  const handleRecordTimeSubmit = async(e) => {
+  // Handle next day time submit
+  const handleNexdayTimeSubmit = async (e) => {
     e.preventDefault();
-    //check changes are make or not
-    if(recordsTime === null){
+    if (nextdayTime === null || nextdayTime === initialNextdayTime) {
       toast.warning('No changes to update!');
       return;
     }
-    if(recordsTime === initialRecordsTime ){
-      toast.warning('No changes to update!');
-      return;
-    }
-    try{
-      const res = await axios.put('/api/settings/recordcheck', {recordsTime});
-      toast.success(res.data);
-    }catch(err){
+    try {
+      const res = await updateNextDayTime(nextdayTime);
+      setNextdayTime('');
+      toast.success(res);
+    } catch (err) {
       toast.error(err.response.data);
-    }finally{
+    } finally {
+      setRefresh(!refresh);
+    }
+  };
+
+  // Handle record time change
+  const handleRecordTimeChange = (e) => {
+    setRecordsTime(e.target.value);
+  };
+
+  // Handle record time submit
+  const handleRecordTimeSubmit = async (e) => {
+    e.preventDefault();
+    if (recordsTime === null || recordsTime === initialRecordsTime) {
+      toast.warning('No changes to update!');
+      return;
+    }
+    try {
+      const res = await updateRecordTime(recordsTime);
+      toast.success(res);
+    } catch (err) {
+      toast.error(err.response.data);
+    } finally {
       setRecordsTime('');
       setRefresh(!refresh);
     }
-  }
-  
-  //handle holiiday change
+  };
+
+  // Handle date change
   const handleDatesChange = (e) => {
     setDate(e.target.value);
-  }
+  };
 
-  //handle holiday adding
+  // Handle holiday add
   const HandleDateSubmit = async (e) => {
     e.preventDefault();
-    
-    
-    //handle date input
-    if(date === null){
+    if (date === null) {
       toast.warning('No changes to update!');
       return;
     }
-    try{
-      const res = await axios.post('/api/settings/addholidays', {date});
-      toast.success(res.data.message);
-    }catch(err){
+    try {
+      const res = await addHoliday(date);
+      toast.success(res.message);
+    } catch (err) {
       toast.error(err.response.data.message);
-    }finally{
+    } finally {
       setRefresh(!refresh);
       setDate('');
     }
-  }
+  };
 
-  //handle specialist area 
+  // Handle specialist area change
   const handleChangeArea = (e) => {
     setSpecialistArea(e.target.value);
-  }
+  };
 
+  // Handle specialist area add
   const handleSubmitArea = async (e) => {
     e.preventDefault();
-    if(speciallistArea === ''){
+    if (speciallistArea === '') {
       toast.warning('No changes to update!');
       return;
     }
-    try{
-      const res = await axios.post('/api/settings/Addspecialistarea', {speciallistArea});
-      toast.success(res.data);
-    }catch(err){
+    try {
+      const res = await addSpecialistArea(speciallistArea);
+      toast.success(res);
+    } catch (err) {
       toast.error(err.response.data);
-    }finally{
+    } finally {
       setSpecialistArea('');
       setRefresh(!refresh);
     }
-  }
+  };
 
-  //handel specialalist area delete
+  // Handle specialist area delete
   const handleDeleteClick = async (deleteArea) => {
-    try{
-    const res = await axios.delete(`/api/settings/deletearea/${deleteArea}`);
+    try {
+      const res = await deleteSpecialistArea(deleteArea);
       // Remove the deleted area from the state
       setList(list.filter(list => list.area !== deleteArea));
-      toast.success(res.data);
-    }catch(err){
+      toast.success(res);
+    } catch (err) {
       toast.error(err.response.data);
-    }finally{
+    } finally {
       setRefresh(!refresh);
     }
-  }
+  };
 
-  //handel holiday removing
-    const handleHolidayDeleteClick = async (deletedate) => {
-    try{
-      const res = await axios.delete(`/api/settings/deleteholidays/${deletedate}`);
-      // Remove the holiday area from the state
+  // Handle holiday delete
+  const handleHolidayDeleteClick = async (deletedate) => {
+    try {
+      const res = await deleteHoliday(deletedate);
+      // Remove the deleted date from the state
       setDays(days.filter(days => days.holidays !== deletedate));
-      toast.success(res.data);
-    }catch(err){
+      toast.success(res);
+    } catch (err) {
       toast.error(err.response.data);
-    }finally{
+    } finally {
       setRefresh(!refresh);
     }
-  }
+  };
   
   
   return (

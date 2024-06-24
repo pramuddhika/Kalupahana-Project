@@ -73,10 +73,10 @@ const Home = () => {
 };
 
 Home.propTypes = {
-  linkTo: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  Icon: PropTypes.elementType.isRequired,
+  linkTo: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  Icon: PropTypes.elementType,
 };
 
 export default Home;

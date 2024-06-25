@@ -6,7 +6,7 @@ import { toast,ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const MechanicsMenu = () => {
+const Mechanics_Menu = () => {
 
   const [tableData,setTableData] = useState(null);
   const [selectedRow,setSelectedRow] = useState({});
@@ -158,4 +158,4 @@ const MechanicsMenu = () => {
   );
 };
 
-export default MechanicsMenu;
+export default Mechanics_Menu;

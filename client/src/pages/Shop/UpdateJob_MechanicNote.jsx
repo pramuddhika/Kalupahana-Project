@@ -2,13 +2,13 @@ import Details from "../components/Details";
 import { useEffect, useState, useContext } from "react";
 import Select from 'react-select';
 import axios from 'axios';
-import { UpdateJobContext } from "./UpdateJobContext";
+import { UpdateJob_Context } from "./UpdateJob_Context";
 import customStyles from '../components/SelectStyle';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Update_MechanicNote = () => {
-  const { updateJobData } = useContext(UpdateJobContext);
+const UpdateJob_MechanicNote = () => {
+  const { updateJobData } = useContext(UpdateJob_Context);
   const [findMechanic, setFindMechanic] = useState(true);
   const [updateNoteMecId, setUpdateNotMecId] = useState(null);
   const [mechanicData, setMechanicData] = useState(null);
@@ -219,4 +219,4 @@ const Update_MechanicNote = () => {
   );
 };
 
-export default Update_MechanicNote;
+export default UpdateJob_MechanicNote;

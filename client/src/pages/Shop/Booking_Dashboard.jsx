@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import DashBoardBox from '../components/DashBoardBox';
 import { fetchTodayBookingDetails } from '../api/Shop-Booking';
 
-const BookingDashboard = () => {
+const Booking_Dashboard = () => {
   const [details, setDetails] = useState(null);
 
   useEffect(() => {
@@ -49,4 +49,4 @@ const BookingDashboard = () => {
   );
 };
 
-export default BookingDashboard;
+export default Booking_Dashboard;

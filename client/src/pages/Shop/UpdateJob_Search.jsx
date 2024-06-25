@@ -5,12 +5,12 @@ import axios from 'axios';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
-import { UpdateJobContext } from './UpdateJobContext';
+import { UpdateJob_Context } from './UpdateJob_Context';
 import { validateVehicleNumber } from '../Validation/VehicleData';
 
-const Update_Search = () => {
+const UpdateJob_Search = () => {
   
-  const { setUpdateJobData } = useContext(UpdateJobContext);
+  const { setUpdateJobData } = useContext(UpdateJob_Context);
 
   const [updateNumber,setUpdateNumber] = useState('');
   const navigate = useNavigate();
@@ -63,4 +63,4 @@ const Update_Search = () => {
   );
 };
 
-export default Update_Search;
+export default UpdateJob_Search;

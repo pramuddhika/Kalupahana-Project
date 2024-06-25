@@ -9,6 +9,7 @@ export const login = async (userName, password) => {
     return response.data;
   } catch (err) {
     console.error('Error adding booking', err);
+    // Rethrow to handle it in the calling component
     throw err;
   }
 };

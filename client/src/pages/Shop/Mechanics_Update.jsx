@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { validateContactNumber,validateHumanName,validateInputField } from "../Validation/InputFeilds";
 
 
-const MechanicsUpdate = () => {
+const Mechanics_Update = () => {
 
   const location = useLocation();
   const { selectedRow } = location.state || {};
@@ -227,5 +227,5 @@ const MechanicsUpdate = () => {
   );
 };
 
-export default MechanicsUpdate;
+export default Mechanics_Update;
 

@@ -1,11 +1,11 @@
 import ShopHeader from "../components/ShopHeader";
-import { UpdateJobContext } from './UpdateJobContext';
+import { UpdateJob_Context } from './UpdateJob_Context';
 import { useContext } from "react";
 import { useNavigate} from 'react-router-dom';
 
-const Update_MoreDetails = () => {
+const UpdateJob_MoreDetails = () => {
 
-  const {updateJobData} = useContext(UpdateJobContext);
+  const {updateJobData} = useContext(UpdateJob_Context);
   const navigate = useNavigate();
 
   return (
@@ -94,4 +94,4 @@ const Update_MoreDetails = () => {
   );
 };
 
-export default Update_MoreDetails;
+export default UpdateJob_MoreDetails;

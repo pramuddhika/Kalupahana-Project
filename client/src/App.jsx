@@ -10,18 +10,18 @@ import OpenJob from './pages/Shop/OpenJob';
 import UpdateJob from './pages/Shop/UpdateJob';
 import Records from './pages/Shop/Records';
 import Mechanics from './pages/Shop/Mechanics';
-import MechanicsMenu from './pages/Shop/MechanicsMenu';
-import MechanicsAdd from './pages/Shop/MechanicsAdd';
-import MechanicsUpdate from './pages/Shop/MechanicsUpdate';
+import MechanicsMenu from './pages/Shop/Mechanics_Menu';
+import MechanicsAdd from './pages/Shop/Mechanics_Add';
+import MechanicsUpdate from './pages/Shop/Mechanics_Update';
 import Stock from './pages/Shop/Stock';
 import ShopSetting from './pages/Shop/ShopSetting';
-import UpdateMenu from './pages/Shop/Update_Search';
-import Update_Search from './pages/Shop/Update_Search';
+import UpdateMenu from './pages/Shop/UpdateJob_Search';
+import UpdateJob_Search from './pages/Shop/UpdateJob_Search';
 import VehicleDetails from './pages/Shop/OpenJob_VehicleDetails';
 import VehicleSearch from './pages/Shop/OpenJob_Search';
 import PreRepair from './pages/Shop/PreRepairAssessment';
-import MoreData from './pages/Shop/Update_MoreData';
-import TodayRecords from './pages/Shop/TodayRecords';
+import MoreData from './pages/Shop/UpdateJob_MoreData';
+import Records_Today from './pages/Shop/Records_Today';
 
 import Home from './pages/Admin/Home';
 import Security from './pages/Admin/Security';
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
     children: [
       { path: 'booking', element: <Booking /> },
       { path: 'stock', element: <Stock /> },
-      { path: 'today', element: <TodayRecords/>},
+      { path: 'today', element: <Records_Today/>},
       {
         path: 'mechanics/*',
         element: <Mechanics />,
@@ -70,7 +70,7 @@ const router = createBrowserRouter([
         path: 'updatejob/*',
         element: <UpdateJob />,
         children: [
-          { path: '', element: <Update_Search /> },
+          { path: '', element: <UpdateJob_Search /> },
           { path: 'menu', element: <UpdateMenu /> },
           { path: 'moredata', element: <MoreData /> },
         ],

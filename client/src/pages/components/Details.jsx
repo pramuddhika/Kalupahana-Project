@@ -1,12 +1,12 @@
 import {Link} from 'react-router-dom';
 import { useContext } from 'react';
-import { UpdateJobContext } from '../Shop/UpdateJobContext';
+import { UpdateJob_Context } from '../Shop/UpdateJob_Context';
 
 
 
 const Details = () => {
 
-   const { updateJobData} = useContext(UpdateJobContext)
+   const { updateJobData} = useContext(UpdateJob_Context)
 
     return (
         <div className="mt-20 mr-4">

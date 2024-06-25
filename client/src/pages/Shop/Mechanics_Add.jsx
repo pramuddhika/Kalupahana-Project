@@ -10,7 +10,7 @@ import { toast,ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { validateContactNumber,validateHumanName,validateInputField } from "../Validation/InputFeilds";
 
-const MechanicsAdd = () => {
+const Mechanics_Add = () => {
 
   const [openCancelModal,setOpenCancelModal] = useState(false);
   const [mechanicsList, setMechanicsList] = useState(null);
@@ -231,4 +231,4 @@ const MechanicsAdd = () => {
   );
 };
 
-export default MechanicsAdd;
+export default Mechanics_Add;

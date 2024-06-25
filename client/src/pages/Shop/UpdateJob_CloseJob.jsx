@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { UpdateJobContext } from "./UpdateJobContext";
+import { UpdateJob_Context } from "./UpdateJob_Context";
 import axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
@@ -9,9 +9,9 @@ import Modal from '../components/Modal';
 import { Link } from 'react-router-dom';
 import PostRepairDocument from '../components/PostRepairDocument';
 
-const Update_CloseJob = () => {
+const UpdateJob_CloseJob = () => {
 
-  const { updateJobData } = useContext(UpdateJobContext);
+  const { updateJobData } = useContext(UpdateJob_Context);
   const today = new Date();
   const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const [instructions, setInstructions] = useState('');
@@ -258,4 +258,4 @@ const Update_CloseJob = () => {
   );
 };
 
-export default Update_CloseJob;
+export default UpdateJob_CloseJob;

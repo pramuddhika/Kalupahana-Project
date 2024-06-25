@@ -1,6 +1,6 @@
 import Details from "../components/Details";
 import { useState, useEffect, useContext } from "react";
-import { UpdateJobContext } from "./UpdateJobContext";
+import { UpdateJob_Context } from "./UpdateJob_Context";
 import axios from "axios";
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
@@ -8,9 +8,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { validateQuantity } from "../Validation/InputFeilds"; 
 
-const Update_UsePart = () => {
+const UpdateJob_UsePart = () => {
 
-  const { updateJobData } = useContext(UpdateJobContext);
+  const { updateJobData } = useContext(UpdateJob_Context);
   const [details, setDetails] = useState(null);
   const [selectedPart, setSelectedPart] = useState(null);
   const [unit, setUnit] = useState('');
@@ -184,4 +184,4 @@ const Update_UsePart = () => {
   );
 };
 
-export default Update_UsePart;
+export default UpdateJob_UsePart;

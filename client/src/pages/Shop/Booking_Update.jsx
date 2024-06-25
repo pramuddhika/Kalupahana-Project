@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { validateVehicleNumber } from '../Validation/VehicleData';
 import { checkBookingDetails, cancelBooking, changeBookingDate } from '../api/Shop-Booking';
 
-const BookingUpdate = () => {
+const Booking_Update = () => {
   const [isSearchBarVisible, setSearchBarVisible] = useState(true);
   const [searchNumber, setSearchNumber] = useState('');
   const [vehicleNumber, setVehicleNumber] = useState('');
@@ -134,4 +134,4 @@ const BookingUpdate = () => {
   );
 };
 
-export default BookingUpdate;
+export default Booking_Update;

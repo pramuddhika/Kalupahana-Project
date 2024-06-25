@@ -1,9 +1,9 @@
 import { useState,useEffect } from 'react';
 import { Route, Routes } from "react-router-dom";
-import Menu from './Update_Menu';
-import Search from './Update_Search';
-import MoreData from './Update_MoreData';
-import { UpdateJobContext } from './UpdateJobContext';
+import Menu from './UpdateJob_Menu';
+import Search from './UpdateJob_Search';
+import MoreData from './UpdateJob_MoreData';
+import { UpdateJob_Context } from './UpdateJob_Context';
 
 const UpdateJob = () => {
   const [updateJobData, setUpdateJobData] = useState(
@@ -16,7 +16,7 @@ const UpdateJob = () => {
   }, [updateJobData]);
 
   return (
-    <UpdateJobContext.Provider value={{ updateJobData, setUpdateJobData }}>
+    <UpdateJob_Context.Provider value={{ updateJobData, setUpdateJobData }}>
       <div>
         <Routes>
           <Route path="" element={<Search/>}/>
@@ -24,7 +24,7 @@ const UpdateJob = () => {
           <Route path="moredata" element={<MoreData/>}/>
         </Routes>
       </div>
-    </UpdateJobContext.Provider>
+    </UpdateJob_Context.Provider>
   );
 };
 

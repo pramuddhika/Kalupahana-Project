@@ -1,8 +1,8 @@
 import ShopHeader from '../components/ShopHeader'
 import { useState } from 'react';
-import BookingDashboard from './BookingDashboard';
-import BookingUpdate from './BookingUpdate';
-import BookingReserved from './BookingReserved';
+import Booking_Dashboard from './Booking_Dashboard';
+import Booking_Update from './Booking_Update';
+import Booking_Reserved from './Booking_Reserved';
 
 
 const Booking = () => {
@@ -43,9 +43,9 @@ const Booking = () => {
           {/**end sub nav bar */}
              
           <div>
-            {activeTopic === 'DashBoard' && <BookingDashboard/>}
-            {activeTopic === 'UpdateBooking' && <BookingUpdate/>}
-            {activeTopic === 'TodayList' && <BookingReserved/>}
+            {activeTopic === 'DashBoard' && <Booking_Dashboard/>}
+            {activeTopic === 'UpdateBooking' && <Booking_Update/>}
+            {activeTopic === 'TodayList' && <Booking_Reserved/>}
           </div>
 
         

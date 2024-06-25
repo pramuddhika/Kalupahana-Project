@@ -7,7 +7,7 @@ import axios from 'axios';
 import ShopHeader from '../components/ShopHeader';
 
 
-const TodayRecords = () => {
+const Records_Today = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [numbers, setNumbers] = useState([]);
   const [data, setData] = useState(null);
@@ -314,4 +314,4 @@ const TodayRecords = () => {
   );
 };
 
-export default TodayRecords;
+export default Records_Today;

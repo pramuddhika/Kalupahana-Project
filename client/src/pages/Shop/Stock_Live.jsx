@@ -8,7 +8,7 @@ import autoTable from 'jspdf-autotable';
 
 
 
-const StockLive = () => {
+const Stock_Live = () => {
 
   const [tabledetails,setTableDetails] = useState(null);
   const [selectedPart,setSelectedPart] = useState(null);
@@ -248,4 +248,4 @@ pdf.autoTable(columns, tableData, {
   );
 };
 
-export default StockLive;
+export default Stock_Live;

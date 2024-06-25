@@ -1,14 +1,14 @@
 import { useState,useContext, useEffect } from "react";
-import { UpdateJobContext } from "./UpdateJobContext";
+import { UpdateJob_Context } from "./UpdateJob_Context";
 import Details from "../components/Details";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
-const Update_SendSMS = () => {
+const UpdateJob_SendEmail = () => {
 
   const [message,setMessage] = useState('');
-  const { updateJobData } = useContext(UpdateJobContext);
+  const { updateJobData } = useContext(UpdateJob_Context);
   const [messageId,setMessageId] = useState(null);
   const [refresh,setRefresh] = useState(false);
   const [tableData,settableData] = useState(null);
@@ -143,4 +143,4 @@ const Update_SendSMS = () => {
   );
 };
 
-export default Update_SendSMS;
+export default UpdateJob_SendEmail;

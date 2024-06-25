@@ -1,12 +1,12 @@
-import AssignMechanic from './Update_AssignMechanic';
-import CloseJob from './Update_CloseJob';
-import MechanicNote from './Update_MechanicNote';
-import SendSMS from './Update_SendSMS';
-import UsePart from './Update_UsePart';
+import AssignMechanic from './UpdateJob_AssignMechanic';
+import CloseJob from './UpdateJob_CloseJob';
+import MechanicNote from './UpdateJob_MechanicNote';
+import SendSMS from './UpdateJob_SendEmail';
+import UsePart from './UpdateJob_UsePart';
 import { useState } from 'react';
 import ShopHeader from "../components/ShopHeader";
 
-const Update_Menu = () => {
+const UpdateJob_Menu = () => {
     const [activeTopic,setActiveTopic] = useState('AssignMechanic');
 
     const handleTopicClick = (topic) => {
@@ -44,4 +44,4 @@ const Update_Menu = () => {
     );
 };
 
-export default Update_Menu;
+export default UpdateJob_Menu;

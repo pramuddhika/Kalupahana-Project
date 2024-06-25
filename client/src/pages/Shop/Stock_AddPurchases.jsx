@@ -7,7 +7,7 @@ import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
 import Modal from '../components/Modal';
 
-const StockAddPurchases = () => {
+const Stock_AddPurchases = () => {
   const [tableList, setTableList] = useState(null);
   const [partID, setPartID] = useState(null);
   const [details, setDetails] = useState(null);
@@ -248,4 +248,4 @@ const StockAddPurchases = () => {
   );
 };
 
-export default StockAddPurchases;
+export default Stock_AddPurchases;

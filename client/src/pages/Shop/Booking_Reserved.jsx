@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchBookingDetails } from '../api/Shop-Booking';
 
-const BookingReserved = () => {
+const Booking_Reserved = () => {
   const [details, setDetails] = useState(null);
 
   useEffect(() => {
@@ -50,4 +50,4 @@ const BookingReserved = () => {
   );
 };
 
-export default BookingReserved;
+export default Booking_Reserved;

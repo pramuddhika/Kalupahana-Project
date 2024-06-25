@@ -7,7 +7,7 @@ import Modal from '../components/Modal';
 import Select from 'react-select';
 import customStyles from '../components/SelectStyle';
 
-const StockAddPart = () => {
+const Stock_AddPart = () => {
   const [details, setDetails] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const [selectedRow, setSelectedRow] = useState('');
@@ -346,4 +346,4 @@ const StockAddPart = () => {
   );
 };
 
-export default StockAddPart;
+export default Stock_AddPart;

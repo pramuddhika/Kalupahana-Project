@@ -1,8 +1,8 @@
 import ShopHeader from "../components/ShopHeader";
 import { useState } from "react";
-import AddPurchases from "./StockAddPurchases";
-import AddPart from "./StockAddPart";
-import LiveStock from "./StockLive";
+import AddPurchases from "./Stock_AddPurchases";
+import AddPart from "./Stock_AddPart";
+import LiveStock from "./Stock_Live";
 
 const Stock = () => {
 

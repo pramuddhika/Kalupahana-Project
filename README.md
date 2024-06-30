@@ -24,5 +24,5 @@ This project is a comprehensive web application developed for Kalupahana Motors 
 
 Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/kalupahana-motors.git
+   git clone https://github.com/pramuddhika/Kalupahana-Project.git
 

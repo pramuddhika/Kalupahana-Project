@@ -17,7 +17,8 @@ const Booking_Update = () => {
   const handleSearchNumber = (e) => {
     setSearchNumber(e.target.value);
   };
-
+ 
+  // vehicle number Search
   const handleSearchClick = async () => {
     const vehicleNumberError = validateVehicleNumber(searchNumber);
     if (vehicleNumberError) {
@@ -38,6 +39,7 @@ const Booking_Update = () => {
     }
   };
 
+  // cancel booking
   const handleCancelClick = async () => {
     try {
       await cancelBooking(vehicleNumber);
@@ -49,6 +51,7 @@ const Booking_Update = () => {
     }
   };
 
+  // change booking data
   const handleDateChangeClick = async () => {
     if (reservedDate === initialReservedDate) {
       toast.warning('Nothing to update!');
@@ -87,20 +90,40 @@ const Booking_Update = () => {
     </div>
   );
 
+  // data display form accoding to vehicle number
   const dataForm = (
     <div className='box-content w-4/5 p-2 card'>
+
       <div className='flex m-2 items-center px-5 mt-6'>
         <p className='w-36 mainStyle'>Vehicle Number</p>
-        <input type='text' value={vehicleNumber} className='rounded-lg p-2 ml-6 outline-none w-72 pl-6' readOnly />
+        <input
+         type='text' 
+         value={vehicleNumber} 
+         className='rounded-lg p-2 ml-6 outline-none w-72 pl-6' 
+         readOnly 
+        />
       </div>
+
       <div className='flex m-2 items-center px-5'>
         <p className='w-36 mainStyle'>Contact Number</p>
-        <input type='text' value={contactNumber} className='rounded-lg p-2 ml-6 outline-none w-72 pl-6' readOnly />
+        <input
+         type='text' 
+         value={contactNumber} 
+         className='rounded-lg p-2 ml-6 outline-none w-72 pl-6' 
+         readOnly 
+        />
       </div>
+
       <div className='flex m-2 items-center px-5'>
         <p className='w-36 mainStyle'>Identify Error</p>
-        <input type='text' value={vehicleFault} className='rounded-lg p-2 ml-6 outline-none w-72 pl-6' readOnly />
+        <input
+         type='text' 
+         value={vehicleFault} 
+         className='rounded-lg p-2 ml-6 outline-none w-72 pl-6' 
+         readOnly 
+        />
       </div>
+
       <div className='flex m-2 items-center px-5'>
         <p className='w-36 mainStyle'>Reserved Date</p>
         <input
@@ -110,25 +133,28 @@ const Booking_Update = () => {
           className='rounded-lg p-2 ml-6 outline-none w-72 pl-6'
         />
       </div>
+
       <div className='flex justify-center gap-6 mt-8 mb-6'>
-        <button onClick={handleCancelClick} className='bg-red-600 text-white px-6 py-2 rounded-lg'>
-          Cancel
-        </button>
-        <button onClick={handleDateChangeClick} className='bg-green-600 text-white px-6 py-2 rounded-lg'>
-          Update
-        </button>
+        <button onClick={handleCancelClick} className='bg-red-600 text-white px-6 py-2 rounded-lg'>Cancel</button>
+        <button onClick={handleDateChangeClick} className='bg-green-600 text-white px-6 py-2 rounded-lg'>Update</button>
       </div>
+
     </div>
   );
 
   return (
     <div className='my-6 mx-6'>
+
       <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme='light' />
+
       <div className='flex mt-24'>
+
         <div className='w-1/2'>
           <img src={cancel} className='h-96 mx-auto mt-6' />
         </div>
+
         <div className='flex items-center w-1/2'>{isSearchBarVisible ? searchBar : dataForm}</div>
+
       </div>
     </div>
   );

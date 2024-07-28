@@ -47,6 +47,7 @@ const Security = () => {
         const passErr = validatePassword(newPassword);
         if(passErr){
             toast.warning(passErr);
+            return;
         }
 
         if (newPassword !== reEnteredPassword) {

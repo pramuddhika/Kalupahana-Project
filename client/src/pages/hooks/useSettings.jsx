@@ -15,8 +15,8 @@ const useSettings = () => {
     };
 
     fetchSettings();
-
-    const intervalId = setInterval(fetchSettings, 60000); // Fetch settings every minute
+    // Fetch settings every minute
+    const intervalId = setInterval(fetchSettings, 60000); 
 
     return () => clearInterval(intervalId);
   }, []);

@@ -120,7 +120,7 @@ const Mechanics_Update = () => {
         return;
       }
     }
-    // stop data base error
+    // stop data base error - emapty data pasing error
     if (newDetails.subArea === "") {
       newDetails.subArea = null;
     }
@@ -153,29 +153,67 @@ const Mechanics_Update = () => {
         {/**edit data form - start */}
         <div className="w-5/12">
           <div className="mt-12 card p-2">
+
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Employee Id :</p>
-              <input type="text" value={newDetails.employeeId} className="input rounded-lg p-2 w-56 text-gray-600" readOnly />
+              <input 
+               type="text" 
+               value={newDetails.employeeId} 
+               className="input rounded-lg p-2 w-56 text-gray-600" 
+               readOnly 
+              />
             </div>
+
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Employee Name :</p>
-              <input type="text" name="employeeName" value={newDetails.employeeName} className="input rounded-lg p-2 w-56" onChange={handleMechanicDataUpdate} required />
+              <input 
+               type="text" 
+               name="employeeName" 
+               value={newDetails.employeeName} 
+               className="input rounded-lg p-2 w-56" 
+               onChange={handleMechanicDataUpdate} 
+               required 
+              />
             </div>
+
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Contact Number :</p>
-              <input type="text" name="contactNumber" value={newDetails.contactNumber} className="input rounded-lg p-2 w-56" onChange={handleMechanicDataUpdate} required />
+              <input 
+               type="text" 
+               name="contactNumber" 
+               value={newDetails.contactNumber} 
+               className="input rounded-lg p-2 w-56" 
+               onChange={handleMechanicDataUpdate} 
+               required 
+              />
             </div>
+
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Residential Area :</p>
-              <input type="text" name="livingArea" value={newDetails.livingArea} className="input rounded-lg p-2 w-56" onChange={handleMechanicDataUpdate} required />
+              <input 
+               type="text" 
+               name="livingArea" 
+               value={newDetails.livingArea} 
+               className="input rounded-lg p-2 w-56" 
+               onChange={handleMechanicDataUpdate} 
+               required 
+              />
             </div>
+
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Join Date :</p>
-              <input type="date" value={newDetails.joinDate} className="input rounded-lg p-2 w-56 text-gray-600" readOnly />
+              <input 
+               type="date" 
+               value={newDetails.joinDate} 
+               className="input rounded-lg p-2 w-56 text-gray-600" 
+               readOnly 
+              />
             </div>
+
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Main Specialist Area :</p>
-              <Select className="w-56"
+              <Select 
+                className="w-56"
                 options={MainOptions}
                 value={mainAreaOption}
                 isClearable
@@ -185,7 +223,8 @@ const Mechanics_Update = () => {
             </div>
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Sub Specialist Area :</p>
-              <Select className="w-56"
+              <Select 
+                className="w-56"
                 options={MainOptions}
                 value={subAreaOption}
                 isClearable
@@ -193,14 +232,23 @@ const Mechanics_Update = () => {
                 styles={customStyles}
               />
             </div>
+
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Termination date :</p>
-              <input type="date" name="resignDate" value={newDetails.resignDate} className="input rounded-lg p-2 w-56" onChange={handleMechanicDataUpdate} />
+              <input 
+               type="date" 
+               name="resignDate" 
+               value={newDetails.resignDate} 
+               className="input rounded-lg p-2 w-56" 
+               onChange={handleMechanicDataUpdate} 
+              />
             </div>
+
             <div className="flex justify-end my-3 mr-10 gap-8">
               <button className="btn btn-warning" onClick={() => setOpenCancelModal(true)}>Leave</button>
               <button className="btn btn-normal px-6" onClick={handleUpdateData}>Update</button>
             </div>
+
           </div>
         </div>
         {/** edit data form - end */}

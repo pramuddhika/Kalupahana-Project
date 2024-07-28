@@ -149,32 +149,67 @@ const Mechanics_Add = () => {
                  
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Employee Id : </p>
-              <input type="text" name="employeeId" value={addMechanic.employeeId}
-              className="input rounded-lg p-2 w-56" readOnly/>
+              <input
+               type="text" 
+               name="employeeId" 
+               value={addMechanic.employeeId}
+               className="input rounded-lg p-2 w-56" 
+               readOnly
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Employee Name : </p>
-              <input type="text" name="employeeName" value={addMechanic.employeeName} onChange={handleMechanicAdd} 
-              className="input rounded-lg p-2 w-56" maxLength={30} placeholder="Mechanic's Name" required/>
+              <input
+               type="text" 
+               name="employeeName" 
+               value={addMechanic.employeeName} 
+               onChange={handleMechanicAdd} 
+               className="input rounded-lg p-2 w-56" 
+               maxLength={30} 
+               placeholder="Mechanic's Name" 
+               required
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Contact Number : </p>
-              <input type="text" name="contactNumber" value={addMechanic.contactNumber} onChange={handleMechanicAdd} 
-              className="input rounded-lg p-2 w-56" maxLength={10} placeholder="07 _ _ _ _ _ _ _ _" required/>
+              <input
+               type="text" 
+               name="contactNumber" 
+               value={addMechanic.contactNumber} 
+               onChange={handleMechanicAdd} 
+               className="input rounded-lg p-2 w-56" 
+               maxLength={10} 
+               placeholder="07 _ _ _ _ _ _ _ _" 
+               required
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Residential Area : </p>
-              <input type="text" name="livingArea" value={addMechanic.livingArea} onChange={handleMechanicAdd} 
-              className="input rounded-lg p-2 w-56" maxLength={40} placeholder="City Name" required/>
+              <input
+               type="text" 
+               name="livingArea" 
+               value={addMechanic.livingArea} 
+               onChange={handleMechanicAdd} 
+               className="input rounded-lg p-2 w-56" 
+               maxLength={40} 
+               placeholder="City Name" 
+               required
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Join Date : </p>
-              <input type="date" name="joinDate" value={addMechanic.joinDate} onChange={handleMechanicAdd} 
-              className="input rounded-lg p-2 w-56" required/>
+              <input
+               type="date" 
+               name="joinDate" 
+               value={addMechanic.joinDate} 
+               onChange={handleMechanicAdd} 
+               className="input rounded-lg p-2 w-56" 
+               required
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
@@ -227,6 +262,7 @@ const Mechanics_Add = () => {
        </div>   
       </Modal>
       {/**leave modal - end   */}
+
     </div>
   );
 };

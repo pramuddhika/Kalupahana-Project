@@ -90,7 +90,8 @@ const Login = () => {
                     />
 
                     <button 
-                      className='flex justify-center bg-btn-primary font-inter font-semibold text-white text-lg p-2 rounded-lg w-32 mx-auto mt-5' 
+                      className='flex justify-center bg-btn-primary font-inter font-semibold text-white text-lg p-2 
+                      rounded-lg w-32 mx-auto mt-5' 
                       onClick={handleLoginClick}
                     > 
                       Login

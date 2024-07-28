@@ -63,10 +63,12 @@ export const validateHumanNIC = (NICnumber) => {
     return("Invalid NIC number!");
   }
   // If NIC number is 12 digits long, check the first 4 digits
+  // first 4 digit value want to under 2018
   if(NICnumber.length === 12 && parseInt(NICnumber.substring(0, 4)) > 2018){
     return("Invalid NIC number!");
   }
   // If NIC number is 9 digits long with 'V', check the first 2 digits
+  // fisrt 2 digit value want to between 24 AND 99
   if(NICnumber.length === 10 && (parseInt(NICnumber.substring(0, 2)) < 24 || parseInt(NICnumber.substring(0, 2)) > 99)){
     return("Invalid NIC number!");
   }
@@ -133,7 +135,7 @@ export const validateQuantity = (quantity) => {
 
 //################# validate password ##################################
 export const validatePassword = (password) => {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
 
   if (!passwordRegex.test(password)) {
     return ("Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be at least 8 characters in length.");

@@ -25,30 +25,27 @@ const Booking = () => {
   return (
     <div className=''>
 
-      
+      <ShopHeader pageName={getPageName()}/>
 
-          <ShopHeader pageName={getPageName()}/>
+      {/**start sub navbar */}
+      <div className='flex bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>
 
-          {/**start sub navbar */}
-          <div className='flex bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>
-
-           <button className={`${activeTopic === 'DashBoard' ? 'topic' : 'text-gray-500'}`}
-           onClick={() => handleTopicClick('DashBoard')}>DashBoard</button>
-           <button className={`${activeTopic === 'UpdateBooking' ? 'topic' : 'text-gray-500'}`}
-           onClick={() => handleTopicClick('UpdateBooking')}>Update Booking</button>
-           <button className={`${activeTopic === 'TodayList' ? 'topic' : 'text-gray-500'}`}
-           onClick={() => handleTopicClick('TodayList')}>Reserved List</button>
+        <button className={`${activeTopic === 'DashBoard' ? 'topic' : 'text-gray-500'}`}
+          onClick={() => handleTopicClick('DashBoard')}>DashBoard</button>
+        <button className={`${activeTopic === 'UpdateBooking' ? 'topic' : 'text-gray-500'}`}
+          onClick={() => handleTopicClick('UpdateBooking')}>Update Booking</button>
+        <button className={`${activeTopic === 'TodayList' ? 'topic' : 'text-gray-500'}`}
+          onClick={() => handleTopicClick('TodayList')}>Reserved List</button>
                     
-          </div>            
-          {/**end sub nav bar */}
+      </div>            
+      {/**end sub nav bar */}
              
-          <div>
-            {activeTopic === 'DashBoard' && <Booking_Dashboard/>}
-            {activeTopic === 'UpdateBooking' && <Booking_Update/>}
-            {activeTopic === 'TodayList' && <Booking_Reserved/>}
-          </div>
-
-        
+      <div>
+        {activeTopic === 'DashBoard' && <Booking_Dashboard/>}
+        {activeTopic === 'UpdateBooking' && <Booking_Update/>}
+        {activeTopic === 'TodayList' && <Booking_Reserved/>}
+      </div>
+  
     </div>
   );
 };

@@ -25,7 +25,6 @@ export const loginController = async(req,res) => {
         const data = await loginService(userName,password);
         return res.status(200).json(data);
     }catch(err){
-        console.log(err)
         return res.status(500).json(err);
     }
 }
@@ -49,7 +48,7 @@ export const getSecurityDataController = async(req,res) => {
         const data = await getSecurityDataService();
         return res.status(200).json(data);
     }catch(err){
-        console.log(err)
+        
         return res.status(500).json(err);
     }
 }

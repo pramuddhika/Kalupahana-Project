@@ -48,11 +48,7 @@ const Mechanics_Menu = () => {
       toast.info("A retired employee");
       return;
     }
-
-    
   };
-
- 
 
   return (
     <div>
@@ -71,6 +67,7 @@ const Mechanics_Menu = () => {
               <Link to={'/shop/mechanics/add'}>Register New Mechanic</Link>
             </button>
           </div>
+
           {/**table - start */}
           <div className="flex justify-center overflow-auto max-h-96 mt-10">
             <table className="mx-auto font-inter mt-4 w-11/12">
@@ -98,58 +95,99 @@ const Mechanics_Menu = () => {
             </table>
           </div>
           {/**table - end */}
+
         </div>
 
         <div className="w-5/12">
           <div className="mt-12 card p-2">
-            {/**select row data display form - satrt */}    
+
+            {/**selected row data display form - satrt */}    
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Employee Id : </p>
-              <input type="text" value={selectedRow.employeeId} className="input rounded-lg p-2 w-56 text-gray-600" 
-              placeholder="Select an employee" readOnly/>
+              <input
+               type="text" 
+               value={selectedRow.employeeId} 
+               className="input rounded-lg p-2 w-56 text-gray-600" 
+               placeholder="Select an employee" 
+               readOnly
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Employee Name : </p>
-              <input type="text" value={selectedRow.employeeName} className="input rounded-lg p-2 w-56 text-gray-600" readOnly/>
+              <input
+               type="text" 
+               value={selectedRow.employeeName} 
+               className="input rounded-lg p-2 w-56 text-gray-600" 
+               readOnly
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Contact Number : </p>
-              <input type="text" value={selectedRow.contactNumber} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
+              <input
+               type="text" 
+               value={selectedRow.contactNumber} 
+               className="input rounded-lg p-2 w-56 text-gray-600"  
+               readOnly
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Residential Area : </p>
-              <input type="text" value={selectedRow.livingArea} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
+              <input
+               type="text" 
+               value={selectedRow.livingArea} 
+               className="input rounded-lg p-2 w-56 text-gray-600"  
+               readOnly
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Join Date : </p>
-              <input type="text" value={selectedRow.joinDate} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
+              <input
+               type="text" 
+               value={selectedRow.joinDate} 
+               className="input rounded-lg p-2 w-56 text-gray-600"  
+               readOnly
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Main Specialist Area : </p>
-              <input type="text" value={selectedRow.mainArea} className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
+              <input
+               type="text" 
+               value={selectedRow.mainArea} 
+               className="input rounded-lg p-2 w-56 text-gray-600"  
+               readOnly
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Sub Specialist Area : </p>
-              <input type="text" value={selectedRow.employeeId ? (selectedRow.subArea ? selectedRow.subArea : "Not Added") : " "}  
-              className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
+              <input
+               type="text" 
+               value={selectedRow.employeeId ? (selectedRow.subArea ? selectedRow.subArea : "Not Added") : " "}  
+               className="input rounded-lg p-2 w-56 text-gray-600"  
+               readOnly
+              />
             </div>
 
             <div className="flex items-center ml-3 my-3">
               <p className="basis-1/3 text-text-primary font-semibold">Termination date : </p>
-              <input type="text" value={selectedRow.employeeId ? (selectedRow.resignDate ? selectedRow.resignDate : "Not Added") : " "} 
-              className="input rounded-lg p-2 w-56 text-gray-600"  readOnly/>
+              <input
+               type="text" 
+               value={selectedRow.employeeId ? (selectedRow.resignDate ? selectedRow.resignDate : "Not Added") : " "} 
+               className="input rounded-lg p-2 w-56 text-gray-600"  
+               readOnly
+              />
             </div>
 
             <div className="flex justify-end my-3 mr-10">
               <button className="btn btn-normal" onClick={handleEditClick}>Edit</button>
             </div>
-            {/**select row data display form - end */} 
+            {/**selected row data display form - end */} 
+
           </div>
         </div>
 

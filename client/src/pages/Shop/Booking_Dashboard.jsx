@@ -5,6 +5,7 @@ import { fetchTodayBookingDetails } from '../api/Shop-Booking';
 const Booking_Dashboard = () => {
   const [details, setDetails] = useState(null);
 
+  //fecth data
   useEffect(() => {
     const getBookingDetails = async () => {
       try {

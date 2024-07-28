@@ -8,12 +8,14 @@ import ShopHeader from '../components/ShopHeader';
 
 
 const Records_Today = () => {
+
   const [selectedOption, setSelectedOption] = useState(null);
   const [numbers, setNumbers] = useState([]);
   const [data, setData] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedVehicleNumber, setSelectedVehicleNumber] = useState(null);
 
+  // fetch the next date numbers when the component mounts
   useEffect(() => {
     const fetchData = async () => {
         const result = await axios('/api/settings/getNextDateNumbers');
@@ -22,6 +24,7 @@ const Records_Today = () => {
     fetchData();
   }, []);
 
+  //fetch data based on the selected vehicle number
   useEffect(() => {
     if (selectedVehicleNumber) {
       const fetchData = async () => {
@@ -32,6 +35,7 @@ const Records_Today = () => {
     }
   }, [selectedVehicleNumber]);
 
+  // option list
   const options = [
     { value: 'PreRepair', label: 'PreRepair Assessment' },
     { value: 'PostRepair', label: 'PostRepair Assessment' },
@@ -70,7 +74,8 @@ const Records_Today = () => {
         return <p className='text-center'>No selection made.</p>;
     }
   };
-
+  
+  //##################################### PreRepair document data - start ################################################
   const PreRepairDoc = () => {
     return (
       <>
@@ -155,8 +160,9 @@ const Records_Today = () => {
       </>
     );
   };
-  
+  //##################################### PreRepair document data - end   ################################################
 
+  //##################################### PostRepair document data - start ################################################
   const PostRepairDoc = () => {
     return (
       <>
@@ -205,7 +211,10 @@ const Records_Today = () => {
       </>
     );
   };
+  //##################################### PostRepair document data - end   ################################################
 
+
+  //##################################### Mechnich data - start ################################################
   const MecNote = () => {
     return (
       <>
@@ -235,6 +244,8 @@ const Records_Today = () => {
       </>
     );
   };
+  //##################################### Mechanic data - end   ################################################
+
   
   return (
     <>
@@ -256,7 +267,12 @@ const Records_Today = () => {
         </div>
         <div className="flex items-center p-2 gap-4 mainStyle">
           <p>Customer Name:</p>
-          <input type="text" readOnly value={data && data[0].customer} className="input rounded-lg p-1 w-56 text-center" />
+          <input
+           type="text" 
+           readOnly 
+           value={data && data[0].customer} 
+           className="input rounded-lg p-1 w-56 text-center" 
+          />
         </div>
       </div>
 

@@ -88,7 +88,7 @@ const OpenJob_VehicleDetails = () => {
     
     try{
       //search customer data from database
-      const resCustomer = await axios.get(`http://localhost:8000/api/openjob/getCustomer/${NICnumber}`);
+      const resCustomer = await axios.get(`/api/openjob/getCustomer/${NICnumber}`);
       
       //if customer new to shop , update customer state to notOld
       if(resCustomer.data.message === "New customer!"){
@@ -110,7 +110,7 @@ const OpenJob_VehicleDetails = () => {
         setCustomerEmail(resCustomer.data.checkCustomer[0].email);
         setCustomerPhoneNumber(resCustomer.data.checkCustomer[0].phoneNumber);
         setInitData(prevState =>({
-          ...prevState,
+          ...prevState,// Copy all previous state properties
           name:resCustomer.data.checkCustomer[0].name,
           email:resCustomer.data.checkCustomer[0].email,
           phone:resCustomer.data.checkCustomer[0].phoneNumber
@@ -121,7 +121,6 @@ const OpenJob_VehicleDetails = () => {
         setISOldCustomer(false);
         return;
       }
-
     }catch(err){
       toast.error(err.response.data.message);
     }
@@ -135,7 +134,6 @@ const OpenJob_VehicleDetails = () => {
       return("change");
     }
   }
-
 
   //customer data handel
   const handleCustomethOtherDetails = async (e) => {
@@ -155,13 +153,13 @@ const OpenJob_VehicleDetails = () => {
     //handel - [registered vehicle] - [registered customer]-[owner not change]
     if(oldVehicle === "old" && newCustomer === "old" && (initNIC === NICnumber)){
 
-      //when customer data not change
+      //when customer data not change - moving to next
       if(result === "same"){
         toast.info("No changes to update!");
         movingToDocument();
       }
 
-      //when customer data change
+      //when customer data change - update db
       else{
         try{
           const res = await axios.put('/api/openjob/updateCustomer',{customerName,customerEmail,customerPhoneNumber,NICnumber});
@@ -173,8 +171,9 @@ const OpenJob_VehicleDetails = () => {
       }
     }
 
-    //handel - [registered vehicle] - [registered customer]-[owner change]
+    //handel - [registered vehicle]-[registered customer]-[owner change]
     if(oldVehicle === "old" && newCustomer === "old" && (initNIC !== NICnumber)){
+
       //when customer data not change
       if(result === "same"){
         //change ownership
@@ -186,13 +185,13 @@ const OpenJob_VehicleDetails = () => {
           toast.error(err.response.data);
         }
       }
+
       //when customer data change
       else{
         //update customer data
         try{
           const res = await axios.put('/api/openjob/updateCustomer',{customerName,customerEmail,customerPhoneNumber,NICnumber});
           toast.success(res.data.message);
-          
           //change ownership
           try{
             const owner = await  axios.put('/api/openjob/ownerChange', {NICnumber,vehicleNumber});
@@ -207,7 +206,7 @@ const OpenJob_VehicleDetails = () => {
       }
     }
 
-    //handel - [registered vehicle] - [not registered customer]
+    //handel - [registered vehicle]-[not registered customer]
     if( oldVehicle === "old" && newCustomer === "notOld"  && (initNIC !== NICnumber)){
       console.log('k')
       //register the new customer
@@ -215,7 +214,7 @@ const OpenJob_VehicleDetails = () => {
         console.log(customerName,customerEmail,customerPhoneNumber,NICnumber)
         const res = await axios.post('/api/openjob/registerCustomer', {customerName,customerEmail,customerPhoneNumber,NICnumber});
         toast.success(res.data.message);
-        //change vehicle ownership in data base
+        //change vehicle ownership in db
         try{
           const owner = await  axios.put('/api/openjob/ownerChange', {NICnumber,vehicleNumber});
           
@@ -229,7 +228,7 @@ const OpenJob_VehicleDetails = () => {
       }
     }
 
-    //handel - [not registered vehicle] - ( [registered customer] || [not registered customer])
+    //handel - [not registered vehicle]-( [registered customer] || [not registered customer])
     if( oldVehicle === "notOld"){
       setIsCustomerVisible(false);
     }  
@@ -255,7 +254,7 @@ const OpenJob_VehicleDetails = () => {
       return;
     }
 
-    //handel - [not registered vehicle] - [registered customer]
+    //handel - [not registered vehicle]-[registered customer]
     if( oldVehicle === "notOld" && newCustomer === "old"){
 
       //handel - [not registered vehicle] - [registered customer](when customer data not change)
@@ -269,7 +268,7 @@ const OpenJob_VehicleDetails = () => {
           toast.error(err.response.data);
         }
       
-      //handel - [not registered vehicle] - [registered customer](when customer data change)  
+      //handel - [not registered vehicle]-[registered customer](when customer data change)  
       }else{
         //handel update customer data
         try{
@@ -290,7 +289,7 @@ const OpenJob_VehicleDetails = () => {
       }
     }
 
-    //handel - [not registered vehicle] - [not registered customer]
+    //handel - [not registered vehicle]-[not registered customer]
     if( oldVehicle === "notOld" && newCustomer === "notOld"){
       //register customer
       try{
@@ -324,8 +323,14 @@ const OpenJob_VehicleDetails = () => {
         <p className="mainStyle">NIC Number:</p>
       </div>
       <div className="basis-1/2">
-        <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={NICnumber} 
-        onChange={handleNICchange} placeholder="NIC here" maxLength={12}/>
+        <input 
+         type="text" 
+         className="input rounded-lg ml-4 p-2 w-60" 
+         value={NICnumber} 
+         onChange={handleNICchange} 
+         placeholder="NIC here" 
+         maxLength={12}
+        />
       </div>
     </div>
 
@@ -345,24 +350,42 @@ const OpenJob_VehicleDetails = () => {
         <div className="flex justify-center items-center p-2 mt-3">
           <div className="w-36 mainStyle"><p>Customer Name:</p></div>
           <div className="basis-1/2">
-            <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={customerName} 
-            onChange={ (e)=> setCustomerName(e.target.value)} placeholder="Name here" maxLength={20}/>
+            <input
+             type="text" 
+             className="input rounded-lg ml-4 p-2 w-60" 
+             value={customerName} 
+             onChange={(e)=> setCustomerName(e.target.value)} 
+             placeholder="Name here" 
+             maxLength={20}
+            />
           </div>
         </div>
 
         <div className="flex justify-center items-center p-2">
           <div className="w-36 mainStyle"><p>Email:</p></div>
           <div className="basis-1/2">
-            <input type="email" className="input rounded-lg ml-4 p-2 w-60" value={customerEmail} 
-            onChange={ (e)=> setCustomerEmail(e.target.value)} placeholder="Email here" maxLength={55}/>
+            <input
+             type="email" 
+             className="input rounded-lg ml-4 p-2 w-60" 
+             value={customerEmail} 
+             onChange={(e)=> setCustomerEmail(e.target.value)} 
+             placeholder="Email here" 
+             maxLength={55}
+            />
           </div>
         </div>
 
         <div className="flex justify-center items-center p-2">
           <div className="w-36 mainStyle"><p>Contact Number:</p></div>
           <div className="basis-1/2">
-            <input type="number" className="input rounded-lg ml-4 p-2 w-60" value={customerPhoneNumber}   
-            onChange={ (e)=> setCustomerPhoneNumber(e.target.value)} placeholder="07_ _ _ _ _ _ _ _" maxLength={10}/>
+            <input
+             type="number" 
+             className="input rounded-lg ml-4 p-2 w-60" 
+             value={customerPhoneNumber}   
+             onChange={(e)=> setCustomerPhoneNumber(e.target.value)} 
+             placeholder="07_ _ _ _ _ _ _ _" 
+             maxLength={10}
+            />
           </div>
         </div>
 
@@ -392,7 +415,12 @@ const OpenJob_VehicleDetails = () => {
         <div className="flex justify-center items-center p-2">
           <div className="w-36 mainStyle"><p>Vehicle Number:</p></div>
           <div className="basis-1/2">
-            <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={vehicleNumber} readOnly/>
+            <input
+             type="text" 
+             className="input rounded-lg ml-4 p-2 w-60" 
+             value={vehicleNumber} 
+             readOnly
+            />
           </div>
         </div>
 
@@ -407,21 +435,28 @@ const OpenJob_VehicleDetails = () => {
         <div className="flex justify-center items-center p-2">
           <div className="w-36 mainStyle"><p>Model:</p></div>
           <div className="basis-1/2">
-            <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={model} 
-            onChange={(e)=> setModel(e.target.value)} placeholder="Vehicle Model here"/>
+            <input
+             type="text" 
+             className="input rounded-lg ml-4 p-2 w-60" 
+             value={model} 
+             onChange={(e)=>setModel(e.target.value)} 
+             placeholder="Vehicle Model here"
+            />
           </div>
         </div>
 
         <div className="flex justify-center items-center p-2">
           <div className="w-36 mainStyle"><p>Fule Type:</p></div>
           <div className="basis-1/2">
-            <Select className="w-60 ml-4"
-            options={fuleTypes}
-            isClearable
-            styles={customStyles}
-            onChange={handleSeleteOption}
-            value={selectedFuleType}
-            placeholder='Vehicle Fule here'/>
+            <Select
+             className="w-60 ml-4"
+             options={fuleTypes}
+             isClearable
+             styles={customStyles}
+             onChange={handleSeleteOption}
+             value={selectedFuleType}
+             placeholder='Vehicle Fule here'
+            />
           </div>
         </div>
 

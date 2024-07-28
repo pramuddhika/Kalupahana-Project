@@ -33,6 +33,7 @@ const PreRepairAssessment = () => {
     jumperCable: "no"
   });
 
+  //fetch data
   useEffect(() => {
     const fetchPreRepairDocId = async () => {
       try {
@@ -149,37 +150,74 @@ const PreRepairAssessment = () => {
       <div className="flex flex-col items-center justify-center mt-7">
         <div className="flex card w-10/12 p-2 mb-7">
           <div className="w-1/2">
+
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Vehicle Number:</p>
-              <input className="input rounded-lg w-60 p-1 pl-3" value={vehicleNumber} readOnly />
+              <input
+               className="input rounded-lg w-60 p-1 pl-3" 
+               value={vehicleNumber} 
+               readOnly 
+              />
             </div>
+
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Customer Name:</p>
-              <input className="input rounded-lg w-60 p-1 pl-3" value={customerName} readOnly />
+              <input
+               className="input rounded-lg w-60 p-1 pl-3" 
+               value={customerName} 
+               readOnly 
+              />
             </div>
+
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Customer Email:</p>
-              <input className="input rounded-lg w-60 p-1 pl-3" value={customerEmail} readOnly />
+              <input
+               className="input rounded-lg w-60 p-1 pl-3" 
+               value={customerEmail} 
+               readOnly 
+              />
             </div>
+
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Phone Number:</p>
-              <input className="input rounded-lg w-60 p-1 pl-3" value={customerPhoneNumber} readOnly />
+              <input
+               className="input rounded-lg w-60 p-1 pl-3" 
+               value={customerPhoneNumber} 
+               readOnly 
+              />
             </div>
+
           </div>
 
           <div className="w-1/2">
+
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Document Number:</p>
-              <input className="input rounded-lg w-60 p-1 text-center" value={preDocId} readOnly />
+              <input
+               className="input rounded-lg w-60 p-1 text-center" 
+               value={preDocId} 
+               readOnly
+              />
             </div>
+
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Repair Job Number:</p>
-              <input className="input rounded-lg w-60 p-1 text-center" value={jobId} readOnly />
+              <input
+               className="input rounded-lg w-60 p-1 text-center" 
+               value={jobId} 
+               readOnly 
+              />
             </div>
+
             <div className="flex justify-center items-center gap-4">
               <p className="mainStyle w-48 p-2">Date:</p>
-              <input className="input rounded-lg w-60 p-1 text-center" value={dateString} readOnly />
+              <input
+               className="input rounded-lg w-60 p-1 text-center" 
+               value={dateString} 
+               readOnly 
+              />
             </div>
+            
           </div>
         </div>
 
@@ -187,6 +225,7 @@ const PreRepairAssessment = () => {
           <p className="topic mt-3 mb-1">Check list</p>
           <div className="flex justify-center">
             <div className="flex justify-center w-1/2">
+              
               <div className="w-1/2 ml-12">
                 {['spareTire', 'tireJack', 'lugWrench'].map(item => (
                   <div key={item} className="my-3">
@@ -342,13 +381,7 @@ const PreRepairAssessment = () => {
           </div>
         </div>
       </Modal>
-
-
-
-
     </div>
-
-    
   );
 };
 

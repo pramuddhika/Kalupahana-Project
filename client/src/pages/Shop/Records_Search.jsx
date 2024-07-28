@@ -7,6 +7,7 @@ import records from "../assets/records.svg";
 import { validateVehicleNumber } from '../Validation/VehicleData';
 
 const Records_Search = ({ setActiveTopic, setSearchNumber }) => {
+
   const [searchNumberInput, setSearchNumberInput] = useState("");
 
   const handleSearchNumberChange = (e) => {
@@ -15,7 +16,7 @@ const Records_Search = ({ setActiveTopic, setSearchNumber }) => {
 
   const handleSearchNumberClick = async (e) => {
     e.preventDefault();
-
+    // validate vehicke number
     const NumberErr = validateVehicleNumber(searchNumberInput);
     if(NumberErr){
       toast.warning(NumberErr);
@@ -36,19 +37,37 @@ const Records_Search = ({ setActiveTopic, setSearchNumber }) => {
 
   return (
     <div> 
+
       <ToastContainer position='bottom-right' hideProgressBar={false} closeOnClick theme="light" />
+
       <div className="flex mt-28">
+
         <div className='w-1/2'>
           <img src={records} className='h-96 mx-auto mt-6' />
         </div>
+
         <div className="w-1/2">
+
           <div className='flex items-center card gap-12 box-content w-2/3 h-32 mt-32'>
-            <input type='text' placeholder='Enter vehicle number' value={searchNumberInput} 
-            onChange={handleSearchNumberChange} className='rounded-lg p-2 ml-6 outline-none' />
-            <button className='bg-text-primary text-white px-6 py-2 rounded-lg' 
-            onClick={handleSearchNumberClick}>Search</button>
+
+            <input
+             type='text' 
+             placeholder='Enter vehicle number' 
+             value={searchNumberInput} 
+             onChange={handleSearchNumberChange} 
+             className='rounded-lg p-2 ml-6 outline-none' 
+            />
+
+            <button 
+             className='bg-text-primary text-white px-6 py-2 rounded-lg' 
+             onClick={handleSearchNumberClick}
+            >
+              Search
+            </button>
           </div>
+
         </div>
+
       </div>
     </div>
   );

@@ -77,10 +77,16 @@ const OpenJobSearch = () => {
     }
   };
 
+  // vehicle number input 
   const searchBar = (
     <div className='flex items-center card gap-12 box-content w-2/3 h-32 mt-32'>
-      <input type='text' placeholder='Enter vehicle number' className='rounded-lg p-2 ml-6 outline-none' 
-      value={jobOpenNumber} onChange={handleOpenJobSearch}/>
+      <input
+       type='text' 
+       placeholder='Enter vehicle number' 
+       className='rounded-lg p-2 ml-6 outline-none' 
+       value={jobOpenNumber} 
+       onChange={handleOpenJobSearch}
+      />
       <button className='bg-text-primary text-white px-6 py-2 rounded-lg' onClick={handleSearchClick}>
        Search
       </button>

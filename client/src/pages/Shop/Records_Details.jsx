@@ -74,6 +74,7 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
     return Promise.all(base64Promises);
   };
 
+  //##################################### PreRepair document data - start ################################################
   const PreRepairDoc = () => {
     let scratchMarks = selectedRow?.scratchMarks || [];
 
@@ -160,8 +161,10 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
       </>
     );
   };
-  
+  //##################################### PreRepair document data - end   ################################################
 
+  
+  //##################################### PostRepair document data - start ################################################
   const PostRepairDoc = () => {
     return (
       <>
@@ -210,7 +213,9 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
       </>
     );
   };
+  //##################################### PostRepair document data - end   ################################################
 
+  //##################################### Mechnich data - start ################################################
   const MecNote = () => {
     return (
       <>
@@ -240,6 +245,8 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
       </>
     );
   };
+  //##################################### Mechanic data - end   ################################################
+
   //pdf download
   const handleDownload = async () => {
     if (!selectedOption) {
@@ -293,6 +300,7 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
 
     doc.save(fileName);
   };
+
   //handle send email
   const handleEmail = async() => {
     if (!selectedOption) {
@@ -370,20 +378,43 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
       <div className="flex card justify-center mt-1 mx-1">
         <div className="flex p-2 gap-4 mainStyle items-center">
           <p>Vehicle Number:</p>
-          <input type="text" readOnly className="input rounded-lg p-1 w-32 text-center" value={searchNumber} />
+          <input
+           type="text" 
+           readOnly 
+           className="input rounded-lg p-1 w-32 text-center" 
+           value={searchNumber} 
+          />
         </div>
+
         <div className="flex p-2 gap-4 mainStyle">
           <p>Customer Name:</p>
-          <input type="text" readOnly className="input rounded-lg p-1 w-40 text-center" value={data && data[0].customer} />
+          <input
+           type="text" 
+           readOnly 
+           className="input rounded-lg p-1 w-40 text-center" 
+           value={data && data[0].customer} 
+          />
         </div>
+
         <div className="flex p-2 gap-4 mainStyle">
           <p>Phone Number:</p>
-          <input type="text" readOnly className="input rounded-lg p-1 w-36 text-center" value={data && data[0].phone} />
+          <input
+           type="text" 
+           readOnly 
+           className="input rounded-lg p-1 w-36 text-center" 
+           value={data && data[0].phone} 
+          />
         </div>
+
         <div className="flex p-2 gap-4 mainStyle">
           <p>Customer Email:</p>
-          <input type="text" readOnly className="input rounded-lg p-1 w-64 text-center" value={updateCustomerMail} />
+          <input
+           type="text" 
+           readOnly className="input rounded-lg p-1 w-64 text-center" 
+           value={updateCustomerMail} 
+          />
         </div>
+
       </div>
 
       <div className="flex my-1 mx-1 mainStyle">
@@ -415,6 +446,7 @@ const Records_Details = ({ setActiveTopic, searchNumber }) => {
             </button>
           </div>
 
+          {/** table */}
           <div className="flex justify-center overflow-auto max-h-[30rem] mt-2">
             <table className="mx-auto font-inter mt-4 w-11/12">
               <thead>

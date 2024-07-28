@@ -41,6 +41,7 @@ const UpdateJob_CloseJob = () => {
     fetchPostRepairDocId();
   }, []);
 
+  // check list option
   const options = [
     { value: 'Good', label: 'Good' },
     { value: 'Medium', label: 'Medium' },
@@ -58,8 +59,6 @@ const UpdateJob_CloseJob = () => {
 
   const handleSubmit = async() => {
     
-    
-
     try{
       const checkMechanics = await axios.get(`/api/updatejob/chekMechanic/${updateJobId}`);
       if(checkMechanics.data.message === "Yes"){
@@ -76,7 +75,7 @@ const UpdateJob_CloseJob = () => {
         //close job
         try{
         await axios.post('/api/updatejob/addCloseJobData',{postDocId,newBatteryHealth,newEnginePerformance,
-                        newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId})
+          newTireCondition,newFluidLevels,instructions,shopOwnerNote,dateString,updateJobId})
           setJobCloseModal(true);
         }catch(err){
           toast.error(err.response.data.message)
@@ -94,43 +93,81 @@ const UpdateJob_CloseJob = () => {
 
       <div className="flex card w-10/12 p-2">
         <div className="w-1/2">
+
           <div className="flex justify-center items-center gap-4">
             <p className="mainStyle w-48 p-2">Vehicle Number:</p>
-            <input className="input rounded-lg w-60 p-1 pl-3" value={vehicleNumber} readOnly />
+            <input
+             className="input rounded-lg w-60 p-1 pl-3" 
+             value={vehicleNumber} 
+             readOnly 
+            />
           </div>
+
           <div className="flex justify-center items-center gap-4">
             <p className="mainStyle w-48 p-2">Customer Name:</p>
-            <input className="input rounded-lg w-60 p-1 pl-3" value={customerName} readOnly />
+            <input
+              className="input rounded-lg w-60 p-1 pl-3" 
+              value={customerName} 
+              readOnly 
+            />
           </div>
+
           <div className="flex justify-center items-center gap-4">
             <p className="mainStyle w-48 p-2">Customer Email:</p>
-            <input className="input rounded-lg w-60 p-1 pl-3" value={customerEmail} readOnly />
+            <input
+             className="input rounded-lg w-60 p-1 pl-3" 
+             value={customerEmail} 
+             readOnly 
+            />
           </div>
+
           <div className="flex justify-center items-center gap-4">
             <p className="mainStyle w-48 p-2">Phone Number:</p>
-            <input className="input rounded-lg w-60 p-1 pl-3" value={customerPhoneNumber} readOnly />
+            <input
+             className="input rounded-lg w-60 p-1 pl-3" 
+             value={customerPhoneNumber} 
+             readOnly 
+            />
           </div>
+
         </div>
 
         <div className="w-1/2">
+
           <div className="flex justify-center items-center gap-4">
             <p className="mainStyle w-48 p-2">Document Number:</p>
-            <input className="input rounded-lg w-60 p-1 text-center" value={postDocId} readOnly />
+            <input
+             className="input rounded-lg w-60 p-1 text-center" 
+             value={postDocId} 
+             readOnly 
+            />
           </div>
+
           <div className="flex justify-center items-center gap-4">
             <p className="mainStyle w-48 p-2">Repair Job Number:</p>
-            <input className="input rounded-lg w-60 p-1 text-center" value={updateJobId} readOnly />
+            <input 
+             className="input rounded-lg w-60 p-1 text-center" 
+             value={updateJobId} 
+             readOnly 
+            />
           </div>
+
           <div className="flex justify-center items-center gap-4">
             <p className="mainStyle w-48 p-2">Date:</p>
-            <input className="input rounded-lg w-60 p-1 text-center" value={dateString} readOnly />
+            <input 
+              className="input rounded-lg w-60 p-1 text-center" 
+              value={dateString} 
+              readOnly 
+            />
           </div>
+
         </div>
       </div>
 
       <div className="card w-10/12 p-2 mt-7 mainStyle">
         <div className='flex w-full'>
           <div className='my-4 w-1/2'>
+
             <div className='flex items-center justify-center my-3'>
               <p className='w-64'>Battery health</p>
               <Select className='w-48'
@@ -141,6 +178,7 @@ const UpdateJob_CloseJob = () => {
                 onChange={setBatteryHealth}
               />
             </div>
+
             <div className='flex items-center justify-center'>
               <p className='w-64'>Engine performance</p>
               <Select className='w-48'
@@ -151,9 +189,11 @@ const UpdateJob_CloseJob = () => {
                 onChange={setEnginePerformance}
               />
             </div>
+
           </div>
 
           <div className='w-1/2 my-4'>
+
             <div className='flex items-center justify-center my-3'>
               <p className='w-64'>Tire Condition</p>
               <Select className='w-48'
@@ -164,6 +204,7 @@ const UpdateJob_CloseJob = () => {
                 onChange={setTireCondition}
               />
             </div>
+
             <div className='flex items-center justify-center'>
               <p className='w-64'>Fluid levels</p>
               <Select className='w-48'
@@ -174,12 +215,14 @@ const UpdateJob_CloseJob = () => {
                 onChange={setFluidLevels}
               />
             </div>
+
           </div>
         </div>
       </div>
 
       <div className="card w-10/12 p-2 mt-7">
         <p className="topic my-3">Mechanic{'\''}s Instructions</p>
+
         <div className="relative flex justify-center">
           <textarea
             rows={3}
@@ -193,10 +236,12 @@ const UpdateJob_CloseJob = () => {
             {instructions.length}/200
           </div>
         </div>
+
       </div>
 
       <div className="card w-10/12 p-2 mt-7">
         <p className="topic my-3">Shop Owner Note</p>
+
         <div className="relative flex justify-center">
           <textarea
             rows={5}
@@ -210,6 +255,7 @@ const UpdateJob_CloseJob = () => {
             {shopOwnerNote.length}/200
           </div>
         </div>
+        
       </div>
 
       <div className="flex gap-4 mt-5 mb-10">

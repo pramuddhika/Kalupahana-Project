@@ -14,10 +14,10 @@ export const registerService = (type, name, password, email,pin,step) => {
         const hashedPassword = bcrypt.hashSync(password, salt);
         const hashedPin = bcrypt.hashSync(pin, salt);
 
-        const q = `INSERT INTO users
-                   (USER_TYPE, USER_NAME, PASSWORD, EMAIL,PIN,STEP)
-                   VALUES (?, ?, ?, ?,?,?)`;
-        db.query(q, [type, name, hashedPassword, email,hashedPin,step], (err, data) => {
+        const userregister = `INSERT INTO users
+                              (USER_TYPE, USER_NAME, PASSWORD, EMAIL,PIN,STEP)
+                              VALUES (?, ?, ?, ?,?,?)`;
+        db.query(userregister, [type, name, hashedPassword, email,hashedPin,step], (err, data) => {
             if (err) {
                 reject(err);
             } else {
@@ -31,9 +31,9 @@ export const registerService = (type, name, password, email,pin,step) => {
 //################## login - start ########################################
 export const loginService = (userName, password) => {
     return new Promise((resolve, reject) => {
-       const q = `SELECT * FROM users WHERE USER_NAME = ?`;
+       const userData = `SELECT * FROM users WHERE USER_NAME = ?`;
 
-       db.query(q, [userName], (err, users) => {
+       db.query(userData, [userName], (err, users) => {
           if (err) {
               reject({ message: 'Server side error!' });
                 
@@ -60,8 +60,8 @@ export const loginService = (userName, password) => {
     const pinInit = generatePin();
     const salt = bcrypt.genSaltSync(10);
     const hashedPin = bcrypt.hashSync(pinInit, salt);
-    const q = `UPDATE users SET PIN = ? WHERE USER_TYPE = ?`;
-    db.query(q, [hashedPin, user.USER_TYPE], (err) => {
+    const pin = `UPDATE users SET PIN = ? WHERE USER_TYPE = ?`;
+    db.query(pin, [hashedPin, user.USER_TYPE], (err) => {
         if (err) {
             console.error(err.message);
             // Fall back to the 'no' process
@@ -122,11 +122,11 @@ export const loginService = (userName, password) => {
 //################## verify pin - start ########################################
 export const verifyPinService = (userName, pin) => {
     return new Promise((resolve, reject) => {
-        const q = `SELECT * 
+        const verifyPin = `SELECT * 
                    FROM users 
                    WHERE USER_NAME = ? AND PIN = ?`;
 
-        db.query(q, [userName, pin], (err, users) => {
+        db.query(verifyPin, [userName, pin], (err, users) => {
             if (err) {
                 reject({ message: 'Server side error!' });
             } else if (users.length === 0) {
@@ -150,9 +150,10 @@ export const verifyPinService = (userName, pin) => {
 //################ get securuty data - strat ###########################
 export const getSecurityDataService = () => {
     return new Promise((resolve, reject) => {
-        const q = `SELECT USER_TYPE,EMAIL,STEP FROM users`;
+        const getData  = `SELECT USER_TYPE,EMAIL,STEP 
+                  FROM users`;
 
-        db.query(q, (err, data) => {
+        db.query(getData, (err, data) => {
             if (err) {
                 reject({ message: 'Server side error!' });
             } else if (data.length === 0) {
@@ -177,9 +178,9 @@ export const changePassService = (user,newPassword) => {
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(newPassword, salt);
 
-        const q = `UPDATE users SET password = ? WHERE USER_TYPE = ?`;
+        const changePass = `UPDATE users SET password = ? WHERE USER_TYPE = ?`;
 
-        db.query(q,[hashedPassword,user],(err,data) => {
+        db.query(changePass,[hashedPassword,user],(err,data) => {
             if(err){
                 reject({message:err.message});
             }else{

@@ -4,11 +4,11 @@ import {db} from '../env.js';
 export const addBookingService = (vehicleNumber,contactNumber,vehicleFault,reservedDate) => {
     return new Promise( (resolve,reject) => {
 
-        const q = `INSERT INTO booking 
-                   (VEHICLE_NUMBER,CONTACT_NUMBER,VEHICLE_FAULT,RESERVED_DATE) 
-                   VALUES (?,?,?,?)`;
+        const addBook = `INSERT INTO booking 
+                        (VEHICLE_NUMBER,CONTACT_NUMBER,VEHICLE_FAULT,RESERVED_DATE) 
+                        VALUES (?,?,?,?)`;
 
-        db.query(q, [vehicleNumber,contactNumber,vehicleFault,reservedDate], (err,data) => {
+        db.query(addBook, [vehicleNumber,contactNumber,vehicleFault,reservedDate], (err,data) => {
             if(err){
                 reject(err);
             }else{
@@ -23,11 +23,11 @@ export const addBookingService = (vehicleNumber,contactNumber,vehicleFault,reser
 export const getAllBookings = () => {
     return new Promise ( (resolve, reject) => {
 
-        const q = `SELECT VEHICLE_NUMBER,CONTACT_NUMBER,DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE,VEHICLE_FAULT 
-                   FROM booking 
-                   WHERE STATUS = 'pending'`;
+        const getData = `SELECT VEHICLE_NUMBER,CONTACT_NUMBER,DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE,VEHICLE_FAULT 
+                         FROM booking 
+                         WHERE STATUS = 'pending'`;
 
-        db.query(q, (err,data) => {
+        db.query(getData, (err,data) => {
             if(err){
                 reject(err);
             }else if ( !data || data.length === 0){
@@ -51,11 +51,11 @@ export const getAllBookings = () => {
 export const getTodayBookings = () => {
     return new Promise ( (resolve, reject) => {
         
-        const q = `SELECT VEHICLE_NUMBER,CONTACT_NUMBER,DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE,VEHICLE_FAULT 
-                   FROM booking 
-                   WHERE DATE(RESERVED_DATE)=CURDATE() && STATUS = 'pending' `;
+        const getTodayData = `SELECT VEHICLE_NUMBER,CONTACT_NUMBER,DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE,VEHICLE_FAULT 
+                              FROM booking 
+                              WHERE DATE(RESERVED_DATE)=CURDATE() && STATUS = 'pending' `;
 
-        db.query(q, (err,data) => {
+        db.query(getTodayData, (err,data) => {
             if(err){
                 reject(err);
             }else if ( !data || data.length === 0){
@@ -79,11 +79,11 @@ export const getTodayBookings = () => {
 export const cancelCheckingService = (vehicleNumber) => {
     return new Promise ( (resolve, reject) => {
 
-        const q = `SELECT VEHICLE_NUMBER,CONTACT_NUMBER,DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE,VEHICLE_FAULT 
-                   FROM booking 
-                   WHERE VEHICLE_NUMBER = ? && STATUS = 'pending'`;
+        const update = `SELECT VEHICLE_NUMBER,CONTACT_NUMBER,DATE_FORMAT(RESERVED_DATE, '%Y-%m-%d') as RESERVED_DATE,VEHICLE_FAULT 
+                        FROM booking 
+                        WHERE VEHICLE_NUMBER = ? && STATUS = 'pending'`;
 
-        db.query(q,[vehicleNumber], (err,data) => {
+        db.query(update,[vehicleNumber], (err,data) => {
             if(err){
                 reject(err);
             }else if ( !data || data.length === 0){
@@ -106,11 +106,11 @@ export const cancelCheckingService = (vehicleNumber) => {
 export const cancelBookingService = (vehicleNumber) => {
     return new Promise( (resolve, reject) => {
 
-        const q = `UPDATE booking 
-                   SET STATUS = 'canceled' 
-                   WHERE VEHICLE_NUMBER = ? && STATUS = 'pending' `;
+        const cancel = `UPDATE booking 
+                        SET STATUS = 'canceled' 
+                        WHERE VEHICLE_NUMBER = ? && STATUS = 'pending' `;
 
-        db.query(q,[vehicleNumber] , (err,data) => {
+        db.query(cancel,[vehicleNumber] , (err,data) => {
             if(err){
                 reject(err);
             }else {
@@ -125,11 +125,11 @@ export const cancelBookingService = (vehicleNumber) => {
 export const changeDateService = (reservedDate,vehicleNumber) => {
     return new Promise ( (resolve, reject) => {
 
-        const q = `UPDATE booking 
-                   SET RESERVED_DATE = ? 
-                   WHERE VEHICLE_NUMBER = ? && STATUS = 'pending'`;
+        const changeDate = `UPDATE booking 
+                            SET RESERVED_DATE = ? 
+                            WHERE VEHICLE_NUMBER = ? && STATUS = 'pending'`;
 
-        db.query( q, [reservedDate,vehicleNumber], (err,data) => {
+        db.query( changeDate, [reservedDate,vehicleNumber], (err,data) => {
             if(err){
                 reject(err);
             }else{
@@ -143,11 +143,11 @@ export const changeDateService = (reservedDate,vehicleNumber) => {
 //#####################  get total booking data - start ##################################
 export const totalBookingService = () => {
    return new Promise((resolve, reject) => {
-    const q = `SELECT COUNT(*) AS count
+    const total = `SELECT COUNT(*) AS count
                FROM booking 
                WHERE STATUS = 'started' OR STATUS = 'pending'`;
 
-    db.query(q, (err, data) => {
+    db.query(total, (err, data) => {
         if (err) {
             reject(err);
         } else if (!data || data.length === 0) {

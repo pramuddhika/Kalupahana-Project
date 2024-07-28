@@ -4,11 +4,11 @@ import {db} from '../env.js';
 export const bookingNumberService = () => {
   return new Promise( (resolve,reject) => {
     
-    const q = `SELECT COUNT(*) AS count 
-               FROM booking 
-               WHERE STATUS = 'pending'`;
+    const onlineNum = `SELECT COUNT(*) AS count 
+                       FROM booking 
+                       WHERE STATUS = 'pending'`;
 
-    db.query(q, (err,data) => {
+    db.query(onlineNum, (err,data) => {
         if(err){
             reject(err);
         }else{
@@ -24,11 +24,11 @@ export const bookingNumberService = () => {
 //################ get number of ongoin jobs - start ##############################
 export const getJobNumberservice = () => {
   return new Promise( (resolve,reject) => {
-    const q = `SELECT COUNT(*) AS jobs
-              FROM records
-              WHERE END_DATE IS NULL`;
+    const ongoinJobs = `SELECT COUNT(*) AS jobs
+                        FROM records
+                        WHERE END_DATE IS NULL`;
 
-    db.query(q,(err,data) => {
+    db.query(ongoinJobs,(err,data) => {
       if(err){
         reject({message:'Server side error!'});
       }else{
@@ -44,11 +44,11 @@ export const getJobNumberservice = () => {
 //################ get number of free block - start ##############################
 export const getFreeBloksService = () => {
   return new Promise( (resolve,reject) => {
-    const q = `SELECT 
+    const freeBlocks = `SELECT 
               (settings.TOTAL_SPACE - COALESCE((SELECT COUNT(*) FROM records WHERE END_DATE IS NULL), 0)) AS free_block
               FROM settings`
 
-    db.query(q,(err,data) => {
+    db.query(freeBlocks,(err,data) => {
       if(err){
         reject({message:'Server side error!'});
       }else{

@@ -22,21 +22,36 @@ const UpdateJob_MoreDetails = () => {
             <div className="flex justify-center items-center p-2 mainStyle">
               <div className="basis-1/4"><p className="font-semibold">Vehicle Number:</p></div>
               <div className="basis-1/2">
-                <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={updateJobData[0].vehicleNumber} readOnly/>
+                <input
+                 type="text" 
+                 className="input rounded-lg ml-4 p-2 w-60" 
+                 value={updateJobData[0].vehicleNumber} 
+                 readOnly 
+                />
               </div>
             </div>
 
             <div className="flex justify-center items-center p-2 mainStyle">
               <div className="basis-1/4"><p className="font-semibold">Model:</p></div>
               <div className="basis-1/2">
-                <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={updateJobData[0].model} readOnly/>
+                <input
+                 type="text" 
+                 className="input rounded-lg ml-4 p-2 w-60" 
+                 value={updateJobData[0].model} 
+                 readOnly
+                />
               </div>
             </div>
 
             <div className="flex justify-center items-center p-2 mainStyle">
               <div className="basis-1/4"><p className="font-semibold">Fule Type:</p></div>
               <div className="basis-1/2">
-                <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={updateJobData[0].fule} readOnly/>
+                <input
+                 type="text" 
+                 className="input rounded-lg ml-4 p-2 w-60" 
+                 value={updateJobData[0].fule} 
+                 readOnly
+                />
               </div>
             </div>
           </div>
@@ -47,21 +62,36 @@ const UpdateJob_MoreDetails = () => {
             <div className="flex justify-center items-center p-2 mainStyle">
               <div className="w-36"><p className="font-semibold">Customer Name:</p></div>
               <div className="basis-1/2">
-                <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={updateJobData[0].customer} readOnly/>
+                <input
+                 type="text" 
+                 className="input rounded-lg ml-4 p-2 w-60" 
+                 value={updateJobData[0].customer} 
+                 readOnly
+                />
               </div>
             </div>
 
             <div className="flex justify-center items-center p-2 mainStyle">
               <div className="w-36"><p className="font-semibold">Email:</p></div>
               <div className="basis-1/2">
-                <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={updateJobData[0].email} readOnly/>
+                <input
+                 type="text" 
+                 className="input rounded-lg ml-4 p-2 w-60" 
+                 value={updateJobData[0].email} 
+                 readOnly
+                />
               </div>
             </div>
 
             <div className="flex justify-center items-center p-2 mainStyle">
               <div className="w-36"><p className="font-semibold">Contact Number:</p></div>
               <div className="basis-1/2">
-                <input type="text" className="input rounded-lg ml-4 p-2 w-60" value={updateJobData[0].phoneNumber} readOnly/>
+                <input
+                 type="text" 
+                 className="input rounded-lg ml-4 p-2 w-60" 
+                 value={updateJobData[0].phoneNumber} 
+                 readOnly
+                />
               </div>
             </div>
           </div>
@@ -73,14 +103,24 @@ const UpdateJob_MoreDetails = () => {
           <div className="flex items-center p-2 mainStyle">
             <div className="ml-16 w-32"><p className="font-semibold">Job Id:</p></div>
             <div className="basis-1/2">
-              <input type="text" className="input rounded-lg ml-5 p-2 w-60" value={updateJobData[0].jobId} readOnly/>
+              <input
+               type="text" 
+               className="input rounded-lg ml-5 p-2 w-60" 
+               value={updateJobData[0].jobId} 
+               readOnly
+              />
             </div>
           </div>
 
           <div className="flex items-center p-2 mainStyle">
             <div className="ml-16 w-32"><p className="font-semibold">Vehicle Fault:</p></div>
             <div className="w-9/12">
-              <textarea rows={3} className="input rounded-lg ml-5 p-2 w-full" value={updateJobData[0].fault} readOnly/>
+              <textarea
+               rows={3} 
+               className="input rounded-lg ml-5 p-2 w-full" 
+               value={updateJobData[0].fault} 
+               readOnly
+              />
             </div>
           </div>
           

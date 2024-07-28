@@ -135,8 +135,14 @@ const UpdateJob_MechanicNote = () => {
     <div className="flex gap-8 justify-between">
       <div className="relative flex gap-8 my-4 ml-3 w-2/3 mainStyle">
         <p>Message: </p>
-        <textarea rows={4} placeholder="Type job update" maxLength={200} value={newNote} onChange={handleNoteChange} 
-        className="input rounded-lg w-full p-2" />
+        <textarea
+         rows={4} 
+         placeholder="Type job update" 
+         maxLength={200} 
+         value={newNote} 
+         onChange={handleNoteChange} 
+         className="input rounded-lg w-full p-2"
+        />
         <div className="absolute bottom-0.5 right-0.5 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">
           {newNote.length}/200
         </div>

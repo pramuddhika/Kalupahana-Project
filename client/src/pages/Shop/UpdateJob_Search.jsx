@@ -53,8 +53,13 @@ const UpdateJob_Search = () => {
         </div>
         <div className="w-1/2">
           <div className='flex items-center card gap-12 box-content w-2/3 h-32 mt-32'>
-           <input type='text' value={updateNumber} placeholder='Enter vehicle number' 
-           onChange={ (e)=> setUpdateNumber(e.target.value)}  className='rounded-lg p-2 ml-6 outline-none' />
+           <input
+             type='text' 
+             value={updateNumber} 
+             placeholder='Enter vehicle number' 
+             onChange={ (e)=> setUpdateNumber(e.target.value)}  
+             className='rounded-lg p-2 ml-6 outline-none'
+            />
            <button onClick={handleNumberSearch} className='bg-text-primary text-white px-6 py-2 rounded-lg'>Search</button>
           </div>
         </div>

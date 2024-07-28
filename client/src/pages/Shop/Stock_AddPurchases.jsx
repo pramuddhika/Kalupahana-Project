@@ -153,16 +153,31 @@ const Stock_AddPurchases = () => {
 
         <div className="flex justify-center fornt-inter items-center mb-4">
           <p className="basis-1/4 text-text-primary font-semibold">Date:</p>
-          <input type="date" value={dates} required className="input basis-1/2 rounded-lg p-2 pl-4" onChange={handleDatesChange} />
+          <input
+           type="date" 
+           value={dates} 
+           required 
+           className="input basis-1/2 rounded-lg p-2 pl-4" 
+           onChange={handleDatesChange} 
+          />
         </div>
 
         <div className="flex justify-center fornt-inter">
           <p className="basis-1/4 text-text-primary font-semibold mt-3">Quantity:</p>
           <div className='flex basis-1/2 gap-4'>
-            <input type="number" required value={units} 
-              className="input w-40 rounded-lg p-2 pl-4" placeholder="XXX.XX"
-              onChange={handleQuantityChange} />
-            <input className='input rounded-lg w-20' value={unit} readOnly />
+            <input 
+              type="number" 
+              required 
+              value={units} 
+              className="input w-40 rounded-lg p-2 pl-4" 
+              placeholder="XXX.XX"
+              onChange={handleQuantityChange}
+            />
+            <input
+             className='input rounded-lg w-20' 
+             value={unit} 
+             readOnly
+            />
           </div>
 
         </div>
@@ -217,21 +232,39 @@ const Stock_AddPurchases = () => {
 
           <div className="flex fornt-inter items-center mb-4 mainStyle">
             <p className="w-24 font-semibold">Part Id:</p>
-            <input type="text" value={selectedRow.partID} readOnly className="input w-40 border-2 rounded-lg py-2 pl-4" />
+            <input
+             type="text" 
+             value={selectedRow.partID} 
+             readOnly 
+             className="input w-40 border-2 rounded-lg py-2 pl-4"
+            />
           </div>
 
           <div className="flex fornt-inter items-center mb-4 mainStyle">
             <p className="w-24 font-semibold">Date:</p>
-            <input type="text" value={selectedRow.date} readOnly className="input w-40 border-2 rounded-lg py-2 pl-4" />
+            <input
+             type="text" 
+             value={selectedRow.date} 
+             readOnly 
+             className="input w-40 border-2 rounded-lg py-2 pl-4"
+            />
           </div>
 
           <div className="flex fornt-inter mainStyle">
             <p className="w-24 font-semibold mt-3">Quantity:</p>
             <div className='flex'>
-              <input type='text' readOnly className="input w-20 border-y-2 border-l-2 rounded-lg rounded-r-none py-2 pl-4"
+              <input
+               type='text' 
+               readOnly 
+               className="input w-20 border-y-2 border-l-2 rounded-lg rounded-r-none py-2 pl-4"
                value={selectedRow.unit === 'U' ? String(selectedRow.quantity).split('.')[0] : selectedRow.quantity} 
               />
-              <input type='text' value={selectedRow.unit} readOnly className="input w-20 border-y-2 border-r-2 rounded-lg rounded-l-none text-start py-2 pl-4" />
+              <input
+               type='text' 
+               value={selectedRow.unit} 
+               readOnly 
+               className="input w-20 border-y-2 border-r-2 rounded-lg rounded-l-none text-start py-2 pl-4"
+              />
             </div>
           </div>
 

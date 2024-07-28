@@ -74,7 +74,7 @@ const ShopSetting = () => {
     setBookingSpace(e.target.value);
   };
 
-  // Handle space submit
+  // Handle space for booking 
   const handleSpaceSubmit = async (e) => {
     e.preventDefault();
     if (currentTotalSpace === totalSpace && currentBookingSpace === bookingSpace) {
@@ -238,20 +238,34 @@ const ShopSetting = () => {
 
             <div className="flex items-center gap-3">
              <p className="mainStyle">Total Spaces</p>  
-             <input type="number" value={totalSpace} min="0" onChange={handleTotalSpaceChange}  
-              className="w-16 p-1 rounded-lg outline-none border-2 text-center"/>
+             <input
+               type="number" 
+               value={totalSpace} 
+               min="0" 
+               onChange={handleTotalSpaceChange}  
+               className="w-16 p-1 rounded-lg outline-none border-2 text-center"
+              />
             </div>
             
             <div className="flex items-center gap-3">
               <p className="mainStyle">For Online Booking</p>
-              <input type="number" min="0" value={bookingSpace} onChange={handleBookingSpaceChnage}  
-              className="w-16 rounded-lg p-1 outline-none text-center border-2"/>
+              <input
+               type="number" 
+               min="0" 
+               value={bookingSpace} 
+               onChange={handleBookingSpaceChnage}  
+               className="w-16 rounded-lg p-1 outline-none text-center border-2"
+              />
             </div>
 
             <div className="flex items-center gap-3">
               <p className="mainStyle">For Emergency Repairs</p>
-              <input  min="0" value={Math.max(totalSpace - bookingSpace, 0)} 
-              className="w-16 bg-white rounded-lg outline-none p-1 border-2 text-center" readOnly/>
+              <input
+                min="0" 
+                value={Math.max(totalSpace - bookingSpace, 0)} 
+                className="w-16 bg-white rounded-lg outline-none p-1 border-2 text-center" 
+                readOnly
+              />
             </div> 
                       
           </div>
@@ -270,14 +284,21 @@ const ShopSetting = () => {
 
            <div className="flex gap-3 items-center">
              <p className="mainStyle">Set New Time</p>  
-             <input type="time" value={nextdayTime} onChange={handleNextdayTimeChange} 
-             className="p-2 rounded-lg outline-none border-2 pl-4"/>
+             <input
+               type="time" 
+               value={nextdayTime} 
+               onChange={handleNextdayTimeChange} 
+               className="p-2 rounded-lg outline-none border-2 pl-4"
+             />
            </div>
                     
            <div className="flex gap-3 items-center">
              <p className="mainStyle">Current Time :</p>
-             <input  value={initialNextdayTime} 
-             className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
+             <input
+               value={initialNextdayTime} 
+               className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" 
+               readOnly
+              />
            </div>   
 
            <div className="flex justify-end">
@@ -296,14 +317,21 @@ const ShopSetting = () => {
 
             <div className="flex gap-3 items-center">
              <p className="mainStyle">Set New Time</p>  
-             <input type="time" value={recordsTime} onChange={handleRecordTimeChange} 
-             className="p-2 rounded-lg outline-none border-2 pl-4"/>
+             <input
+               type="time" 
+               value={recordsTime} 
+               onChange={handleRecordTimeChange} 
+               className="p-2 rounded-lg outline-none border-2 pl-4"
+              />
             </div>
                     
             <div className="flex gap-3 items-center">
              <p className="mainStyle">Current Time :</p>
-             <input value={initialRecordsTime} 
-             className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" readOnly/>
+             <input
+               value={initialRecordsTime} 
+               className="bg-white p-2 rounded-lg outline-none border-2 text-center w-36" 
+               readOnly
+              />
             </div>   
 
             <div className="flex justify-end">
@@ -322,7 +350,12 @@ const ShopSetting = () => {
 
             <div className="w-1/2">
               <div className="p-4 flex justify-center items-center">
-                <input type="date" value={date} className="input  rounded-lg p-2 pl-4 w-60" onChange={handleDatesChange} />
+                <input
+                 type="date" 
+                 value={date} 
+                 className="input  rounded-lg p-2 pl-4 w-60" 
+                 onChange={handleDatesChange} 
+                />
                 <button className="btn btn-normal ml-4" onClick={HandleDateSubmit}>Add</button>
               </div>   
             </div>
@@ -363,8 +396,14 @@ const ShopSetting = () => {
 
             <div className="w-1/2">
               <div className="p-4 flex justify-center items-center">
-                <input type="text" className="input rounded-lg p-2" value={speciallistArea} maxLength='30'
-                onChange={handleChangeArea} placeholder="Add area"/>
+                <input
+                 type="text" 
+                 className="input rounded-lg p-2" 
+                 value={speciallistArea} 
+                 maxLength='30'
+                 onChange={handleChangeArea} 
+                 placeholder="Add area"
+                />
                 <button className="btn btn-normal ml-4" onClick={handleSubmitArea} >Add</button>
               </div> 
             </div>

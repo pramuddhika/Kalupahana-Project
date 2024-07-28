@@ -7,7 +7,6 @@ import customStyles from '../components/SelectStyle';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const UpdateJob_AssignMechanic = () => {
 
   const { updateJobData} = useContext(UpdateJob_Context);
@@ -51,7 +50,6 @@ const UpdateJob_AssignMechanic = () => {
     }
   }
 
-
   //make option arry
   const option = mechanic ? mechanic.map(item => ({
     label: `${item.mecId} - ${item.mecName}`
@@ -66,16 +64,16 @@ const UpdateJob_AssignMechanic = () => {
       return;
     }
 
-     try{
+    try{
       const res = await axios.post('/api/updatejob/addMechanic', {selectId,updateJobId});
       setRefresh(!refresh);
       toast.success(res.data.message);
       setSelectId(null)
       setSelectedMechanic(null);
       setSelectedOption(null);
-     }catch(err){
+    }catch(err){
       toast.error(err.response.data.message);
-     }
+    }
   }
 
   return (
@@ -92,24 +90,36 @@ const UpdateJob_AssignMechanic = () => {
 
           <div className="flex items-center font-inter gap-2 mt-3">
             <p className="text-text-primary font-semibold w-48 pl-4">Employee Name or ID: </p>
-            <Select className="w-96"
-            options={option}
-            isClearable
-            styles={customStyles}
-            value={selectedOption}
-            onChange={handleMechanicChange}
-            placeholder='Search by Name or Id'/>
+            <Select
+             className="w-96"
+             options={option}
+             isClearable
+             styles={customStyles}
+             value={selectedOption}
+             onChange={handleMechanicChange}
+             placeholder='Search by Name or Id'
+            />
           </div>
 
           <div className="flex justify-center mt-4 pl-4">
             <div className="flex flex-col gap-2 w-8/12">
+
               <div className="flex items-center gap-3">
                 <p className="mainStyle">Main Specialist Area</p>
-                <input className="input p-1 rounded-lg w-80 pl-4" value={selectedMechanic ? selectedMechanic.main : ''} readOnly/>
+                <input
+                 className="input p-1 rounded-lg w-80 pl-4" 
+                 value={selectedMechanic ? selectedMechanic.main : ''} 
+                 readOnly
+                />
               </div>
+
               <div className="flex gap-3 items-center">
                  <p className="mainStyle">Sub Sepecialist Area</p>
-                 <input className="input p-1 rounded-lg w-80 pl-4" value={selectedMechanic ? selectedMechanic.sub : ''} readOnly/>
+                 <input
+                   className="input p-1 rounded-lg w-80 pl-4" 
+                   value={selectedMechanic ? selectedMechanic.sub : ''} 
+                   readOnly
+                  />
               </div>
             </div>
 

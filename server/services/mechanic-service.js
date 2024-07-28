@@ -4,11 +4,11 @@ import {db} from '../env.js';
 export const addMechanicService = (employeeId,employeeName,contactNumber,livingArea,joinDate,mainArea,subArea) => {
     return new Promise ( (resolve,reject) => {
 
-        const q = `INSERT INTO mechanic 
-                   (EMPLOYEE_ID,EMPLOYEE_NAME,CONTACT_NUMBER,LIVING_AREA,JOIN_DATE,MAIN_AREA,SUB_AREA) 
-                   VALUES (?,?,?,?,?,?,?)`;
+        const addMechanic = `INSERT INTO mechanic 
+                             (EMPLOYEE_ID,EMPLOYEE_NAME,CONTACT_NUMBER,LIVING_AREA,JOIN_DATE,MAIN_AREA,SUB_AREA) 
+                             VALUES (?,?,?,?,?,?,?)`;
 
-        db.query(q, [employeeId,employeeName,contactNumber,livingArea,joinDate,mainArea,subArea] , (err,data) => {
+        db.query(addMechanic, [employeeId,employeeName,contactNumber,livingArea,joinDate,mainArea,subArea] , (err,data) => {
             if(err){
                 reject (err);
             }else if(data && data.lenght === 0){
@@ -25,11 +25,11 @@ export const addMechanicService = (employeeId,employeeName,contactNumber,livingA
 export const getMechanicService = () => {
     return new Promise ( (resolve,reject) => {
 
-        const q = `SELECT EMPLOYEE_ID, EMPLOYEE_NAME, CONTACT_NUMBER, LIVING_AREA, DATE_FORMAT(JOIN_DATE, '%Y-%m-%d') AS JOIN_DATE,
-                   MAIN_AREA, SUB_AREA, DATE_FORMAT(RESIGN_DATE, '%Y-%m-%d') AS RESIGN_DATE 
-                   FROM mechanic`;
+        const getData = `SELECT EMPLOYEE_ID, EMPLOYEE_NAME, CONTACT_NUMBER, LIVING_AREA, DATE_FORMAT(JOIN_DATE, '%Y-%m-%d') AS JOIN_DATE,
+                         MAIN_AREA, SUB_AREA, DATE_FORMAT(RESIGN_DATE, '%Y-%m-%d') AS RESIGN_DATE 
+                         FROM mechanic`;
 
-        db.query( q, (err,data) => {
+        db.query( getData, (err,data) => {
             if(err){
                 reject(err);
             }else if ( !data || data.length === 0){
@@ -56,11 +56,11 @@ export const getMechanicService = () => {
 export const updateMechanicService = (employeeName,contactNumber,livingArea,joinDate,mainArea,subArea,resignDate,employeeId) => {
     return new Promise ( (resolve,reject) => {
 
-        const q = `UPDATE mechanic 
-                   SET EMPLOYEE_NAME=? , CONTACT_NUMBER=? , LIVING_AREA=? , JOIN_DATE=? , MAIN_AREA=?, SUB_AREA=?, RESIGN_DATE=? 
-                   WHERE EMPLOYEE_ID=?`;
+        const update = `UPDATE mechanic 
+                        SET EMPLOYEE_NAME=? , CONTACT_NUMBER=? , LIVING_AREA=? , JOIN_DATE=? , MAIN_AREA=?, SUB_AREA=?, RESIGN_DATE=? 
+                        WHERE EMPLOYEE_ID=?`;
 
-        db.query(q, [employeeName,contactNumber,livingArea,joinDate,mainArea,subArea,resignDate,employeeId] , (err,data) => {
+        db.query(update, [employeeName,contactNumber,livingArea,joinDate,mainArea,subArea,resignDate,employeeId] , (err,data) => {
             if(err){
                 reject (err);
             }else if(data && data.lenght === 0){
@@ -76,8 +76,8 @@ export const updateMechanicService = (employeeName,contactNumber,livingArea,join
 //######################## generate employee ID - start ###############################
 export const generateEmployeeNumberService = () => {
     return new Promise((resolve, reject) => {
-      const q = 'SELECT MAX(EMPLOYEE_ID) as maxId FROM mechanic';
-      db.query(q, (err, data) => {
+      const employeeId = 'SELECT MAX(EMPLOYEE_ID) as maxId FROM mechanic';
+      db.query(employeeId, (err, data) => {
         if (err) {
           reject({ message: "An error occurred!", error: err });
           return;

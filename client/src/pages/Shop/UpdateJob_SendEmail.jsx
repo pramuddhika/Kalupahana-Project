@@ -83,10 +83,17 @@ const UpdateJob_SendEmail = () => {
         <div className="h-48 card mt-5 w-11/12 p-2">
           <p className="topic">Send E-mail Update</p>
           <div className="flex justify-between ">
+
             <div className="relative flex gap-10 my-4 ml-16 mainStyle">
               <p>Message: </p>
-              <textarea rows={4} value={message} onChange={handelMessageChange} maxLength={80} 
-              placeholder="Type job update" className="input rounded-lg w-96 p-2" />
+              <textarea
+               rows={4} 
+               value={message} 
+               onChange={handelMessageChange} 
+               maxLength={80} 
+               placeholder="Type job update" 
+               className="input rounded-lg w-96 p-2" 
+              />
               <div onChange className="absolute bottom-0.5 right-0.5 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">
                 {message.length}/80
               </div>

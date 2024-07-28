@@ -34,7 +34,6 @@ const UpdateJob_UsePart = () => {
     }
   };
     
-  
     //Fetch table data
     const fetchTableData = async() => {
       try{
@@ -49,7 +48,6 @@ const UpdateJob_UsePart = () => {
     fetchTableData();
   },[refresh])
 
-  
   // Make option array for part IDs
   const options = details ? details.map(item => ({
     value: item.partID,
@@ -120,19 +118,32 @@ const UpdateJob_UsePart = () => {
           <div className="flex justify-center items-center w-10/12 font-inter gap-2 mt-1">
             <p className="text-text-primary font-semibold w-4/12">Part Name or Id: </p>
             <Select className="w-80"
-            options={options}
-            isClearable
-            styles={customStyles}
-            onChange={handlePartIDChange}
-            value={selectedPart}
-            placeholder='Add Part Id or Name' />
+             options={options}
+             isClearable
+             styles={customStyles}
+             onChange={handlePartIDChange}
+             value={selectedPart}
+             placeholder='Add Part Id or Name'
+            />
           </div>
 
           <div className="flex items-center w-10/12 font-inter gap-2 mt-4">
             <p className="text-text-primary font-semibold w-4/12 ml-14 pl-1">Quantity: </p>
             <div className="flex items-center gap-3">
-              <input type="number" className="input p-2 rounded-lg w-48 ml-1 text-center" value={units} onChange={handleQuantityChange} placeholder="XXX.XX" />
-              <input type="text" id="unit" className="input p-2 rounded-lg w-24" value={unit} readOnly/>
+              <input
+               type="number" 
+               className="input p-2 rounded-lg w-48 ml-1 text-center" 
+               value={units} 
+               onChange={handleQuantityChange} 
+               placeholder="XXX.XX"
+              />
+              <input
+               type="text" 
+               id="unit" 
+               className="input p-2 rounded-lg w-24" 
+               value={unit} 
+               readOnly
+              />
             </div>
           </div>
 

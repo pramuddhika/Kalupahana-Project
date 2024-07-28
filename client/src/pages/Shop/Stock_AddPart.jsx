@@ -192,14 +192,30 @@ const Stock_AddPart = () => {
 
         <div className="flex fornt-inter items-center mb-4">
           <p className="basis-1/4 text-text-primary font-semibold">Part Id:</p>
-          <input type="text" name='partID' value={inputs.partID} onChange={handleInputChange} required
-            className="input w-72 rounded-lg p-2 pl-4" placeholder='Add part ID' maxLength='20' />
+          <input 
+           type="text" 
+           name='partID' 
+           value={inputs.partID} 
+           onChange={handleInputChange} 
+           required
+           className="input w-72 rounded-lg p-2 pl-4" 
+           placeholder='Add part ID' 
+           maxLength='20'
+          />
         </div>
 
         <div className="flex fornt-inter items-center mb-4">
           <p className="basis-1/4 text-text-primary font-semibold">Part Name:</p>
-          <input type="text" name='partName' value={inputs.partName} onChange={handleInputChange} required
-            className="input w-72 rounded-lg p-2 pl-4" placeholder='Add Part Name' maxLength='60' />
+          <input 
+            type="text" 
+            name='partName' 
+            value={inputs.partName} 
+            onChange={handleInputChange} 
+            required
+            className="input w-72 rounded-lg p-2 pl-4" 
+            placeholder='Add Part Name' 
+            maxLength='60' 
+          />
         </div>
 
         <div className="flex fornt-inter items-center mb-4">
@@ -217,8 +233,16 @@ const Stock_AddPart = () => {
         <div className="flex fornt-inter">
           <p className="basis-1/4 text-text-primary font-semibold mt-3">Description:</p>
           <div className='relative bg-white rounded-lg'>
-            <textarea rows={4} name='partDescription' value={inputs.partDescription} onChange={handleInputChange} required
-              className="input w-72 rounded-lg p-2 pl-4 pr-2" placeholder='Note about part' maxLength="120" />
+            <textarea
+             rows={4} 
+             name='partDescription' 
+             value={inputs.partDescription} 
+             onChange={handleInputChange} 
+             required
+             className="input w-72 rounded-lg p-2 pl-4 pr-2" 
+             placeholder='Note about part' 
+             maxLength="120" 
+            />
             <div className="absolute bottom-0 right-0 bg-white text-end rounded-lg pr-2 text-gray-500 text-sm">{inputs.partDescription.length}/120</div>
           </div>
         </div>
@@ -287,17 +311,32 @@ const Stock_AddPart = () => {
 
           <div className="flex fornt-inter items-center mb-4">
             <p className="w-24 text-text-primary font-semibold">Part Id:</p>
-            <input type="text" value={selectedRow.partID} readOnly className="input w-64 border-2 rounded-lg p-2 pl-4" />
+            <input
+             type="text" 
+             value={selectedRow.partID} 
+             readOnly 
+             className="input w-64 border-2 rounded-lg p-2 pl-4"
+            />
           </div>
 
           <div className="flex fornt-inter items-center mb-4">
             <p className="w-24 text-text-primary font-semibold">Part Name:</p>
-            <input type="text" value={selectedRow.partName} readOnly className="input w-64 border-2 rounded-lg p-2 pl-4" />
+            <input
+             type="text" 
+             value={selectedRow.partName} 
+             readOnly 
+             className="input w-64 border-2 rounded-lg p-2 pl-4"
+            />
           </div>
 
           <div className="flex fornt-inter">
             <p className="w-24 text-text-primary font-semibold mt-3">Description:</p>
-            <textarea rows={4} value={selectedRow.description} readOnly className="input w-64 border-2 rounded-lg p-2 pl-4 pr-2" />
+            <textarea
+             rows={4} 
+             value={selectedRow.description} 
+             readOnly 
+             className="input w-64 border-2 rounded-lg p-2 pl-4 pr-2"
+            />
           </div>
 
           <div className="flex justify-center gap-8 mt-4">
@@ -315,20 +354,36 @@ const Stock_AddPart = () => {
 
           <div className="flex fornt-inter items-center mb-4 w-88 mainStyle">
             <p className="w-24">Part Id:</p>
-            <input type="text" value={editPartID} maxLength="20" readOnly className="input w-64 rounded-lg p-2 pl-4 border-2" />
+            <input
+             type="text" 
+             value={editPartID} 
+             maxLength="20" 
+             readOnly 
+             className="input w-64 rounded-lg p-2 pl-4 border-2"
+            />
           </div>
 
           <div className="flex fornt-inter items-center mb-4 w-88 mainStyle">
             <p className="w-24">Part Name:</p>
-            <input type="text" value={editPartName} maxLength="100" onChange={handlePartNameEditChange}
-              className="input w-64 rounded-lg p-2 pl-4 border-2" />
+            <input
+             type="text" 
+             value={editPartName} 
+             maxLength="100" 
+             onChange={handlePartNameEditChange}
+             className="input w-64 rounded-lg p-2 pl-4 border-2"
+            />
           </div>
 
           <div className="flex fornt-inter mainStyle">
             <p className="w-24 mt-3">Description:</p>
             <div className='relative bg-white rounded-lg'>
-              <textarea rows={4} value={editPartDescription} onChange={handlePartDescriptionEditChange}
-                className="input w-64 rounded-lg p-2 pl-4 pr-2 border-2" maxLength="120" />
+              <textarea
+               rows={4} 
+               value={editPartDescription} 
+               onChange={handlePartDescriptionEditChange}
+               className="input w-64 rounded-lg p-2 pl-4 pr-2 border-2" 
+               maxLength="120"
+              />
               <div className="absolute bottom-2 right-2 bg-white text-end rounded-lg pr-2 
            text-gray-500 text-sm">{editPartDescription.length}/120</div>
             </div>

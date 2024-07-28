@@ -67,11 +67,11 @@ export const checkRegisteredVehicleService = async (jobOpenNumber) => {
 export const checkCustomerService = async (NICnumber) => {
     return new Promise ( (resolve,reject) => {
 
-        const q = `SELECT CUSTOMER_NAME,EMAIL,PHONE_NUMBER
-                   FROM customer
-                   WHERE NIC_NUMBER = ?`;
+        const checkCustomer = `SELECT CUSTOMER_NAME,EMAIL,PHONE_NUMBER
+                               FROM customer
+                               WHERE NIC_NUMBER = ?`;
         
-        db.query(q,[NICnumber], (err,data) => {
+        db.query(checkCustomer,[NICnumber], (err,data) => {
             if(err){
                 reject({message: "An error occurred", error: err});
                 return;
@@ -95,11 +95,11 @@ export const checkCustomerService = async (NICnumber) => {
 export const customerDataUpdateService = async (customerName,customerEmail,customerPhoneNumber,NICnumbe) => {
     return new Promise( (resolve,reject) => {
 
-        const q = `UPDATE customer
-                   SET CUSTOMER_NAME =? , EMAIL = ? , PHONE_NUMBER =?
-                   WHERE NIC_NUMBER = ?`;
+        const updateCus = `UPDATE customer
+                           SET CUSTOMER_NAME =? , EMAIL = ? , PHONE_NUMBER =?
+                           WHERE NIC_NUMBER = ?`;
         
-        db.query(q,[customerName,customerEmail,customerPhoneNumber,NICnumbe],(err,data) => {
+        db.query(updateCus,[customerName,customerEmail,customerPhoneNumber,NICnumbe],(err,data) => {
             if(err){
                 reject({message: "An error occurred", error: err});
                 return;
@@ -116,11 +116,11 @@ export const customerDataUpdateService = async (customerName,customerEmail,custo
 export const customerRegisterService = async (customerName,customerEmail,customerPhoneNumber,NICnumber) => {
     return new Promise( (resolve,reject) => {
 
-        const q = `INSERT INTO customer
-                   (CUSTOMER_NAME,EMAIL,PHONE_NUMBER,NIC_NUMBER)
-                   VALUES (?,?,?,?)`;
+        const registerCus = `INSERT INTO customer
+                             (CUSTOMER_NAME,EMAIL,PHONE_NUMBER,NIC_NUMBER)
+                             VALUES (?,?,?,?)`;
         
-        db.query(q,[customerName,customerEmail,customerPhoneNumber,NICnumber],(err,data) => {
+        db.query(registerCus,[customerName,customerEmail,customerPhoneNumber,NICnumber],(err,data) => {
             if(err){
                 reject({message: "An error occurred", error: err});
                 return;
@@ -136,10 +136,10 @@ export const customerRegisterService = async (customerName,customerEmail,custome
 //######################## register vehicle - satrt  #########################################
 export const vehicleRegisterService = async (vehicleNumber,brand,model,fuleType,NICnumber) => {
     return new Promise( (resolve,reject) => {
-        const q = `INSERT INTO vehicle
+        const regiVehicle = `INSERT INTO vehicle
                    (VEHICLE_NUMBER,BARND,MODEL,FULE_TYPE,NIC_NUMBER)
                    VALUES (?,?,?,?,?)`;
-        db.query(q,[vehicleNumber,brand,model,fuleType,NICnumber],(err,data) => {
+        db.query(regiVehicle,[vehicleNumber,brand,model,fuleType,NICnumber],(err,data) => {
             if(err){
                 reject({message:"An error occurred!", error:err});
                 return;
@@ -155,10 +155,10 @@ export const vehicleRegisterService = async (vehicleNumber,brand,model,fuleType,
 //######################## vehicle ownerShip change - satrt  #################################
 export const ownerChangeService = async (NICnumber,vehicleNumber) => {
     return new Promise( (resolve,reject) => {
-        const q = `UPDATE vehicle
-                   SET NIC_NUMBER =? 
-                   WHERE VEHICLE_NUMBER =?`;
-        db.query( q,[NICnumber,vehicleNumber], (err,data) => {
+        const updateOwner = `UPDATE vehicle
+                             SET NIC_NUMBER =? 
+                             WHERE VEHICLE_NUMBER =?`;
+        db.query( updateOwner,[NICnumber,vehicleNumber], (err,data) => {
             if(err){
                 reject({message:"An error occurred!",error: err});
                 return;
@@ -174,8 +174,8 @@ export const ownerChangeService = async (NICnumber,vehicleNumber) => {
 //#################### generate pre repair document id - start ###############################
 export const generatePreRepairDocumentIdService = () => {
     return new Promise((resolve, reject) => {
-      const q = 'SELECT MAX(DOCUMENT_ID) as maxId FROM pre_repair_document';
-      db.query(q, (err, data) => {
+      const Id = 'SELECT MAX(DOCUMENT_ID) as maxId FROM pre_repair_document';
+      db.query(Id, (err, data) => {
         if (err) {
           reject({ message: "An error occurred!", error: err });
           return;
@@ -201,8 +201,8 @@ export const generatePreRepairDocumentIdService = () => {
 //#################### generate repair job document id - start ###############################
 export const generateJobIdService = () => {
     return new Promise((resolve, reject) => {
-      const q = 'SELECT MAX(JOB_ID) as maxJobId FROM records';
-      db.query(q, (err, data) => {
+      const Id = 'SELECT MAX(JOB_ID) as maxJobId FROM records';
+      db.query(Id, (err, data) => {
         if (err) {
           reject({ message: "An error occurred!", error: err });
           return;
@@ -229,10 +229,10 @@ export const generateJobIdService = () => {
 export const checkVehicleReopeningJobService = async(vehicleNumber) => {
     return new Promise( (resolve,reject) => {
 
-        const q = `SELECT * FROM records
-                   WHERE VEHICLE_NUMBER = ? AND END_DATE IS NULL`
+        const checkOnGoinJobs = `SELECT * FROM records
+                                 WHERE VEHICLE_NUMBER = ? AND END_DATE IS NULL`
         
-        db.query(q,[vehicleNumber], (err,data) => {
+        db.query(checkOnGoinJobs,[vehicleNumber], (err,data) => {
             if(err){
                 reject({message:err})
             }else if (data.length === 0){
